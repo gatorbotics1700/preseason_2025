@@ -3,8 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,21 +14,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+public class Robot extends TimedRobot {
+    private final SendableChooser<Boolean> inverted = new SendableChooser<>();
+    private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
+
+    public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
+    public static Buttons m_buttons = new Buttons();
+
+    double mpi = Constants.METERS_PER_INCH;
+    public static Boolean isBlueAlliance = true;
+  
   /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  * This function is run when the robot is turned on and should be used for any
+  * initialization code.
+  */
   @Override
-  public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+  public void robotInit() { //creates options for different autopaths, names are placeholders    
+    System.out.println("#I'm Awake");
+    inverted.setDefaultOption("true", true);
+    inverted.addOption("false", false);
   }
 
   /**
@@ -38,8 +43,13 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getMPoseX()/Constants.METERS_PER_INCH);
+    SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getMPoseY()/Constants.METERS_PER_INCH);
+    SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getMPoseDegrees()%360);
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -52,33 +62,26 @@ public class Robot extends TimedRobot {
    * chooser code above as well.
    */
   @Override
-  public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
-  }
+  public void autonomousInit() {}
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
-  }
+  public void autonomousPeriodic() {}
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
+    isBlueAlliance = allianceChooser.getSelected();
+    m_drivetrainSubsystem.init();
+  }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() { 
+    m_buttons.buttonsPeriodic();
+    m_drivetrainSubsystem.driveTeleop();
+    m_drivetrainSubsystem.drive();   
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
@@ -90,12 +93,18 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when test mode is enabled. */
   @Override
-  public void testInit() {}
+  public void testInit() {
+    //m_drivetrainSubsystem.init();
+  }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
-
+  public void testPeriodic() {
+    //OFFSETS
+    //m_drivetrainSubsystem.driveTeleop();
+    //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.2, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+    //m_drivetrainSubsystem.drive();
+  }
   /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {}
