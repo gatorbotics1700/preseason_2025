@@ -38,7 +38,9 @@ public class DrivetrainSubsystem {
    * <p>
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
    */
-  private static final double MAX_VOLTAGE = 16.3;
+  public static final double MAX_VOLTAGE = 16.3;
+  public static final double MIN_VOLTAGE = 1.0; //TODO: fix dummy value
+
   //  The formula for calculating the theoretical maximum velocity is:
   //   <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
   //  By default this value is setup for a Mk3 standa
@@ -50,7 +52,7 @@ public class DrivetrainSubsystem {
    * <p>
    * This is a measure of how fast the robot should be able to drive in a straight line.
    */
-  private static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+  public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
           SdsModuleConfigurations.MK4_L2.getDriveReduction() *
           SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
           // = 5.38281261
@@ -63,7 +65,7 @@ public class DrivetrainSubsystem {
   private static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
           Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-  private SwerveDriveKinematics m_kinematics;
+  private static SwerveDriveKinematics m_kinematics;
 
   // By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
   // The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
@@ -268,7 +270,11 @@ public class DrivetrainSubsystem {
         drive();
    }
 
-    public double getMPoseX(){
+    public Pose2d getMPose(){
+        return m_pose; 
+    }
+   
+   public double getMPoseX(){
         return m_pose.getX();
     }
 
@@ -282,6 +288,10 @@ public class DrivetrainSubsystem {
 
     public double getPitch(){
         return m_pigeon.getPitch();
+    }
+
+    public static SwerveDriveKinematics getMKinematics(){
+        return m_kinematics; 
     }
    
 }
