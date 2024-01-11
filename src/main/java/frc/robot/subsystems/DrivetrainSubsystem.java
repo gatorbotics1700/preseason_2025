@@ -28,8 +28,8 @@ import frc.robot.Constants;
 import frc.robot.OI;
 
 public class DrivetrainSubsystem {
-   private static final double SWERVE_GEAR_RATIO = 6.75; //TODO: double check the gear ratio
-   private static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches //TODO: check to make sure it is actually 4 inches
+   private static final double SWERVE_GEAR_RATIO = 6.75; 
+   private static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches
    private static final double SWERVE_TICKS_PER_INCH = Constants.TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
    private static final double SWERVE_TICKS_PER_METER = SWERVE_TICKS_PER_INCH/Constants.METERS_PER_INCH;
 
@@ -47,7 +47,7 @@ public class DrivetrainSubsystem {
    * The maximum velocity of the robot in meters per second.
    * This is a measure of how fast the robot should be able to drive in a straight line.
    */
-  private static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * // <-- these are copied from SDS library //TODO: check motor free speed RPM
+  private static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * // <-- these are copied from SDS library 
           SdsModuleConfigurations.MK4_L2.getDriveReduction() *
           SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
           // = 5.38281261

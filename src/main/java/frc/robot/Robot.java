@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {
-    //m_drivetrainSubsystem.init();
+    m_drivetrainSubsystem.init();
   }
 
   /** This function is called periodically during test mode. */
@@ -102,8 +102,8 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     //OFFSETS
     //m_drivetrainSubsystem.driveTeleop();
-    //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.2, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-    //m_drivetrainSubsystem.drive();
+    m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+    m_drivetrainSubsystem.drive();
   }
   /** This function is called once when the robot is first started up. */
   @Override
