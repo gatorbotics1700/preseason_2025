@@ -4,18 +4,18 @@ import java.lang.Thread.State;
 
 import edu.wpi.first.math.geometry.Pose2d;
 
-public class StateWithCoordinate{
+public class PDState{
 
-    public final AutoStates state;
+    public final AutoStates name;
     public final Pose2d coordinate;
 
-    public StateWithCoordinate(AutoStates state, Pose2d coordinate){
-        this.state = state;
+    public PDState(AutoStates name, Pose2d coordinate){
+        this.name = name;
         this.coordinate = coordinate;
     }
 
-    public StateWithCoordinate(AutoStates state){
-        this.state = state;
+    public PDState(AutoStates name){
+        this.name = name;
         this.coordinate = null;
     }
 
