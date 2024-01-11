@@ -4,25 +4,22 @@
 
 package frc.robot;
 
-/**
+/*
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    /**
+    /*
      * The left-to-right distance between the drivetrain wheels
      * Should be measured from center to center.
      */
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.4690872; //units = meters //previously 18.468
-    /**
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.4690872; //TODO: check this (distance between wheels, not size of drivetrain //units = meters //previously 18.468
+    /*
      * The front-to-back distance between the drivetrain wheels.
      * Should be measured from center to center.
      */
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.4690872; //units = meter //previously 18.468
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.4690872; //TODO: check this (distance between wheels, not size of drivetrain //units = meter //previously 18.468
 
     public static final int DRIVETRAIN_PIGEON_ID = 6; 
 
