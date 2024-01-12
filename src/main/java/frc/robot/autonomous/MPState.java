@@ -8,20 +8,20 @@ import frc.robot.autonomous.PDState.AutoStates;
 
 public class MPState{
 
-    public final MPStateLabel stateLabel;
+    public final StatesName name;
     public final Trajectory trajectory;
 
-    public MPState(MPStateLabel stateLabel, Trajectory trajectory){
-        this.stateLabel = stateLabel;
+    public MPState(StatesName name, Trajectory trajectory){
+        this.name = name;
         this.trajectory = trajectory;
     }
 //this constructor is for states that don't require driving
-    public MPState(MPStateLabel stateLabel){
-        this.stateLabel = stateLabel;
+    public MPState(StatesName name){
+        this.name = name;
         this.trajectory = null; 
     }
 
-    public static enum MPStateLabel{
+    public static enum StatesName{
         TRAJECTORY, 
         STOP, 
         FIRST;

@@ -7,10 +7,9 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.geometry.*;
 import frc.robot.Robot;
-import frc.robot.autonomous.MPState.MPStateLabel;
-import frc.robot.subsystems.DrivetrainSubsystem;
-//import frc.robot.subsystems.Mechanisms.MechanismStates;
-//import frc.robot.subsystems.PneumaticIntakeSubsystem.PneumaticIntakeStates;
+import frc.robot.autonomous.MPState;
+import frc.robot.autonomous.MPState.StatesName;
+import frc.robot.subsystems.DrivetrainSubsystem; 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -18,8 +17,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.math.trajectory.constraint.MaxVelocityConstraint;
-//import frc.robot.subsystems.Mechanisms;
-
 
 public class AutonomousBaseMP extends AutonomousBase{
     private double timeStart;
@@ -31,13 +28,13 @@ public class AutonomousBaseMP extends AutonomousBase{
         // PIDController #2 : the first arg rep how many m/s added in the y direction for every meter of error in the y direction
     
     private static DrivetrainSubsystem drivetrainSubsystem;
-    public MPStateLabel mpStates;
-    //private Mechanisms mechanisms;
+    public MPState mpStates;
     private MPState[] mpStateSequence;
 
-    private Boolean isFirst; //if a state has isFirst it is the first time that a specific state is being run; initializes a time started
-    private double startTime;
-    private int i;
+    //private Boolean isFirst; //if a state has isFirst it is the first time that a specific state is being run; initializes a time started
+    //private double startTime;
+    private int stateIndex;
+     private MPState currentState; 
 
     public AutonomousBaseMP(MPState[] mpStateSequence){
         /*Takes state sequence from MPStateSequence
@@ -54,57 +51,56 @@ public class AutonomousBaseMP extends AutonomousBase{
     }
 
     //Avery Note: the state label system might actually make things a LOT more confusing
-    private MPStateLabel currentStateLabel = MPStateLabel.FIRST; //initializes state machine
+    //initializes state machine
 
-    public void setStates(MPStateLabel newStateLabel){
-        currentStateLabel = newStateLabel;
+    public void setStates(MPState newState){
+        currentState = newState;
     }
 
     @Override
     public void init(){
         timeStart = 0.0;
-        i = 0;
-        isFirst = true;
-        currentStateLabel = mpStateSequence[i].stateLabel;
-        drivetrainSubsystem.resetOdometry(getStartPose());
-        System.out.println("Init pose: " + drivetrainSubsystem.getMPoseX());
+        stateIndex = 0;
+        //isFirst = true;
+        currentState = mpStateSequence[stateIndex];
+        drivetrainSubsystem.resetOdometry(getStartPoseTrajectory());
+        System.out.println("Init pose: " + drivetrainSubsystem.getMPose());
         System.out.println("just started");
     }
     
     @Override
     public void periodic(){
-        currentStateLabel = mpStateSequence[i].stateLabel; //name of the state
-        System.out.println("state: " + currentStateLabel);
+        currentState = mpStateSequence[stateIndex]; //name of the state
+        System.out.println("state: " + currentState);
         System.out.println("trajectoryDone" + trajectoryDone(mpStateSequence[1].trajectory));
-        if(currentStateLabel == MPStateLabel.FIRST){
-            timeStart = System.currentTimeMillis();
-            setStates(MPStateLabel.TRAJECTORY);  // made one state for trajectory and are putting individual trajectories in followTradjectory()
+        if(currentState.name == StatesName.FIRST){
+            timeStart = System.currentTimeMillis();  // made one state for trajectory and are putting individual trajectories in followTradjectory()
             System.out.println("Doing first");
             System.out.println("initial pose: " + drivetrainSubsystem.getMPoseX());
-            i++;
-            System.out.println("moving on to " + mpStateSequence[i]);
-        } else if(currentStateLabel == MPStateLabel.TRAJECTORY){
+            stateIndex++;
+            setStates(mpStateSequence[stateIndex]);
+            System.out.println("moving on to " + mpStateSequence[stateIndex]);
+        } else if(currentState.name == StatesName.TRAJECTORY){
             
-            System.out.println("running trajectory:" + mpStateSequence[i].trajectory.toString());
-            if(mpStateSequence[i].trajectory == null){
+            System.out.println("running trajectory:" + mpStateSequence[stateIndex].trajectory.toString());
+            if(mpStateSequence[stateIndex].trajectory == null){
                 System.out.println("No trajectory");
-                setStates(MPStateLabel.STOP);
-                i++;
-                System.out.println("moving on to " + mpStateSequence[i]);
+                stateIndex++;
+                setStates(mpStateSequence[stateIndex]);
+                System.out.println("moving on to " + mpStateSequence[stateIndex]);
             }else{
-                double timeCheck = mpStateSequence[i].trajectory.getTotalTimeSeconds();
-                currentTrajState = mpStateSequence[i].trajectory.sample(timeCheck);
+                double timeCheck = mpStateSequence[stateIndex].trajectory.getTotalTimeSeconds();
+                currentTrajState = mpStateSequence[stateIndex].trajectory.sample(timeCheck);
                 System.out.println("total time: " + timeCheck);
                 System.out.println("trajectory End X: "+ currentTrajState.poseMeters.getX() + " trajectory Get X: " + drivetrainSubsystem.getMPoseX()); 
-                followTrajectory(mpStateSequence[i].trajectory); 
-                if(trajectoryDone(mpStateSequence[i].trajectory)){
-                    System.out.println("STOP");
-                    setStates(MPStateLabel.STOP);
-                    i++;
-                    System.out.println("moving on to " + mpStateSequence[i]);
+                followTrajectory(mpStateSequence[stateIndex].trajectory); 
+                if(trajectoryDone(mpStateSequence[stateIndex].trajectory)){
+                    stateIndex++;
+                    setStates(mpStateSequence[stateIndex]);
+                    System.out.println("moving on to " + mpStateSequence[stateIndex]);
                 }
             }
-        } else if(currentStateLabel == MPStateLabel.STOP){
+        } else if(currentState.name == StatesName.STOP){
             drivetrainSubsystem.stopDrive();
             System.out.println("state STOP!/nstate STOP!/nstate STOP!");
         }else{
@@ -115,7 +111,7 @@ public class AutonomousBaseMP extends AutonomousBase{
         timeElapsed = System.currentTimeMillis() - timeStart;
     }
 
-    public Pose2d getStartPose(){
+    public Pose2d getStartPoseTrajectory(){
        //we go immediately to second state in this case because that is where all of our trajectory lives. fix this later. Maybe with a first trajectory boolean
         if(mpStateSequence[1].trajectory == null){
             return new Pose2d(); 

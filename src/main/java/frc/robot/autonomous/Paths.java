@@ -2,7 +2,7 @@ package frc.robot.autonomous;
 import frc.robot.Constants;
 import frc.robot.autonomous.*;
 import frc.robot.autonomous.PDState.AutoStates;
-import frc.robot.autonomous.MPState.MPStateLabel;
+import frc.robot.autonomous.MPState.StatesName;
 import javax.swing.plaf.nimbus.State;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,9 +46,9 @@ public class Paths {
         }else if(selectedAuto == AUTO_OPTIONS.MP_TESTPATH){
             return new AutonomousBaseMP(
                 new MPState[]{
-                    new MPState(MPStateLabel.FIRST),
-                    new MPState(MPStateLabel.TRAJECTORY, Trajectories.uno),
-                    new MPState(MPStateLabel.STOP)
+                    new MPState(StatesName.FIRST),
+                    new MPState(StatesName.TRAJECTORY, Trajectories.uno),
+                    new MPState(StatesName.STOP)
                 }
             );
         }else{
