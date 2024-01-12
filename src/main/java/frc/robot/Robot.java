@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
-        m_drivetrainSubsystem.init();
+        m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during operator control. */
@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
     /* This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
-        m_drivetrainSubsystem.init();
+        m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
