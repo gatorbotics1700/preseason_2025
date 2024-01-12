@@ -22,8 +22,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Constants.*;
-
 import frc.robot.Constants;
 import frc.robot.OI;
 
@@ -78,6 +76,7 @@ public class DrivetrainSubsystem {
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
 
+   //constructor is called every time code is deployed, onEnable is called every time the robot is enabled.
    public DrivetrainSubsystem() {
       pigeon = new PigeonIMU(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
@@ -91,13 +90,13 @@ public class DrivetrainSubsystem {
             // This can be any level from L1-L4 depending on the gear configuration (the levels allow different amounts of speed and torque)
             Mk4SwerveModuleHelper.GearRatio.L2,
             // This is the ID of the drive motor
-            FRONT_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
             // This is the ID of the steer motor
-            FRONT_LEFT_MODULE_STEER_MOTOR,
+            Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
             // This is the ID of the steer encoder
-            FRONT_LEFT_MODULE_STEER_ENCODER,
+            Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
             // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
-            FRONT_LEFT_MODULE_STEER_OFFSET
+            Constants.FRONT_LEFT_MODULE_STEER_OFFSET
          );
         
       // We will do the same for the other modules
@@ -107,10 +106,10 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(2, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-            FRONT_RIGHT_MODULE_STEER_MOTOR,
-            FRONT_RIGHT_MODULE_STEER_ENCODER,
-            FRONT_RIGHT_MODULE_STEER_OFFSET
+            Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
+            Constants.FRONT_RIGHT_MODULE_STEER_OFFSET
       );
         
       backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -118,10 +117,10 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(4, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            BACK_LEFT_MODULE_DRIVE_MOTOR,
-            BACK_LEFT_MODULE_STEER_MOTOR,
-            BACK_LEFT_MODULE_STEER_ENCODER,
-            BACK_LEFT_MODULE_STEER_OFFSET
+            Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_ENCODER,
+            Constants.BACK_LEFT_MODULE_STEER_OFFSET
       );
         
       backRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -129,16 +128,16 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(6, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            BACK_RIGHT_MODULE_DRIVE_MOTOR,
-            BACK_RIGHT_MODULE_STEER_MOTOR,
-            BACK_RIGHT_MODULE_STEER_ENCODER,
-            BACK_RIGHT_MODULE_STEER_OFFSET
+            Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
+            Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
 
-      init();
+      onEnable();
    }
 
-   public void init(){ //TODO: is the naming this init an issue? check with Kim
+   public void onEnable(){
       System.out.println("Initializing drivetrain subsystem vars");
       /* 
        * Positive x values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot.
@@ -146,14 +145,14 @@ public class DrivetrainSubsystem {
        */
       kinematics = new SwerveDriveKinematics( 
          // Front left
-         new Translation2d(DRIVETRAIN_WHEELBASE_METERS / 2.0, DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+         new Translation2d(Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
          //translation2d refers to the robot's x and y position in the larger field coordinate system
          // Front right
-         new Translation2d(DRIVETRAIN_WHEELBASE_METERS / 2.0, -DRIVETRAIN_TRACKWIDTH_METERS / 2.0), 
+         new Translation2d(Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0), 
          // Back left
-         new Translation2d(-DRIVETRAIN_WHEELBASE_METERS / 2.0, DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+         new Translation2d(-Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
          // Back right
-         new Translation2d(-DRIVETRAIN_WHEELBASE_METERS / 2.0, -DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
+         new Translation2d(-Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
       );
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -166,7 +165,8 @@ public class DrivetrainSubsystem {
             frontRightModule.getSwerveModulePosition(), 
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
-         }, 
+         },
+         //TODO: update this if an auto path doesn't start at (0,0)
          new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
       ); 
    }
@@ -195,8 +195,8 @@ public class DrivetrainSubsystem {
    }
        
    //the next iteration of drive will use this speed  
-   public void setSpeed(ChassisSpeeds chassisSpeed) { 
-      chassisSpeeds = chassisSpeed;
+   public void setSpeed(ChassisSpeeds chassisSpeeds) { 
+      this.chassisSpeeds = chassisSpeeds;
    }
   
   /* 
@@ -204,18 +204,18 @@ public class DrivetrainSubsystem {
    * this will be called right before drive() in teleopPeriodic in Robot.java 
    */
    public void driveTeleop(){
-      DoubleSupplier m_translationXSupplier;
-      DoubleSupplier m_translationYSupplier;
-      DoubleSupplier m_rotationSupplier;
+      DoubleSupplier translationXSupplier;
+      DoubleSupplier translationYSupplier;
+      DoubleSupplier rotationSupplier;
       //TODO: check negative signs
-      m_translationXSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      m_translationYSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      m_rotationSupplier = () -> -modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+      translationXSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      translationYSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      rotationSupplier = () -> -modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
-            m_translationXSupplier.getAsDouble(),
-            m_translationYSupplier.getAsDouble(),
-            m_rotationSupplier.getAsDouble(),
+            translationXSupplier.getAsDouble(),
+            translationYSupplier.getAsDouble(),
+            rotationSupplier.getAsDouble(),
             getPoseRotation()
          )
       );
@@ -223,15 +223,7 @@ public class DrivetrainSubsystem {
 
    //responsible for moving the robot, called after a chassisSpeed is set
    public void drive() { //runs periodically
-      //TODO: check getSteerAngle() is correct and that we shouldn't be getting from cancoder
-      SwerveModulePosition[] modulePositions =  {
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
-      };
-      
-      positionManager.update(getGyroscopeRotation(), modulePositions); 
+      updatePositionManager();
 
       //array of states filled with the speed and angle for each module (made from linear and angular motion for the whole robot) 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
@@ -245,7 +237,7 @@ public class DrivetrainSubsystem {
       System.out.println("robot position: "+ getPose());
    }
 
-   private static double deadband(double value, double deadband) {
+   private static double joystickDeadband(double value, double deadband) {
       if (Math.abs(value) > deadband) {
          if (value > 0.0) {
             return (value - deadband) / (1.0 - deadband);
@@ -260,7 +252,7 @@ public class DrivetrainSubsystem {
    //makes it so the joystick axis value is squared so the driving can ramp up faster
    private static double modifyJoystickAxis(double value) {
       // Deadband
-      value = deadband(value, 0.05);
+      value = joystickDeadband(value, 0.05);
 
       // Square the axis
       value = Math.copySign(value * value, value);
@@ -270,7 +262,7 @@ public class DrivetrainSubsystem {
 
     //AUTO AND FAILSAFE
    public void stopDrive() {
-      System.out.println("STOPPED DRIVE SOMETHING MIGHT HAVE GONE WRONG");
+      System.out.println("=========================STOPPED DRIVE SOMETHING MIGHT HAVE GONE WRONG=========================");
       setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0, 0.0, getPoseRotation()));
       drive();
    }
@@ -287,10 +279,12 @@ public class DrivetrainSubsystem {
       return getPose().getRotation().getDegrees();
     }
  
-    private Pose2d getPose(){
+    public Pose2d getPose(){
       return positionManager.getEstimatedPosition();
     }
     
+    //resets to pose set in the constructor of the SwerveDrivePoseEstimator positionManager
+    //only use in test, do not use in a match
     public void resetPositionManager(){
         SwerveModulePosition[] positionArray =  new SwerveModulePosition[] {
                 new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())),
