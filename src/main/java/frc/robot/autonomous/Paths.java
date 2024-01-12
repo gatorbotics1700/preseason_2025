@@ -1,9 +1,8 @@
 package frc.robot.autonomous;
+
 import frc.robot.Constants;
-import frc.robot.autonomous.*;
 import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.autonomous.MPState.StatesName;
-import javax.swing.plaf.nimbus.State;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,8 +10,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 
 
 public class Paths {
-    private static double mpi = Constants.METERS_PER_INCH;
-
     public enum AUTO_OPTIONS{
         PD_TESTPATH,
         MP_TESTPATH, 
@@ -25,8 +22,8 @@ public class Paths {
                 new Pose2d(0.0, 0.0, new Rotation2d(Math.toRadians(180.0))), 
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE, new Pose2d(5 * mpi, -20 * mpi, new Rotation2d(Math.toRadians(180)))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(20 * mpi, 0, new Rotation2d(0))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(5 * Constants.METERS_PER_INCH, -20 * Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(180)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(20 * Constants.METERS_PER_INCH, 0, new Rotation2d(0))), 
                     //new PDState(AutoStates.DRIVE, new Pose2d(0, 30 * mpi, new Rotation2d(0))), 
                    // new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 30 * mpi, new Rotation2d(0))), 
                    // new PDState(AutoStates.DRIVE, new Pose2d(0, 0, new Rotation2d(0))), 

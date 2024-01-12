@@ -1,7 +1,5 @@
 package frc.robot.autonomous;
 
-import java.lang.Thread.State;
-
 import edu.wpi.first.math.geometry.Pose2d;
 
 public class PDState{
@@ -24,12 +22,6 @@ public class PDState{
         DRIVE,
         STOP,
         INTAKING,
-        OUTTAKING,
-        FASTDRIVE; 
+        OUTTAKING; 
     } 
-
-
-
-
 }
-
