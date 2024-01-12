@@ -25,12 +25,12 @@ public class Paths {
                 new Pose2d(0.0, 0.0, new Rotation2d(Math.toRadians(180.0))), 
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE, new Pose2d(5 * mpi, -40 * mpi, new Rotation2d(Math.toRadians(180)))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 0, new Rotation2d(0))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(0, 30 * mpi, new Rotation2d(0))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 30 * mpi, new Rotation2d(0))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(0, 0, new Rotation2d(0))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(20 * mpi, 20 * mpi, new Rotation2d(0))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(5 * mpi, -20 * mpi, new Rotation2d(Math.toRadians(180)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(20 * mpi, 0, new Rotation2d(0))), 
+                    //new PDState(AutoStates.DRIVE, new Pose2d(0, 30 * mpi, new Rotation2d(0))), 
+                   // new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 30 * mpi, new Rotation2d(0))), 
+                   // new PDState(AutoStates.DRIVE, new Pose2d(0, 0, new Rotation2d(0))), 
+                    //new PDState(AutoStates.DRIVE, new Pose2d(20 * mpi, 20 * mpi, new Rotation2d(0))),
                     new PDState(AutoStates.STOP)
                 }
             );

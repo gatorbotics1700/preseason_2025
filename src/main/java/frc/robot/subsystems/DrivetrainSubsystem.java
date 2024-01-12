@@ -170,7 +170,7 @@ public class DrivetrainSubsystem {
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
          }, 
-         new Pose2d(5 * mpi, -40 * mpi, new Rotation2d(Math.toRadians(180)))//new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
+         new Pose2d()//new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
       ); 
    }
   

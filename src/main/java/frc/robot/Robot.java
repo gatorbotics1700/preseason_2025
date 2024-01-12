@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autonomous.PDState;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,6 +26,8 @@ public class Robot extends TimedRobot {
 
     double mpi = Constants.METERS_PER_INCH;
     public static Boolean isBlueAlliance = true;
+    private final SendableChooser<PDPath.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
+
   
   /**
   * This function is run when the robot is turned on and should be used for any
@@ -62,7 +66,10 @@ public class Robot extends TimedRobot {
    * chooser code above as well.
    */
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    auto_chooser.setDefaultOption("testPath", PDPath.AUTO_OPTIONS.TESTPATH);
+    auto_chooser.addOption("noGoR!", PDPath.AUTO_OPTIONS.NOGO);
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
