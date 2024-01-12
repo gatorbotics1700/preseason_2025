@@ -49,14 +49,14 @@ public class Trajectories{
         interiorWaypoints.add(interior1);
         interiorWaypoints.add(interior2);
         interiorWaypoints.add(interior3);
-
-        SwerveDriveKinematicsConstraint swerveDriveKinematicsConstraint = new SwerveDriveKinematicsConstraint(DrivetrainSubsystem.getMKinematics(), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND);
+        //TODO: ISSUE!! WE NEED A KINEMATICS GETTER
+        SwerveDriveKinematicsConstraint swerveDriveKinematicsConstraint = new SwerveDriveKinematicsConstraint(DrivetrainSubsystem.getKinematics(), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND);
         MaxVelocityConstraint maxVelocityConstraint = new MaxVelocityConstraint(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND*.75);
         //Avery Note: if we give the constraint a max vel to start, why we give another?
         System.out.println("Made constraints!");
 
         TrajectoryConfig config = new TrajectoryConfig(1, 1); //4.96, 2.8 //we should maybe look into this further
-        System.out.println("Start config pose: " + Robot.m_drivetrainSubsystem.getMPoseX());
+        System.out.println("Start config pose: " + Robot.m_drivetrainSubsystem.getPoseX());
         config.addConstraint(swerveDriveKinematicsConstraint);
         config.addConstraint(maxVelocityConstraint);
         // look into using traj configs. its possiblwe are not using/;applying it correctly

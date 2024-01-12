@@ -53,7 +53,7 @@ public class AutonomousBasePD extends AutonomousBase{
     public void init(){
         System.out.println("AUTONOMOUS INIT!\nINIT!\nINIT!");
         drivetrainSubsystem = Robot.m_drivetrainSubsystem;
-        drivetrainSubsystem.resetOdometry(startingCoordinate);
+        //drivetrainSubsystem.resetPositionManager(startingCoordinate);
         turnController = new PIDController(turnKP, turnKI, turnKD); 
         xController = new PIDController(driveKP, driveKI, driveKD);
         yController = new PIDController(driveKP, driveKI, driveKD);
@@ -110,12 +110,12 @@ public class AutonomousBasePD extends AutonomousBase{
     */
     @Override
     public void driveToLocation(Pose2d dPose){      
-        double speedX = xController.calculate(drivetrainSubsystem.getMPoseX(), dPose.getX());
-        double speedY = yController.calculate(drivetrainSubsystem.getMPoseY(), dPose.getY());
-        System.out.println("m_pose deg: " + drivetrainSubsystem.getMPoseDegrees() % 360);
+        double speedX = xController.calculate(drivetrainSubsystem.getPoseX(), dPose.getX());
+        double speedY = yController.calculate(drivetrainSubsystem.getPoseY(), dPose.getY());
+        System.out.println("m_pose deg: " + drivetrainSubsystem.getPoseDegrees() % 360);
         System.out.println("d_pose deg: " + dPose.getRotation().getDegrees() % 360);
 
-        double speedRotate = turnController.calculate(drivetrainSubsystem.getMPoseDegrees(), dPose.getRotation().getDegrees());
+        double speedRotate = turnController.calculate(drivetrainSubsystem.getPoseDegrees(), dPose.getRotation().getDegrees());
         
         if(xAtSetpoint()){ 
             speedX = 0; 
