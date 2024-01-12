@@ -1,23 +1,13 @@
 package frc.robot.autonomous;
 
-import javax.swing.SwingWorker.StateValue;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.Robot;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.autonomous.PDState.AutoStates;
-/* 
-import frc.robot.autonomous.StateWithCoordinate;
-import frc.robot.autonomous.StateWithCoordinate.AutoStates;
-import frc.robot.subsystems.PneumaticIntakeSubsystem;
-import frc.robot.subsystems.Mechanisms.MechanismStates;
-import frc.robot.subsystems.PneumaticIntakeSubsystem.PneumaticIntakeStates;
-import frc.robot.subsystems.Mechanisms;
-*/
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AutonomousBasePD extends AutonomousBase{
     private static final double turnKP= 0.0001; //increased slight *** not tested
@@ -29,10 +19,10 @@ public class AutonomousBasePD extends AutonomousBase{
     private static final double DRIVE_DEADBAND = 6*Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 6.0; //degrees!
 
-    private Pose2d startingCoordinate;
+    private Pose2d startingCoordinate; //this is something that would be used if we were to resetPositionManager
     private PDState[] stateSequence;
     private int stateIndex;
-    private Boolean isFirstTimeInState;
+    private boolean isFirstTimeInState;
     private double startTimeForState;
     
     private DrivetrainSubsystem drivetrainSubsystem;
@@ -53,14 +43,13 @@ public class AutonomousBasePD extends AutonomousBase{
     public void init(){
         System.out.println("AUTONOMOUS INIT!\nINIT!\nINIT!");
         drivetrainSubsystem = Robot.m_drivetrainSubsystem;
-        //drivetrainSubsystem.resetPositionManager(startingCoordinate);
         turnController = new PIDController(turnKP, turnKI, turnKD); 
         xController = new PIDController(driveKP, driveKI, driveKD);
         yController = new PIDController(driveKP, driveKI, driveKD);
-        xController.reset(); //Avery question: function of resetting?
+        xController.reset();
         yController.reset();
         turnController.reset();
-        turnController.enableContinuousInput(0, 360); //turn controller reads rotation from 0 to 360 degrees 
+        turnController.enableContinuousInput(0, 360); //TODO: can we change this to (-180, 180) //turn controller reads rotation from 0 to 360 degrees 
         stateIndex = 0;
         isFirstTimeInState = true;
         startTimeForState = System.currentTimeMillis();
@@ -74,41 +63,39 @@ public class AutonomousBasePD extends AutonomousBase{
             System.out.println("state: " + currentState); 
             startTimeForState = System.currentTimeMillis(); 
             isFirstTimeInState = false;
-
         }
-        if (currentState.name == AutoStates.FIRST){
+        if(currentState.name == AutoStates.FIRST){ //TODO: can we move the code in this to init?
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
+            //initializig setpoint - is not final setpoint
             xController.setSetpoint(0); //translation not pose component
             yController.setSetpoint(0);
             turnController.setSetpoint(0);
-            stateIndex++;  
-            return;
-        }else if (currentState.name == AutoStates.DRIVE){
+            moveToNextState();
+            return; //first is a pass through state, we don't have to call drive we can just move on
+        } else if(currentState.name == AutoStates.DRIVE){
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
-                stateIndex++; 
+                moveToNextState();
             }
         } else if(currentState.name == AutoStates.INTAKING){
             //insert the code to intake things here for new mechanisms
             if(System.currentTimeMillis()-startTimeForState>=500){
-                stateIndex++;
-                isFirstTimeInState = true; 
+                moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
-        }else{
+        } else {
             System.out.println("============================UNRECOGNIZED STATE!!!! PANICK!!!! " + currentState.name + "============================"); 
             drivetrainSubsystem.stopDrive();
         } 
         drivetrainSubsystem.drive(); 
     }
 
-    /** 
-    @param dPose is desired pose
-    */
-    @Override
+    /* 
+     * @param dPose is desired pose
+     */
     public void driveToLocation(Pose2d dPose){      
         double speedX = xController.calculate(drivetrainSubsystem.getPoseX(), dPose.getX());
         double speedY = yController.calculate(drivetrainSubsystem.getPoseY(), dPose.getY());
@@ -121,21 +108,21 @@ public class AutonomousBasePD extends AutonomousBase{
             speedX = 0; 
             System.out.println("At x setpoint");
         } else {
-            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VOLTAGE, Math.abs(speedX));  
+            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedX));  
         }
  
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
         } else {
-            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VOLTAGE, Math.abs(speedY));
+            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedY));
         }
 
         if(turnAtSetpoint()){
             speedRotate = 0;
             System.out.println("At rotational setpoint");
         } else {
-            speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VOLTAGE, Math.abs(speedRotate));
+            speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedRotate));
         }
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
@@ -160,6 +147,11 @@ public class AutonomousBasePD extends AutonomousBase{
 
     private boolean robotAtSetpoint(){
         return xAtSetpoint() && yAtSetpoint() && turnAtSetpoint(); 
+    }
+
+    private void moveToNextState(){
+        stateIndex++;
+        isFirstTimeInState = true;
     }
 
 }
