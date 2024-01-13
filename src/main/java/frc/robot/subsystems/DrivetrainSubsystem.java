@@ -39,7 +39,7 @@ public class DrivetrainSubsystem {
    */
    private static final double MAX_VOLTAGE = 12.0; //TODO: double check this; previously 16.3
    
-   public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.1; //TODO: fix dummy value
+   public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.2; //TODO: fix dummy value
 
   /* The formula for calculating the theoretical maximum velocity is:
    * <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
@@ -291,6 +291,16 @@ public class DrivetrainSubsystem {
  
     public Pose2d getPose(){
       return positionManager.getEstimatedPosition();
+    }
+
+    public void resetPositionManager(){
+      SwerveModulePosition[] modulePositions =  {
+         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
+         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
+         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
+         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
+      };
+      positionManager.resetPosition(getGyroscopeRotation(), modulePositions, getPose());
     }
 }
 

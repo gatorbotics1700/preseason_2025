@@ -7,7 +7,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autonomous.AutonomousBase;
+import frc.robot.autonomous.AutonomousBasePD; 
 import frc.robot.autonomous.PDState;
+import frc.robot.autonomous.Paths;
 
 
 /**
@@ -18,15 +21,17 @@ import frc.robot.autonomous.PDState;
  */
 
 public class Robot extends TimedRobot {
+
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
+    private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
+    private AutonomousBase m_auto; 
 
     double mpi = Constants.METERS_PER_INCH;
     public static Boolean isBlueAlliance = true;
-    private final SendableChooser<PDPath.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
   
   /**
@@ -36,6 +41,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { //creates options for different autopaths, names are placeholders    
     System.out.println("#I'm Awake");
+
+    auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
+    auto_chooser.addOption("noGoR!", Paths.AUTO_OPTIONS.NO_GO);
+    auto_chooser.addOption("MP testpath", Paths.AUTO_OPTIONS.MP_TESTPATH);
+    SmartDashboard.putData("Auto Choices", auto_chooser); 
+    
     inverted.setDefaultOption("true", true);
     inverted.addOption("false", false);
   }
@@ -67,24 +78,34 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    auto_chooser.setDefaultOption("testPath", PDPath.AUTO_OPTIONS.TESTPATH);
-    auto_chooser.addOption("noGoR!", PDPath.AUTO_OPTIONS.NOGO);
+    m_drivetrainSubsystem.init();
+    m_drivetrainSubsystem.resetPositionManager();
+    Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
+    m_auto = Paths.constructAuto(selectedAuto); 
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    m_auto.periodic();
+    m_drivetrainSubsystem.drive();
+    System.out.println("current pose " + m_drivetrainSubsystem.getPose());
+
+  }
+
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
     isBlueAlliance = allianceChooser.getSelected();
     m_drivetrainSubsystem.init();
+    m_drivetrainSubsystem.resetPositionManager();
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() { 
+    System.out.println("Current pose: " + m_drivetrainSubsystem.getPose());
     m_buttons.buttonsPeriodic();
     m_drivetrainSubsystem.driveTeleop();
     m_drivetrainSubsystem.drive();   

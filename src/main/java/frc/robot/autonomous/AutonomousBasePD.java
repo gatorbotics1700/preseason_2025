@@ -16,7 +16,7 @@ public class AutonomousBasePD extends AutonomousBase{
     private static final double driveKP= 0.75; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.0; //Robot.kD.getDouble(0.0);//0.0;
-    private static final double DRIVE_DEADBAND = 6*Constants.METERS_PER_INCH; //meters - previously 3 inches
+    private static final double DRIVE_DEADBAND = 3*Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 6.0; //degrees!
 
     private Pose2d startingCoordinate; //this is something that would be used if we were to resetPositionManager
@@ -27,6 +27,7 @@ public class AutonomousBasePD extends AutonomousBase{
     
     private DrivetrainSubsystem drivetrainSubsystem;
     public PDState currentState;
+    private double testingMaxVelocity = 0.5; 
 
     //pids
     private PIDController turnController;
@@ -49,7 +50,7 @@ public class AutonomousBasePD extends AutonomousBase{
         xController.reset();
         yController.reset();
         turnController.reset();
-        turnController.enableContinuousInput(0, 360); //TODO: can we change this to (-180, 180) //turn controller reads rotation from 0 to 360 degrees 
+        turnController.enableContinuousInput(-180, 180); //turn controller reads rotation from 0 to 360 degrees 
         stateIndex = 0;
         isFirstTimeInState = true;
         startTimeForState = System.currentTimeMillis();
@@ -108,21 +109,21 @@ public class AutonomousBasePD extends AutonomousBase{
             speedX = 0; 
             System.out.println("At x setpoint");
         } else {
-            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedX));  
+            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingMaxVelocity, Math.abs(speedX)));  
         }
  
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
         } else {
-            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedY));
+            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingMaxVelocity, Math.abs(speedY))); 
         }
 
         if(turnAtSetpoint()){
             speedRotate = 0;
             System.out.println("At rotational setpoint");
         } else {
-            speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.abs(speedRotate));
+            speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingMaxVelocity, Math.abs(speedRotate))); 
         }
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
