@@ -177,7 +177,7 @@ public class DrivetrainSubsystem {
    //from pigeon used for updating our odometry
    //in an unknown, arbitrary frame
    //"do not use unless you know what you are doing" - patricia
-   private Rotation2d getGyroscopeRotation() {
+   public Rotation2d getGyroscopeRotation() {
       return new Rotation2d(Math.toRadians(pigeon.getYaw())); //getYaw() returns degrees
    }
 
@@ -293,14 +293,14 @@ public class DrivetrainSubsystem {
       return positionManager.getEstimatedPosition();
     }
 
-    public void resetPositionManager(){
+    public void resetPositionManager(Pose2d currentPose){
       SwerveModulePosition[] modulePositions =  {
          new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
          new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
          new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
          new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
-      positionManager.resetPosition(getGyroscopeRotation(), modulePositions, getPose());
-    }
+      positionManager.resetPosition(getGyroscopeRotation(), modulePositions, currentPose);
+   }
 }
 

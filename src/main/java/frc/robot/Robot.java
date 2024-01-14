@@ -79,9 +79,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_drivetrainSubsystem.init();
-    m_drivetrainSubsystem.resetPositionManager();
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
+    m_drivetrainSubsystem.resetPositionManager(m_auto.getStartingPose());
   }
 
   /** This function is called periodically during autonomous. */
@@ -90,7 +90,6 @@ public class Robot extends TimedRobot {
     m_auto.periodic();
     m_drivetrainSubsystem.drive();
     System.out.println("current pose " + m_drivetrainSubsystem.getPose());
-
   }
 
 
@@ -99,7 +98,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
     isBlueAlliance = allianceChooser.getSelected();
     m_drivetrainSubsystem.init();
-    m_drivetrainSubsystem.resetPositionManager();
+    //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
 
   /** This function is called periodically during operator control. */

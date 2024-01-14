@@ -19,11 +19,13 @@ public class Paths {
     public static AutonomousBase constructAuto(AUTO_OPTIONS selectedAuto){
         if(selectedAuto == AUTO_OPTIONS.PD_TESTPATH){
             return new AutonomousBasePD(
-                new Pose2d(0.0, 0.0, new Rotation2d(Math.toRadians(180.0))), 
+                new Pose2d(0.0, 0.0, new Rotation2d(Math.toRadians(0.0))), 
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(180)))), 
-                   // new PDState(AutoStates.DRIVE, new Pose2d(20 * Constants.METERS_PER_INCH, 0, new Rotation2d(0))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(45)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(40* Constants.METERS_PER_INCH, 0, new Rotation2d(0))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(0 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(0)))), 
                     //new PDState(AutoStates.DRIVE, new Pose2d(0, 30 * mpi, new Rotation2d(0))), 
                    // new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 30 * mpi, new Rotation2d(0))), 
                    // new PDState(AutoStates.DRIVE, new Pose2d(0, 0, new Rotation2d(0))), 
