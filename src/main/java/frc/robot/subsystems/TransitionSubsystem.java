@@ -1,23 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
-import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import frc.com.swervedrivespecialties.swervelib.SwerveModule;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
-import java.util.function.DoubleSupplier;
-
 import frc.robot.OI;
 import frc.robot.subsystems.*;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -31,10 +13,8 @@ public class TransitionSubsystem {
 
     public TalonFX transitionMotor; 
     private TransitionStates transitionState;
-    private boolean ifShooterReady; //gets shots
-    private boolean ifIntakingDone; 
-    private boolean ifIntaking; //from floor to held in transition
     private SensorSubsystem sensorSubsystem;
+    private Mechanisms mechanisms;
 
     public TransitionSubsystem(){
         transitionMotor = new TalonFX(Constants.TRANSITION_CAN_ID);
@@ -68,7 +48,7 @@ public class TransitionSubsystem {
         }
     }
 
-    private void setState(TransitionStates transitionState){
-        this.transitionState = transitionState;
+    public void setState(TransitionStates newState){
+        transitionState = newState;
     }
 }

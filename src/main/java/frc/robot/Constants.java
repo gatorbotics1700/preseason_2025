@@ -50,5 +50,6 @@ public final class Constants {
     public static final double METERS_PER_INCH = 0.0254;
 
     public static final int INTAKE_MOTOR_CAN_ID = 15; // TODO: this is a placeholder
+    public static final int TRANSITION_CAN_ID = 0; //TODO: get actual can id
 
 }
