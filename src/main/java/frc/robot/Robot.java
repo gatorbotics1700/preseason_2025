@@ -78,10 +78,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_drivetrainSubsystem.init();
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    m_drivetrainSubsystem.resetPositionManager(m_auto.getStartingPose());
+    m_drivetrainSubsystem.init();
   }
 
   /** This function is called periodically during autonomous. */

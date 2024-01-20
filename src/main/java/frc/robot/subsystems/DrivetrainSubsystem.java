@@ -26,6 +26,7 @@ import static frc.robot.Constants.*;
 
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.autonomous.AutonomousBasePD;
 
 public class DrivetrainSubsystem {
    private static final double SWERVE_GEAR_RATIO = 6.75; 
@@ -170,7 +171,7 @@ public class DrivetrainSubsystem {
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
          }, 
-         new Pose2d()//new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
+         new Pose2d(AutonomousBasePD.getStartingPoseX(), AutonomousBasePD.getStartingPoseY(), AutonomousBasePD.getStartingPoseRotation())//new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
       ); 
    }
   
