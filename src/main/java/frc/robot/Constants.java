@@ -48,4 +48,7 @@ public final class Constants {
 
     public static final double TICKS_PER_REV = 2048;
     public static final double METERS_PER_INCH = 0.0254;
+
+    public static final int INTAKE_MOTOR_CAN_ID = 15; // TODO: this is a placeholder
+
 }

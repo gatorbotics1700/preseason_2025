@@ -5,6 +5,7 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -19,6 +20,7 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
 
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
 
