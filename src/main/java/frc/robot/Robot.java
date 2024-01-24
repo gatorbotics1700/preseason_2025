@@ -45,6 +45,9 @@ public class Robot extends TimedRobot {
     auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
     auto_chooser.addOption("noGoR!", Paths.AUTO_OPTIONS.NO_GO);
     auto_chooser.addOption("MP testpath", Paths.AUTO_OPTIONS.MP_TESTPATH);
+    auto_chooser.addOption("3 Piece A", Paths.AUTO_OPTIONS.THREE_PIECE_A);
+    auto_chooser.addOption("3 Piece B", Paths.AUTO_OPTIONS.THREE_PIECE_B);
+
     SmartDashboard.putData("Auto Choices", auto_chooser); 
     
     inverted.setDefaultOption("true", true);
@@ -78,10 +81,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_drivetrainSubsystem.init();
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    m_drivetrainSubsystem.resetPositionManager(m_auto.getStartingPose());
+    m_drivetrainSubsystem.init();
   }
 
   /** This function is called periodically during autonomous. */
