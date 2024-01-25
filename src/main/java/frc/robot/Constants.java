@@ -34,10 +34,10 @@ public final class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875 - 180);
     */
     //offsets McQueen
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(17.402);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(173.145+180);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(161.895);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(54.668);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.521484375);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(177.802734375);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(164.8828125);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(4.921875);
 
     //even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;

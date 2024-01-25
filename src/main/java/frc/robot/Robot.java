@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
+    System.out.println("starting x: " + AutonomousBasePD.getStartingPoseX() + "starting y: " + AutonomousBasePD.getStartingPoseY() + "starting rotation: " + AutonomousBasePD.getStartingPoseRotation());
     m_drivetrainSubsystem.init();
   }
 
@@ -95,6 +96,7 @@ public class Robot extends TimedRobot {
   }
 
 
+  
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
