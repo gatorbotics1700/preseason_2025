@@ -23,11 +23,18 @@ public final class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6; 
 
-    //offsets
+    //offsets Hulk
+    /* 
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
+    */
+    //offsets Mcqueen
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.521484375);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(177.802734375);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(164.8828125);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(4.921875);
 
     //even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
