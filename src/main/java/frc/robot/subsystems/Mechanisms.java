@@ -37,7 +37,7 @@ public class Mechanisms {
 
     public void init(){
         transitionSubsystem.init();
-        shooterSubsystem.init();
+        //shooterSubsystem.init();
         intakeSubsystem.init();
 
         mechanismState = MechanismStates.HOLDING; //fix
@@ -80,7 +80,7 @@ public class Mechanisms {
                 timer = System.currentTimeMillis();
                 isFirst = false;
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER_BLUE);
+                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
             if(System.currentTimeMillis()-timer >= 2000){
                 mechanismState = MechanismStates.OFF;
@@ -93,7 +93,7 @@ public class Mechanisms {
                 timer = System.currentTimeMillis();
                 isFirst = false;
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER_RED);
+                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
             if(System.currentTimeMillis()-timer >= 2000){
                 mechanismState = MechanismStates.OFF;

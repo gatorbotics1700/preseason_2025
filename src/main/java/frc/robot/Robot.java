@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
@@ -100,6 +101,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         m_drivetrainSubsystem.onEnable();
+        m_shooterSubsystem.setState(ShooterStates.AMP);
     }
 
     /* This function is called periodically during test mode. */
