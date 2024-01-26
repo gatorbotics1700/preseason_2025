@@ -26,6 +26,7 @@ import static frc.robot.Constants.*;
 
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.autonomous.AutonomousBasePD;
 
 public class DrivetrainSubsystem {
@@ -81,6 +82,8 @@ public class DrivetrainSubsystem {
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    public static double mpi = Constants.METERS_PER_INCH;
+   public boolean autoInitCalled;
+
 
    public DrivetrainSubsystem() {
       pigeon = new PigeonIMU(Constants.DRIVETRAIN_PIGEON_ID);
@@ -139,10 +142,10 @@ public class DrivetrainSubsystem {
             BACK_RIGHT_MODULE_STEER_OFFSET
       );
 
-      init();
+      init(0, 0, new Rotation2d(0));
    }
 
-   public void init(){ //TODO: is the naming this init an issue? check with Kim
+   public void init(double startingX, double startingY, Rotation2d startingRot){ //TODO: is the naming this init an issue? check with Kim
       System.out.println("Initializing drivetrain subsystem vars");
       /* 
        * Positive x values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot.
@@ -161,8 +164,9 @@ public class DrivetrainSubsystem {
       );
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-    
-      positionManager = new SwerveDrivePoseEstimator(
+      
+      if (autoInitCalled == false){
+         positionManager = new SwerveDrivePoseEstimator(
          kinematics, 
          getGyroscopeRotation(), 
          new SwerveModulePosition[] {
@@ -171,8 +175,10 @@ public class DrivetrainSubsystem {
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
          }, 
-         new Pose2d(AutonomousBasePD.getStartingPoseX(), AutonomousBasePD.getStartingPoseY(), AutonomousBasePD.getStartingPoseRotation())//new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
+         new Pose2d(startingX, startingY, startingRot)
       ); 
+      }
+     
    }
   
    //from pigeon used for updating our odometry

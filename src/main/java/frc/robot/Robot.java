@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,7 +30,6 @@ public class Robot extends TimedRobot {
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
     private AutonomousBase m_auto; 
-
     double mpi = Constants.METERS_PER_INCH;
     public static Boolean isBlueAlliance = true;
 
@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
     
     inverted.setDefaultOption("true", true);
     inverted.addOption("false", false);
+    m_drivetrainSubsystem.autoInitCalled = false;
   }
 
   /**
@@ -83,8 +84,11 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    System.out.println("starting x: " + AutonomousBasePD.getStartingPoseX() + "starting y: " + AutonomousBasePD.getStartingPoseY() + "starting rotation: " + AutonomousBasePD.getStartingPoseRotation());
-    m_drivetrainSubsystem.init();
+    
+    System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
+    m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
+
+    m_drivetrainSubsystem.autoInitCalled = true;
   }
 
   /** This function is called periodically during autonomous. */
@@ -96,12 +100,18 @@ public class Robot extends TimedRobot {
   }
 
 
-  
+
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
     isBlueAlliance = allianceChooser.getSelected();
-    m_drivetrainSubsystem.init();
+    if (m_drivetrainSubsystem.autoInitCalled = false){
+        m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
+
+    }
+    else{
+        m_drivetrainSubsystem.init(0,0,new Rotation2d(0));
+    }
     //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
 

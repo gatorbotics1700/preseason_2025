@@ -36,10 +36,11 @@ public class AutonomousBaseMP extends AutonomousBase{
     private int stateIndex;
      private MPState currentState; 
 
-    public AutonomousBaseMP(MPState[] mpStateSequence){
+    public AutonomousBaseMP(Pose2d startingCoordinate, MPState[] mpStateSequence){
         /*Takes state sequence from MPStateSequence
          * Initializes a holonomic drive controller which is necessary for wpilib trajectory generator
          */
+        super(startingCoordinate);
         System.out.println("In autobase structure!");
         this.mpStateSequence =  mpStateSequence;
         controller = new HolonomicDriveController(

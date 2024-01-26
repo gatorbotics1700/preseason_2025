@@ -19,7 +19,6 @@ public class AutonomousBasePD extends AutonomousBase{
     private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3.0; //degrees!
 
-    public static Pose2d startingCoordinate; //this is something that would be used if we were to resetPositionManager
     private PDState[] stateSequence;
     private int stateIndex;
     private boolean isFirstTimeInState;
@@ -37,8 +36,9 @@ public class AutonomousBasePD extends AutonomousBase{
     private PIDController yController;
 
     public AutonomousBasePD(Pose2d startingCoordinate, PDState[] stateSequence){
-        this.startingCoordinate = startingCoordinate;
+        super(startingCoordinate);
         this.stateSequence =  stateSequence;
+
         init();
     }
 
@@ -156,22 +156,4 @@ public class AutonomousBasePD extends AutonomousBase{
         stateIndex++;
         isFirstTimeInState = true;
     }
-
-    @Override
-    public Pose2d getStartingPose(){
-        return startingCoordinate; 
-    }
-
-    public static double getStartingPoseX(){
-        return startingCoordinate.getX();
-    }
-
-    public static double getStartingPoseY(){
-        return startingCoordinate.getY();
-    }
-
-    public static Rotation2d getStartingPoseRotation(){
-        return startingCoordinate.getRotation();
-    }
-
 }

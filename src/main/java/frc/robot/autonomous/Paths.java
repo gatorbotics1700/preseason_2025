@@ -82,6 +82,7 @@ public class Paths {
 
         } else if(selectedAuto == AUTO_OPTIONS.MP_TESTPATH){
             return new AutonomousBaseMP(
+                new Pose2d(0,0, new Rotation2d(0)),
                 new MPState[]{
                     new MPState(StatesName.FIRST),
                     new MPState(StatesName.TRAJECTORY, Trajectories.uno),
