@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.TransitionSubsystem.TransitionStates;
 
 import com.revrobotics.ColorSensorV3; 
 import com.revrobotics.ColorMatch;
@@ -12,14 +11,11 @@ import edu.wpi.first.wpilibj.I2C; // TODO: check if this is right
 public class SensorSubsystem {
 
     private SensorStates sensorState;
-    public boolean seesNote;
+    private boolean seesNote;
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // TODO: change port if needed
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private final ColorMatch m_colorMatcher = new ColorMatch();
     public Mechanisms mechanismsSubsystem;
-    public TransitionSubsystem transitionSubsystem;
-
-
 
     private final Color noteColor = new Color(0, 0, 0); // TODO: make the right color
     public double colorThreshold = 0.03;
@@ -35,20 +31,21 @@ public class SensorSubsystem {
 
     public void init(){
         System.out.println("sensor init");
-        setState(SensorStates.OFF);
+        setState(SensorStates.ON);
         seesNote = false;
         m_colorMatcher.addColorMatch(noteColor);
     
     }
 
     public void periodic(){
-        if(mechanismsSubsystem.loading == true){
-            seesNote = true;
-        }
-        else{
+        if (sensorState == SensorStates.ON){
             detectColor();
+            if (seesNote){
+                setState(SensorStates.OFF);
+            }
+        } else {
+            seesNote = false;
         }
-   
     }
 
     public void detectColor(){
@@ -66,8 +63,12 @@ public class SensorSubsystem {
         }
     }
 
-    private void setState(SensorStates newState){
+    public void setState(SensorStates newState){
         sensorState = newState;
+    }
+
+    public boolean getSeesNote(){
+        return seesNote;
     }
 }  
 
