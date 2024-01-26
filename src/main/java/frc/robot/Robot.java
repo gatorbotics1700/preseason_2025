@@ -11,6 +11,9 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 /*
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -100,8 +103,8 @@ public class Robot extends TimedRobot {
     /* This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
-        m_drivetrainSubsystem.onEnable();
-        m_shooterSubsystem.setState(ShooterStates.AMP);
+        //m_drivetrainSubsystem.onEnable();
+        //m_shooterSubsystem.setState(ShooterStates.AMP);
     }
 
     /* This function is called periodically during test mode. */
@@ -109,8 +112,11 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
-        m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-        m_drivetrainSubsystem.drive();
+        //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+        //m_drivetrainSubsystem.drive();
+        //m_buttons.buttonsPeriodic();
+        m_shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.3);
+        m_shooterSubsystem.midRight.set(ControlMode.PercentOutput, -0.3);
     }
     /* This function is called once when the robot is first started up. */
     @Override

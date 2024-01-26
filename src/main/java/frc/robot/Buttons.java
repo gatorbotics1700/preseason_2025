@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix6.mechanisms.MechanismState;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,6 +19,7 @@ public class Buttons {
     
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
+  private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public double leftTrigger;
   public double rightTrigger;
   
@@ -31,16 +33,25 @@ public class Buttons {
         m_drivetrainSubsystem.stopDrive(); 
       }
       if (OI.m_controller_two.getAButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
+        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
+        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.4);
+        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.4);
+        System.out.println("=====A BUTTON=====SETTING TO 0.4");
       }
       if (OI.m_controller_two.getYButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_B);
       }
       if (OI.m_controller_two.getBButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_R);
+        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_R);
+        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, -0.4);
+        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.4);
+        System.out.println("=======B BUTTON======SETTING ONE TO -0.4");
       }
       if (OI.m_controller_two.getRightBumper()){ 
-        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        //m_mechanismSubsystem.setState(MechanismStates.OFF);
+        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.0);
+        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.0);
+        System.out.println("=======SHOOTER STOOOOPPPP=======");
       }
       if (OI.m_controller_two.getXButton()){
         if(IntakeSubsystem.intakeStates == IntakeSubsystem.IntakeStates.OFF){

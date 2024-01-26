@@ -2,11 +2,13 @@ package frc.robot.subsystems;
 
 import frc.robot.OI;
 import frc.robot.subsystems.*;
-import com.ctre.phoenix6.hardware.TalonFX;
+//import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import frc.robot.Constants;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+//import com.ctre.phoenix6.signals.NeutralModeValue;
 
 
 public class TransitionSubsystem {
@@ -29,22 +31,22 @@ public class TransitionSubsystem {
     public void init(){
         System.out.println("transition init");
         transitionMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-        transitionMotor.setNeutralMode(NeutralModeValue.Brake); //brake mode so nothing slips = locks in place when not getting power
+        transitionMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
         setState(TransitionStates.OFF);
     }
 
     public void periodic(){
         if (sensorSubsystem.seesNote == false){ 
             setState(TransitionStates.ON); //going into transition
-            transitionMotor.set(0.2);
+            transitionMotor.set(ControlMode.PercentOutput, 0);
         }
         else if (sensorSubsystem.seesNote == true){ 
             setState(TransitionStates.OFF); //inside transition
-            transitionMotor.set(0);
+            transitionMotor.set(ControlMode.PercentOutput, 0);
         }
         else {
             setState(TransitionStates.OFF);
-            transitionMotor.set(0);
+            transitionMotor.set(ControlMode.PercentOutput, 0);
         }
     }
 
