@@ -96,6 +96,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             transitionSubsystem.setState(TransitionSubsystem.TransitionStates.OFF);
             System.out.println("WHAT ARE YOU DOING----STATE NOT RECOGNIZED!!!!!");
+            System.out.println("CURRENT STATE: " + mechanismState);
         }
 
     }
