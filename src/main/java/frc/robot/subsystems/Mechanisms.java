@@ -30,9 +30,9 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         intakeSubsystem = new IntakeSubsystem();
         sensorSubsystem = new SensorSubsystem();
-        init();
         loading = false;
         isFirst = true;
+        init();
     }
 
     public void init(){
