@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 
 public class ShooterSubsystem {
-    //private CANSparkMax lowLeft = new CANSparkMax(0, MotorType.kBrushless); 
+    // private CANSparkMax lowLeft = new CANSparkMax(0, MotorType.kBrushless); 
     private TalonFX highLeft = new TalonFX(41); //not sure if these should be on the left or the right
     private TalonFX midRight = new TalonFX(42); //but there is sparkmax low, then talon on either side
     private final double AMPSPEED;

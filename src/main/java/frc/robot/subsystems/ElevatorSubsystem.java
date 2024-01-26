@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.Constants;
 import frc.robot.Gains;
-import frc.robot.OI;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //NOTES ON MEASUREMENTS
