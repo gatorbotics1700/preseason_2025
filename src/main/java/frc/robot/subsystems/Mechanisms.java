@@ -9,6 +9,7 @@ public class Mechanisms {
     public ShooterSubsystem shooterSubsystem;
     public IntakeSubsystem intakeSubsystem;
     public SensorSubsystem sensorSubsystem;
+    public ElevatorSubsystem elevatorSubsystem;
 
     private boolean loadingToShooter;
     private boolean isFirstTimeInState;
@@ -19,7 +20,14 @@ public class Mechanisms {
         HOLDING,
         SHOOTING_SPEAKER,
         SHOOTING_AMP,
-        OFF;
+        OFF,
+        /*
+        ZERO, 
+        LOW_ELEVATOR_HEIGHT,  
+        AMP_HEIGHT,  
+        //MANUAL, later decide if we want manual setting
+        STOPPED; 
+        */
     }
 
     private MechanismStates mechanismState;
@@ -29,6 +37,7 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         intakeSubsystem = new IntakeSubsystem();
         sensorSubsystem = new SensorSubsystem();
+        elevatorSubsystem = new ElevatorSubsystem();
         loadingToShooter = false;
         isFirstTimeInState = true;
         init();
@@ -39,6 +48,7 @@ public class Mechanisms {
         //shooterSubsystem.init();
         intakeSubsystem.init();
         sensorSubsystem.init();
+        //elevatorSubsystem.init();
 
         mechanismState = MechanismStates.HOLDING; //TODO: figure out what state to start in
     }

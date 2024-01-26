@@ -33,9 +33,6 @@ public class Buttons {
       if (OI.m_controller_two.getAButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
       }
-      if (OI.m_controller_two.getYButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_B);
-      }
       if (OI.m_controller_two.getBButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
       }
