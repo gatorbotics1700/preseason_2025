@@ -37,7 +37,7 @@ public class Buttons {
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_B);
       }
       if (OI.m_controller_two.getBButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_R);
+        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
       }
       if (OI.m_controller_two.getRightBumper()){ 
         m_mechanismSubsystem.setState(MechanismStates.OFF);

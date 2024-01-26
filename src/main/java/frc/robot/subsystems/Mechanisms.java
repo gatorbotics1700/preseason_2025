@@ -17,8 +17,7 @@ public class Mechanisms {
     public static enum MechanismStates{
         INTAKING,
         HOLDING,
-        SHOOTING_SPEAKER_R,
-        SHOOTING_SPEAKER_B,
+        SHOOTING_SPEAKER,
         SHOOTING_AMP,
         OFF;
     }
@@ -73,20 +72,7 @@ public class Mechanisms {
                 isFirstTimeInState = true;
             }
         }
-        else if(mechanismState == MechanismStates.SHOOTING_SPEAKER_B){
-            if (isFirstTimeInState){
-                loadingToShooter = true;
-                stateStartTime = System.currentTimeMillis();
-                isFirstTimeInState = false;
-                transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
-            }
-            if(System.currentTimeMillis()-stateStartTime >= 2000){
-                mechanismState = MechanismStates.OFF;
-                isFirstTimeInState = true;
-            }
-        }
-         else if(mechanismState == MechanismStates.SHOOTING_SPEAKER_R){
+         else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             if (isFirstTimeInState){
                 loadingToShooter = true;
                 stateStartTime = System.currentTimeMillis();
