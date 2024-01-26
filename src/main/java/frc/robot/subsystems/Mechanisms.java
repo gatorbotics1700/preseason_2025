@@ -51,8 +51,6 @@ public class Mechanisms {
             transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP); //default shooter on
             if (sensorSubsystem.getSeesNote()){
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
-                transitionSubsystem.setState(TransitionSubsystem.TransitionStates.OFF);
                 mechanismState = MechanismStates.HOLDING;
             }
         }
