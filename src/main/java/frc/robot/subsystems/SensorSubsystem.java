@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.TransitionSubsystem.TransitionStates;
 
 import com.revrobotics.ColorSensorV3; 
 import com.revrobotics.ColorMatch;
@@ -17,9 +16,6 @@ public class SensorSubsystem {
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private final ColorMatch m_colorMatcher = new ColorMatch();
     public Mechanisms mechanismsSubsystem;
-    public TransitionSubsystem transitionSubsystem;
-
-
 
     private final Color noteColor = new Color(0, 0, 0); // TODO: make the right color
     public double colorThreshold = 0.03;
@@ -35,20 +31,21 @@ public class SensorSubsystem {
 
     public void init(){
         System.out.println("sensor init");
-        setState(SensorStates.OFF);
+        setState(SensorStates.ON);
         seesNote = false;
         m_colorMatcher.addColorMatch(noteColor);
     
     }
 
     public void periodic(){
-        if(mechanismsSubsystem.getLoadingToShooterStatus() == true){
-            seesNote = true;
-        }
-        else{
+        if (sensorState == SensorStates.ON){
             detectColor();
+            if (seesNote){
+                setState(SensorStates.OFF);
+            }
+        } else {
+            seesNote = false;
         }
-   
     }
 
     public void detectColor(){
@@ -66,7 +63,7 @@ public class SensorSubsystem {
         }
     }
 
-    private void setState(SensorStates newState){
+    public void setState(SensorStates newState){
         sensorState = newState;
     }
 
