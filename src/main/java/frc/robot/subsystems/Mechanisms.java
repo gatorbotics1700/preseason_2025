@@ -10,9 +10,9 @@ public class Mechanisms {
     public IntakeSubsystem intakeSubsystem;
     public SensorSubsystem sensorSubsystem;
 
-    public boolean loading;
-    private boolean isFirst;
-    private double timer;
+    private boolean loadingToShooter;
+    private boolean isFirstTimeInState;
+    private double stateStartTime;
 
     public static enum MechanismStates{
         INTAKING,
@@ -30,8 +30,8 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         intakeSubsystem = new IntakeSubsystem();
         sensorSubsystem = new SensorSubsystem();
-        loading = false;
-        isFirst = true;
+        loadingToShooter = false;
+        isFirstTimeInState = true;
         init();
     }
 
@@ -39,72 +39,73 @@ public class Mechanisms {
         transitionSubsystem.init();
         //shooterSubsystem.init();
         intakeSubsystem.init();
+        sensorSubsystem.init();
 
-        mechanismState = MechanismStates.HOLDING; //fix
+        mechanismState = MechanismStates.HOLDING; //TODO: figure out what state to start in
     }
 
     public void periodic(){
         if (mechanismState == MechanismStates.INTAKING){
-            loading = false;
+            loadingToShooter = false;
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP); //default shooter on
-            if (sensorSubsystem.seesNote){
+            if (sensorSubsystem.getSeesNote()){
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.OFF);
                 mechanismState = MechanismStates.HOLDING;
             }
         }
         else if(mechanismState == MechanismStates.HOLDING){
-            loading = false;
+            loadingToShooter = false;
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             transitionSubsystem.setState(TransitionSubsystem.TransitionStates.OFF);
 
         }
         else if(mechanismState == MechanismStates.SHOOTING_AMP){
-            if (isFirst){
-                loading = true;
-                timer = System.currentTimeMillis();
-                isFirst = false;
+            if (isFirstTimeInState){
+                loadingToShooter = true;
+                stateStartTime = System.currentTimeMillis();
+                isFirstTimeInState = false;
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
             }
-            if(System.currentTimeMillis()-timer >= 2000){
+            if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
-                isFirst = true;
+                isFirstTimeInState = true;
             }
         }
         else if(mechanismState == MechanismStates.SHOOTING_SPEAKER_B){
-            if (isFirst){
-                loading = true;
-                timer = System.currentTimeMillis();
-                isFirst = false;
+            if (isFirstTimeInState){
+                loadingToShooter = true;
+                stateStartTime = System.currentTimeMillis();
+                isFirstTimeInState = false;
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
-            if(System.currentTimeMillis()-timer >= 2000){
+            if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
-                isFirst = true;
+                isFirstTimeInState = true;
             }
         }
          else if(mechanismState == MechanismStates.SHOOTING_SPEAKER_R){
-            if (isFirst){
-                loading = true;
-                timer = System.currentTimeMillis();
-                isFirst = false;
+            if (isFirstTimeInState){
+                loadingToShooter = true;
+                stateStartTime = System.currentTimeMillis();
+                isFirstTimeInState = false;
                 transitionSubsystem.setState(TransitionSubsystem.TransitionStates.ON);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
-            if(System.currentTimeMillis()-timer >= 2000){
+            if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
-                isFirst = true;
+                isFirstTimeInState = true;
             }
         }
         else if (mechanismState == MechanismStates.OFF){
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             transitionSubsystem.setState(TransitionSubsystem.TransitionStates.OFF);
-            loading = false;
+            loadingToShooter = false;
         }
         else{
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);
@@ -117,6 +118,10 @@ public class Mechanisms {
 
      public void setState(MechanismStates newState){
             mechanismState = newState; 
+    }
+
+    public boolean getLoadingToShooterStatus(){
+        return loadingToShooter;
     }
 
 }

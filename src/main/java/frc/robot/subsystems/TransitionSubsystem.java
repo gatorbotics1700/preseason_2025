@@ -34,11 +34,11 @@ public class TransitionSubsystem {
     }
 
     public void periodic(){
-        if (sensorSubsystem.seesNote == false){ 
+        if (sensorSubsystem.getSeesNote() == false){ 
             setState(TransitionStates.ON); //going into transition
             transitionMotor.set(0.2);
         }
-        else if (sensorSubsystem.seesNote == true){ 
+        else if (sensorSubsystem.getSeesNote() == true){ 
             setState(TransitionStates.OFF); //inside transition
             transitionMotor.set(0);
         }

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.I2C; // TODO: check if this is right
 public class SensorSubsystem {
 
     private SensorStates sensorState;
-    public boolean seesNote;
+    private boolean seesNote;
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // TODO: change port if needed
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
     private final ColorMatch m_colorMatcher = new ColorMatch();
@@ -42,7 +42,7 @@ public class SensorSubsystem {
     }
 
     public void periodic(){
-        if(mechanismsSubsystem.loading == true){
+        if(mechanismsSubsystem.getLoadingToShooterStatus() == true){
             seesNote = true;
         }
         else{
@@ -68,6 +68,10 @@ public class SensorSubsystem {
 
     private void setState(SensorStates newState){
         sensorState = newState;
+    }
+
+    public boolean getSeesNote(){
+        return seesNote;
     }
 }  
 
