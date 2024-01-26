@@ -212,7 +212,7 @@ public class DrivetrainSubsystem {
       //TODO: check negative signs
       translationXSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
       translationYSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      rotationSupplier = () -> -modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+      rotationSupplier = () -> modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
             translationXSupplier.getAsDouble(),
