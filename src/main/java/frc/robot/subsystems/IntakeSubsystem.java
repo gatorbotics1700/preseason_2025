@@ -41,11 +41,8 @@ public class IntakeSubsystem {
         intakeMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
         preTransitionMotor.setInverted(false);
         preTransitionMotor.setNeutralMode(NeutralMode.Brake); //TODO check what direction we want motors to run
-<<<<<<< HEAD
-=======
         transitionMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
         transitionMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
->>>>>>> a6124eade76203d527e3201c81e931f371a1eae3
         setState(IntakeStates.OFF);
     }
 
@@ -57,12 +54,6 @@ public class IntakeSubsystem {
         if(intakeStates == IntakeStates.INTAKING) {
             intakeMotor.set(ControlMode.PercentOutput, motorSpeed);
             preTransitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-<<<<<<< HEAD
-
-        } else {
-            intakeMotor.set(ControlMode.PercentOutput, 0);
-            preTransitionMotor.set(ControlMode.PercentOutput, 0);
-=======
             transitionMotor.set(ControlMode.PercentOutput, 0.2);
             if(sensorSubsystem.getSeesNote()){
                 setState(IntakeStates.OFF);
@@ -81,7 +72,6 @@ public class IntakeSubsystem {
             transitionMotor.set(ControlMode.PercentOutput, 0);
             System.out.println("=================UNKNOWN INTAKE STATE WHAT HAPPENED?!?!?!?=================");
             System.out.println("Current intake state: " + intakeStates);
->>>>>>> a6124eade76203d527e3201c81e931f371a1eae3
         }
 
     }

@@ -18,14 +18,9 @@ public class Mechanisms {
         HOLDING,
         SHOOTING_SPEAKER,
         SHOOTING_AMP,
-        OFF,
-        /*
-        ZERO, 
-        LOW_ELEVATOR_HEIGHT,  
-        AMP_HEIGHT,  
-        //MANUAL, later decide if we want manual setting
-        STOPPED; 
-        */
+        LOW_ELEVATOR_HEIGHT,
+        AMP_HEIGHT,
+        OFF;
     }
 
     private MechanismStates mechanismState;
@@ -62,6 +57,7 @@ public class Mechanisms {
                 isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.LOADING_TO_SHOOTER);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
+                elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.AMP_HEIGHT);
             }
             if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
@@ -72,15 +68,21 @@ public class Mechanisms {
                 isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.LOADING_TO_SHOOTER);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
+                elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_ELEVATOR_HEIGHT);
             }
             if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
                 isFirstTimeInState = true;
             }
+        } else if(mechanismState == MechanismStates.LOW_ELEVATOR_HEIGHT){ // TODO: figure out if we need this bc setting it in SHOOTING_SPEAKER might be enough
+            elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_ELEVATOR_HEIGHT);
+        } else if(mechanismState == MechanismStates.AMP_HEIGHT){
+            elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.AMP_HEIGHT);
         } else if (mechanismState == MechanismStates.OFF){
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             sensorSubsystem.setState(SensorSubsystem.SensorStates.ON);
+            elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.ZERO);
         } else {
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);

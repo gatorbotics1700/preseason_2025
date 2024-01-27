@@ -39,14 +39,10 @@ public class Buttons {
         System.out.println("=====A BUTTON=====SETTING TO 0.4");
       }
       if (OI.m_controller_two.getBButton()){ 
-<<<<<<< HEAD
         //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_R);
         shooterSubsystem.highLeft.set(ControlMode.PercentOutput, -0.4);
         shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.4);
         System.out.println("=======B BUTTON======SETTING ONE TO -0.4");
-=======
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
->>>>>>> a6124eade76203d527e3201c81e931f371a1eae3
       }
       if (OI.m_controller_two.getRightBumper()){ 
         //m_mechanismSubsystem.setState(MechanismStates.OFF);
