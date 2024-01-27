@@ -29,6 +29,7 @@ public final class Constants {
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
+<<<<<<< HEAD
     
     //offsets Mcqueen
     /* 
@@ -37,6 +38,15 @@ public final class Constants {
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(164.8828125);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(4.921875);
     */
+=======
+    */
+    
+    //offsets Mcqueen
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(22.587890625 - 4);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(177.626953125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(92.400051269531251 + 70);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(2.900390625);
+>>>>>>> f3b2985b926be24e8276cf86849e0cf2700f5c6d
 
     //even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -45,7 +55,7 @@ public final class Constants {
     
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23; 
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22; 
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 3; 
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 3;
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27; 
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; 
