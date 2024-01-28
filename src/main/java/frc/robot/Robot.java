@@ -82,13 +82,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+   // m_drivetrainSubsystem.autoInitCalled = false;
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
     
-    System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
-    m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
+    //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
+    // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
 
-    m_drivetrainSubsystem.autoInitCalled = true;
+    // m_drivetrainSubsystem.autoInitCalled = true;
   }
 
   /** This function is called periodically during autonomous. */
@@ -96,7 +97,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     m_auto.periodic();
     m_drivetrainSubsystem.drive();
-    System.out.println("current pose " + m_drivetrainSubsystem.getPose());
+    //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }
 
 
@@ -105,13 +106,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
     isBlueAlliance = allianceChooser.getSelected();
-    if (m_drivetrainSubsystem.autoInitCalled = false){
-        m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
+    m_drivetrainSubsystem.init();
 
-    }
-    else{
-        m_drivetrainSubsystem.init(0,0,new Rotation2d(0));
-    }
     //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
 

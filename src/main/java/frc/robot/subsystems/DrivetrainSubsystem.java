@@ -76,13 +76,13 @@ public class DrivetrainSubsystem {
    private SwerveModule backLeftModule;
    private SwerveModule backRightModule;
 
-   private SwerveDrivePoseEstimator positionManager;
+   public SwerveDrivePoseEstimator positionManager; //THIS IS PUBLIC, THAT DOES NOTTTTT MEAN WE SHOULD MESS WITH ITTTTTT! 
    private ShuffleboardTab tab;
 
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    public static double mpi = Constants.METERS_PER_INCH;
-   public boolean autoInitCalled;
+   public boolean autoInitCalled = false;
 
 
    public DrivetrainSubsystem() {
@@ -142,10 +142,10 @@ public class DrivetrainSubsystem {
             BACK_RIGHT_MODULE_STEER_OFFSET
       );
 
-      init(0, 0, new Rotation2d(0));
+      init();
    }
 
-   public void init(double startingX, double startingY, Rotation2d startingRot){ //TODO: is the naming this init an issue? check with Kim
+   public void init(){ //TODO: is the naming this init an issue? check with Kim
       System.out.println("Initializing drivetrain subsystem vars");
       /* 
        * Positive x values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot.
@@ -165,7 +165,8 @@ public class DrivetrainSubsystem {
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
       
-      if (autoInitCalled == false){
+      
+         System.out.println("assigning a value to positionManager");
          positionManager = new SwerveDrivePoseEstimator(
          kinematics, 
          getGyroscopeRotation(), 
@@ -175,9 +176,10 @@ public class DrivetrainSubsystem {
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
          }, 
-         new Pose2d(startingX, startingY, startingRot)
+         new Pose2d(0, 0, new Rotation2d(180))
       ); 
-      }
+      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
+      
      
    }
   
@@ -196,12 +198,7 @@ public class DrivetrainSubsystem {
   //log the current position within the positionManager so that it knows what our encoders say about our position
   //the positionManager will then update its pose estimate, accounting for any drift
    public void updatePositionManager(){
-      SwerveModulePosition[] positionArray =  new SwerveModulePosition[] {
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())),
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))};
-      positionManager.update(getGyroscopeRotation(), positionArray);
+      positionManager.update(getGyroscopeRotation(), getModulePositionArray());
    }
        
    //the next iteration of drive will use this speed  
@@ -234,14 +231,7 @@ public class DrivetrainSubsystem {
    //responsible for moving the robot, called after a chassisSpeed is set
    public void drive() { //runs periodically
       //TODO: check getSteerAngle() is correct and that we shouldn't be getting from cancoder
-      SwerveModulePosition[] modulePositions =  {
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
-      };
-      
-      positionManager.update(getGyroscopeRotation(), modulePositions); 
+      positionManager.update(getGyroscopeRotation(), getModulePositionArray()); 
 
       //array of states filled with the speed and angle for each module (made from linear and angular motion for the whole robot) 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
@@ -252,6 +242,8 @@ public class DrivetrainSubsystem {
       frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
       backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
       backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+
+      System.out.println("current pose: x: " + getPoseX() + " y: " + getPoseY() + " rotation: " + getPoseRotation());
    }
 
    private static double deadband(double value, double deadband) {
@@ -300,14 +292,17 @@ public class DrivetrainSubsystem {
       return positionManager.getEstimatedPosition();
     }
 
-    public void resetPositionManager(Pose2d currentPose){
-      SwerveModulePosition[] modulePositions =  {
+    public SwerveModulePosition[] getModulePositionArray(){
+      return new SwerveModulePosition[]{
          new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
          new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
          new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
          new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
-      positionManager.resetPosition(getGyroscopeRotation(), modulePositions, currentPose);
+    }
+
+    public void resetPositionManager(Pose2d currentPose){
+      positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), currentPose);
    }
 }
 

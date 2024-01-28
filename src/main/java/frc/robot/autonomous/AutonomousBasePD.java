@@ -68,6 +68,8 @@ public class AutonomousBasePD extends AutonomousBase{
             isFirstTimeInState = false;
         }
         if(currentState.name == AutoStates.FIRST){ //TODO: can we move the code in this to init?
+           drivetrainSubsystem.positionManager.resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), startingCoordinate); 
+
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);

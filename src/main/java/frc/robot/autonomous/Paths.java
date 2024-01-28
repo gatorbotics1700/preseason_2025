@@ -25,8 +25,8 @@ public class Paths {
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
                     new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(0)))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(45)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(40* Constants.METERS_PER_INCH, 0, new Rotation2d(0))),
+                  //  new PDState(AutoStates.DRIVE, new Pose2d(40 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(45)))),
+                    //new PDState(AutoStates.DRIVE, new Pose2d(40* Constants.METERS_PER_INCH, 0, new Rotation2d(0))),
                     new PDState(AutoStates.DRIVE, new Pose2d(0 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(0)))), 
                     //new PDState(AutoStates.DRIVE, new Pose2d(0, 30 * mpi, new Rotation2d(0))), 
                    // new PDState(AutoStates.DRIVE, new Pose2d(40 * mpi, 30 * mpi, new Rotation2d(0))), 
@@ -51,11 +51,11 @@ public class Paths {
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
                     //shoot 
-                    new PDState(AutoStates.DRIVE, new Pose2d(556*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //intake
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 220.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(556*Constants.METERS_PER_INCH, 220.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 220.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //shoot
                     //intake
                     new PDState(AutoStates.STOP)
@@ -69,11 +69,11 @@ public class Paths {
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
                     //shoot 
-                    new PDState(AutoStates.DRIVE, new Pose2d(556*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //intake
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
                     new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(556*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //shoot
                     //intake
                     new PDState(AutoStates.STOP)
