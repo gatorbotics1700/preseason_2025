@@ -10,14 +10,14 @@ import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AutonomousBasePD extends AutonomousBase{
-    private static final double turnKP= 0.5; //increased slight *** not tested
-    private static final double turnKI= 0.0; 
+    private static final double turnKP= 0.1; //increased slight *** not tested
+    private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
     private static final double driveKP= 0.75; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.0; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    private static final double TURN_DEADBAND = 3.0; //degrees!
+    private static final double TURN_DEADBAND = 0.5; //degrees!
 
     private PDState[] stateSequence;
     private int stateIndex;
@@ -62,8 +62,9 @@ public class AutonomousBasePD extends AutonomousBase{
     public void periodic()
     {
         currentState = stateSequence[stateIndex];
+        System.out.println("===========================================STATE: " + currentState.name + " ==========================================="); 
+
         if(isFirstTimeInState){
-            System.out.println("===========================================STATE: " + currentState + " ==========================================="); 
             startTimeForState = System.currentTimeMillis(); 
             isFirstTimeInState = false;
         }
@@ -83,6 +84,7 @@ public class AutonomousBasePD extends AutonomousBase{
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState();
+                System.out.println("REACHED SETPOINT");
             }
         } else if(currentState.name == AutoStates.INTAKING){
             //insert the code to intake things here for new mechanisms
@@ -91,6 +93,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
+            System.out.println("stopped in auto");
         } else {
             System.out.println("============================UNRECOGNIZED STATE!!!! PANICK!!!! " + currentState.name + "============================"); 
             drivetrainSubsystem.stopDrive();
@@ -102,7 +105,11 @@ public class AutonomousBasePD extends AutonomousBase{
      * @param dPose is desired pose
      */
     public void driveToLocation(Pose2d dPose){      
+        xController.setSetpoint(dPose.getX());
+        yController.setSetpoint(dPose.getY());
+        turnController.setSetpoint(dPose.getRotation().getDegrees());
         double speedX = xController.calculate(drivetrainSubsystem.getPoseX(), dPose.getX());
+
         double speedY = yController.calculate(drivetrainSubsystem.getPoseY(), dPose.getY());
         System.out.println("m_pose deg: " + drivetrainSubsystem.getPoseDegrees() % 360);
         System.out.println("d_pose deg: " + dPose.getRotation().getDegrees() % 360);
@@ -136,6 +143,7 @@ public class AutonomousBasePD extends AutonomousBase{
         double errorRotate = turnController.getPositionError();
         System.out.println("Speed X: " + speedX + " Speed Y: " + speedY + " Speed R: " + speedRotate);
         System.out.println("error:" + errorX + ", " + errorY + ", " + errorRotate);
+
     }
 
     private boolean xAtSetpoint(){
