@@ -159,6 +159,7 @@ public class DrivetrainSubsystem {
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
     
+      System.out.println("ASSIGNING POSE");
       positionManager = new SwerveDrivePoseEstimator(
          kinematics, 
          getGyroscopeRotation(), 
@@ -171,6 +172,8 @@ public class DrivetrainSubsystem {
          //TODO: update this if an auto path doesn't start at (0,0)
          new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
       ); 
+   System.out.println("ASSIGNED TO" + positionManager.getEstimatedPosition());
+
    }
   
    //from pigeon used for updating our odometry
@@ -187,19 +190,29 @@ public class DrivetrainSubsystem {
 
   //log the current position within the positionManager so that it knows what our encoders say about our position
   //the positionManager will then update its pose estimate, accounting for any drift
-   public void updatePositionManager(){
+   // public void updatePositionManager(){
+   //    SwerveModulePosition[] positionArray =  new SwerveModulePosition[] {
+   //       new SwerveModulePosition(frontLeftModule.getPosition(), new Rotation2d(frontLeftModule.getSteerAngle())),
+   //       new SwerveModulePosition(frontRightModule.getPosition(), new Rotation2d(frontRightModule.getSteerAngle())), 
+   //       new SwerveModulePosition(backLeftModule.getPosition(), new Rotation2d(backLeftModule.getSteerAngle())),
+   //       new SwerveModulePosition(backRightModule.getPosition(), new Rotation2d(backRightModule.getSteerAngle()))};
+   //    positionManager.update(getGyroscopeRotation(), positionArray);
+   // }
+
+      public void updatePositionManager(){
       SwerveModulePosition[] positionArray =  new SwerveModulePosition[] {
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())),
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))};
+            frontLeftModule.getSwerveModulePosition(), 
+            frontRightModule.getSwerveModulePosition(), 
+            backLeftModule.getSwerveModulePosition(), 
+            backRightModule.getSwerveModulePosition()};
       positionManager.update(getGyroscopeRotation(), positionArray);
    }
-       
+
    //the next iteration of drive will use this speed  
    public void setSpeed(ChassisSpeeds chassisSpeeds) { 
       this.chassisSpeeds = chassisSpeeds;
    }
+
   
   /* 
    * this method is responsible for getting values from the xbox controller and setting the speed that drive will call
@@ -289,10 +302,12 @@ public class DrivetrainSubsystem {
     //only use in test, do not use in a match
     public void resetPositionManager(){
         SwerveModulePosition[] positionArray =  new SwerveModulePosition[] {
-                new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())),
-                new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-                new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-                new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))};
+            frontLeftModule.getSwerveModulePosition(), 
+            frontRightModule.getSwerveModulePosition(), 
+            backLeftModule.getSwerveModulePosition(), 
+            backRightModule.getSwerveModulePosition()};
         positionManager.resetPosition(getGyroscopeRotation(), positionArray, getPose());
     }
+
+    
 }
