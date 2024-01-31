@@ -7,7 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.ctre.phoenix6.hardware.TalonFX;
 //import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+//import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public class IntakeSubsystem {
@@ -15,7 +15,7 @@ public class IntakeSubsystem {
     public TalonFX intakeMotor;
     public TalonFX preTransitionMotor;
     public TalonFX transitionMotor;
-    private static double motorSpeed = 0.2; 
+    private static double motorSpeed = -0.6; //build says this is optimal after testing, DO NOT CHANGE
     private SensorSubsystem sensorSubsystem;
 
     public static enum IntakeStates {
@@ -26,11 +26,11 @@ public class IntakeSubsystem {
 
     public static IntakeStates intakeStates = IntakeStates.OFF;
 
-    public IntakeSubsystem(SensorSubsystem sensorSubsystem) {
+    public IntakeSubsystem(/*SensorSubsystem sensorSubsystem*/) {
         intakeMotor = new TalonFX(Constants.INTAKE_MOTOR_CAN_ID);
         preTransitionMotor = new TalonFX(Constants.PRE_TRANSITION_CAN_ID);
         transitionMotor = new TalonFX(Constants.TRANSITION_CAN_ID);
-        this.sensorSubsystem = sensorSubsystem;
+        //this.sensorSubsystem = sensorSubsystem;
         init();
 
     }
@@ -54,7 +54,7 @@ public class IntakeSubsystem {
         if(intakeStates == IntakeStates.INTAKING) {
             intakeMotor.set(ControlMode.PercentOutput, motorSpeed);
             preTransitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-            transitionMotor.set(ControlMode.PercentOutput, 0.2);
+            transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
             if(sensorSubsystem.getSeesNote()){
                 setState(IntakeStates.OFF);
             }
@@ -65,7 +65,7 @@ public class IntakeSubsystem {
         } else if (intakeStates == IntakeStates.LOADING_TO_SHOOTER){
             intakeMotor.set(ControlMode.PercentOutput, 0);
             preTransitionMotor.set(ControlMode.PercentOutput, 0);
-            transitionMotor.set(ControlMode.PercentOutput, 0.2);
+            transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
         } else {
             intakeMotor.set(ControlMode.PercentOutput, 0);
             preTransitionMotor.set(ControlMode.PercentOutput, 0);

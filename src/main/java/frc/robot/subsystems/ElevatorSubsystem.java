@@ -102,7 +102,7 @@ public class ElevatorSubsystem {
         return elevatorMotor.getSelectedSensorPosition() < DEADBAND;
     }
 
-    public double getSelectedSensorPosition(){ //what is this?
+    public double getSelectedSensorPosition(){ // returns position of selected sensor
         return elevatorMotor.getSelectedSensorPosition();
     }
 

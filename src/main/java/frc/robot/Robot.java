@@ -5,8 +5,11 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +29,7 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
 
+    public static final IntakeSubsystem m_intakingSubsystem = new IntakeSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
@@ -117,6 +121,7 @@ public class Robot extends TimedRobot {
         //m_buttons.buttonsPeriodic();
         m_shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.3);
         m_shooterSubsystem.midRight.set(ControlMode.PercentOutput, -0.3);
+        m_intakingSubsystem.setState(IntakeStates.INTAKING.INTAKING);
     }
     /* This function is called once when the robot is first started up. */
     @Override

@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
+// import frc.robot.subsystems.*;
+// import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class Mechanisms {
 
@@ -29,7 +29,7 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         sensorSubsystem = new SensorSubsystem();
         elevatorSubsystem = new ElevatorSubsystem();
-        intakeSubsystem = new IntakeSubsystem(sensorSubsystem);
+        intakeSubsystem = new IntakeSubsystem(/*sensorSubsystem*/);
         isFirstTimeInState = true;
         init();
     }
