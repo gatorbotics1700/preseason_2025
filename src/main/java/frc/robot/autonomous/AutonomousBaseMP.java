@@ -81,8 +81,7 @@ public class AutonomousBaseMP extends AutonomousBase{
             stateIndex++;
             setStates(mpStateSequence[stateIndex]);
             System.out.println("moving on to " + mpStateSequence[stateIndex]);
-        } else if(currentState.name == StatesName.TRAJECTORY){
-            
+        } else if(currentState.name == StatesName.TRAJECTORY){  
             System.out.println("running trajectory:" + mpStateSequence[stateIndex].trajectory.toString());
             if(mpStateSequence[stateIndex].trajectory == null){
                 System.out.println("No trajectory");
