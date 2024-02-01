@@ -10,14 +10,26 @@ import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AutonomousBasePD extends AutonomousBase{
+   //hulk
+    // private static final double turnKP= 0.1; //increased slight *** not tested
+    // private static final double turnKI= 0.05; 
+    // private static final double turnKD= 0.0;
+    // private static final double driveKP= 0.9; //Robot.kP.getDouble(0.00006);//0.00006;
+    // private static final double driveKI= 0.2; //Robot.kI.getDouble(0.0);//0.0;
+    // private static final double driveKD= 0.1; //Robot.kD.getDouble(0.0);//0.0;
+    // private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    // private static final double TURN_DEADBAND = 1; //degrees!
+
+//mcqueen
     private static final double turnKP= 0.1; //increased slight *** not tested
     private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
-    private static final double driveKP= 0.85; //Robot.kP.getDouble(0.00006);//0.00006;
-    private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.0; //Robot.kD.getDouble(0.0);//0.0;
-    private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    private static final double TURN_DEADBAND = 1; //degrees!
+    private static final double driveKP= 1; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKI= 0.5; //Robot.kI.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.2; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    private static final double TURN_DEADBAND = 3; //degrees!
+
 
     private PDState[] stateSequence;
     private int stateIndex;
@@ -75,9 +87,9 @@ public class AutonomousBasePD extends AutonomousBase{
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
             //initializig setpoint - is not final setpoint
-            xController.setSetpoint(0); //translation not pose component
-            yController.setSetpoint(0);
-            turnController.setSetpoint(0);
+            // xController.setSetpoint(0); //translation not pose component
+            // yController.setSetpoint(0);
+            // turnController.setSetpoint(0);
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE){
@@ -120,21 +132,27 @@ public class AutonomousBasePD extends AutonomousBase{
             speedX = 0; 
             System.out.println("At x setpoint");
         } else {
-            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedX)));  
+            //speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedX)));  
+
+            //speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, speedX);  
         }
  
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
         } else {
-            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedY))); 
+            //speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedY))); 
+           
+            //speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, speedY); 
         }
 
         if(turnAtSetpoint()){
             speedRotate = 0;
             System.out.println("At rotational setpoint");
         } else {
-            speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingSteerVelocity, Math.abs(speedRotate))); 
+          // speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingSteerVelocity, Math.abs(speedRotate))); 
+
+            //speedRotate = Math.signum(speedRotate)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, speedRotate); 
         }
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
