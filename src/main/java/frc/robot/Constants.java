@@ -27,17 +27,17 @@ public final class Constants {
     public static final int DRIVETRAIN_PIGEON_ID = 6; 
 
    //offsets Hulk 
-    /* 
+     
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(34.0137 + 180);
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(18.8086 + 180);
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(308.408203125 - 180);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875 - 180);
-    */
+    
     //offsets McQueen
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(200.91796875);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(358.2421875);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(358.2421875);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(183.955078125);
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(200.91796875);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(358.2421875);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(358.2421875);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(183.955078125);
     //even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 

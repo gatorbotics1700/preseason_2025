@@ -13,11 +13,11 @@ public class AutonomousBasePD extends AutonomousBase{
     private static final double turnKP= 0.1; //increased slight *** not tested
     private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
-    private static final double driveKP= 0.75; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKP= 0.85; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.0; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    private static final double TURN_DEADBAND = 0.5; //degrees!
+    private static final double TURN_DEADBAND = 1; //degrees!
 
     private PDState[] stateSequence;
     private int stateIndex;
@@ -120,14 +120,14 @@ public class AutonomousBasePD extends AutonomousBase{
             speedX = 0; 
             System.out.println("At x setpoint");
         } else {
-            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingDriveVelocity, Math.abs(speedX)));  
+            speedX = Math.signum(speedX)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedX)));  
         }
  
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
         } else {
-            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(testingDriveVelocity, Math.abs(speedY))); 
+            speedY = Math.signum(speedY)*Math.max(DrivetrainSubsystem.MIN_VELOCITY_METERS_PER_SECOND, Math.min(DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, Math.abs(speedY))); 
         }
 
         if(turnAtSetpoint()){
