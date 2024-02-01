@@ -22,15 +22,17 @@ public class ElevatorSubsystem {
     private static final double ELEVATOR_GEAR_RATIO = 25.0;
     private static final double ELEVATOR_TICKS_PER_INCH = Constants.TICKS_PER_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
 
-    public TalonFX elevatorMotor; 
+   
+
+    private TalonFX elevatorMotor; 
     private ElevatorStates elevatorState;
     
     private Gains elevatorGains = new Gains(_kP, _kI, _kD, _kIzone, _kPeakOutput);
-    private static final double DEADBAND = 5000; //15000;
+    private static final double ELEVATOR_DEADBAND = 5000; //15000;
 
     public static enum ElevatorStates{
         ZERO, 
-        LOW_ELEVATOR_HEIGHT,  
+        LOW_HEIGHT,  
         AMP_HEIGHT,  
         //MANUAL, later decide if we want manual setting
         STOPPED; 
@@ -45,9 +47,9 @@ public class ElevatorSubsystem {
         System.out.println("elevator init!!!!");
         elevatorMotor.setInverted(true); // looking from the front of the robot, clockwise is false (:
         elevatorMotor.setNeutralMode(NeutralMode.Brake);
-        setState(ElevatorStates.LOW_ELEVATOR_HEIGHT);
+        setState(ElevatorStates.LOW_HEIGHT);
         //configuring deadband
-        elevatorMotor.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs); //TODO: figure out what this line does
+        elevatorMotor.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 		/* Config Position Closed Loop gains in slot0, typically kF stays zero. */
 		elevatorMotor.config_kP(Constants.kPIDLoopIdx, elevatorGains.kP, Constants.kTimeoutMs);
 		elevatorMotor.config_kI(Constants.kPIDLoopIdx, elevatorGains.kI, Constants.kTimeoutMs);
@@ -59,9 +61,9 @@ public class ElevatorSubsystem {
     }
 
     public void periodic(){
-        if (elevatorState == ElevatorStates.ZERO){ //emergency stop
+        if (elevatorState == ElevatorStates.ZERO){
             elevatorDeadband(0);
-        } else if (elevatorState == ElevatorStates.LOW_ELEVATOR_HEIGHT){
+        } else if (elevatorState == ElevatorStates.LOW_HEIGHT){
             double desiredTicks = determineRightTicks(LOW_HEIGHT_INCHES);
             elevatorDeadband(desiredTicks);
         } else if (elevatorState == ElevatorStates.AMP_HEIGHT){
@@ -77,7 +79,7 @@ public class ElevatorSubsystem {
     }
 
     private void elevatorDeadband(double desiredTicks){
-        if (Math.abs(desiredTicks - elevatorMotor.getSelectedSensorPosition()) > DEADBAND){
+        if (Math.abs(desiredTicks - elevatorMotor.getSelectedSensorPosition()) > ELEVATOR_DEADBAND){
             elevatorMotor.set(ControlMode.Position, desiredTicks); 
         } else {
             elevatorMotor.set(ControlMode.PercentOutput, 0);
@@ -90,16 +92,16 @@ public class ElevatorSubsystem {
 
 
     public boolean isAtAmp(){
-        return Math.abs(elevatorMotor.getSelectedSensorPosition()-AMP_HEIGHT_INCHES*ELEVATOR_TICKS_PER_INCH)<DEADBAND;
+        return Math.abs(elevatorMotor.getSelectedSensorPosition()-AMP_HEIGHT_INCHES*ELEVATOR_TICKS_PER_INCH)<ELEVATOR_DEADBAND;
     }
 
     public boolean isAtLow(){
-        return Math.abs(elevatorMotor.getSelectedSensorPosition()-LOW_HEIGHT_INCHES*ELEVATOR_TICKS_PER_INCH)<DEADBAND;
+        return Math.abs(elevatorMotor.getSelectedSensorPosition()-LOW_HEIGHT_INCHES*ELEVATOR_TICKS_PER_INCH)<ELEVATOR_DEADBAND;
     }
 
 
     public boolean isAtZero(){
-        return elevatorMotor.getSelectedSensorPosition() < DEADBAND;
+        return elevatorMotor.getSelectedSensorPosition() < ELEVATOR_DEADBAND;
     }
 
     public double getSelectedSensorPosition(){ // returns position of selected sensor

@@ -13,6 +13,8 @@ public class Mechanisms {
     private boolean isFirstTimeInState;
     private double stateStartTime;
 
+    private MechanismStates mechanismState;
+
     public static enum MechanismStates{
         INTAKING,
         HOLDING,
@@ -22,8 +24,6 @@ public class Mechanisms {
         AMP_HEIGHT,
         OFF;
     }
-
-    private MechanismStates mechanismState;
 
     public Mechanisms(){
         shooterSubsystem = new ShooterSubsystem();
@@ -35,10 +35,10 @@ public class Mechanisms {
     }
 
     public void init(){
-        //shooterSubsystem.init();
+        shooterSubsystem.init();
         intakeSubsystem.init();
         sensorSubsystem.init();
-        //elevatorSubsystem.init();
+        elevatorSubsystem.init();
 
         mechanismState = MechanismStates.HOLDING; //TODO: figure out what state to start in
     }
@@ -52,30 +52,31 @@ public class Mechanisms {
             }
         } else if(mechanismState == MechanismStates.HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
+            //we stop transition motor in the shooter subsystem right now
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
-            if (isFirstTimeInState){
+            if (isFirstTimeInState){ //what's this for? why does first time in state matter
                 isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.LOADING_TO_SHOOTER);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
                 elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.AMP_HEIGHT);
             }
-            if(System.currentTimeMillis()-stateStartTime >= 2000){
+            if(System.currentTimeMillis()-stateStartTime >= 2000){ //huhh?? EXPLAIN
                 mechanismState = MechanismStates.OFF;
-                isFirstTimeInState = true;
+                isFirstTimeInState = true; //why back to true
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             if (isFirstTimeInState){
                 isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.LOADING_TO_SHOOTER);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
-                elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_ELEVATOR_HEIGHT);
+                elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_HEIGHT);
             }
             if(System.currentTimeMillis()-stateStartTime >= 2000){
                 mechanismState = MechanismStates.OFF;
                 isFirstTimeInState = true;
             }
         } else if(mechanismState == MechanismStates.LOW_ELEVATOR_HEIGHT){ // TODO: figure out if we need this bc setting it in SHOOTING_SPEAKER might be enough
-            elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_ELEVATOR_HEIGHT);
+            elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.LOW_HEIGHT);
         } else if(mechanismState == MechanismStates.AMP_HEIGHT){
             elevatorSubsystem.setState(ElevatorSubsystem.ElevatorStates.AMP_HEIGHT);
         } else if (mechanismState == MechanismStates.OFF){
@@ -93,7 +94,7 @@ public class Mechanisms {
 
      public void setState(MechanismStates newState){
             mechanismState = newState;
-            stateStartTime = System.currentTimeMillis();
+            stateStartTime = System.currentTimeMillis(); //first time we set stateStartTime. what's this for? should this be in init? mayhaps
     }
 
 }

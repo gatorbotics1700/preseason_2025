@@ -12,11 +12,12 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem {
 
-    public TalonFX intakeMotor;
-    public TalonFX preTransitionMotor;
-    public TalonFX transitionMotor;
+    private static TalonFX intakeMotor;
+    private static TalonFX preTransitionMotor;
+    private static TalonFX transitionMotor;
     private static double motorSpeed = -0.6; //build says this is optimal after testing, DO NOT CHANGE
     private SensorSubsystem sensorSubsystem;
+    private static IntakeStates intakeStates;
 
     public static enum IntakeStates {
         INTAKING,
@@ -24,7 +25,7 @@ public class IntakeSubsystem {
         OFF;
     }
 
-    public static IntakeStates intakeStates = IntakeStates.OFF;
+    //public static IntakeStates intakeStates = IntakeStates.OFF;
 
     public IntakeSubsystem(/*SensorSubsystem sensorSubsystem*/) {
         intakeMotor = new TalonFX(Constants.INTAKE_MOTOR_CAN_ID);
@@ -32,7 +33,6 @@ public class IntakeSubsystem {
         transitionMotor = new TalonFX(Constants.TRANSITION_CAN_ID);
         //this.sensorSubsystem = sensorSubsystem;
         init();
-
     }
 
     public void init() {
@@ -76,4 +76,11 @@ public class IntakeSubsystem {
 
     }
 
+    public static IntakeStates getIntakeStates() {
+        return intakeStates;
+    }
+
+    public static void setIntakeStates(IntakeStates newIntakeState){
+        intakeStates = newIntakeState;
+    }
 }

@@ -5,13 +5,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
+
 
 public class ShooterSubsystem {
     // private CANSparkMax lowLeft = new CANSparkMax(0, MotorType.kBrushless); 
-    public TalonFX highLeft = new TalonFX(41); //not sure if these should be on the left or the right
-    public TalonFX midRight = new TalonFX(42); //but there is sparkmax low, then talon on either side
-    private final double AMPSPEED;
-    private final double SPEAKERSPEED;
+    private TalonFX highLeft = new TalonFX(41); //not sure if these should be on the left or the right
+    private TalonFX midRight = new TalonFX(42); //but there is sparkmax low, then talon on either side
+    private final double AMPSPEED = 0.25;
+    private final double SPEAKERSPEED = 0.5;
 
     public static enum ShooterStates {
         OFF,
@@ -19,11 +21,10 @@ public class ShooterSubsystem {
         SPEAKER;
     }
 
-    private ShooterStates currentState = ShooterStates.AMP;
+    private ShooterStates currentState; //REVIEW: previously initialized to ShooterStates.AMP
     
-    public ShooterSubsystem() { //nothing to pass in?
-        AMPSPEED = 0.25;
-        SPEAKERSPEED = 0.5;
+    public ShooterSubsystem() {
+        init();
     }
 
     public void init(){
@@ -32,11 +33,19 @@ public class ShooterSubsystem {
 
     public void periodic(){
         if(currentState == ShooterStates.AMP){//check negative signs here
-            //lowLeft.set(-AMPSPEED);
+            /*if(!SensorSubsystem.getSeesNote()){//if no note seen
+                lowLeft.set(-AMPSPEED);
+            }else{
+                lowLeft.set(0.0);//hold if sees note
+            }*/
             highLeft.set(ControlMode.PercentOutput, AMPSPEED);
             midRight.set(ControlMode.PercentOutput, -AMPSPEED);
         }else if(currentState == ShooterStates.SPEAKER){//check negative signs here
-            //lowLeft.set(-SPEAKERSPEED);
+            /*if(!SensorSubsystem.getSeesNote()){
+                lowLeft.set(-SPEAKERSPEED);
+            }else{
+                lowLeft.set(0.0);//hold if sees note
+            }*/
             highLeft.set(ControlMode.PercentOutput, SPEAKERSPEED);
             midRight.set(ControlMode.PercentOutput, -SPEAKERSPEED);
         }else if(currentState == ShooterStates.OFF){
@@ -51,4 +60,18 @@ public class ShooterSubsystem {
     public void setState(ShooterStates newState) {
         currentState = newState;
     }
+
+    public void setHighLeft(double inputPercentOutput){
+        highLeft.set(ControlMode.PercentOutput, inputPercentOutput);
+    }
+
+    public void setMidRight(double inputPercentOutput){
+        midRight.set(ControlMode.PercentOutput, inputPercentOutput);
+    }
+
+    /*
+    public void setLowLeft(double inputPercentOutput){
+        lowLeft.set(ControlMode.PercentOutput, inputPercentOutput);
+    }
+    */
 }

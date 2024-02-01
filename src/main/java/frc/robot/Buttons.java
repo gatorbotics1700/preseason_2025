@@ -33,28 +33,22 @@ public class Buttons {
         m_drivetrainSubsystem.stopDrive(); 
       }
       if (OI.m_controller_two.getAButton()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.4);
-        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.4);
+        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
         System.out.println("=====A BUTTON=====SETTING TO 0.4");
       }
       if (OI.m_controller_two.getBButton()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER_R);
-        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, -0.4);
-        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.4);
+        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
         System.out.println("=======B BUTTON======SETTING ONE TO -0.4");
       }
       if (OI.m_controller_two.getRightBumper()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.OFF);
-        shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.0);
-        shooterSubsystem.midRight.set(ControlMode.PercentOutput, 0.0);
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("=======SHOOTER STOOOOPPPP=======");
       }
       if (OI.m_controller_two.getXButton()){
-        if(IntakeSubsystem.intakeStates == IntakeSubsystem.IntakeStates.OFF){
-          IntakeSubsystem.intakeStates = IntakeSubsystem.IntakeStates.INTAKING;
+        if(IntakeSubsystem.getIntakeStates() == IntakeSubsystem.IntakeStates.OFF){
+          IntakeSubsystem.setIntakeStates(IntakeSubsystem.IntakeStates.INTAKING);
         } else {
-          IntakeSubsystem.intakeStates = IntakeSubsystem.IntakeStates.OFF;
+          IntakeSubsystem.setIntakeStates(IntakeSubsystem.IntakeStates.OFF);
         }
         // TODO: for transition, we can use this button to turn both on and off at same time
       }
