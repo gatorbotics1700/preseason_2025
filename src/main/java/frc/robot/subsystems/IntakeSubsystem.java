@@ -4,20 +4,18 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-//import com.ctre.phoenix6.hardware.TalonFX;
-//import com.ctre.phoenix6.signals.NeutralModeValue;
-
-//import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public class IntakeSubsystem {
 
-    private static TalonFX intakeMotor;
-    private static TalonFX preTransitionMotor;
-    private static TalonFX transitionMotor;
-    private static double motorSpeed = -0.6; //build says this is optimal after testing, DO NOT CHANGE
+    private TalonFX intakeMotor;
+    private TalonFX preTransitionMotor;
+    private TalonFX transitionMotor;
+
+    private final double INTAKE_SPEED = -0.6; //build says this is optimal after testing, DO NOT CHANGE
+
     private SensorSubsystem sensorSubsystem;
-    private static IntakeStates intakeStates;
+    private IntakeStates intakeStates;
 
     public static enum IntakeStates {
         INTAKING,
@@ -46,16 +44,16 @@ public class IntakeSubsystem {
         setState(IntakeStates.OFF);
     }
 
-    public void setState(IntakeStates newState){
+    public void setState(IntakeStates newState) {
         intakeStates = newState;
     }
 
     public void periodic() {
         if(intakeStates == IntakeStates.INTAKING) {
-            intakeMotor.set(ControlMode.PercentOutput, motorSpeed);
-            preTransitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-            transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-            if(sensorSubsystem.getSeesNote()){
+            intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+            preTransitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+            transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+            if(sensorSubsystem.detectNote()){
                 setState(IntakeStates.OFF);
             }
         } else if (intakeStates == IntakeStates.OFF){
@@ -65,22 +63,21 @@ public class IntakeSubsystem {
         } else if (intakeStates == IntakeStates.LOADING_TO_SHOOTER){
             intakeMotor.set(ControlMode.PercentOutput, 0);
             preTransitionMotor.set(ControlMode.PercentOutput, 0);
-            transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
+            transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
         } else {
             intakeMotor.set(ControlMode.PercentOutput, 0);
             preTransitionMotor.set(ControlMode.PercentOutput, 0);
             transitionMotor.set(ControlMode.PercentOutput, 0);
-            System.out.println("=================UNKNOWN INTAKE STATE WHAT HAPPENED?!?!?!?=================");
-            System.out.println("Current intake state: " + intakeStates);
+            System.out.println("====UNKNOWN INTAKE STATE WHAT HAPPENED?!?!?!?==== Current intake state: " + intakeStates);
         }
 
     }
 
-    public static IntakeStates getIntakeStates() {
+    public IntakeStates getCurrentIntakeState() {
         return intakeStates;
     }
 
-    public static void setIntakeStates(IntakeStates newIntakeState){
+    public void setIntakeStates(IntakeStates newIntakeState){
         intakeStates = newIntakeState;
     }
 }

@@ -6,12 +6,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
+import frc.robot.Constants;
 
 
 public class ShooterSubsystem {
     // private CANSparkMax lowLeft = new CANSparkMax(0, MotorType.kBrushless); 
-    private TalonFX highLeft = new TalonFX(41); //not sure if these should be on the left or the right
-    private TalonFX midRight = new TalonFX(42); //but there is sparkmax low, then talon on either side
+    public TalonFX high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID); //not sure if these should be on the left or the right
+    public TalonFX mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID); //but there is sparkmax low, then talon on either side
     private final double AMPSPEED = 0.25;
     private final double SPEAKERSPEED = 0.5;
 
@@ -38,20 +39,20 @@ public class ShooterSubsystem {
             }else{
                 lowLeft.set(0.0);//hold if sees note
             }*/
-            highLeft.set(ControlMode.PercentOutput, AMPSPEED);
-            midRight.set(ControlMode.PercentOutput, -AMPSPEED);
+            high.set(ControlMode.PercentOutput, AMPSPEED);
+            mid.set(ControlMode.PercentOutput, -AMPSPEED);
         }else if(currentState == ShooterStates.SPEAKER){//check negative signs here
             /*if(!SensorSubsystem.getSeesNote()){
                 lowLeft.set(-SPEAKERSPEED);
             }else{
                 lowLeft.set(0.0);//hold if sees note
             }*/
-            highLeft.set(ControlMode.PercentOutput, SPEAKERSPEED);
-            midRight.set(ControlMode.PercentOutput, -SPEAKERSPEED);
+            high.set(ControlMode.PercentOutput, SPEAKERSPEED);
+            mid.set(ControlMode.PercentOutput, -SPEAKERSPEED);
         }else if(currentState == ShooterStates.OFF){
             //lowLeft.set(0);
-            highLeft.set(ControlMode.PercentOutput, 0);
-            midRight.set(ControlMode.PercentOutput, 0);
+            high.set(ControlMode.PercentOutput, 0);
+            mid.set(ControlMode.PercentOutput, 0);
         }else{
             System.out.println("===========UNRECOGNIZED SHOOTER STATE!!!!!===========");
         }
@@ -61,12 +62,12 @@ public class ShooterSubsystem {
         currentState = newState;
     }
 
-    public void setHighLeft(double inputPercentOutput){
-        highLeft.set(ControlMode.PercentOutput, inputPercentOutput);
+    public void setHigh(double inputPercentOutput){
+        high.set(ControlMode.PercentOutput, inputPercentOutput);
     }
 
-    public void setMidRight(double inputPercentOutput){
-        midRight.set(ControlMode.PercentOutput, inputPercentOutput);
+    public void setMid(double inputPercentOutput){
+        mid.set(ControlMode.PercentOutput, inputPercentOutput);
     }
 
     /*

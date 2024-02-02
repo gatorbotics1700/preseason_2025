@@ -11,24 +11,22 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 //10 in on moving mechanism thing
 
 public class ElevatorSubsystem {
-    private static final double _kP = 0.2;//0.15;
-    private static final double _kI = 0.0;
-    private static final double _kD = 0.0;
-    private static final int _kIzone = 0; 
-    private static final double _kPeakOutput = 1.0;
-    private static final double LOW_HEIGHT_INCHES = 0;
-    private static final double AMP_HEIGHT_INCHES = 26; //2 feet 2 inches is amp height to pocket
-    private static final double ELEVATOR_SPROCKET_DIAMETER = 1.28;
-    private static final double ELEVATOR_GEAR_RATIO = 25.0;
-    private static final double ELEVATOR_TICKS_PER_INCH = Constants.TICKS_PER_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
-
-   
+    private final double _kP = 0.2;//0.15;
+    private final double _kI = 0.0;
+    private final double _kD = 0.0;
+    private final int _kIzone = 0; 
+    private final double _kPeakOutput = 1.0;
+    private final double LOW_HEIGHT_INCHES = 0;
+    private final double AMP_HEIGHT_INCHES = 26; //2 feet 2 inches is amp height to pocket
+    private final double ELEVATOR_SPROCKET_DIAMETER = 1.28;
+    private final double ELEVATOR_GEAR_RATIO = 25.0;
+    private final double ELEVATOR_TICKS_PER_INCH = Constants.TICKS_PER_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
 
     private TalonFX elevatorMotor; 
     private ElevatorStates elevatorState;
     
     private Gains elevatorGains = new Gains(_kP, _kI, _kD, _kIzone, _kPeakOutput);
-    private static final double ELEVATOR_DEADBAND = 5000; //15000;
+    private final double ELEVATOR_DEADBAND = 5000; //15000;
 
     public static enum ElevatorStates{
         ZERO, 
