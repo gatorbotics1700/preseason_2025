@@ -6,6 +6,10 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autonomous.AutonomousBase;
@@ -26,6 +30,12 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
     private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
+
+    
+    public static final IntakeSubsystem m_intakingSubsystem = new IntakeSubsystem();
+    public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
 
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
@@ -85,6 +95,7 @@ public class Robot extends TimedRobot {
    // m_drivetrainSubsystem.autoInitCalled = false;
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
+    m_mechanismSubsystem.init();
     
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
     // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
@@ -96,6 +107,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_auto.periodic();
+    m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.drive();
     //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }
@@ -107,6 +119,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
     isBlueAlliance = allianceChooser.getSelected();
     m_drivetrainSubsystem.init();
+    m_buttons.buttonsPeriodic();
+    m_mechanismSubsystem.init();
 
     //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
@@ -116,6 +130,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     System.out.println("Current pose: " + m_drivetrainSubsystem.getPose());
     m_buttons.buttonsPeriodic();
+    m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.driveTeleop();
     m_drivetrainSubsystem.drive();   
   }

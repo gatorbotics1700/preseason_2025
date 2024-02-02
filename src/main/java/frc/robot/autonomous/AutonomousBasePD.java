@@ -8,15 +8,16 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.Mechanisms;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
     private static final double turnKP= 0.1; //increased slight *** not tested
     private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
-    private static final double driveKP= 1; //Robot.kP.getDouble(0.00006);//0.00006;
-    private static final double driveKI= 0.45; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.25; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double driveKP= 2.5; //1.3; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKI= 0.0; //0.1; //Robot.kI.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.0; //0.3; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
 
@@ -37,6 +38,7 @@ public class AutonomousBasePD extends AutonomousBase{
     private double startTimeForState;
     
     private DrivetrainSubsystem drivetrainSubsystem;
+    private Mechanisms mechanismSubsystem;
     public PDState currentState;
     private double testingDriveVelocity = 0.5; 
     private double testingSteerVelocity = 1; 
@@ -58,6 +60,7 @@ public class AutonomousBasePD extends AutonomousBase{
     public void init(){
         System.out.println("AUTONOMOUS INIT!\nINIT!\nINIT!");
         drivetrainSubsystem = Robot.m_drivetrainSubsystem;
+        mechanismSubsystem = Robot.m_mechanismSubsystem;
         turnController = new PIDController(turnKP, turnKI, turnKD); 
         xController = new PIDController(driveKP, driveKI, driveKD);
         yController = new PIDController(driveKP, driveKI, driveKD);
@@ -93,14 +96,15 @@ public class AutonomousBasePD extends AutonomousBase{
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState();
                 System.out.println("REACHED SETPOINT");
             }
         } else if(currentState.name == AutoStates.INTAKING){
-            //insert the code to intake things here for new mechanisms
-            if(System.currentTimeMillis()-startTimeForState>=500){
+            if(System.currentTimeMillis()-startTimeForState>=350){
+                mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){

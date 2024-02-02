@@ -41,7 +41,7 @@ public class DrivetrainSubsystem {
    */
    private static final double MAX_VOLTAGE = 12.0; //TODO: double check this; previously 16.3
    
-   public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.75; //TODO: fix dummy value
+   public static final double MIN_VELOCITY_METERS_PER_SECOND = 1; //TODO: fix dummy value
 
   /* The formula for calculating the theoretical maximum velocity is:
    * <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
