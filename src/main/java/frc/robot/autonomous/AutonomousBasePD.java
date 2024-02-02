@@ -11,24 +11,24 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
-    // private static final double turnKP= 0.1; //increased slight *** not tested
-    // private static final double turnKI= 0.05; 
-    // private static final double turnKD= 0.0;
-    // private static final double driveKP= 0.9; //Robot.kP.getDouble(0.00006);//0.00006;
-    // private static final double driveKI= 0.2; //Robot.kI.getDouble(0.0);//0.0;
-    // private static final double driveKD= 0.1; //Robot.kD.getDouble(0.0);//0.0;
-    // private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    // private static final double TURN_DEADBAND = 1; //degrees!
-
-//mcqueen
     private static final double turnKP= 0.1; //increased slight *** not tested
     private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
     private static final double driveKP= 1; //Robot.kP.getDouble(0.00006);//0.00006;
-    private static final double driveKI= 0.5; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.2; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double driveKI= 0.45; //Robot.kI.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.25; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
+
+// //mcqueen
+//     private static final double turnKP= 0.1; //increased slight *** not tested
+//     private static final double turnKI= 0.05; 
+//     private static final double turnKD= 0.0;
+//     private static final double driveKP= 1; //Robot.kP.getDouble(0.00006);//0.00006;
+//     private static final double driveKI= 0.5; //Robot.kI.getDouble(0.0);//0.0;
+//     private static final double driveKD= 0.2; //Robot.kD.getDouble(0.0);//0.0;
+//     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+//     private static final double TURN_DEADBAND = 3; //degrees!
 
 
     private PDState[] stateSequence;
