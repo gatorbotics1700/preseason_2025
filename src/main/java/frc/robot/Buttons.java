@@ -53,5 +53,11 @@ public class Buttons {
         }
         // TODO: for transition, we can use this button to turn both on and off at same time
       }
+      if(OI.m_controller_two.getLeftBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+      }
+      if(OI.m_controller_two.getRightBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+      }
   }
 }

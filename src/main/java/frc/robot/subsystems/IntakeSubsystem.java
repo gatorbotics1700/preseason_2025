@@ -49,9 +49,7 @@ public class IntakeSubsystem {
         if(intakeState == IntakeStates.INTAKING) {
             intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
-            if(sensorSubsystem.detectNote()){
-                setState(IntakeStates.OFF);
-            }
+            
         } else if (intakeState == IntakeStates.OFF){
             intakeMotor.set(ControlMode.PercentOutput, 0);
             transitionMotor.set(ControlMode.PercentOutput, 0);
@@ -64,6 +62,10 @@ public class IntakeSubsystem {
 
     public IntakeStates getCurrentIntakeState() {
         return intakeState;
+    }
+
+    public SensorSubsystem getSensorSubsystem(){
+        return sensorSubsystem;
     }
 
     public void setIntakeState(IntakeStates newIntakeState){
