@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -111,7 +112,8 @@ public class Robot extends TimedRobot {
     public void testInit() {
         //m_drivetrainSubsystem.onEnable();
         //m_shooterSubsystem.setState(ShooterStates.AMP);
-        m_sensorSubsystem.init();
+        //m_sensorSubsystem.init();
+        m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during test mode. */
@@ -125,8 +127,12 @@ public class Robot extends TimedRobot {
         //m_shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.3);
         //m_shooterSubsystem.midRight.set(ControlMode.PercentOutput, -0.3);
         //m_intakingSubsystem.setState(IntakeStates.INTAKING.INTAKING);
-        m_sensorSubsystem.periodic();
-        System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
+        //m_sensorSubsystem.periodic();
+        //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
+        m_mechanismSubsystem.periodic();
+        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
+        //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
 
     }
     /* This function is called once when the robot is first started up. */

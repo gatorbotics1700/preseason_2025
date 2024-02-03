@@ -23,7 +23,7 @@ public class Mechanisms {
     public Mechanisms(){
         shooterSubsystem = new ShooterSubsystem();
         sensorSubsystem = new SensorSubsystem();
-        intakeSubsystem = new IntakeSubsystem(/*sensorSubsystem*/);
+        intakeSubsystem = new IntakeSubsystem();
         isFirstTimeInState = true;
         init();
     }
@@ -37,7 +37,9 @@ public class Mechanisms {
     }
 
     public void periodic(){
+        System.out.println("CURRENT STATE IS: " + mechanismState);
         if (mechanismState == MechanismStates.INTAKING){
+            System.out.println("======IN INTAKING=======");
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP); //default shooter on
             if (sensorSubsystem.detectNote()){
@@ -76,6 +78,9 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             System.out.println("WHAT ARE YOU DOING----STATE NOT RECOGNIZED!!!!! CURRENT STATE: " + mechanismState);
         }
+        intakeSubsystem.periodic();
+        sensorSubsystem.periodic();
+        shooterSubsystem.periodic();
     }
 
     public void setState(MechanismStates newState){

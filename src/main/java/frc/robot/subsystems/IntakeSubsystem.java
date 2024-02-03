@@ -8,8 +8,8 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem {
 
-    private TalonFX intakeMotor;
-    private TalonFX transitionMotor;
+    public TalonFX intakeMotor;
+    public TalonFX transitionMotor;
 
     private final double INTAKE_SPEED = -0.6; //build says this is optimal after testing, DO NOT CHANGE
 
@@ -47,6 +47,7 @@ public class IntakeSubsystem {
 
     public void periodic() {
         if(intakeState == IntakeStates.INTAKING) {
+            System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
             intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             
