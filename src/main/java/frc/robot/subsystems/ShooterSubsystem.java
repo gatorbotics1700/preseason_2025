@@ -50,7 +50,7 @@ public class ShooterSubsystem {
         } else if(currentState == ShooterStates.SPEAKER_HOLDING){
             low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
-            mid.set(ControlMode.PercentOutput, MID_SPEAKER_SPEED);
+            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);
         }else if(currentState == ShooterStates.AMP){//check negative signs here
             low.set(ControlMode.PercentOutput, AMP_SPEED);
             high.set(ControlMode.PercentOutput, AMP_SPEED);

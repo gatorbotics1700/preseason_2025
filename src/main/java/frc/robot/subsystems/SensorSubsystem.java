@@ -13,7 +13,7 @@ public class SensorSubsystem { //TODO not done yet
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort); //TODO: change to private
     private final ColorMatch m_colorMatcher = new ColorMatch();
-    private final Color NOTE_COLOR = new Color(138, 91, 25); // TODO: make the right color based on testing with real robot
+    private final Color NOTE_COLOR = new Color(138, 91, 25);
     private double colorThreshold = 0.03; //this feels really little lets test
     //tested 0.03 threshold with lights on and could get an inch away
 
