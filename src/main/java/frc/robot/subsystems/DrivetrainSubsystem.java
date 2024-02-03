@@ -82,7 +82,7 @@ public class DrivetrainSubsystem {
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    public static double mpi = Constants.METERS_PER_INCH;
-   public boolean autoInitCalled = false;
+  // public boolean autoInitCalled = false;
 
 
    public DrivetrainSubsystem() {
@@ -217,7 +217,7 @@ public class DrivetrainSubsystem {
       //TODO: check negative signs
       m_translationXSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
       m_translationYSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      m_rotationSupplier = () -> -modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+      m_rotationSupplier = () -> modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
             m_translationXSupplier.getAsDouble(),
@@ -231,7 +231,7 @@ public class DrivetrainSubsystem {
    //responsible for moving the robot, called after a chassisSpeed is set
    public void drive() { //runs periodically
       //TODO: check getSteerAngle() is correct and that we shouldn't be getting from cancoder
-      positionManager.update(getGyroscopeRotation(), getModulePositionArray()); 
+      updatePositionManager();
       //array of states filled with the speed and angle for each module (made from linear and angular motion for the whole robot) 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
       //desaturatewheelspeeds checks and fixes if any module's wheel speed is above the max
@@ -293,10 +293,10 @@ public class DrivetrainSubsystem {
 
     public SwerveModulePosition[] getModulePositionArray(){
       return new SwerveModulePosition[]{
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
+         frontLeftModule.getSwerveModulePosition(),
+         frontRightModule.getSwerveModulePosition(),
+         backLeftModule.getSwerveModulePosition(),
+         backRightModule.getSwerveModulePosition()
       };
     }
 

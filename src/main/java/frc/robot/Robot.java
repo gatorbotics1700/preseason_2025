@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     
     inverted.setDefaultOption("true", true);
     inverted.addOption("false", false);
-    m_drivetrainSubsystem.autoInitCalled = false;
+    //m_drivetrainSubsystem.autoInitCalled = false;
   }
 
   /**
