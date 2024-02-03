@@ -27,7 +27,7 @@ import static frc.robot.Constants.*;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.autonomous.AutonomousBasePD;
+//import frc.robot.autonomous.AutonomousBasePD;
 
 public class DrivetrainSubsystem {
    private static final double SWERVE_GEAR_RATIO = 6.75; 
@@ -82,12 +82,16 @@ public class DrivetrainSubsystem {
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    public static double mpi = Constants.METERS_PER_INCH;
-  // public boolean autoInitCalled = false;
+   // public boolean autoInitCalled = false;
+   //we need to use this fix drift that happens when we apply the offsets, this is how that drift is measured
+   private double startingGyroRotation; 
+  
 
 
    public DrivetrainSubsystem() {
       pigeon = new PigeonIMU(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
+      //startingGyroRotation = getGyroscopeRotation().getDegrees();
 
       // We will use mk4 modules with Falcon 500s with the L2 configuration. 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -176,7 +180,7 @@ public class DrivetrainSubsystem {
             backLeftModule.getSwerveModulePosition(), 
             backRightModule.getSwerveModulePosition()
          }, 
-         new Pose2d(0, 0, new Rotation2d(180))
+         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
       ); 
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
       
@@ -302,6 +306,10 @@ public class DrivetrainSubsystem {
 
     public void resetPositionManager(Pose2d currentPose){
       positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), currentPose);
+   }
+
+   public double getStartingGyroRotation(){
+      return startingGyroRotation; 
    }
 }
 
