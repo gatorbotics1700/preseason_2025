@@ -126,6 +126,7 @@ public class Robot extends TimedRobot {
         //m_shooterSubsystem.midRight.set(ControlMode.PercentOutput, -0.3);
         //m_intakingSubsystem.setState(IntakeStates.INTAKING.INTAKING);
         m_sensorSubsystem.periodic();
+        System.out.println(detectNote());
     }
     /* This function is called once when the robot is first started up. */
     @Override

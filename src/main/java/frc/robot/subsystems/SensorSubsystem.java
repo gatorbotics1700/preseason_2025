@@ -26,7 +26,6 @@ public class SensorSubsystem { //TODO not done yet
     public void init(){
         System.out.println("sensor init");
         m_colorMatcher.addColorMatch(noteColor);
-    
     }
 
     public void periodic(){//TODO code shooting from holding state

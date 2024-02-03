@@ -51,15 +51,8 @@ public final class Constants {
 
     public static final int INTAKE_MOTOR_CAN_ID = 28; // TODO: this is a placeholder
     public static final int PRE_TRANSITION_CAN_ID = 10; //TODO: this is a placeholder 
-    public static final int TRANSITION_CAN_ID = 0; //TODO: get actual can id
+    public static final int AMP_MOTOR_CAN_ID = 0; //TODO: get actual can id
 
     public static final int SHOOTER_HIGH_CAN_ID = 41;
     public static final int SHOOTER_MID_CAN_ID = 42;
-
-    public static final int ELEVATOR_CAN_ID = 31; //TODO: find the actual id
-
-    // TODO: for elevatorSubsystem so may need to be changed
-    public static final int kPIDLoopIdx = 0;
-    public static final int kTimeoutMs = 500;
-
 }
