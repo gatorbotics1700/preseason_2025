@@ -11,7 +11,7 @@ public class IntakeSubsystem {
     public TalonFX intakeMotor;
     public TalonFX transitionMotor;
 
-    private final double INTAKE_SPEED = -0.6; //build says this is optimal after testing, DO NOT CHANGE
+    private final double INTAKE_SPEED = 0.6; //build says this is optimal after testing, DO NOT CHANGE
 
     private SensorSubsystem sensorSubsystem;
     private IntakeStates intakeState;
@@ -32,12 +32,10 @@ public class IntakeSubsystem {
 
     public void init() {
         System.out.println("Intake Init!");
-        intakeMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-        intakeMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
-        transitionMotor.setInverted(false);
-        transitionMotor.setNeutralMode(NeutralMode.Brake); //TODO check what direction we want motors to run
-        transitionMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-        transitionMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
+        intakeMotor.setInverted(true); //sets it to default sending a piece up (counterclockwise)
+        intakeMotor.setNeutralMode(NeutralMode.Coast); //brake mode so nothing slips = locks in place when not getting power
+        transitionMotor.setInverted(true);
+        transitionMotor.setNeutralMode(NeutralMode.Coast); //TODO check what direction we want motors to run
         setState(IntakeStates.OFF);
     }
 
@@ -46,8 +44,8 @@ public class IntakeSubsystem {
     }
 
     public void periodic() {
+        System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
         if(intakeState == IntakeStates.INTAKING) {
-            System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
             intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             

@@ -79,7 +79,6 @@ public class Mechanisms {
             System.out.println("WHAT ARE YOU DOING----STATE NOT RECOGNIZED!!!!! CURRENT STATE: " + mechanismState);
         }
         intakeSubsystem.periodic();
-        sensorSubsystem.periodic();
         shooterSubsystem.periodic();
     }
 
