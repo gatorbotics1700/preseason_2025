@@ -15,6 +15,9 @@ public class Paths {
         MP_TESTPATH, 
         THREE_PIECE_A, 
         THREE_PIECE_B, 
+        THREE_PAMP,
+        FOUR_PIECE_L,
+        BREAD,
         NO_GO;
     }
 
@@ -48,16 +51,22 @@ public class Paths {
                 new Pose2d(633*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))), 
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
-                    new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
                     //shoot 
-                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //intake
-                    new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(583*Constants.METERS_PER_INCH, 220.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(536*Constants.METERS_PER_INCH, 220.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
                     //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 225.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 225.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 225.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))),
+                    //shoot
                     new PDState(AutoStates.STOP)
                 }
             );
@@ -73,18 +82,90 @@ public class Paths {
                     new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     // //intake
                     //new PDState(AutoStates.INTAKING, new Pose2d(536*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-          /*turn */ new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(39.595)))), //TODO test to figure out how far back to move to pick up note
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+          /*turn */ new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(39.595)))), //TODO test to figure out how far back to move to pick up note
                     //shoot
-    /*turn back */  new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+    /*turn back */  new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
                     new PDState(AutoStates.DRIVE, new Pose2d(521*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
-                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //TODO test to figure out how far back to move to pick up note
                     //intake
                     //new PDState(AutoStates.INTAKING, new Pose2d(536*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),
+          /*turn */ new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 224.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))), //TODO test to figure out how far back to move to pick up note
                     //shoot
                     new PDState(AutoStates.STOP)
                 }
             );
+        } else if(selectedAuto == AUTO_OPTIONS.THREE_PAMP){
+            return new AutonomousBasePD(
+                new Pose2d(633*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))), 
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(90)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(554*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(90)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 254.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(534.5*Constants.METERS_PER_INCH, 254.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 254.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(573*Constants.METERS_PER_INCH, 310*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(90)))), 
+                    //shoot
+                }
+            );
+        } else if(selectedAuto == AUTO_OPTIONS.FOUR_PIECE_L){
+            return new AutonomousBasePD(
+                new Pose2d(595.5*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))), 
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(523*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(523*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 297.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(320*Constants.METERS_PER_INCH, 297.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    //intake
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 297.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(535*Constants.METERS_PER_INCH, 276.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-39.595)))), 
+                    //shoot
 
+                }
+            );
+         }else if(selectedAuto == AUTO_OPTIONS.BREAD){
+            return new AutonomousBasePD(
+                new Pose2d(581*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))), 
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(39.595)))), 
+                    //shoot
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(533*Constants.METERS_PER_INCH, 53.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(326*Constants.METERS_PER_INCH, 53.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    new PDState(AutoStates.DRIVE, new Pose2d(326*Constants.METERS_PER_INCH, 37.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0)))), 
+                    //in pos to intake
+                }
+            );
         } else if(selectedAuto == AUTO_OPTIONS.MP_TESTPATH){
             return new AutonomousBaseMP(
                 new Pose2d(0,0, new Rotation2d(0)),
