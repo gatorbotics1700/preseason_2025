@@ -41,7 +41,7 @@ public class DrivetrainSubsystem {
    */
    private static final double MAX_VOLTAGE = 12.0; //TODO: double check this; previously 16.3
    
-   public static final double MIN_VELOCITY_METERS_PER_SECOND = 1; //TODO: fix dummy value
+   //public static final double MIN_VELOCITY_METERS_PER_SECOND = 1.5; //TODO: fix dummy value
 
   /* The formula for calculating the theoretical maximum velocity is:
    * <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
@@ -236,7 +236,6 @@ public class DrivetrainSubsystem {
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
       //desaturatewheelspeeds checks and fixes if any module's wheel speed is above the max
       SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-      System.out.println("---current speed: " + (states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE);
       System.out.println("--speed x: " + chassisSpeeds.vxMetersPerSecond);
       frontLeftModule.set((states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE, states[0].angle.getRadians());
       frontRightModule.set((states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE, states[1].angle.getRadians());

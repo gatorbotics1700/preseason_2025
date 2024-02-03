@@ -28,16 +28,16 @@ public final class Constants {
 
    //offsets Hulk 
      
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(34.0137 + 180);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(18.8086 + 180);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(308.408203125 - 180);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875 - 180);
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(34.0137 + 180);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(18.8086 + 180);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(308.408203125 - 180);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(196.435546875 - 180);
     
     //offsets McQueen
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(20.830078125);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(179.12109375);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(162.685546875);
-    // public static final double BACK_RIGT_MODULE_STEER_OFFSET = -Math.toRadians(5.888671875);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(20.830078125);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(179.12109375);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(162.685546875);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(5.888671875);
 
    // even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -46,7 +46,8 @@ public final class Constants {
     
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23; 
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22; 
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 3; 
+    // public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 3; //hulk
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 4; // mcqueen
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27; 
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; 
@@ -54,7 +55,8 @@ public final class Constants {
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; 
+    // public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; //hulk
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 3; //mcqueen
 
     public static final double TICKS_PER_REV = 2048;
     public static final double METERS_PER_INCH = 0.0254;
