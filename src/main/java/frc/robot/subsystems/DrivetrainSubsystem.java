@@ -170,13 +170,8 @@ public class DrivetrainSubsystem {
          positionManager = new SwerveDrivePoseEstimator(
          kinematics, 
          getGyroscopeRotation(), 
-         new SwerveModulePosition[] {
-            frontLeftModule.getSwerveModulePosition(), 
-            frontRightModule.getSwerveModulePosition(), 
-            backLeftModule.getSwerveModulePosition(), 
-            backRightModule.getSwerveModulePosition()
-         }, 
-         new Pose2d(0, 0, new Rotation2d(180))
+         getModulePositionArray(), 
+         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
       ); 
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
       
@@ -293,10 +288,10 @@ public class DrivetrainSubsystem {
 
     public SwerveModulePosition[] getModulePositionArray(){
       return new SwerveModulePosition[]{
-         frontLeftModule.getSwerveModulePosition(),
-         frontRightModule.getSwerveModulePosition(),
-         backLeftModule.getSwerveModulePosition(),
-         backRightModule.getSwerveModulePosition()
+         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
+         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
+         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
+         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
     }
 
