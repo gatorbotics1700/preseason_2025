@@ -41,7 +41,7 @@ public class Mechanisms {
         if (mechanismState == MechanismStates.INTAKING){
             System.out.println("======IN INTAKING=======");
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
-            shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP); //default shooter on
+            shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING); //default shooter on
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.AMP_HOLDING);
             }
