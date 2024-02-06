@@ -13,8 +13,8 @@ public class SensorSubsystem { //TODO not done yet
     private final I2C.Port i2cPort = I2C.Port.kOnboard;
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort); //TODO: change to private
     private final ColorMatch m_colorMatcher = new ColorMatch();
-    private final Color NOTE_COLOR = new Color(138, 91, 25);
-    private double colorThreshold = 0.03; //this feels really little lets test
+    private final Color NOTE_COLOR = new Color(98, 106, 50);
+    private double colorThreshold = 0.06; //this feels really little lets test
     //tested 0.03 threshold with lights on and could get an inch away
 
     public SensorSubsystem(){
@@ -25,10 +25,12 @@ public class SensorSubsystem { //TODO not done yet
     public void init(){
         System.out.println("sensor init");
         m_colorMatcher.addColorMatch(NOTE_COLOR);
+        System.out.println(colorSensor.getColor());
     }
 
     public boolean detectNote(){//TODO
         Color detectedColor = colorSensor.getColor();
+        System.out.println(detectedColor);
 
         boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= colorThreshold);
         boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= colorThreshold);

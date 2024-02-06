@@ -11,7 +11,7 @@ public class IntakeSubsystem {
     public TalonFX intakeMotor;
     public TalonFX transitionMotor;
 
-    private final double INTAKE_SPEED = 0.6; //build says this is optimal after testing, DO NOT CHANGE
+    private final double INTAKE_SPEED = 0.45; //build says this is optimal after testing, DO NOT CHANGE
 
     private SensorSubsystem sensorSubsystem;
     private IntakeStates intakeState;

@@ -33,7 +33,7 @@ public class Mechanisms {
         intakeSubsystem.init();
         sensorSubsystem.init();
 
-        setState(MechanismStates.AMP_HOLDING); //TODO: figure out what state to start in
+        setState(MechanismStates.OFF); //TODO: figure out what state to start in
     }
 
     public void periodic(){
@@ -43,7 +43,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING); //default shooter on
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.AMP_HOLDING);
+                setState(MechanismStates.SPEAKER_HOLDING);
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
@@ -80,6 +80,7 @@ public class Mechanisms {
         }
         intakeSubsystem.periodic();
         shooterSubsystem.periodic();
+        System.out.println(sensorSubsystem.detectNote());
     }
 
     public void setState(MechanismStates newState){

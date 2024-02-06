@@ -12,7 +12,7 @@ public class ShooterSubsystem {
     private TalonFX high; 
     private TalonFX mid;
     private TalonFX low;
-    private final double AMP_SPEED = 0.25;
+    private final double AMP_SPEED = 0.2;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.7;
 
@@ -46,16 +46,16 @@ public class ShooterSubsystem {
             mid.set(ControlMode.PercentOutput, 0);
         }else if (currentState == ShooterStates.AMP_HOLDING) {
             low.set(ControlMode.PercentOutput, 0);
-            high.set(ControlMode.PercentOutput, AMP_SPEED);
-            mid.set(ControlMode.PercentOutput, -AMP_SPEED);
+            high.set(ControlMode.PercentOutput, -AMP_SPEED);
+            mid.set(ControlMode.PercentOutput, AMP_SPEED);
         } else if(currentState == ShooterStates.SPEAKER_HOLDING){
             low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
             mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);
         }else if(currentState == ShooterStates.AMP){//check negative signs here
             low.set(ControlMode.PercentOutput, AMP_SPEED);
-            high.set(ControlMode.PercentOutput, AMP_SPEED);
-            mid.set(ControlMode.PercentOutput, -AMP_SPEED);
+            high.set(ControlMode.PercentOutput, -AMP_SPEED);
+            mid.set(ControlMode.PercentOutput, AMP_SPEED);
         }else if(currentState == ShooterStates.SPEAKER){//check negative signs here
             low.set(ControlMode.PercentOutput, MID_SPEAKER_SPEED);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
