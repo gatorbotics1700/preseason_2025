@@ -43,7 +43,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING); //default shooter on
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.SPEAKER_HOLDING);
+                setState(MechanismStates.SPEAKER_HOLDING);//TODO how to account for amp holding??
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);

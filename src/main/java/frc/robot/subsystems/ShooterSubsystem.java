@@ -12,7 +12,7 @@ public class ShooterSubsystem {
     private TalonFX high; 
     private TalonFX mid;
     private TalonFX low;
-    private final double AMP_SPEED = 0.2;
+    private final double AMP_SPEED = 0.25;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.7;
 
@@ -31,6 +31,9 @@ public class ShooterSubsystem {
         high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
         low = new TalonFX(Constants.AMP_MOTOR_CAN_ID);
+        high.setInverted(true); 
+        mid.setInverted(false); 
+        low.setInverted(false);
         init();
     }
 
@@ -51,15 +54,16 @@ public class ShooterSubsystem {
         } else if(currentState == ShooterStates.SPEAKER_HOLDING){
             low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
-            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);
+            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);//how to change direction for amp vs speaker?
         }else if(currentState == ShooterStates.AMP){//check negative signs here
             low.set(ControlMode.PercentOutput, AMP_SPEED);
             high.set(ControlMode.PercentOutput, -AMP_SPEED);
             mid.set(ControlMode.PercentOutput, AMP_SPEED);
         }else if(currentState == ShooterStates.SPEAKER){//check negative signs here
+            System.out.println("We are shooting");
             low.set(ControlMode.PercentOutput, MID_SPEAKER_SPEED);
-            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
-            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);
+            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);//TODO walk through logic
+            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);//when to flip to negative?? amp is never an option
         }else if(currentState == ShooterStates.OFF){
             low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, 0);

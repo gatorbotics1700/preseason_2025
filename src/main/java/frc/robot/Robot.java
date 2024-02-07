@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
         //m_drivetrainSubsystem.onEnable();
         //m_shooterSubsystem.setState(ShooterStates.AMP);
         //m_sensorSubsystem.init();
+
         m_mechanismSubsystem.init();
         m_mechanismSubsystem.setState(MechanismStates.INTAKING);
     }
