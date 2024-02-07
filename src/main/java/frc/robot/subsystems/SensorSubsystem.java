@@ -14,7 +14,7 @@ public class SensorSubsystem {
     private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort); //TODO: change to private
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color NOTE_COLOR = new Color(98, 106, 50);
-    private double colorThreshold = 0.10; //this feels really little lets test
+    private double colorThreshold = 0.12; //this feels really little lets test
     //tested 0.03 threshold with lights on and could get an inch away
 
     public SensorSubsystem(){
@@ -45,7 +45,6 @@ public class SensorSubsystem {
         } else {
             System.out.println("We don't see the note");
             return false; //on
-            
         }
     }
 }

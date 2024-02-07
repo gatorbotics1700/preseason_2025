@@ -43,7 +43,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING); //default shooter on
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.SPEAKER_HOLDING);//TODO how to account for amp holding??
+                setState(MechanismStates.AMP_HOLDING);//TODO how to account for amp holding??
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
@@ -64,7 +64,7 @@ public class Mechanisms {
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             if (isFirstTimeInState){
                 isFirstTimeInState = false;
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
+                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
             if(System.currentTimeMillis()-stateStartTime >= 5000){ // 5 secs should be too long for shooting but just in case

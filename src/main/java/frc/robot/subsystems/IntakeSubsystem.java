@@ -9,7 +9,8 @@ import frc.robot.Constants;
 public class IntakeSubsystem {
 
     public TalonFX intakeMotor;
-    public TalonFX transitionMotor;
+    public TalonFX transitionMotor; 
+    // TODO: Patricia says to set motors to coast
 
     private final double INTAKE_SPEED = 0.45; //build says this is optimal after testing, DO NOT CHANGE
 
@@ -48,7 +49,6 @@ public class IntakeSubsystem {
         if(intakeState == IntakeStates.INTAKING) {
             intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
             transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
-            
         } else if (intakeState == IntakeStates.OFF){
             intakeMotor.set(ControlMode.PercentOutput, 0);
             transitionMotor.set(ControlMode.PercentOutput, 0);
