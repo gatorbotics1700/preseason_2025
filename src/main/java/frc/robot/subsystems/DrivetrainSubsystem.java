@@ -6,6 +6,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -64,7 +65,7 @@ public class DrivetrainSubsystem {
     * The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
     * cause the angle reading to increase until it wraps back over to zero.
     */ 
-   private PigeonIMU pigeon;
+   private Pigeon2 pigeon;
 
    // These are our modules. We initialize them in the constructor.
    private SwerveModule frontLeftModule;
@@ -80,7 +81,7 @@ public class DrivetrainSubsystem {
 
    //constructor is called every time code is deployed, onEnable is called every time the robot is enabled.
    public DrivetrainSubsystem() {
-      pigeon = new PigeonIMU(Constants.DRIVETRAIN_PIGEON_ID);
+      pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
 
       // We will use mk4 modules with Falcon 500s with the L2 configuration. 
@@ -175,7 +176,7 @@ public class DrivetrainSubsystem {
    //in an unknown, arbitrary frame
    //"do not use unless you know what you are doing" - patricia
    private Rotation2d getGyroscopeRotation() {
-      return new Rotation2d(Math.toRadians(pigeon.getYaw())); //getYaw() returns degrees
+      return new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())); //getYaw() returns degrees
    }
 
    //from odometry used for field-relative rotation
