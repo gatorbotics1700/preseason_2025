@@ -59,6 +59,8 @@ public class Mechanisms {
         }else if(mechanismState == MechanismStates.SHOOTING_AMP){
            // if (isFirstTimeInState){ // dictates our timing  TODO why do we have this if/else and variable?
                 //isFirstTimeInState = false;
+                shooterSubsystem.holding = false;//resetting for next time intaking or shooting
+                intakeSubsystem.holding = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
            // }
@@ -66,11 +68,13 @@ public class Mechanisms {
                 setState(MechanismStates.OFF);
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
-            if (isFirstTimeInState){
-                isFirstTimeInState = false;
+                shooterSubsystem.holding = false;//resetting for next time intaking or shooting
+                intakeSubsystem.holding = false;
+            //if (isFirstTimeInState){ TODO why is this here?
+                //isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
-            }
+            //}
             if(System.currentTimeMillis()-stateStartTime >= 5000){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF); // we could change this to intaking 
             }
