@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class Mechanisms {
 
     public ShooterSubsystem shooterSubsystem;
     public IntakeSubsystem intakeSubsystem;
     public SensorSubsystem sensorSubsystem;
 
-    private boolean isFirstTimeInState;
+    private boolean isFirstTimeInState;//TODO: CODE REVIEW why do we have this
     private double stateStartTime;
 
     private MechanismStates mechanismState;
@@ -42,8 +44,10 @@ public class Mechanisms {
             System.out.println("======IN INTAKING=======");
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING); //default shooter on
-            if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.AMP_HOLDING);//TODO how to account for amp holding??
+            if (sensorSubsystem.detectNote()){//TODO explain to joanne...
+                shooterSubsystem.holding = true;//these lines are needed if driver is selecting amp vs. speaker
+                intakeSubsystem.holding = true;
+              //setState(MechanismStates.SPEAKER_HOLDING);//TODO COMMENTED OUT FOR TESTING DRIVERS PICKING THEIR OWN INSTEAD OF SETTING AND SWITCHING(100 TO 0 TO -100 IS SLIGHTLY PROBLEMATIC)
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
@@ -53,11 +57,11 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER_HOLDING);
         }else if(mechanismState == MechanismStates.SHOOTING_AMP){
-            if (isFirstTimeInState){ // dictates our timing
-                isFirstTimeInState = false;
+           // if (isFirstTimeInState){ // dictates our timing  TODO why do we have this if/else and variable?
+                //isFirstTimeInState = false;
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
-            }
+           // }
             if(System.currentTimeMillis()-stateStartTime >= 5000){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF);
             }

@@ -17,6 +17,8 @@ public class IntakeSubsystem {
     private SensorSubsystem sensorSubsystem;
     private IntakeStates intakeState;
 
+    public boolean holding;//just added
+
     public static enum IntakeStates {
         INTAKING,
         OFF;
@@ -38,6 +40,8 @@ public class IntakeSubsystem {
         transitionMotor.setInverted(true);
         transitionMotor.setNeutralMode(NeutralMode.Coast); //TODO check what direction we want motors to run
         setState(IntakeStates.OFF);
+
+        holding = false;
     }
 
     public void setState(IntakeStates newState) {
@@ -47,8 +51,13 @@ public class IntakeSubsystem {
     public void periodic() {
         System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
         if(intakeState == IntakeStates.INTAKING) {
-            intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
-            transitionMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+            if(!holding){//new structure! (same logic as in shooter subsystem) perhaps code review
+                intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+                transitionMotor.set(ControlMode.PercentOutput, 0.6); //used to INTAKE_SPEED 2/7
+            }else{
+                intakeMotor.set(ControlMode.PercentOutput, 0);
+                transitionMotor.set(ControlMode.PercentOutput, 0);
+            }
         } else if (intakeState == IntakeStates.OFF){
             intakeMotor.set(ControlMode.PercentOutput, 0);
             transitionMotor.set(ControlMode.PercentOutput, 0);

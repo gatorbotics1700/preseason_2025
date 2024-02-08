@@ -19,6 +19,8 @@ public class ShooterSubsystem {
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.8;
+    
+    public boolean holding;
 
     public static enum ShooterStates {
         OFF,
@@ -34,7 +36,7 @@ public class ShooterSubsystem {
     public ShooterSubsystem() {
         high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
-        low = new TalonFX(Constants.AMP_MOTOR_CAN_ID);
+        low = new TalonFX(Constants.LOW_MOTOR_CAN_ID);
         high.setInverted(true); 
         mid.setInverted(false); 
         low.setInverted(false);
@@ -46,20 +48,27 @@ public class ShooterSubsystem {
         low.setNeutralMode(NeutralMode.Coast);
         mid.setNeutralMode(NeutralMode.Coast);
         high.setNeutralMode(NeutralMode.Coast);
+
+        holding = false;
     }
 
     public void periodic(){
         System.out.println("CURRENT SHOOTER STATE: " + currentState);
         if (currentState == ShooterStates.INTAKING){
-            low.set(ControlMode.PercentOutput, AMP_SPEED);
+            if(!holding){//if intaking, set low to intaking
+                  low.set(ControlMode.PercentOutput, 0.18);//2/7 used to be AMP_SPEED            
+            }else{//if holding, stop low
+                low.set(ControlMode.Position, 0);
+            }
+
             high.set(ControlMode.PercentOutput, 0);
             mid.set(ControlMode.PercentOutput, 0);
         }else if (currentState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
-            low.set(ControlMode.PercentOutput, 0);
+            //low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, -AMP_SPEED);
             mid.set(ControlMode.PercentOutput, AMP_SPEED);
         } else if(currentState == ShooterStates.SPEAKER_HOLDING){
-            low.set(ControlMode.PercentOutput, 0);
+            //low.set(ControlMode.PercentOutput, 0);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
             mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);//how to change direction for amp vs speaker?
         }else if(currentState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
@@ -67,7 +76,7 @@ public class ShooterSubsystem {
             high.set(ControlMode.PercentOutput, -AMP_SPEED);
             mid.set(ControlMode.PercentOutput, AMP_SPEED);
         }else if(currentState == ShooterStates.SPEAKER){//check negative signs here
-            System.out.println("We are shooting");
+            System.out.println("==========WE ARE SHOOTING==========");
             low.set(ControlMode.PercentOutput, LOW_SHOOTING_SPEED);
             high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);//TODO walk through logic
             mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED);//when to flip to negative?? amp is never an option
@@ -85,5 +94,9 @@ public class ShooterSubsystem {
     }
     public void setState(ShooterStates newState) {
         currentState = newState;
+    }
+
+    public void setLow(double speed){
+        low.set(ControlMode.PercentOutput, speed);  
     }
 }
