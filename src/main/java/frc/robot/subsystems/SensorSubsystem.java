@@ -1,23 +1,24 @@
 package frc.robot.subsystems;
 
-//import frc.robot.subsystems.*;
-
 import com.revrobotics.ColorSensorV3; 
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
 
-
 public class SensorSubsystem {
 
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort); //TODO: change to private
+    
+    private ColorSensorV3 colorSensor;
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color NOTE_COLOR = new Color(98, 106, 50);
-    private double colorThreshold = 0.12; //this feels really little lets test
+    private final double COLOR_THRESHOLD = 0.12; //CALIBRATE AT COMPS 
+    //Hex value converted to a fraction between 0 and 1; it's essentially the percentage of the color spectrum that we are allowing 
+    //TODO: confirm COLOR_THRESHOLD
     //tested 0.03 threshold with lights on and could get an inch away
 
     public SensorSubsystem(){
+        I2C.Port i2cPort = I2C.Port.kOnboard;
+        colorSensor = new ColorSensorV3(i2cPort);
         init();
     }
 
@@ -25,26 +26,23 @@ public class SensorSubsystem {
         System.out.println("sensor init");
         m_colorMatcher.addColorMatch(NOTE_COLOR);
         System.out.println(colorSensor.getColor());
+        
     }
 
-    public void periodic(){
-        detectNote();
-    }
-
-    public boolean detectNote(){//TODO
+    public boolean detectNote(){
         Color detectedColor = colorSensor.getColor();
-        System.out.println(detectedColor);
+        System.out.println("detectedColor: " + detectedColor);
 
-        boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= colorThreshold);
-        boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= colorThreshold);
-        boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= colorThreshold);
+        boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= COLOR_THRESHOLD);
+        boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= COLOR_THRESHOLD);
+        boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= COLOR_THRESHOLD);
 
         if(redThreshold && greenThreshold && blueThreshold) {
             System.out.println("WE'VE HIT THAT NOTE!!");
-            return true; //off
+            return true;
         } else {
             System.out.println("We don't see the note");
-            return false; //on
+            return false;
         }
     }
 }
