@@ -47,6 +47,7 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; 
 
     public static final double TICKS_PER_REV = 2048;
+    public static final double REVS_PER_ROTATION = 10; // TODO: this is a placeholder, get build to measure
     public static final double METERS_PER_INCH = 0.0254;
 
     public static final int INTAKE_MOTOR_CAN_ID = 28; // TODO: this is a placeholder
