@@ -7,6 +7,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;

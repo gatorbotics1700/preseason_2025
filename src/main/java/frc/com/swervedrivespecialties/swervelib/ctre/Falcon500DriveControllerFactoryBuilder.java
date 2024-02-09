@@ -60,6 +60,7 @@ public final class Falcon500DriveControllerFactoryBuilder {
         public ControllerImplementation create(Integer driveConfiguration, ModuleConfiguration moduleConfiguration) {
             TalonFXConfiguration motorConfiguration = new TalonFXConfiguration();
             TalonFX motor = new TalonFX(driveConfiguration);
+            
 
             MotorOutputConfigs motorOutputConfigs= new MotorOutputConfigs();
             TalonFXConfigurator talonFXConfigurator = motor.getConfigurator();
@@ -96,9 +97,13 @@ public final class Falcon500DriveControllerFactoryBuilder {
             if(moduleConfiguration.isDriveInverted() == true){
                 motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
                 talonFXConfigurator.apply(motorOutputConfigs);
+                motor.setNeutralMode(NeutralModeValue.Brake);
+
             }else{
                  motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
                 talonFXConfigurator.apply(motorOutputConfigs);
+                motor.setNeutralMode(NeutralModeValue.Brake);
+
             }
         
             // Reduce CAN status frame rates
