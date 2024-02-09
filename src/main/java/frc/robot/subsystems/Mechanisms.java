@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 public class Mechanisms {
 
-    public ShooterSubsystem shooterSubsystem;
-    public IntakeSubsystem intakeSubsystem;
-    public SensorSubsystem sensorSubsystem;
+    private ShooterSubsystem shooterSubsystem;
+    private IntakeSubsystem intakeSubsystem;
+    private SensorSubsystem sensorSubsystem;
 
     private boolean isFirstTimeInState;
     private double stateStartTime;
