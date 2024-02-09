@@ -19,9 +19,8 @@ public class ShooterSubsystem {
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.8;
+    private final double LOW_INTAKING_SPEED = 0.18;
     
-    public boolean holding;
-
     public static enum ShooterStates {
         OFF,
         INTAKING,
@@ -48,19 +47,12 @@ public class ShooterSubsystem {
         low.setNeutralMode(NeutralMode.Coast);
         mid.setNeutralMode(NeutralMode.Coast);
         high.setNeutralMode(NeutralMode.Coast);
-
-        holding = false;
     }
 
     public void periodic(){
         System.out.println("CURRENT SHOOTER STATE: " + currentState);
         if (currentState == ShooterStates.INTAKING){
-            if(!holding){//if intaking, set low to intaking
-                  low.set(ControlMode.PercentOutput, 0.18);//2/7 used to be AMP_SPEED            
-            }else{//if holding, stop low
-                low.set(ControlMode.Position, 0);
-            }
-
+            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);//2/7 used to be AMP_SPEED            
             high.set(ControlMode.PercentOutput, 0);
             mid.set(ControlMode.PercentOutput, 0);
         }else if (currentState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!

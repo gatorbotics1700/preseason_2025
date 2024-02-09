@@ -19,8 +19,7 @@ public class Buttons {
     
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
-  private IntakeSubsystem m_intakeSubsystem = Robot.m_mechanismSubsystem.intakeSubsystem;
-  private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  
   public double leftTrigger;
   public double rightTrigger;
   
