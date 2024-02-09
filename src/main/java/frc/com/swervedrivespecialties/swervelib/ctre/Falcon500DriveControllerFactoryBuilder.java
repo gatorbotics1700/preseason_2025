@@ -51,6 +51,7 @@ public final class Falcon500DriveControllerFactoryBuilder {
 
             if (hasVoltageCompensation()) {
                 motorConfiguration.voltageCompSaturation = nominalVoltage;
+                
             }
 
             if (hasCurrentLimit()) {
@@ -61,6 +62,8 @@ public final class Falcon500DriveControllerFactoryBuilder {
             TalonFX motor = new TalonFX(driveConfiguration);
             boolean haveError = CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration), "Failed to configure Falcon 500"); //added can timeout on 03/03
             for(int i = 0; i < 5; i++){
+                motor.setNeutralMode(NeutralMode.Brake);
+
                 haveError =  CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration), "Failed to configure Falcon 500"); //added can timeout on 03/03
                 if(!haveError){
                     break;
@@ -70,6 +73,8 @@ public final class Falcon500DriveControllerFactoryBuilder {
             if (hasVoltageCompensation()) {
                 // Enable voltage compensation
                 motor.enableVoltageCompensation(true);
+                motor.setNeutralMode(NeutralMode.Brake);
+
             }
 
             motor.setNeutralMode(NeutralMode.Brake);
