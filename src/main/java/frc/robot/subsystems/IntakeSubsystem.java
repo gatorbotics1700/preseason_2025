@@ -4,83 +4,58 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-//import com.ctre.phoenix6.hardware.TalonFX;
-//import com.ctre.phoenix6.signals.NeutralModeValue;
-
-//import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public class IntakeSubsystem {
 
-    // private static TalonFX intakeMotor;
-    // private static TalonFX preTransitionMotor;
-    // private static TalonFX transitionMotor;
-    private static double motorSpeed = -0.4; //build says this is optimal after testing, DO NOT CHANGE
-    private SensorSubsystem sensorSubsystem;
-    private static IntakeStates intakeStates;
+    private TalonFX intakeMotor;
+    private TalonFX transitionMotor; 
+
+    private final double INTAKE_SPEED = 0.45; //build says this is optimal after testing, DO NOT CHANGE
+    private final double TRANSITION_SPEED = 0.6;
+
+    private IntakeStates intakeState;
 
     public static enum IntakeStates {
         INTAKING,
-        LOADING_TO_SHOOTER,
         OFF;
     }
 
-    //public static IntakeStates intakeStates = IntakeStates.OFF;
-
-    public IntakeSubsystem(/*SensorSubsystem sensorSubsystem*/) {
-        // intakeMotor = new TalonFX(Constants.INTAKE_MOTOR_CAN_ID);
-        // preTransitionMotor = new TalonFX(Constants.PRE_TRANSITION_CAN_ID);
-        // transitionMotor = new TalonFX(Constants.TRANSITION_CAN_ID);
-        //this.sensorSubsystem = sensorSubsystem;
+    public IntakeSubsystem() {
+        intakeMotor = new TalonFX(Constants.INTAKE_MOTOR_CAN_ID);
+        transitionMotor = new TalonFX(Constants.TRANSITION_CAN_ID);
         init();
     }
 
     public void init() {
         System.out.println("Intake Init!");
-        // intakeMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-        // intakeMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
-        // preTransitionMotor.setInverted(false);
-        // preTransitionMotor.setNeutralMode(NeutralMode.Brake); //TODO check what direction we want motors to run
-        // transitionMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-        // transitionMotor.setNeutralMode(NeutralMode.Brake); //brake mode so nothing slips = locks in place when not getting power
+        intakeMotor.setInverted(true); //sets it to default sending a piece up (counterclockwise)
+        intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
+        transitionMotor.setInverted(true);
+        transitionMotor.setNeutralMode(NeutralMode.Coast);
         setState(IntakeStates.OFF);
     }
 
-    public void setState(IntakeStates newState){
-        intakeStates = newState;
+    public void setState(IntakeStates newState) {
+        intakeState = newState;
     }
 
     public void periodic() {
-        if(intakeStates == IntakeStates.INTAKING) {
-            // intakeMotor.set(ControlMode.PercentOutput, motorSpeed);
-            // preTransitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-            // transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
-            // if(sensorSubsystem.getSeesNote()){
-            //     setState(IntakeStates.OFF);
-            // }
-        } else if (intakeStates == IntakeStates.OFF){
-            // intakeMotor.set(ControlMode.PercentOutput, 0);
-            // preTransitionMotor.set(ControlMode.PercentOutput, 0);
-            // transitionMotor.set(ControlMode.PercentOutput, 0);
-        } else if (intakeStates == IntakeStates.LOADING_TO_SHOOTER){
-            // intakeMotor.set(ControlMode.PercentOutput, 0);
-            // preTransitionMotor.set(ControlMode.PercentOutput, 0);
-            // transitionMotor.set(ControlMode.PercentOutput, motorSpeed);
+        System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
+        if(intakeState == IntakeStates.INTAKING) {
+            intakeMotor.set(ControlMode.PercentOutput, INTAKE_SPEED);
+            transitionMotor.set(ControlMode.PercentOutput, TRANSITION_SPEED);
+        } else if (intakeState == IntakeStates.OFF){
+            intakeMotor.set(ControlMode.PercentOutput, 0);
+            transitionMotor.set(ControlMode.PercentOutput, 0);
         } else {
-            // intakeMotor.set(ControlMode.PercentOutput, 0);
-            // preTransitionMotor.set(ControlMode.PercentOutput, 0);
-            // transitionMotor.set(ControlMode.PercentOutput, 0);
-            System.out.println("=================UNKNOWN INTAKE STATE WHAT HAPPENED?!?!?!?=================");
-            System.out.println("Current intake state: " + intakeStates);
+            intakeMotor.set(ControlMode.PercentOutput, 0);
+            transitionMotor.set(ControlMode.PercentOutput, 0);
+            System.out.println("====STATE UNRECOGNIZED==== current state: " + intakeState);
         }
-
     }
 
-    public static IntakeStates getIntakeStates() {
-        return intakeStates;
-    }
-
-    public static void setIntakeStates(IntakeStates newIntakeState){
-        intakeStates = newIntakeState;
+    public IntakeStates getCurrentIntakeState() {
+        return intakeState;
     }
 }

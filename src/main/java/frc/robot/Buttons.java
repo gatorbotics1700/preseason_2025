@@ -19,7 +19,7 @@ public class Buttons {
     
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
-  private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  
   public double leftTrigger;
   public double rightTrigger;
   
@@ -34,26 +34,29 @@ public class Buttons {
       }
       if (OI.m_controller_two.getAButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-        System.out.println("=====A BUTTON=====SETTING TO 0.4");
+        System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
       }
-      if (OI.m_controller_two.getBButton()){ 
+      if (OI.m_controller_two.getXButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
-        System.out.println("=======B BUTTON======SETTING ONE TO -0.4");
+        System.out.println("=======X BUTTON======SHOOTING IN SPEAKER!!");
       }
-      if (OI.m_controller_two.getRightBumper()){ 
+      if (OI.m_controller_two.getYButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.OFF);
-        System.out.println("=======SHOOTER STOOOOPPPP=======");
+        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
       }
-      if (OI.m_controller_two.getXButton()){
-        System.out.println("=======X BUTTON PRESSEED========");
-        if(IntakeSubsystem.getIntakeStates() == IntakeSubsystem.IntakeStates.OFF){
-          m_mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING);
+      if (OI.m_controller_two.getBButton()){
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
+          m_mechanismSubsystem.setState(MechanismStates.OFF);
         } else {
-          m_mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
+          m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         }
         // TODO: for transition, we can use this button to turn both on and off at same time
       }
-
-
+      if(OI.m_controller_two.getLeftBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+      }
+      if(OI.m_controller_two.getRightBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+      }
   }
 }

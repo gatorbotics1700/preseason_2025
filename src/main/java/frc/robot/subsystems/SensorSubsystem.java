@@ -1,77 +1,48 @@
 package frc.robot.subsystems;
 
-//import frc.robot.subsystems.*;
-
 import com.revrobotics.ColorSensorV3; 
 import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.I2C; // TODO: check if this is right
+import edu.wpi.first.wpilibj.I2C;
 
+public class SensorSubsystem {
 
-public class SensorSubsystem { //TODO not done yet
-
-    private SensorStates sensorState;
-    private static boolean seesNote;
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-    private ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
+    
+    private ColorSensorV3 colorSensor;
     private final ColorMatch m_colorMatcher = new ColorMatch();
-    public Mechanisms mechanismsSubsystem;
-
-    private final Color noteColor = new Color(0, 0, 0); // TODO: make the right color based on testing with real robot
-    public double colorThreshold = 0.03; //this feels really little lets test
+    private final Color NOTE_COLOR = new Color(98, 106, 50);
+    private final double COLOR_THRESHOLD = 0.12; //CALIBRATE AT COMPS 
+    //Hex value converted to a fraction between 0 and 1; it's essentially the percentage of the color spectrum that we are allowing 
+    //TODO: confirm COLOR_THRESHOLD
+    //tested 0.03 threshold with lights on and could get an inch away
 
     public SensorSubsystem(){
+        I2C.Port i2cPort = I2C.Port.kOnboard;
+        colorSensor = new ColorSensorV3(i2cPort);
         init();
-    }
-
-    public static enum SensorStates{//TODO do we need these states or can we just keep it on for the full match?
-        OFF,
-        ON;
     }
 
     public void init(){
         System.out.println("sensor init");
-        setState(SensorStates.ON);
-        seesNote = false;
-        m_colorMatcher.addColorMatch(noteColor);
-    
+        m_colorMatcher.addColorMatch(NOTE_COLOR);
+        System.out.println(colorSensor.getColor());
+        
     }
 
-    public void periodic(){//TODO code shooting from holding state
-        if (sensorState == SensorStates.ON){
-            detectColor();
-            if (seesNote){
-                //we stop transition motor in the shooter subsystem right now... is this very efficient??
-                System.out.println("wooo note!!! low left motor stopped");
-            }
-        } else {
-            seesNote = false;
-            System.out.println("booo no note");
-            //again, motor will move as normal in this case in shooter subsystem
-        }
-        //System.out.println(colorSensor.getColor());
-    }
-
-    public void detectColor(){//TODO
+    public boolean detectNote(){
         Color detectedColor = colorSensor.getColor();
+        System.out.println("detectedColor: " + detectedColor);
 
-        boolean redThreshold = (Math.abs(detectedColor.red-noteColor.red) <= colorThreshold);
-        boolean greenThreshold = (Math.abs(detectedColor.green-noteColor.green) <= colorThreshold);
-        boolean blueThreshold = (Math.abs(detectedColor.blue-noteColor.blue) <= colorThreshold);
+        boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= COLOR_THRESHOLD);
+        boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= COLOR_THRESHOLD);
+        boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= COLOR_THRESHOLD);
 
         if(redThreshold && greenThreshold && blueThreshold) {
             System.out.println("WE'VE HIT THAT NOTE!!");
-            seesNote = true; //off
+            return true;
         } else {
-            seesNote = false; //on
+            System.out.println("We don't see the note");
+            return false;
         }
     }
-
-    public void setState(SensorStates newState){
-        sensorState = newState;
-    }
-
-    public static boolean getSeesNote(){
-        return seesNote;
-    }
-}  
+}
