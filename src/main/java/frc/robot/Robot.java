@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
     }
 
     /* This function is called periodically during operator control. */

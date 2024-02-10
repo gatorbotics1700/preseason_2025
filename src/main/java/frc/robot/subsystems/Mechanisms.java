@@ -60,7 +60,7 @@ public class Mechanisms {
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
             }
-            if(System.currentTimeMillis()-stateStartTime >= 5000){ // 5 secs should be too long for shooting but just in case
+            if(System.currentTimeMillis()-stateStartTime >= 2500){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF);
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
@@ -70,7 +70,7 @@ public class Mechanisms {
                 intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
                 shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             }
-            if(System.currentTimeMillis()-stateStartTime >= 5000){ // 5 secs should be too long for shooting but just in case
+            if(System.currentTimeMillis()-stateStartTime >= 2500){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF); // we could change this to intaking 
             }
         } else if (mechanismState == MechanismStates.OFF){
