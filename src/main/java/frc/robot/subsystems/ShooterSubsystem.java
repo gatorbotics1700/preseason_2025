@@ -10,9 +10,8 @@ public class ShooterSubsystem {
     private TalonFX high; 
     private TalonFX mid;
     private TalonFX low;
-    // TODO: Patricia says to set motors to brake
 
-    private final double AMP_SPEED = 0.2; // DO NOT TOUCH THIS VALUE!!
+    private final double AMP_SPEED = 0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.8;
@@ -52,7 +51,7 @@ public class ShooterSubsystem {
         if (currentState == ShooterStates.INTAKING){
             high.set(ControlMode.PercentOutput, 0);
             mid.set(ControlMode.PercentOutput, 0);
-            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);//2/7 used to be AMP_SPEED   
+            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);   
         }else if (currentState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
             high.set(ControlMode.PercentOutput, -AMP_SPEED); //negative
             mid.set(ControlMode.PercentOutput, AMP_SPEED);

@@ -284,9 +284,9 @@ public class DrivetrainSubsystem {
     public SwerveModulePosition[] getModulePositionArray(){
       return new SwerveModulePosition[] {
          new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())),
-                new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-                new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-                new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
+            new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
+            new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
+            new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
-    }
+   }
 }
