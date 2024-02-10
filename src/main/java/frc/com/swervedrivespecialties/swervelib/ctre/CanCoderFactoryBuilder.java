@@ -29,7 +29,7 @@ public class CanCoderFactoryBuilder {
             //config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition; //TODO: THIS SHOULD AUTOMATICALLY BOOT TO ABSOLUTE WITH V6
             config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
             config.MagnetSensor.MagnetOffset = configuration.getOffset()/(2*Math.PI); //TODO: CHECK THIS IF SOMETHING GOES WRONG
-            //config.MagnetSensor.MagnetOffset = configuration.getOffset() * 0.159155; //TODO: CHECK THIS IF SOMETHING GOES WRONG //the hardcoded number is radian to revolution conversion
+            // config.MagnetSensor.MagnetOffset = configuration.getOffset() * 0.159155; //TODO: CHECK THIS IF SOMETHING GOES WRONG //the hardcoded number is radian to revolution conversion
             config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
             
             CANcoder encoder = new CANcoder(configuration.getId());
@@ -60,7 +60,7 @@ public class CanCoderFactoryBuilder {
 
         @Override
         public double getAbsoluteAngle() {
-            double angle = Math.toRadians(encoder.getAbsolutePosition().getValue() * 360); 
+            double angle = Math.toRadians(encoder.getAbsolutePosition().getValue());
             angle %= 2.0 * Math.PI;
             if (angle < 0.0) {
                 angle += 2.0 * Math.PI;
