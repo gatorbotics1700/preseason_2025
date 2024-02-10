@@ -16,6 +16,8 @@ import frc.robot.autonomous.AutonomousBase;
 import frc.robot.autonomous.AutonomousBasePD; 
 import frc.robot.autonomous.PDState;
 import frc.robot.autonomous.Paths;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 
 /**
@@ -62,7 +64,7 @@ public class Robot extends TimedRobot {
     
     inverted.setDefaultOption("true", true);
     inverted.addOption("false", false);
-    m_drivetrainSubsystem.autoInitCalled = false;
+    //m_drivetrainSubsystem.autoInitCalled = false;
   }
 
   /**
@@ -128,8 +130,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() { 
-    System.out.println("Current pose: " + m_drivetrainSubsystem.getPose());
-    m_buttons.buttonsPeriodic();
+   // m_buttons.buttonsPeriodic();
     m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.driveTeleop();
     m_drivetrainSubsystem.drive();   
@@ -154,8 +155,8 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     //OFFSETS
     //m_drivetrainSubsystem.driveTeleop();
-    //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.2, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-    //m_drivetrainSubsystem.drive();
+    m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+    m_drivetrainSubsystem.drive();
   }
   /** This function is called once when the robot is first started up. */
   @Override

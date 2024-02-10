@@ -49,7 +49,7 @@ public class SensorSubsystem { //TODO not done yet
             System.out.println("booo no note");
             //again, motor will move as normal in this case in shooter subsystem
         }
-        System.out.println(colorSensor.getColor());
+        //System.out.println(colorSensor.getColor());
     }
 
     public void detectColor(){//TODO

@@ -8,7 +8,7 @@ public interface SwerveModule {
 
     double getSteerAngle();
 
-    double getPosition();
+    double getPositionRotation();
 
     SwerveModulePosition getSwerveModulePosition();
 

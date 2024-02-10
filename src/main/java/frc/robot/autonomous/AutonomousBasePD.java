@@ -83,9 +83,11 @@ public class AutonomousBasePD extends AutonomousBase{
             startTimeForState = System.currentTimeMillis(); 
             isFirstTimeInState = false;
         }
-        if(currentState.name == AutoStates.FIRST){ //TODO: can we move the code in this to init?
-           drivetrainSubsystem.positionManager.resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), startingCoordinate); 
-
+        if(currentState.name == AutoStates.FIRST){ 
+            //double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
+           // Pose2d modifiedStartingCoordinate = new Pose2d(startingCoordinate.getX(), startingCoordinate.getY(), new Rotation2d(Math.toRadians(startingCoordinate.getRotation().getDegrees() - startingError)));
+            drivetrainSubsystem.positionManager.resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), startingCoordinate); 
+            
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
