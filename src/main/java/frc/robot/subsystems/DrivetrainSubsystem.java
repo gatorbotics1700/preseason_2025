@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
@@ -30,10 +30,6 @@ import frc.robot.Robot;
 //import frc.robot.autonomous.AutonomousBasePD;
 
 public class DrivetrainSubsystem {
-   private static final double SWERVE_GEAR_RATIO = 6.75; 
-   private static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches
-   private static final double SWERVE_TICKS_PER_INCH = Constants.TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
-   private static final double SWERVE_TICKS_PER_METER = SWERVE_TICKS_PER_INCH/Constants.METERS_PER_INCH;
 
   /*
    * The maximum voltage that will be delivered to the motors.
@@ -68,7 +64,7 @@ public class DrivetrainSubsystem {
     * The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
     * cause the angle reading to increase until it wraps back over to zero.
     */ 
-   private PigeonIMU pigeon;
+   private Pigeon2 pigeon;
 
    // These are our modules. We initialize them in the constructor.
    private SwerveModule frontLeftModule;
@@ -89,7 +85,7 @@ public class DrivetrainSubsystem {
 
 
    public DrivetrainSubsystem() {
-      pigeon = new PigeonIMU(Constants.DRIVETRAIN_PIGEON_ID);
+      pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
       //startingGyroRotation = getGyroscopeRotation().getDegrees();
 
@@ -186,7 +182,7 @@ public class DrivetrainSubsystem {
    //in an unknown, arbitrary frame
    //"do not use unless you know what you are doing" - patricia
    public Rotation2d getGyroscopeRotation() {
-      return new Rotation2d(Math.toRadians(pigeon.getYaw())); //getYaw() returns degrees
+      return new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())); //getYaw() returns degrees
    }
 
    //from odometry used for field-relative rotation
@@ -291,11 +287,11 @@ public class DrivetrainSubsystem {
     }
 
     public SwerveModulePosition[] getModulePositionArray(){
-      return new SwerveModulePosition[]{
-         new SwerveModulePosition(frontLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
-         new SwerveModulePosition(frontRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition(backLeftModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition(backRightModule.getPosition()/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
+      return new SwerveModulePosition[] {
+         new SwerveModulePosition(frontLeftModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
+         new SwerveModulePosition(frontRightModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
+         new SwerveModulePosition(backLeftModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
+         new SwerveModulePosition(backRightModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
     }
 
