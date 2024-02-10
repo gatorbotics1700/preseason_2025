@@ -90,6 +90,7 @@ public class Robot extends TimedRobot {
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
         m_mechanismSubsystem.setState(MechanismStates.OFF);
+        m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
         m_buttons.buttonsPeriodic();
         m_drivetrainSubsystem.driveTeleop();
         m_drivetrainSubsystem.drive();   
+        m_mechanismSubsystem.periodic();
     }
 
     /* This function is called once when the robot is disabled. */
