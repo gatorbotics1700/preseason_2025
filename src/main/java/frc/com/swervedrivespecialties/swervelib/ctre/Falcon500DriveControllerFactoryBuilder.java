@@ -1,20 +1,11 @@
 package frc.com.swervedrivespecialties.swervelib.ctre;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-// import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-// import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-// import com.ctre.phoenix.motorcontrol.can.TalonFX;
-// import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import edu.wpi.first.wpilibj.DutyCycle;
-
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
 import frc.com.swervedrivespecialties.swervelib.DriveController;

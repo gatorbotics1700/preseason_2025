@@ -1,16 +1,20 @@
 package frc.com.swervedrivespecialties.swervelib.ctre;
 
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.Slot0Configs;
+// import com.ctre.phoenix.motorcontrol.*;
+// import com.ctre.phoenix.motorcontrol.can.TalonFX;
+// import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.hardware.TalonFX;
 import frc.com.swervedrivespecialties.swervelib.*;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
-import com.ctre.phoenix.sensors.CANCoder;
+// import com.ctre.phoenix.sensors.CANCoder;
 
 import frc.com.swervedrivespecialties.swervelib.ctre.CtreUtils;
 
 public final class Falcon500SteerControllerFactoryBuilder {
-    private static final int CAN_TIMEOUT_MS = 500; //had changed to 500, changed back
+    private static final double CAN_TIMEOUT_SEC = 0.500; //had changed to 500, changed back
     private static final int STATUS_FRAME_GENERAL_PERIOD_MS = 250;
 
     private static final double TICKS_PER_ROTATION = 2048.0;
@@ -93,6 +97,8 @@ public final class Falcon500SteerControllerFactoryBuilder {
             final double sensorVelocityCoefficient = sensorPositionCoefficient * 10.0;
 
             TalonFXConfiguration motorConfiguration = new TalonFXConfiguration();
+            //TODO: TRY FIGURING OUT HOW TO DO IT THIS WAY
+            Slot0Configs slot0Configs = new Slot0Configs();
             if (hasPidConstants()) {
                 motorConfiguration.slot0.kP = proportionalConstant;
                 motorConfiguration.slot0.kI = integralConstant;
@@ -117,9 +123,9 @@ public final class Falcon500SteerControllerFactoryBuilder {
             }
 
             TalonFX motor = new TalonFX(steerConfiguration.getMotorPort());
-            boolean haveError = CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS), "Failed to configure steer Falcon 500 settings");
+            boolean haveError = CtreUtils.checkCtreError(motor.getConfigurator().apply(motorConfiguration, CAN_TIMEOUT_SEC), "Failed to configure steer Falcon 500 settings");
             for(int i = 0; i < 5; i++){
-                haveError =  CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS), "Failed to configure steer Falcon 500 settings");
+                haveError =  CtreUtils.checkCtreError(motor.getConfigurator().apply(motorConfiguration, CAN_TIMEOUT_SEC), "Failed to configure steer Falcon 500 settings");
                 if(!haveError){
                     break;
                 }
@@ -128,19 +134,19 @@ public final class Falcon500SteerControllerFactoryBuilder {
             if (hasVoltageCompensation()) {
                 motor.enableVoltageCompensation(true);
             }
-            CtreUtils.checkCtreError(motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, CAN_TIMEOUT_MS), "Failed to set Falcon 500 feedback sensor");
+            CtreUtils.checkCtreError(motor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, CAN_TIMEOUT_SEC), "Failed to set Falcon 500 feedback sensor");
             motor.setSensorPhase(true);
             motor.setInverted(moduleConfiguration.isSteerInverted() ? TalonFXInvertType.CounterClockwise : TalonFXInvertType.Clockwise);
-            motor.setNeutralMode(NeutralMode.Brake);
+            motor.setNeutralMode(NeutralModeValue.Brake);
 
-            CtreUtils.checkCtreError(motor.setSelectedSensorPosition(absoluteEncoder.getAbsoluteAngle() / sensorPositionCoefficient, 0, CAN_TIMEOUT_MS), "Failed to set Falcon 500 encoder position");
+            CtreUtils.checkCtreError(motor.setSelectedSensorPosition(absoluteEncoder.getAbsoluteAngle() / sensorPositionCoefficient, 0, CAN_TIMEOUT_SEC), "Failed to set Falcon 500 encoder position");
            
             // Reduce CAN status frame rates
             CtreUtils.checkCtreError(
                     motor.setStatusFramePeriod(
                             StatusFrameEnhanced.Status_1_General,
                             STATUS_FRAME_GENERAL_PERIOD_MS,
-                            CAN_TIMEOUT_MS
+                            CAN_TIMEOUT_SEC
                     ),
                     "Failed to configure steer Falcon status frame period"
             );

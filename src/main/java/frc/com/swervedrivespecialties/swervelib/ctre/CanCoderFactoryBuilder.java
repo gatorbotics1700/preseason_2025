@@ -1,10 +1,5 @@
 package frc.com.swervedrivespecialties.swervelib.ctre;
 
-// import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-// import com.ctre.phoenix.sensors.CANCoder;
-// import com.ctre.phoenix.sensors.CANCoderConfiguration;
-// import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-// import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
