@@ -33,8 +33,15 @@ public class Buttons {
         m_drivetrainSubsystem.stopDrive(); 
       }
       if (OI.m_controller_two.getAButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-        System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
+          System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
+          System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
+        }else{
+          System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
+        }
       }
       if (OI.m_controller_two.getXButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
