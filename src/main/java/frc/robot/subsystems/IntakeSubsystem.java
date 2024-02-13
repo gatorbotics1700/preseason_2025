@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import frc.robot.Constants;
 
@@ -30,8 +30,8 @@ public class IntakeSubsystem {
     public void init() {
         System.out.println("Intake Init!");
         intakeMotor.setInverted(true); //sets it to default sending a piece up (counterclockwise)
-        intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
         transitionMotor.setInverted(true);
+        intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
         transitionMotor.setNeutralMode(NeutralMode.Coast);
         setState(IntakeStates.OFF);
     }

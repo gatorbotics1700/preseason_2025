@@ -7,25 +7,24 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import frc.com.swervedrivespecialties.swervelib.SwerveModule;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
-import java.util.function.DoubleSupplier;
-
+import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
+import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
 import frc.robot.OI;
+import java.util.function.DoubleSupplier;
+
 
 public class DrivetrainSubsystem {
    private static final double SWERVE_GEAR_RATIO = 6.75; 
@@ -200,9 +199,9 @@ public class DrivetrainSubsystem {
       DoubleSupplier translationYSupplier;
       DoubleSupplier rotationSupplier;
       //TODO: check negative signs
-      translationXSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      translationYSupplier = () -> -modifyJoystickAxis(OI.m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      rotationSupplier = () -> -modifyJoystickAxis(OI.m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+      translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      rotationSupplier = () -> -modifyJoystickAxis(OI.driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
             translationXSupplier.getAsDouble(),

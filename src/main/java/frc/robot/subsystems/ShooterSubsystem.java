@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants;
 
@@ -32,18 +32,17 @@ public class ShooterSubsystem {
         high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
         low = new TalonFX(Constants.LOW_MOTOR_CAN_ID);
+        init();
+    }
+
+    public void init(){
         high.setInverted(true); 
         mid.setInverted(false); 
         low.setInverted(false);
         high.setNeutralMode(NeutralMode.Brake);
         mid.setNeutralMode(NeutralMode.Brake);
         low.setNeutralMode(NeutralMode.Brake);
-        init();
-    }
-
-    public void init(){
         currentState = ShooterStates.OFF;
-        
     }
 
     public void periodic(){
