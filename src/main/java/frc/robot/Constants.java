@@ -58,4 +58,11 @@ public final class Constants {
 
     public static final double TICKS_PER_REV = 2048;
     public static final double METERS_PER_INCH = 0.0254;
+
+    public static final int INTAKE_MOTOR_CAN_ID = 28;
+    public static final int TRANSITION_CAN_ID = 15;
+
+    public static final int LOW_MOTOR_CAN_ID = 42;
+    public static final int SHOOTER_HIGH_CAN_ID = 41;
+    public static final int SHOOTER_MID_CAN_ID = 30;
 }
