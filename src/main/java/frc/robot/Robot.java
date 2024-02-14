@@ -3,11 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+
+
 /*
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -19,8 +25,12 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
 
+    public static final IntakeSubsystem m_intakingSubsystem = new IntakeSubsystem();
+    public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
+    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
 
     double mpi = Constants.METERS_PER_INCH;
     public static Boolean isBlueAlliance = true;
@@ -73,6 +83,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
@@ -81,6 +93,7 @@ public class Robot extends TimedRobot {
         m_buttons.buttonsPeriodic();
         m_drivetrainSubsystem.driveTeleop();
         m_drivetrainSubsystem.drive();   
+        m_mechanismSubsystem.periodic();
     }
 
     /* This function is called once when the robot is disabled. */
@@ -94,7 +107,10 @@ public class Robot extends TimedRobot {
     /* This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
-        m_drivetrainSubsystem.onEnable();
+        //m_sensorSubsystem.init();
+
+        m_mechanismSubsystem.init();
+        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
     }
 
     /* This function is called periodically during test mode. */
@@ -102,8 +118,18 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
-        m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-        m_drivetrainSubsystem.drive();
+        //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+        //m_drivetrainSubsystem.drive();
+        m_buttons.buttonsPeriodic();
+        
+        //m_sensorSubsystem.periodic();
+        //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
+        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
+        //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
+        //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
+
     }
     /* This function is called once when the robot is first started up. */
     @Override
