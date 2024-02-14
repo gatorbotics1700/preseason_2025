@@ -36,7 +36,8 @@ public class DrivetrainSubsystem {
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
    */
    private static final double MAX_VOLTAGE = 12.0; //TODO: double check this; previously 16.3
-   
+
+   public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.15;
    //public static final double MIN_VELOCITY_METERS_PER_SECOND = 1.5; //TODO: fix dummy value
 
   /* The formula for calculating the theoretical maximum velocity is:

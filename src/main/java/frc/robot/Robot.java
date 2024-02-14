@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
    // m_drivetrainSubsystem.autoInitCalled = false;
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    m_mechanismSubsystem.init();
+    //m_mechanismSubsystem.init();
     
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
     // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_auto.periodic();
-    m_mechanismSubsystem.periodic();
+   // m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.drive();
     //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }

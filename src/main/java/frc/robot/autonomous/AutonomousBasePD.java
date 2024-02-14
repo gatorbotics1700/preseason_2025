@@ -12,24 +12,24 @@ import frc.robot.subsystems.Mechanisms;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
-    // private static final double turnKP= 0.1; //increased slight *** not tested
-    // private static final double turnKI= 0.05; 
-    // private static final double turnKD= 0.0;
-    // private static final double driveKP= 2.5; //1.3; //Robot.kP.getDouble(0.00006);//0.00006;
-    // private static final double driveKI= 0.0; //0.1; //Robot.kI.getDouble(0.0);//0.0;
-    // private static final double driveKD= 0.0; //0.3; //Robot.kD.getDouble(0.0);//0.0;
-    // private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    // private static final double TURN_DEADBAND = 3; //degrees!
+    private static final double turnKP= 0.1; //increased slight *** not tested
+    private static final double turnKI= 0.05; 
+    private static final double turnKD= 0.0;
+    private static final double driveKP= 2.5; //1.3; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKI= 0.0; //0.1; //Robot.kI.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.0; //0.3; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    private static final double TURN_DEADBAND = 3; //degrees!
 
 // //mcqueen
-    private static final double turnKP= 0.15; //increased slight *** not tested
-    private static final double turnKI= 0.0; 
-    private static final double turnKD= 0.005;
-    private static final double driveKP= 3.9; //Robot.kP.getDouble(0.00006);//0.00006;
-    private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.005; //Robot.kD.getDouble(0.0);//0.0;
-    private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    private static final double TURN_DEADBAND = 1; //degrees!
+    // private static final double turnKP= 0.15; //increased slight *** not tested
+    // private static final double turnKI= 0.0; 
+    // private static final double turnKD= 0.005;
+    // private static final double driveKP= 3.9; //Robot.kP.getDouble(0.00006);//0.00006;
+    // private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
+    // private static final double driveKD= 0.005; //Robot.kD.getDouble(0.0);//0.0;
+    // private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    // private static final double TURN_DEADBAND = 1; //degrees!
 
 
     private PDState[] stateSequence;
@@ -126,9 +126,10 @@ public class AutonomousBasePD extends AutonomousBase{
         xController.setSetpoint(dPose.getX());
         yController.setSetpoint(dPose.getY());
         turnController.setSetpoint(dPose.getRotation().getDegrees());
-        double speedX = xController.calculate(drivetrainSubsystem.getPoseX(), dPose.getX());
 
+        double speedX = xController.calculate(drivetrainSubsystem.getPoseX(), dPose.getX());
         double speedY = yController.calculate(drivetrainSubsystem.getPoseY(), dPose.getY());
+
         System.out.println("m_pose deg: " + drivetrainSubsystem.getPoseDegrees() % 360);
         System.out.println("d_pose deg: " + dPose.getRotation().getDegrees() % 360);
 
@@ -137,17 +138,25 @@ public class AutonomousBasePD extends AutonomousBase{
         if(xAtSetpoint()){ 
             speedX = 0; 
             System.out.println("At x setpoint");
-        } 
- 
+      
+        } else {
+            speedX = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedX)));
+        }
+
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
-        } 
+        } else {
+            speedY = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedY)));
+        }
 
         if(turnAtSetpoint()){
             speedRotate = 0;
             System.out.println("At rotational setpoint");
         } 
+        // else {
+        //     speedRotate = Math.signum(speedRotate)*Math.max(Constants.STEER_MOTOR_MIN_VOLTAGE, Math.min(Constants.STEER_MOTOR_MAX_VOLTAGE, Math.abs(speedRotate)));
+        // }
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
         double errorX = xController.getPositionError();
@@ -155,7 +164,6 @@ public class AutonomousBasePD extends AutonomousBase{
         double errorRotate = turnController.getPositionError();
         System.out.println("Speed X: " + speedX + " Speed Y: " + speedY + " Speed R: " + speedRotate);
         System.out.println("error:" + errorX + ", " + errorY + ", " + errorRotate);
-
     }
 
     private boolean xAtSetpoint(){
