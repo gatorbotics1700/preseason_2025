@@ -6,7 +6,6 @@ public class Mechanisms {
     private IntakeSubsystem intakeSubsystem;
     private SensorSubsystem sensorSubsystem;
 
-    private boolean isFirstTimeInState;
     private double stateStartTime;
 
     private MechanismStates mechanismState;
@@ -24,7 +23,6 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         sensorSubsystem = new SensorSubsystem();
         intakeSubsystem = new IntakeSubsystem();
-        isFirstTimeInState = true;
         init();
     }
 
@@ -43,8 +41,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF); 
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);           
+                setState(MechanismStates.SPEAKER_HOLDING);           
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
@@ -54,22 +51,14 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER_HOLDING);
         }else if(mechanismState == MechanismStates.SHOOTING_AMP){
-            if (isFirstTimeInState){ // dictates our timing
-                isFirstTimeInState = false;
-                stateStartTime = System.currentTimeMillis();
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
-            }
+            intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
+            shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
             if(System.currentTimeMillis()-stateStartTime >= 2500){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF);
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
-            if (isFirstTimeInState){ 
-                isFirstTimeInState = false;
-                stateStartTime = System.currentTimeMillis();
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
-            }
+            intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
+            shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             if(System.currentTimeMillis()-stateStartTime >= 2500){ // 5 secs should be too long for shooting but just in case
                 setState(MechanismStates.OFF); // we could change this to intaking 
             }
@@ -83,12 +72,11 @@ public class Mechanisms {
         }
         intakeSubsystem.periodic();
         shooterSubsystem.periodic();
-        System.out.println(sensorSubsystem.detectNote());
     }
 
     public void setState(MechanismStates newState){
         mechanismState = newState;
-        isFirstTimeInState = true;
+        stateStartTime = System.currentTimeMillis();
     }
 
     public MechanismStates getMechanismState(){

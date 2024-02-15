@@ -12,10 +12,10 @@ import frc.robot.subsystems.Mechanisms;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
-    private static final double turnKP= 0.1; //increased slight *** not tested
+    private static final double turnKP= 0.2; //increased slight *** not tested
     private static final double turnKI= 0.05; 
     private static final double turnKD= 0.0;
-    private static final double driveKP= 2.5; //1.3; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKP= 3.75; //1.3; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //0.1; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.0; //0.3; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
@@ -104,12 +104,28 @@ public class AutonomousBasePD extends AutonomousBase{
                 moveToNextState();
                 System.out.println("REACHED SETPOINT");
             }
-        } else if(currentState.name == AutoStates.INTAKING){
-            if(System.currentTimeMillis()-startTimeForState>=350){
-                mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
+        } else if(currentState.name == AutoStates.DRIVE_HOLDING){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            driveToLocation(currentState.coordinate);
+            if(robotAtSetpoint()){
+                moveToNextState();
+                System.out.println("REACHED SETPOINT");
+            }
+        } else if(currentState.name == AutoStates.HOLDING_TIMED){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            if(System.currentTimeMillis()-startTimeForState >= 3000){
                 moveToNextState();
             }
-        } else if(currentState.name == AutoStates.STOP){
+        } else if(currentState.name == AutoStates.INTAKING){
+            if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.SPEAKER_HOLDING){
+                moveToNextState();
+            }
+        } else if(currentState.name == AutoStates.OUTTAKING){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+            if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.OFF){
+                moveToNextState();
+            }
+        }else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
             System.out.println("stopped in auto");
         } else {
@@ -140,23 +156,26 @@ public class AutonomousBasePD extends AutonomousBase{
             System.out.println("At x setpoint");
       
         } else {
-            speedX = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedX)));
+            // speedX = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedX)));
+            speedX = 0.5 * speedX; 
         }
 
         if(yAtSetpoint()){
             speedY = 0; 
             System.out.println("At y setpoint");
         } else {
-            speedY = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedY)));
+            // speedY = Math.signum(speedX)*Math.max(Constants.DRIVE_MOTOR_MIN_VOLTAGE, Math.min(Constants.DRIVE_MOTOR_MAX_VOLTAGE, Math.abs(speedY)));
+            speedY = 0.5 * speedY; 
         }
 
         if(turnAtSetpoint()){
             speedRotate = 0;
             System.out.println("At rotational setpoint");
         } 
-        // else {
-        //     speedRotate = Math.signum(speedRotate)*Math.max(Constants.STEER_MOTOR_MIN_VOLTAGE, Math.min(Constants.STEER_MOTOR_MAX_VOLTAGE, Math.abs(speedRotate)));
-        // }
+        else {
+            // speedRotate = Math.signum(speedRotate)*Math.max(Constants.STEER_MOTOR_MIN_VOLTAGE, Math.min(Constants.STEER_MOTOR_MAX_VOLTAGE, Math.abs(speedRotate)));
+            speedRotate = 0.5 * speedRotate; 
+        }
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
         double errorX = xController.getPositionError();
@@ -185,5 +204,6 @@ public class AutonomousBasePD extends AutonomousBase{
     private void moveToNextState(){
         stateIndex++;
         isFirstTimeInState = true;
+        startTimeForState = System.currentTimeMillis();
     }
 }

@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
    // m_drivetrainSubsystem.autoInitCalled = false;
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    //m_mechanismSubsystem.init();
+    m_mechanismSubsystem.init();
     
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
     // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_auto.periodic();
-   // m_mechanismSubsystem.periodic();
+   m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.drive();
     //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }
@@ -122,7 +122,8 @@ public class Robot extends TimedRobot {
     isBlueAlliance = allianceChooser.getSelected();
     m_drivetrainSubsystem.init();
     m_buttons.buttonsPeriodic();
-    m_mechanismSubsystem.init();
+    //m_mechanismSubsystem.init();
+    //m_mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
 
     //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
@@ -131,9 +132,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() { 
    // m_buttons.buttonsPeriodic();
-    m_mechanismSubsystem.periodic();
+    //m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.driveTeleop();
-    m_drivetrainSubsystem.drive();   
+    m_drivetrainSubsystem.drive(); 
   }
 
   /** This function is called once when the robot is disabled. */
@@ -148,6 +149,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     //m_drivetrainSubsystem.init();
+    m_mechanismSubsystem.init();
+    m_mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
   }
 
   /** This function is called periodically during test mode. */
@@ -155,8 +158,9 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     //OFFSETS
     //m_drivetrainSubsystem.driveTeleop();
-    m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-    m_drivetrainSubsystem.drive();
+    m_mechanismSubsystem.periodic();
+    //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+    //m_drivetrainSubsystem.drive();
   }
   /** This function is called once when the robot is first started up. */
   @Override

@@ -65,10 +65,10 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; //hulk
     // public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 3; //mcqueen
 
-    public static final double DRIVE_MOTOR_MIN_VOLTAGE = 0.19;
-    public static final double DRIVE_MOTOR_MAX_VOLTAGE = 0.6;
-   // public static final double STEER_MOTOR_MIN_VOLTAGE = 0.525;
-    //public static final double STEER_MOTOR_MAX_VOLTAGE = 0.5;
+    public static final double DRIVE_MOTOR_MIN_VOLTAGE = 0.15;
+    public static final double DRIVE_MOTOR_MAX_VOLTAGE = 0.7;
+    public static final double STEER_MOTOR_MIN_VOLTAGE = 0.15;
+    public static final double STEER_MOTOR_MAX_VOLTAGE = 0.6;
 
     public static final double TICKS_PER_REV = 2048;
     public static final double METERS_PER_INCH = 0.0254;
