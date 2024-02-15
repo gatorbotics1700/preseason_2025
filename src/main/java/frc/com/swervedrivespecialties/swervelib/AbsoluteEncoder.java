@@ -1,4 +1,5 @@
 package frc.com.swervedrivespecialties.swervelib;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix.sensors.CANCoder;
 
 public interface AbsoluteEncoder {
