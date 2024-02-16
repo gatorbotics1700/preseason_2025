@@ -4,13 +4,15 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.subsystems.DrivetrainSubsystem;
+//import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.PivotStates;
 import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,9 +36,10 @@ public class Robot extends TimedRobot {
     public static final IntakeSubsystem m_intakingSubsystem = new IntakeSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-    public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
+    //public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
     public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
+    public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
 
     double mpi = Constants.METERS_PER_INCH;
     public static Boolean isBlueAlliance = true;
@@ -60,12 +63,12 @@ public class Robot extends TimedRobot {
      * SmartDashboard integrated updating.
      */
 
-    @Override
-    public void robotPeriodic() {
-        SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
-        SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);
-        SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getPoseDegrees()%360);
-    }
+    // @Override
+    // public void robotPeriodic() {
+    //     SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
+    //     SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);
+    //     SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getPoseDegrees()%360);
+    // }
 
     /*
      * This autonomous (along with the chooser code above) shows how to select between different
@@ -85,19 +88,19 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {}
 
     /* This function is called once when teleop is enabled. */
-    @Override
-    public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
-        isBlueAlliance = allianceChooser.getSelected();
-        m_drivetrainSubsystem.onEnable();
-    }
+    // @Override
+    // public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
+    //     isBlueAlliance = allianceChooser.getSelected();
+    //     m_drivetrainSubsystem.onEnable();
+    // }
 
-    /* This function is called periodically during operator control. */
-    @Override
-    public void teleopPeriodic() { 
-        m_buttons.buttonsPeriodic();
-        m_drivetrainSubsystem.driveTeleop();
-        m_drivetrainSubsystem.drive();   
-    }
+    // /* This function is called periodically during operator control. */
+    // @Override
+    // public void teleopPeriodic() { 
+    //     m_buttons.buttonsPeriodic();
+    //     m_drivetrainSubsystem.driveTeleop();
+    //     m_drivetrainSubsystem.drive();   
+    // }
 
     /* This function is called once when the robot is disabled. */
     @Override
@@ -113,8 +116,10 @@ public class Robot extends TimedRobot {
         //m_drivetrainSubsystem.onEnable();
         //m_shooterSubsystem.setState(ShooterStates.AMP);
         //m_sensorSubsystem.init();
-        m_mechanismSubsystem.init();
-        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+       // m_mechanismSubsystem.init();
+        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+       //m_pivotSubsystem.setState(PivotStates.SPEAKER);
+       m_pivotSubsystem.init();
     }
 
     /* This function is called periodically during test mode. */
@@ -124,17 +129,20 @@ public class Robot extends TimedRobot {
         //m_drivetrainSubsystem.driveTeleop();
         //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
         //m_drivetrainSubsystem.drive();
-        m_buttons.buttonsPeriodic();
+        //m_buttons.buttonsPeriodic();
         //m_shooterSubsystem.highLeft.set(ControlMode.PercentOutput, 0.3);
         //m_shooterSubsystem.midRight.set(ControlMode.PercentOutput, -0.3);
         //m_intakingSubsystem.setState(IntakeStates.INTAKING.INTAKING);
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
-
+        m_pivotSubsystem.periodic();
+      // m_pivotSubsystem.pivot.set(ControlMode.PercentOutput, 0.05);
+        //System.out.println("top limit switch: " + m_pivotSubsystem.topLimitSwitch.get());
+        //System.out.println("bottom limit switch: " + m_pivotSubsystem.bottomLimitSwitch.get());
     }
     /* This function is called once when the robot is first started up. */
     @Override
