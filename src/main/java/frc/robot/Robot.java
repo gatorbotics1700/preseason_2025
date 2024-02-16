@@ -55,18 +55,32 @@ public class Robot extends TimedRobot {
     System.out.println("#I'm Awake");
 
     auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
-    auto_chooser.addOption("noGoR!", Paths.AUTO_OPTIONS.NO_GO);
-    auto_chooser.addOption("3 Piece A", Paths.AUTO_OPTIONS.THREE_PIECE_A);
-    auto_chooser.addOption("3 Piece B", Paths.AUTO_OPTIONS.THREE_PIECE_B);
-    auto_chooser.addOption("# Piece AMP", Paths.AUTO_OPTIONS.THREE_PAMP);
-    auto_chooser.addOption("4 Piece A", Paths.AUTO_OPTIONS.FOUR_PIECE_A);
-    auto_chooser.addOption("4 Piece B", Paths.AUTO_OPTIONS.FOUR_PIECE_B);
-    auto_chooser.addOption("5 Piece", Paths.AUTO_OPTIONS.FIVE_PIECE);
-    auto_chooser.addOption("Anaika's Dream", Paths.AUTO_OPTIONS.ANAIKAS_DREAM);
-    auto_chooser.addOption("Bread", Paths.AUTO_OPTIONS.BREAD);
-    auto_chooser.addOption("Fallback A", Paths.AUTO_OPTIONS.FALLBACK_A);
-    auto_chooser.addOption("Fallback B", Paths.AUTO_OPTIONS.FALLBACK_B);
-    auto_chooser.addOption("Fallback C", Paths.AUTO_OPTIONS.FALLBACK_C);
+    //red paths
+    auto_chooser.addOption("noGo-R!", Paths.AUTO_OPTIONS.R_NO_GO);
+    auto_chooser.addOption("R-3 Piece 1", Paths.AUTO_OPTIONS.R_THREE_PIECE_1);
+    auto_chooser.addOption("R-3 Piece 2", Paths.AUTO_OPTIONS.R_THREE_PIECE_2);
+    auto_chooser.addOption("R-3 Piece AMP", Paths.AUTO_OPTIONS.R_THREE_PAMP);
+    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
+    auto_chooser.addOption("R-4 Piece 1", Paths.AUTO_OPTIONS.R_FOUR_PIECE_1);
+    auto_chooser.addOption("R-5 Piece 2", Paths.AUTO_OPTIONS.R_FIVE_PIECE_2);
+    auto_chooser.addOption("R-Anaika's Dream 1", Paths.AUTO_OPTIONS.R_ANAIKAS_DREAM_1);
+    auto_chooser.addOption("R-Bread", Paths.AUTO_OPTIONS.R_BREAD);
+    auto_chooser.addOption("R-Fallback 1", Paths.AUTO_OPTIONS.R_FALLBACK_1);
+    auto_chooser.addOption("R-Fallback 2", Paths.AUTO_OPTIONS.R_FALLBACK_2);
+    auto_chooser.addOption("R-Fallback 3", Paths.AUTO_OPTIONS.R_FALLBACK_3);
+    //blue paths
+    auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
+    auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
+    auto_chooser.addOption("B-3 Piece 2", Paths.AUTO_OPTIONS.B_THREE_PIECE_2);
+    auto_chooser.addOption("B-3 Piece AMP", Paths.AUTO_OPTIONS.B_THREE_PAMP);
+    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
+    auto_chooser.addOption("B-4 Piece 2", Paths.AUTO_OPTIONS.B_FOUR_PIECE_2);
+    auto_chooser.addOption("B-5 Piece 1", Paths.AUTO_OPTIONS.B_FIVE_PIECE_1);
+    auto_chooser.addOption("B-Anaika's Dream 2", Paths.AUTO_OPTIONS.B_ANAIKAS_DREAM_2);
+    auto_chooser.addOption("B-Bread", Paths.AUTO_OPTIONS.B_BREAD);
+    auto_chooser.addOption("B-Fallback 1", Paths.AUTO_OPTIONS.B_FALLBACK_1);
+    auto_chooser.addOption("B-Fallback 2", Paths.AUTO_OPTIONS.B_FALLBACK_2);
+    auto_chooser.addOption("B-Fallback 3", Paths.AUTO_OPTIONS.B_FALLBACK_3);
 
     SmartDashboard.putData("Auto Choices", auto_chooser); 
     
