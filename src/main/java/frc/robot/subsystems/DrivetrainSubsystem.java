@@ -7,10 +7,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
+import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -20,25 +21,22 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
-import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
-import frc.com.swervedrivespecialties.swervelib.SwerveModule;
-import frc.robot.Constants;
-import frc.robot.OI;
+
 import java.util.function.DoubleSupplier;
 
+import frc.robot.Constants;
+import frc.robot.OI;
 
 public class DrivetrainSubsystem {
-   private static final double SWERVE_GEAR_RATIO = 6.75; 
-   private static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches
-   private static final double SWERVE_TICKS_PER_INCH = Constants.TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
-   private static final double SWERVE_TICKS_PER_METER = SWERVE_TICKS_PER_INCH/Constants.METERS_PER_INCH;
 
   /*
    * The maximum voltage that will be delivered to the motors.
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
    */
    private static final double MAX_VOLTAGE = 12.0; //TODO: double check this; previously 16.3
+
+   public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.15;
+   //public static final double MIN_VELOCITY_METERS_PER_SECOND = 1.5; //TODO: fix dummy value
 
   /* The formula for calculating the theoretical maximum velocity is:
    * <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
@@ -78,11 +76,13 @@ public class DrivetrainSubsystem {
 
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
-
-   //constructor is called every time code is deployed, onEnable is called every time the robot is enabled.
+   //we need to use this fix drift that happens when we apply the offsets, this is how that drift is measured
+   private double startingGyroRotation; 
+  
    public DrivetrainSubsystem() {
       pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
+      //startingGyroRotation = getGyroscopeRotation().getDegrees();
 
       // We will use mk4 modules with Falcon 500s with the L2 configuration. 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -159,23 +159,21 @@ public class DrivetrainSubsystem {
       );
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-    
-      System.out.println("ASSIGNING POSE");
+      
+      System.out.println("assigning a value to positionManager");
       positionManager = new SwerveDrivePoseEstimator(
          kinematics, 
          getGyroscopeRotation(), 
-         getModulePositionArray(),
-         //TODO: update this if an auto path doesn't start at (0,0)
-         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))) //assumes 180 degrees rotation is facing driver station
+         getModulePositionArray(), 
+         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
       ); 
-   System.out.println("ASSIGNED TO" + positionManager.getEstimatedPosition());
-
+      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
    }
   
    //from pigeon used for updating our odometry
    //in an unknown, arbitrary frame
    //"do not use unless you know what you are doing" - patricia
-   private Rotation2d getGyroscopeRotation() {
+   public Rotation2d getGyroscopeRotation() {
       return new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())); //getYaw() returns degrees
    }
 
@@ -189,12 +187,10 @@ public class DrivetrainSubsystem {
    public void updatePositionManager(){
       positionManager.update(getGyroscopeRotation(), getModulePositionArray());
    }
-
    //the next iteration of drive will use this speed  
    public void setSpeed(ChassisSpeeds chassisSpeeds) { 
       this.chassisSpeeds = chassisSpeeds;
    }
-
   
   /* 
    * this method is responsible for getting values from the xbox controller and setting the speed that drive will call
@@ -281,20 +277,26 @@ public class DrivetrainSubsystem {
     public Pose2d getPose(){
       return positionManager.getEstimatedPosition();
     }
-    
-    //resets to pose set in the constructor of the SwerveDrivePoseEstimator positionManager
-    //only use in test, do not use in a match
-    public void resetPositionManager(){
-        positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), getPose());
-    }
 
     public SwerveModulePosition[] getModulePositionArray(){
       return new SwerveModulePosition[] {
-         new SwerveModulePosition((frontLeftModule.getPositionRotation() * Constants.TICKS_PER_REV)/SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
-         new SwerveModulePosition((frontRightModule.getPositionRotation() * Constants.TICKS_PER_REV)/SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
-         new SwerveModulePosition((backLeftModule.getPositionRotation() * Constants.TICKS_PER_REV)/SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
-         new SwerveModulePosition((backRightModule.getPositionRotation() * Constants.TICKS_PER_REV)/SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
+         new SwerveModulePosition(frontLeftModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(frontLeftModule.getSteerAngle())), //from steer motor
+         new SwerveModulePosition(frontRightModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(frontRightModule.getSteerAngle())), 
+         new SwerveModulePosition(backLeftModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(backLeftModule.getSteerAngle())),
+         new SwerveModulePosition(backRightModule.getPositionRotation()/Constants.SWERVE_TICKS_PER_METER, new Rotation2d(backRightModule.getSteerAngle()))
       };
     }
-    
+
+    public void resetPositionManager(Pose2d currentPose){
+      positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), currentPose);
+   }
+
+   public SwerveDrivePoseEstimator getPositionManager(){
+      return positionManager;
+   }
+
+   public double getStartingGyroRotation(){
+      return startingGyroRotation; 
+   }
 }
+

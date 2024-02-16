@@ -41,8 +41,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
-                intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF); 
-                shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);           
+                setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
@@ -54,13 +53,13 @@ public class Mechanisms {
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ // 5 secs should be too long for shooting but just in case
+            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
                 setState(MechanismStates.OFF);
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ // 5 secs should be too long for shooting but just in case
+            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
                 setState(MechanismStates.OFF); // we could change this to intaking 
             }
         } else if (mechanismState == MechanismStates.OFF){
@@ -82,5 +81,9 @@ public class Mechanisms {
 
     public MechanismStates getMechanismState(){
         return mechanismState;
+    }
+
+    public SensorSubsystem getSensorSubsystem(){
+        return sensorSubsystem;
     }
 }

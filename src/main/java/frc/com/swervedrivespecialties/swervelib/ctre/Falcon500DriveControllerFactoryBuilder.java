@@ -11,6 +11,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import frc.com.swervedrivespecialties.swervelib.DriveController;
 import frc.com.swervedrivespecialties.swervelib.DriveControllerFactory;
 import frc.com.swervedrivespecialties.swervelib.ModuleConfiguration;
+import frc.robot.Constants;
 
 public final class Falcon500DriveControllerFactoryBuilder {
     private static final double TICKS_PER_ROTATION = 2048.0;
@@ -61,11 +62,10 @@ public final class Falcon500DriveControllerFactoryBuilder {
             double sensorVelocityCoefficient = sensorPositionCoefficient * 10.0;
 
             if (hasVoltageCompensation()) {
-                //TODO: voltage comp ------ motorConfiguration.voltageCompSaturation = nominalVoltage;
                 motorConfiguration.Voltage.PeakForwardVoltage = nominalVoltage;
             }
 
-            if (hasCurrentLimit()) { //TODO: COME BACK AND CHECK THIS
+            if (hasCurrentLimit()) {
                 motorConfiguration.CurrentLimits.withSupplyCurrentLimit(currentLimit);
                 motorConfiguration.CurrentLimits.withSupplyCurrentLimitEnable(true);
             }
@@ -77,11 +77,6 @@ public final class Falcon500DriveControllerFactoryBuilder {
                     break;
                 }
             }
-
-            // if (hasVoltageCompensation()) {
-            //     // Enable voltage compensation
-            //     motor.enableVoltageCompensation(true);
-            // }
 
             motor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -129,15 +124,13 @@ public final class Falcon500DriveControllerFactoryBuilder {
 
         @Override
         public double getStateVelocity() {
-          //TODO: * sensorVelocityCoefficient???;
-            return motor.getRotorPosition().getValue(); //
+            return (motor.getRotorVelocity().getValue()*Constants.TICKS_PER_REV)/Constants.SWERVE_TICKS_PER_METER; 
             
         }
 
         @Override
         public double getPosition(){
-            //return motor.getPosition().getValueAsDouble();
-            return motor.getRotorPosition().getValue();
+            return (motor.getRotorPosition().getValue()*Constants.TICKS_PER_REV);
         }
     }
 }

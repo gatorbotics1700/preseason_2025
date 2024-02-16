@@ -7,11 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
-import frc.robot.subsystems.SensorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.autonomous.AutonomousBase;
+import frc.robot.autonomous.Paths;
 
 
 /*
@@ -22,29 +21,60 @@ import frc.robot.subsystems.ShooterSubsystem;
  */
 
 public class Robot extends TimedRobot {
+
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
+    private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
-    public static final IntakeSubsystem m_intakingSubsystem = new IntakeSubsystem();
+    
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
-    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     public static Buttons m_buttons = new Buttons();
-    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
-
-    double mpi = Constants.METERS_PER_INCH;
+    private AutonomousBase m_auto; 
     public static Boolean isBlueAlliance = true;
+
   
-    /*
-     * This function is run when the robot is turned on and should be used for any
-     * initialization code.
-     */
-    @Override
-    public void robotInit() { //creates options for different autopaths, names are placeholders    
-        System.out.println("#I'm Awake");
-        inverted.setDefaultOption("true", true);
-        inverted.addOption("false", false);
-    }
+  /**
+  * This function is run when the robot is turned on and should be used for any
+  * initialization code.
+  */
+  @Override
+  public void robotInit() { //creates options for different autopaths, names are placeholders    
+    System.out.println("#I'm Awake");
+
+    auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
+    //red paths
+    auto_chooser.addOption("noGo-R!", Paths.AUTO_OPTIONS.R_NO_GO);
+    auto_chooser.addOption("R-3 Piece 1", Paths.AUTO_OPTIONS.R_THREE_PIECE_1);
+    auto_chooser.addOption("R-3 Piece 2", Paths.AUTO_OPTIONS.R_THREE_PIECE_2);
+    auto_chooser.addOption("R-3 Piece AMP", Paths.AUTO_OPTIONS.R_THREE_PAMP);
+    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
+    auto_chooser.addOption("R-4 Piece 1", Paths.AUTO_OPTIONS.R_FOUR_PIECE_1);
+    auto_chooser.addOption("R-5 Piece 2", Paths.AUTO_OPTIONS.R_FIVE_PIECE_2);
+    auto_chooser.addOption("R-Anaika's Dream 1", Paths.AUTO_OPTIONS.R_ANAIKAS_DREAM_1);
+    auto_chooser.addOption("R-Bread", Paths.AUTO_OPTIONS.R_BREAD);
+    auto_chooser.addOption("R-Fallback 1", Paths.AUTO_OPTIONS.R_FALLBACK_1);
+    auto_chooser.addOption("R-Fallback 2", Paths.AUTO_OPTIONS.R_FALLBACK_2);
+    auto_chooser.addOption("R-Fallback 3", Paths.AUTO_OPTIONS.R_FALLBACK_3);
+    //blue paths
+    auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
+    auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
+    auto_chooser.addOption("B-3 Piece 2", Paths.AUTO_OPTIONS.B_THREE_PIECE_2);
+    auto_chooser.addOption("B-3 Piece AMP", Paths.AUTO_OPTIONS.B_THREE_PAMP);
+    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
+    auto_chooser.addOption("B-4 Piece 2", Paths.AUTO_OPTIONS.B_FOUR_PIECE_2);
+    auto_chooser.addOption("B-5 Piece 1", Paths.AUTO_OPTIONS.B_FIVE_PIECE_1);
+    auto_chooser.addOption("B-Anaika's Dream 2", Paths.AUTO_OPTIONS.B_ANAIKAS_DREAM_2);
+    auto_chooser.addOption("B-Bread", Paths.AUTO_OPTIONS.B_BREAD);
+    auto_chooser.addOption("B-Fallback 1", Paths.AUTO_OPTIONS.B_FALLBACK_1);
+    auto_chooser.addOption("B-Fallback 2", Paths.AUTO_OPTIONS.B_FALLBACK_2);
+    auto_chooser.addOption("B-Fallback 3", Paths.AUTO_OPTIONS.B_FALLBACK_3);
+
+    SmartDashboard.putData("Auto Choices", auto_chooser); 
+    
+    inverted.setDefaultOption("true", true);
+    inverted.addOption("false", false);
+  }
 
     /*
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -59,7 +89,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getPoseDegrees()%360);
-        SmartDashboard.putBoolean("detectNote", m_sensorSubsystem.detectNote());
+        SmartDashboard.putBoolean("detectNote", m_mechanismSubsystem.getSensorSubsystem().detectNote());
     }
 
     /*
@@ -73,11 +103,26 @@ public class Robot extends TimedRobot {
      * chooser code above as well.
      */
     @Override
-    public void autonomousInit() {}
+  public void autonomousInit() {
+   // m_drivetrainSubsystem.autoInitCalled = false;
+    Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
+    m_auto = Paths.constructAuto(selectedAuto); 
+    m_mechanismSubsystem.init();
+    
+    //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
+    // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
 
-    /* This function is called periodically during autonomous. */
-    @Override
-    public void autonomousPeriodic() {}
+    // m_drivetrainSubsystem.autoInitCalled = true;
+  }
+
+  /** This function is called periodically during autonomous. */
+  @Override
+  public void autonomousPeriodic() {
+    m_auto.periodic();
+    m_mechanismSubsystem.periodic();
+    m_drivetrainSubsystem.drive();
+    //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
+  }
 
     /* This function is called once when teleop is enabled. */
     @Override
