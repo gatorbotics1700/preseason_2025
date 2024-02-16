@@ -56,9 +56,14 @@ public class Robot extends TimedRobot {
 
     auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
     auto_chooser.addOption("noGoR!", Paths.AUTO_OPTIONS.NO_GO);
-    auto_chooser.addOption("MP testpath", Paths.AUTO_OPTIONS.MP_TESTPATH);
     auto_chooser.addOption("3 Piece A", Paths.AUTO_OPTIONS.THREE_PIECE_A);
     auto_chooser.addOption("3 Piece B", Paths.AUTO_OPTIONS.THREE_PIECE_B);
+    auto_chooser.addOption("# Piece AMP", Paths.AUTO_OPTIONS.THREE_PAMP);
+    auto_chooser.addOption("4 Piece A", Paths.AUTO_OPTIONS.FOUR_PIECE_A);
+    auto_chooser.addOption("4 Piece B", Paths.AUTO_OPTIONS.FOUR_PIECE_B);
+    auto_chooser.addOption("5 Piece", Paths.AUTO_OPTIONS.FIVE_PIECE);
+    auto_chooser.addOption("Anaika's Dream", Paths.AUTO_OPTIONS.ANAIKAS_DREAM);
+    auto_chooser.addOption("Bread", Paths.AUTO_OPTIONS.BREAD);
 
     SmartDashboard.putData("Auto Choices", auto_chooser); 
     
