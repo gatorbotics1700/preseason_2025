@@ -25,6 +25,9 @@ public class Paths {
       FIVE_PIECE,
       ANAIKAS_DREAM,
       BREAD,
+      FALLBACK_A,
+      FALLBACK_B,
+      FALLBACK_C,
       NO_GO;
   }
 
@@ -54,6 +57,38 @@ public class Paths {
               new Pose2d(60.0, 0.0, new Rotation2d(Math.toRadians(180.0))),
               new PDState[]{
                   new PDState(AutoStates.FIRST),
+                  new PDState(AutoStates.STOP)
+              }
+          );
+      } else if (selectedAuto == AUTO_OPTIONS.FALLBACK_A){
+          return new AutonomousBasePD(
+              new Pose2d(633*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))),
+              new PDState[]{
+                  new PDState(AutoStates.FIRST),
+                  new PDState(AutoStates.DRIVE, new Pose2d(555*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //move to shoot 1
+                  new PDState(AutoStates.DRIVE, new Pose2d(555*Constants.METERS_PER_INCH, 277.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(31.185)))), //rotate clockwise
+                  // 1 shoot preloaded + get past starting zone (for auto points)
+                  new PDState(AutoStates.STOP)
+              }
+          );
+        } else if (selectedAuto == AUTO_OPTIONS.FALLBACK_B){
+          return new AutonomousBasePD(
+              new Pose2d(633*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))),
+              new PDState[]{
+                  new PDState(AutoStates.FIRST),
+                  new PDState(AutoStates.DRIVE_HOLDING, new Pose2d(555*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))), //move to intake 1
+                  new PDState(AutoStates.DRIVE_HOLDING, new Pose2d(555*Constants.METERS_PER_INCH, 167.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(-31.185)))), //rotate
+                  // 1 shoot preloaded + get past starting zone (for auto points)
+                  new PDState(AutoStates.STOP)
+              }
+          );
+        } else if (selectedAuto == AUTO_OPTIONS.FALLBACK_C){
+          return new AutonomousBasePD(
+              new Pose2d(595.5*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0))),//start pose
+              new PDState[]{
+                  new PDState(AutoStates.FIRST),
+                  new PDState(AutoStates.DRIVE, new Pose2d(555*Constants.METERS_PER_INCH, 222.5*Constants.METERS_PER_INCH, new Rotation2d(Math.toRadians(0.0)))),//back up
+                  // 1 shoot preloaded + get past starting zone (for auto points)
                   new PDState(AutoStates.STOP)
               }
           );

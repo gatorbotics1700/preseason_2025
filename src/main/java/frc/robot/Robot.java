@@ -64,6 +64,9 @@ public class Robot extends TimedRobot {
     auto_chooser.addOption("5 Piece", Paths.AUTO_OPTIONS.FIVE_PIECE);
     auto_chooser.addOption("Anaika's Dream", Paths.AUTO_OPTIONS.ANAIKAS_DREAM);
     auto_chooser.addOption("Bread", Paths.AUTO_OPTIONS.BREAD);
+    auto_chooser.addOption("Fallback A", Paths.AUTO_OPTIONS.FALLBACK_A);
+    auto_chooser.addOption("Fallback B", Paths.AUTO_OPTIONS.FALLBACK_B);
+    auto_chooser.addOption("Fallback C", Paths.AUTO_OPTIONS.FALLBACK_C);
 
     SmartDashboard.putData("Auto Choices", auto_chooser); 
     
