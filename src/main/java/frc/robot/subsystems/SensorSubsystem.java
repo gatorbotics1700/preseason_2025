@@ -13,6 +13,7 @@ public class SensorSubsystem {
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color NOTE_COLOR = new Color(98, 106, 50);
     private final double COLOR_THRESHOLD = 0.12; //CALIBRATE AT COMPS 
+    private boolean detectNote;
     //Hex value converted to a fraction between 0 and 1; it's essentially the percentage of the color spectrum that we are allowing 
     //TODO: confirm COLOR_THRESHOLD
     //tested 0.03 threshold with lights on and could get an inch away
@@ -27,7 +28,7 @@ public class SensorSubsystem {
         System.out.println("sensor init");
         m_colorMatcher.addColorMatch(NOTE_COLOR);
         System.out.println(colorSensor.getColor());
-        
+        detectNote = false;
     }
 
     public boolean detectNote(){
@@ -39,11 +40,17 @@ public class SensorSubsystem {
         boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= COLOR_THRESHOLD);
 
         if(redThreshold && greenThreshold && blueThreshold) {
+            detectNote = true;
             System.out.println("WE'VE HIT THAT NOTE!!");
             return true;
         } else {
+            detectNote = false;
             System.out.println("We don't see the note");
             return false;
         }
+    }
+
+    public boolean getDetectNote(){
+        return detectNote;
     }
 }
