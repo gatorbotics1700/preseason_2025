@@ -62,11 +62,10 @@ public final class Falcon500DriveControllerFactoryBuilder {
             double sensorVelocityCoefficient = sensorPositionCoefficient * 10.0;
 
             if (hasVoltageCompensation()) {
-                //TODO: voltage comp ------ motorConfiguration.voltageCompSaturation = nominalVoltage;
                 motorConfiguration.Voltage.PeakForwardVoltage = nominalVoltage;
             }
 
-            if (hasCurrentLimit()) { //TODO: COME BACK AND CHECK THIS
+            if (hasCurrentLimit()) {
                 motorConfiguration.CurrentLimits.withSupplyCurrentLimit(currentLimit);
                 motorConfiguration.CurrentLimits.withSupplyCurrentLimitEnable(true);
             }
@@ -78,11 +77,6 @@ public final class Falcon500DriveControllerFactoryBuilder {
                     break;
                 }
             }
-
-            // if (hasVoltageCompensation()) {
-            //     // Enable voltage compensation
-            //     motor.enableVoltageCompensation(true);
-            // }
 
             motor.setNeutralMode(NeutralModeValue.Brake);
 

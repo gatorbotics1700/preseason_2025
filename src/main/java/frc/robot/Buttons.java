@@ -20,17 +20,12 @@ public class Buttons {
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
   
-  public double leftTrigger;
-  public double rightTrigger;
-  
   public void buttonsPeriodic(){
       //driver
-      /*if (OI.m_controller.getBButton()){ //emergency stop EVERYTHING
-        m_drivetrainSubsystem.stopDrive(); 
-      }*/
-      
       if (OI.m_controller.getLeftBumper()){ //emergency stop EVERYTHING
         m_drivetrainSubsystem.stopDrive(); 
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        System.out.println("===STOPPED EVERYTHING====");
       }
       if (OI.m_controller_two.getAButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);

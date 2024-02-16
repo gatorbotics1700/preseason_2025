@@ -5,7 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 public class AutonomousBase{
 
-    public Pose2d startingCoordinate; //this is something that would be used if we were to resetPositionManager
+    private Pose2d startingCoordinate; //this is something that would be used if we were to resetPositionManager
 
     public AutonomousBase(Pose2d startingCoordinate){
         this.startingCoordinate = startingCoordinate;
@@ -13,7 +13,6 @@ public class AutonomousBase{
 
     public Pose2d getStartingPose(){
         return startingCoordinate; 
-        
     }
     
     public void init(){

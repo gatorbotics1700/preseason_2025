@@ -26,9 +26,11 @@ public final class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6; 
 
+        public static final double TICKS_PER_REV = 2048;
+
     public static final double SWERVE_GEAR_RATIO = 6.75; 
     public static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches
-    public static final double SWERVE_TICKS_PER_INCH = Constants.TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
+    public static final double SWERVE_TICKS_PER_INCH = TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
     public static final double SWERVE_TICKS_PER_METER = SWERVE_TICKS_PER_INCH/Constants.METERS_PER_INCH;
 
    //offsets Hulk 
@@ -70,7 +72,6 @@ public final class Constants {
     public static final double STEER_MOTOR_MIN_VOLTAGE = 0.15;
     public static final double STEER_MOTOR_MAX_VOLTAGE = 0.6;
 
-    public static final double TICKS_PER_REV = 2048;
     public static final double METERS_PER_INCH = 0.0254;
 
     public static final int INTAKE_MOTOR_CAN_ID = 28;

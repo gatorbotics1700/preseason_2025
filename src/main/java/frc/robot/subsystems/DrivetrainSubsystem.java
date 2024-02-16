@@ -22,12 +22,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Constants.*;
-
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.Robot;
-//import frc.robot.autonomous.AutonomousBasePD;
 
 public class DrivetrainSubsystem {
 
@@ -73,12 +70,11 @@ public class DrivetrainSubsystem {
    private SwerveModule backLeftModule;
    private SwerveModule backRightModule;
 
-   public SwerveDrivePoseEstimator positionManager; //THIS IS PUBLIC, THAT DOES NOTTTTT MEAN WE SHOULD MESS WITH ITTTTTT! 
+   private SwerveDrivePoseEstimator positionManager; //THIS IS PUBLIC, THAT DOES NOTTTTT MEAN WE SHOULD MESS WITH ITTTTTT! 
    private ShuffleboardTab tab;
 
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
-   public static double mpi = Constants.METERS_PER_INCH;
    // public boolean autoInitCalled = false;
    //we need to use this fix drift that happens when we apply the offsets, this is how that drift is measured
    private double startingGyroRotation; 
@@ -99,13 +95,13 @@ public class DrivetrainSubsystem {
             // This can be any level from L1-L4 depending on the gear configuration (the levels allow different amounts of speed and torque)
             Mk4SwerveModuleHelper.GearRatio.L2,
             // This is the ID of the drive motor
-            FRONT_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
             // This is the ID of the steer motor
-            FRONT_LEFT_MODULE_STEER_MOTOR,
+            Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
             // This is the ID of the steer encoder
-            FRONT_LEFT_MODULE_STEER_ENCODER,
+            Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
             // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
-            FRONT_LEFT_MODULE_STEER_OFFSET
+            Constants.FRONT_LEFT_MODULE_STEER_OFFSET
          );
         
       // We will do the same for the other modules
@@ -115,10 +111,10 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(2, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-            FRONT_RIGHT_MODULE_STEER_MOTOR,
-            FRONT_RIGHT_MODULE_STEER_ENCODER,
-            FRONT_RIGHT_MODULE_STEER_OFFSET
+            Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
+            Constants.FRONT_RIGHT_MODULE_STEER_OFFSET
       );
         
       backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -126,10 +122,10 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(4, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            BACK_LEFT_MODULE_DRIVE_MOTOR,
-            BACK_LEFT_MODULE_STEER_MOTOR,
-            BACK_LEFT_MODULE_STEER_ENCODER,
-            BACK_LEFT_MODULE_STEER_OFFSET
+            Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_ENCODER,
+            Constants.BACK_LEFT_MODULE_STEER_OFFSET
       );
         
       backRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -137,16 +133,16 @@ public class DrivetrainSubsystem {
                .withSize(2, 4)
                .withPosition(6, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
-            BACK_RIGHT_MODULE_DRIVE_MOTOR,
-            BACK_RIGHT_MODULE_STEER_MOTOR,
-            BACK_RIGHT_MODULE_STEER_ENCODER,
-            BACK_RIGHT_MODULE_STEER_OFFSET
+            Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
+            Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
 
       init();
    }
 
-   public void init(){ //TODO: is the naming this init an issue? check with Kim
+   public void init(){
       System.out.println("Initializing drivetrain subsystem vars");
       /* 
        * Positive x values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot.
@@ -154,14 +150,14 @@ public class DrivetrainSubsystem {
        */
       kinematics = new SwerveDriveKinematics( 
          // Front left
-         new Translation2d(DRIVETRAIN_WHEELBASE_METERS / 2.0, DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+         new Translation2d(Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
          //translation2d refers to the robot's x and y position in the larger field coordinate system
          // Front right
-         new Translation2d(DRIVETRAIN_WHEELBASE_METERS / 2.0, -DRIVETRAIN_TRACKWIDTH_METERS / 2.0), 
+         new Translation2d(Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0), 
          // Back left
-         new Translation2d(-DRIVETRAIN_WHEELBASE_METERS / 2.0, DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
+         new Translation2d(-Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0),
          // Back right
-         new Translation2d(-DRIVETRAIN_WHEELBASE_METERS / 2.0, -DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
+         new Translation2d(-Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0, -Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0)
       );
 
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
@@ -169,11 +165,11 @@ public class DrivetrainSubsystem {
       
          System.out.println("assigning a value to positionManager");
          positionManager = new SwerveDrivePoseEstimator(
-         kinematics, 
-         getGyroscopeRotation(), 
-         getModulePositionArray(), 
-         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
-      ); 
+            kinematics, 
+            getGyroscopeRotation(), 
+            getModulePositionArray(), 
+            new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
+         ); 
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
       
      
@@ -298,6 +294,10 @@ public class DrivetrainSubsystem {
 
     public void resetPositionManager(Pose2d currentPose){
       positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), currentPose);
+   }
+
+   public SwerveDrivePoseEstimator getPositionManager(){
+      return positionManager;
    }
 
    public double getStartingGyroRotation(){

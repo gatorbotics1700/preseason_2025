@@ -15,7 +15,6 @@ import frc.robot.subsystems.Mechanisms.MechanismStates;;
 public class Paths {
   public enum AUTO_OPTIONS{
       PD_TESTPATH,
-      MP_TESTPATH,
       //R + B = red alliance vs blue alliance
       //1 + 2 + 3 = starting position 1 vs. 2
       //1 = right of the speaker if at driverstation
@@ -604,15 +603,6 @@ public class Paths {
                   //in pos to intake
                   new PDState(AutoStates.INTAKING),
                   new PDState(AutoStates.STOP)
-              }
-          );
-      } else if(selectedAuto == AUTO_OPTIONS.MP_TESTPATH){
-          return new AutonomousBaseMP(
-              new Pose2d(0,0, new Rotation2d(0)),
-              new MPState[]{
-                  new MPState(StatesName.FIRST),
-                  new MPState(StatesName.TRAJECTORY, Trajectories.uno),
-                  new MPState(StatesName.STOP)
               }
           );
       }else{

@@ -86,15 +86,11 @@ public class AutonomousBasePD extends AutonomousBase{
         if(currentState.name == AutoStates.FIRST){ 
             //double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
            // Pose2d modifiedStartingCoordinate = new Pose2d(startingCoordinate.getX(), startingCoordinate.getY(), new Rotation2d(Math.toRadians(startingCoordinate.getRotation().getDegrees() - startingError)));
-            drivetrainSubsystem.positionManager.resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), startingCoordinate); 
+            drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), getStartingPose()); //TODO: test this to make sure it works when using the getter for starting coordinate
             
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
-            //initializig setpoint - is not final setpoint
-            // xController.setSetpoint(0); //translation not pose component
-            // yController.setSetpoint(0);
-            // turnController.setSetpoint(0);
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE){
@@ -120,7 +116,7 @@ public class AutonomousBasePD extends AutonomousBase{
             if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.SPEAKER_HOLDING){
                 moveToNextState();
             }
-        } else if(currentState.name == AutoStates.OUTTAKING){
+        } else if(currentState.name == AutoStates.OUTTAKING){ //TODO: test this to see if it ever gets to the if or the shooting timer restarts everytime periodic is run
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
             if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.OFF){
                 moveToNextState();

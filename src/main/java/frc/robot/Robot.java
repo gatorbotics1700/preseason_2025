@@ -86,7 +86,6 @@ public class Robot extends TimedRobot {
     
     inverted.setDefaultOption("true", true);
     inverted.addOption("false", false);
-    //m_drivetrainSubsystem.autoInitCalled = false;
   }
 
   /**
@@ -131,7 +130,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_auto.periodic();
-   m_mechanismSubsystem.periodic();
+    m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.drive();
     //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }
@@ -144,8 +143,8 @@ public class Robot extends TimedRobot {
     isBlueAlliance = allianceChooser.getSelected();
     m_drivetrainSubsystem.init();
     m_buttons.buttonsPeriodic();
-    //m_mechanismSubsystem.init();
-    //m_mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+    m_mechanismSubsystem.init();
+    //m_mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER); //for testing
 
     //m_drivetrainSubsystem.resetPositionManager(); //for testing 
   }
@@ -153,8 +152,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() { 
-   // m_buttons.buttonsPeriodic();
-    //m_mechanismSubsystem.periodic();
+    m_buttons.buttonsPeriodic();
+    m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.driveTeleop();
     m_drivetrainSubsystem.drive(); 
   }
