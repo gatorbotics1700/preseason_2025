@@ -29,6 +29,7 @@ public class Buttons {
         System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
       }
       if (OI.codriver.getBButton()){
+        System.out.println("=======B BUTTON====INTAKING=======");
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
         } else {

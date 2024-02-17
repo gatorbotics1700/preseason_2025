@@ -84,9 +84,10 @@ public class AutonomousBasePD extends AutonomousBase{
             isFirstTimeInState = false;
         }
         if(currentState.name == AutoStates.FIRST){ 
-            //double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
-           // Pose2d modifiedStartingCoordinate = new Pose2d(startingCoordinate.getX(), startingCoordinate.getY(), new Rotation2d(Math.toRadians(startingCoordinate.getRotation().getDegrees() - startingError)));
-            drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), getStartingPose()); //TODO: test this to make sure it works when using the getter for starting coordinate
+            //correct for twitching when offsets get applied
+            double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
+            Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() + startingError))); 
+            drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
             
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
@@ -109,7 +110,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
-            if(System.currentTimeMillis()-startTimeForState >= 3000){
+            if(System.currentTimeMillis()-startTimeForState >= 3000){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){

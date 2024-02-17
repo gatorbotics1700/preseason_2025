@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 public class Mechanisms {
 
-    private ShooterSubsystem shooterSubsystem;
+    public ShooterSubsystem shooterSubsystem;
     private IntakeSubsystem intakeSubsystem;
     private SensorSubsystem sensorSubsystem;
 

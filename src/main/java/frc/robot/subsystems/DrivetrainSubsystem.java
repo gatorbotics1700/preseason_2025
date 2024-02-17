@@ -82,7 +82,7 @@ public class DrivetrainSubsystem {
    public DrivetrainSubsystem() {
       pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
-      //startingGyroRotation = getGyroscopeRotation().getDegrees();
+      startingGyroRotation = getGyroscopeRotation().getDegrees();
 
       // We will use mk4 modules with Falcon 500s with the L2 configuration. 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(

@@ -109,6 +109,7 @@ public class Robot extends TimedRobot {
     m_auto = Paths.constructAuto(selectedAuto); 
     m_mechanismSubsystem.init();
     
+    
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
     // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
 
