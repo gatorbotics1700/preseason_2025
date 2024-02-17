@@ -3,12 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.subsystems.DrivetrainSubsystem;
+//import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.autonomous.AutonomousBase;
 import frc.robot.autonomous.Paths;
 
@@ -29,8 +33,13 @@ public class Robot extends TimedRobot {
     
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
-    public static Buttons m_buttons = new Buttons();
     private AutonomousBase m_auto; 
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
+    public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+    public static Buttons m_buttons = new Buttons();
+
+    double mpi = Constants.METERS_PER_INCH;//TODO just reference it from constants
     public static Boolean isBlueAlliance = true;
 
   
@@ -155,9 +164,9 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-
         m_mechanismSubsystem.init();
         m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        m_pivotSubsystem.init();
     }
 
     /* This function is called periodically during test mode. */
@@ -171,12 +180,15 @@ public class Robot extends TimedRobot {
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
-
+        m_pivotSubsystem.periodic();
+      // m_pivotSubsystem.pivot.set(ControlMode.PercentOutput, 0.05);
+        //System.out.println("top limit switch: " + m_pivotSubsystem.topLimitSwitch.get());
+        //System.out.println("bottom limit switch: " + m_pivotSubsystem.bottomLimitSwitch.get());
     }
     /* This function is called once when the robot is first started up. */
     @Override

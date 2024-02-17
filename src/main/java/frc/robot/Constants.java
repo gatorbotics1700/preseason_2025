@@ -23,7 +23,7 @@ public final class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6; 
 
-        public static final double TICKS_PER_REV = 2048;
+    public static final double TICKS_PER_REV = 2048;
 
     public static final double SWERVE_GEAR_RATIO = 6.75; 
     public static final double SWERVE_WHEEL_DIAMETER = 4.0; //inches
@@ -69,10 +69,15 @@ public final class Constants {
     public static final double STEER_MOTOR_MIN_VOLTAGE = 0.15;
     public static final double STEER_MOTOR_MAX_VOLTAGE = 0.6;
 
+    public static final double REVS_PER_ROTATION = 10; // TODO: this is a placeholder, get build to measure
     public static final double METERS_PER_INCH = 0.0254;
 
-    public static final int INTAKE_MOTOR_CAN_ID = 28;
+    public static final int INTAKE_MOTOR_CAN_ID = 28; // TODO: this is a placeholder
+    public static final int PRE_TRANSITION_CAN_ID = 15; //TODO: this is a placeholder 
+    public static final int AMP_MOTOR_CAN_ID = 42; //TODO: get actual can id
+    public static final int PIVOT_MOTOR_CAN_ID = 30; //TODO: this is a placeholder
     public static final int TRANSITION_CAN_ID = 15;
+
 
     public static final int LOW_MOTOR_CAN_ID = 42;
     public static final int SHOOTER_HIGH_CAN_ID = 41;
