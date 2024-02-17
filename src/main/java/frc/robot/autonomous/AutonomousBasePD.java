@@ -97,31 +97,22 @@ public class AutonomousBasePD extends AutonomousBase{
             mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
-                moveToNextState();
-                System.out.println("REACHED SETPOINT");
-            }
-        } else if(currentState.name == AutoStates.DRIVE_HOLDING){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
-            driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint()){
-                moveToNextState();
-                System.out.println("REACHED SETPOINT");
+                if(currentState.mechState == Mechanisms.MechanismStates.SPEAKER_HOLDING || currentState.mechState == Mechanisms.MechanismStates.AMP_HOLDING){
+                    moveToNextState();
+                    System.out.println("REACHED SETPOINT");
+                }else{
+                    if(mechanismSubsystem.getMechanismState()!= currentState.mechState){
+                        moveToNextState();
+                        System.out.println("REACHED SETPOINT");
+                    }
+                }
             }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
             if(System.currentTimeMillis()-startTimeForState >= 3000){
                 moveToNextState();
             }
-        } else if(currentState.name == AutoStates.INTAKING){
-            if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.SPEAKER_HOLDING){
-                moveToNextState();
-            }
-        } else if(currentState.name == AutoStates.OUTTAKING){ //TODO: test this to see if it ever gets to the if or the shooting timer restarts everytime periodic is run
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
-            if(mechanismSubsystem.getMechanismState() == Mechanisms.MechanismStates.OFF){
-                moveToNextState();
-            }
-        }else if(currentState.name == AutoStates.STOP){
+        } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
             System.out.println("stopped in auto");
         } else {
