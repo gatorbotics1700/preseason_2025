@@ -54,13 +54,13 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP);
             if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                setState(MechanismStates.OFF);
+                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
             }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
-            intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
+            intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.SPEAKER);
             if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                setState(MechanismStates.OFF); // we could change this to intaking 
+                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
             }
         } else if (mechanismState == MechanismStates.OFF){
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.OFF);
