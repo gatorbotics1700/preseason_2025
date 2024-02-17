@@ -20,6 +20,7 @@ public class ShooterSubsystem {
     public static enum ShooterStates {
         OFF,
         INTAKING,
+        WARMUP, //for auto only
         AMP_HOLDING,
         SPEAKER_HOLDING,
         AMP,
@@ -50,7 +51,11 @@ public class ShooterSubsystem {
         if (currentState == ShooterStates.INTAKING){
             high.set(ControlMode.PercentOutput, 0);
             mid.set(ControlMode.PercentOutput, 0);
-            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);   
+            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);  
+        }else if (currentState == ShooterStates.WARMUP){ //same as speaking holding but doesnt assume we have a note
+            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
+            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED); //negative
+            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);  
         }else if (currentState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
             high.set(ControlMode.PercentOutput, -AMP_SPEED); //negative
             mid.set(ControlMode.PercentOutput, AMP_SPEED);

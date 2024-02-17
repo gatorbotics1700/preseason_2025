@@ -1,5 +1,7 @@
 package frc.robot.autonomous;
 
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -88,33 +90,45 @@ public class AutonomousBasePD extends AutonomousBase{
             double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
             Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() + startingError))); 
             drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
-            
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
-        } else if(currentState.name == AutoStates.DRIVE){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING);
+        } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING_WITH_SHOOTER_WARMUP);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
-                if(currentState.mechState == Mechanisms.MechanismStates.SPEAKER_HOLDING || currentState.mechState == Mechanisms.MechanismStates.AMP_HOLDING){
-                    moveToNextState();
-                    System.out.println("REACHED SETPOINT");
-                }else{
-                    if(mechanismSubsystem.getMechanismState()!= currentState.mechState){
-                        moveToNextState();
-                        System.out.println("REACHED SETPOINT");
-                    }
-                }
+                moveToNextState(); //move on regardless of whether or not we have a note
+                System.out.println("REACHED SETPOINT");
             }
-        } else if(currentState.name == AutoStates.HOLDING_TIMED){
+        } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
-            if(System.currentTimeMillis()-startTimeForState >= 3000){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
+            driveToLocation(currentState.coordinate);
+            if(robotAtSetpoint()){
+                moveToNextState(); //move on regardless of whether or not we have a note
+                System.out.println("REACHED SETPOINT");
+            }
+        } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_AMP){
+            mechanismSubsystem.setState((Mechanisms.MechanismStates.AMP_HOLDING));
+            driveToLocation(currentState.coordinate);
+            if(robotAtSetpoint()){
+                moveToNextState(); //move on regardless of whether or not we have a note
+                System.out.println("REACHED SETPOINT");
+            }
+        } else if(currentState.name == AutoStates.HOLDING_TIMED){ //for preloaded note where shooter might not have warmed up
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            if(System.currentTimeMillis()-startTimeForState >= 2000){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
                 moveToNextState();
             }
+        } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+        }else if(currentState.name == AutoStates.SHOOTING_AMP){
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
+            mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             System.out.println("stopped in auto");
         } else {
             System.out.println("============================UNRECOGNIZED STATE!!!! PANICK!!!! " + currentState.name + "============================"); 

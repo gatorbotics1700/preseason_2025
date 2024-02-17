@@ -80,5 +80,11 @@ public class Buttons {
         m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
       }
+
+      if(OI.driver.getStartButton()){
+        m_drivetrainSubsystem.remakeDrivetrain();
+        m_drivetrainSubsystem.onEnable();
+        System.out.println("=======START BUTTON====REMAKING DRIVETRAIN=======");
+      }
   }
 }
