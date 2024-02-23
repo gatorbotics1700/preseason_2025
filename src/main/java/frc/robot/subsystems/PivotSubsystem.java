@@ -7,17 +7,17 @@ import frc.robot.Constants;
 import frc.robot.OI;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class PivotSubsystem{
     public TalonFX pivot;//public for testing
-    public DigitalInput topLimitSwitch;
-    public DigitalInput bottomLimitSwitch;
-
+    // limit switches are true when not pressed (motor should run) and false when pressed (motor should stop)
+    public DigitalInput speakerLimitSwitch;
+    public DigitalInput ampLimitSwitch;
 
     private final double PIVOT_SPEED = 0.08;
     private final double MANUAL_SPEED = 0.06;
     
-
     public static enum PivotStates{
         SPEAKER,
         AMP,
@@ -31,28 +31,29 @@ public class PivotSubsystem{
 
     public PivotSubsystem(){
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
-        topLimitSwitch = new DigitalInput(0); //check these ports
-        bottomLimitSwitch = new DigitalInput(7); 
+        speakerLimitSwitch = new DigitalInput(0); //check these ports
+        ampLimitSwitch = new DigitalInput(7); 
         
         init();
     }
     
     public void init(){
         pivotState = PivotStates.OFF;
+        pivot.setNeutralMode(NeutralMode.Brake);
     }
 
     public void periodic(){//limit switches true, then false when pressed
         System.out.println("CURRENT PIVOT STATE: " + pivotState);
-        System.out.println("top limit switch: " + topLimitSwitch.get());
-        System.out.println("bottom limit switch: " + bottomLimitSwitch.get());
-        if((pivotState == PivotStates.SPEAKER) && topLimitSwitch.get()){
+        System.out.println("top limit switch: " + speakerLimitSwitch.get());
+        System.out.println("bottom limit switch: " + ampLimitSwitch.get());
+        if((pivotState == PivotStates.SPEAKER) && speakerLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, PIVOT_SPEED);
-        }else if((pivotState == PivotStates.AMP) && bottomLimitSwitch.get()){
+        }else if((pivotState == PivotStates.AMP) && ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -PIVOT_SPEED);
-        }else if((pivotState == PivotStates.MANUAL_UP) && topLimitSwitch.get()){
+        }else if((pivotState == PivotStates.MANUAL_UP) && speakerLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);
-    
-        }else if((pivotState == PivotStates.MANUAL_DOWN) && bottomLimitSwitch.get()){
+
+        }else if((pivotState == PivotStates.MANUAL_DOWN) && ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);
         }else{
             //these if statements are for the "windshield wiper" motion (back and forth)

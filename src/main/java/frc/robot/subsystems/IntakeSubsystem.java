@@ -47,7 +47,6 @@ public class IntakeSubsystem {
             transitionMotor.set(ControlMode.PercentOutput, TRANSITION_SPEED);
         } else if (intakeState == IntakeStates.OFF){
             intakeMotor.set(ControlMode.PercentOutput, 0);
-
         } else {
             intakeMotor.set(ControlMode.PercentOutput, 0);
             System.out.println("====STATE UNRECOGNIZED==== current state: " + intakeState);

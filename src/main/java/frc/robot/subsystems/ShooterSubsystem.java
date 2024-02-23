@@ -86,6 +86,7 @@ public class ShooterSubsystem {
         }else{
             high.set(ControlMode.PercentOutput, 0);
             mid.set(ControlMode.PercentOutput, 0);
+            low.set(ControlMode.PercentOutput, 0);
             System.out.println("====UNRECOGNIZED SHOOTER STATE!!!!!==== current shooter state: " + currentShooterState);
         }
     }
