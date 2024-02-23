@@ -55,6 +55,8 @@ public class PivotSubsystem{
 
         }else if((pivotState == PivotStates.MANUAL_DOWN) && ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);
+        }else if(pivotState == PivotStates.OFF){
+            pivot.set(ControlMode.PercentOutput, 0);
         }else{
             //these if statements are for the "windshield wiper" motion (back and forth)
             /*if(pivotState == PivotStates.AMP && !bottomLimitSwitch.get()){
