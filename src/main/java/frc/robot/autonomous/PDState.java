@@ -27,6 +27,6 @@ public class PDState{
         HOLDING_TIMED, //hold while shooter warms up (only for preloaded)
         SHOOTING_AMP, //stay still while shooting happens 
         SHOOTING_SPEAKER, //stay still while shooting happens
-        STOP,
+        STOP;
     }
 }

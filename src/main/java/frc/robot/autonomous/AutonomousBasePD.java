@@ -11,6 +11,7 @@ import frc.robot.Robot;
 import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.Mechanisms.MechanismStates;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
@@ -81,10 +82,10 @@ public class AutonomousBasePD extends AutonomousBase{
         currentState = stateSequence[stateIndex];
         System.out.println("===========================================STATE: " + currentState.name + " ==========================================="); 
 
-        if(isFirstTimeInState){
-            startTimeForState = System.currentTimeMillis(); 
-            isFirstTimeInState = false;
-        }
+        // if(isFirstTimeInState){
+        //     startTimeForState = System.currentTimeMillis(); 
+        //     isFirstTimeInState = false;
+        // }
         if(currentState.name == AutoStates.FIRST){ 
             //correct for twitching when offsets get applied
             double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
@@ -124,8 +125,14 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+            if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
+                moveToNextState();
+            }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
+            if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
+                moveToNextState();
+            }
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
             mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
@@ -205,7 +212,7 @@ public class AutonomousBasePD extends AutonomousBase{
 
     private void moveToNextState(){
         stateIndex++;
-        isFirstTimeInState = true;
+        //isFirstTimeInState = true;
         startTimeForState = System.currentTimeMillis();
     }
 }
