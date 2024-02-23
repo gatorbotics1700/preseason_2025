@@ -10,6 +10,7 @@ import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.PivotStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -167,14 +168,15 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-        m_mechanismSubsystem.init();
-        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        m_pivotSubsystem.init();
+       // m_mechanismSubsystem.init();
+        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+       // m_pivotSubsystem.init();
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
+        //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
         //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));

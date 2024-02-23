@@ -34,8 +34,8 @@ public class Buttons {
       // }
 
       if (OI.driver.getAButton()){ 
-        System.out.println("A BUTTON: SPEAKER");
-        m_pivotSubsystem.setState(PivotStates.SPEAKER); 
+        System.out.println("A BUTTON: AMP");
+        m_pivotSubsystem.setState(PivotStates.AMP); 
       }
 
       if (OI.driver.getXButton()){ 
@@ -44,8 +44,8 @@ public class Buttons {
       }
 
       if (OI.driver.getYButton()){ 
-        System.out.println("Y BUTTON AMP");
-        m_pivotSubsystem.setState(PivotStates.AMP); 
+        System.out.println("Y BUTTON SPEAKER");
+        m_pivotSubsystem.setState(PivotStates.SPEAKER); 
       }
       //if (OI.m_controller_two.getAButton()){ 
        // m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
