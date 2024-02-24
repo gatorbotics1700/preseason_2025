@@ -12,8 +12,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 public class PivotSubsystem{
     public TalonFX pivot;//public for testing
     // limit switches are true when not pressed (motor should run) and false when pressed (motor should stop)
-    public DigitalInput speakerLimitSwitch;
-    public DigitalInput ampLimitSwitch;
+    private DigitalInput speakerLimitSwitch;
+    private DigitalInput ampLimitSwitch;
 
     private final double PIVOT_SPEED = 0.08;
     private final double MANUAL_SPEED = 0.06;
@@ -76,6 +76,14 @@ public class PivotSubsystem{
 
     public void setState(PivotStates newState) {
         pivotState = newState;
+    }
+
+    public boolean getSpeakerLimitSwitch(){ // true when NOT pressed, false when pressed
+        return speakerLimitSwitch.get();
+    }
+
+    public boolean getAmpLimitSwitch(){ // true when NOT pressed, false when pressed
+        return ampLimitSwitch.get();
     }
 
 }
