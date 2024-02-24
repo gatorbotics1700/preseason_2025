@@ -10,8 +10,8 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.Mechanisms;
-import frc.robot.subsystems.Mechanisms.MechanismStates;
+// import frc.robot.subsystems.Mechanisms;
+// import frc.robot.subsystems.Mechanisms.MechanismStates;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
@@ -41,7 +41,7 @@ public class AutonomousBasePD extends AutonomousBase{
     private double startTimeForState;
     
     private DrivetrainSubsystem drivetrainSubsystem;
-    private Mechanisms mechanismSubsystem;
+    // private Mechanisms mechanismSubsystem;
     public PDState currentState;
     private double testingDriveVelocity = 0.5; 
     private double testingSteerVelocity = 1; 
@@ -63,7 +63,7 @@ public class AutonomousBasePD extends AutonomousBase{
     public void init(){
         System.out.println("AUTONOMOUS INIT!\nINIT!\nINIT!");
         drivetrainSubsystem = Robot.m_drivetrainSubsystem;
-        mechanismSubsystem = Robot.m_mechanismSubsystem;
+        // mechanismSubsystem = Robot.m_mechanismSubsystem;
         turnController = new PIDController(turnKP, turnKI, turnKD); 
         xController = new PIDController(driveKP, driveKI, driveKD);
         yController = new PIDController(driveKP, driveKI, driveKD);
@@ -83,55 +83,55 @@ public class AutonomousBasePD extends AutonomousBase{
         System.out.println("===========================================STATE: " + currentState.name + " ==========================================="); 
 
         if(currentState.name == AutoStates.FIRST){ 
-            double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
-            System.out.println("starting rot: " + drivetrainSubsystem.getStartingGyroRotation());
-            Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() - startingError))); 
-            drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
+           // double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
+            //System.out.println("starting rot: " + drivetrainSubsystem.getStartingGyroRotation());
+            //Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() - startingError))); 
+            drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), getStartingPose());//modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING_WITH_SHOOTER_WARMUP);
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING_WITH_SHOOTER_WARMUP);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_AMP){
-            mechanismSubsystem.setState((Mechanisms.MechanismStates.AMP_HOLDING));
+            // mechanismSubsystem.setState((Mechanisms.MechanismStates.AMP_HOLDING));
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){ //for preloaded note where shooter might not have warmed up
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
             if(System.currentTimeMillis()-startTimeForState >= 2000){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
-            if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+            // if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
                 moveToNextState();
-            }
+            // }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
-            if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
+            // if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
                 moveToNextState();
-            }
+            // }
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
+            // mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             System.out.println("stopped in auto");
         } else {
             System.out.println("============================UNRECOGNIZED STATE!!!! PANICK!!!! " + currentState.name + "============================"); 
