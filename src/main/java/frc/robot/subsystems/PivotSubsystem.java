@@ -38,7 +38,7 @@ public class PivotSubsystem{
     }
     
     public void init(){
-        pivotState = PivotStates.OFF;
+        setState(PivotStates.OFF);
         pivot.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -52,19 +52,12 @@ public class PivotSubsystem{
             pivot.set(ControlMode.PercentOutput, -PIVOT_SPEED);
         }else if((pivotState == PivotStates.MANUAL_UP) && speakerLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);
-
         }else if((pivotState == PivotStates.MANUAL_DOWN) && ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);
         }else if(pivotState == PivotStates.OFF){
             pivot.set(ControlMode.PercentOutput, 0);
         }else{
-            //these if statements are for the "windshield wiper" motion (back and forth)
-            /*if(pivotState == PivotStates.AMP && !bottomLimitSwitch.get()){
-                pivotState = PivotStates.SPEAKER;
-            }
-            if(pivotState == PivotStates.SPEAKER && !topLimitSwitch.get()){
-                pivotState = PivotStates.AMP;
-            }*/
+            System.out.println("=========UNRECOGNIZED PIVOT STATE: " + pivotState.toString() + "========");
             pivotState = PivotStates.OFF;
             pivot.set(ControlMode.PercentOutput, 0);
         }

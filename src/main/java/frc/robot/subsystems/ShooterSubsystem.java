@@ -1,12 +1,19 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+// import com.ctre.phoenix.motorcontrol.can.TalonFX;
+// import com.ctre.phoenix.motorcontrol.ControlMode;
+// import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ControlModeValue;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
 import frc.robot.Constants;
  
 
 public class ShooterSubsystem {
+    
+    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     
     private TalonFX high; 
     private TalonFX mid;
@@ -28,7 +35,6 @@ public class ShooterSubsystem {
         SPEAKER; 
     }
 
-        //private ShooterStates currentState;
     private ShooterStates currentShooterState; //REVIEW: previously initialized to ShooterStates.AMP
 
     public ShooterSubsystem() {
@@ -43,50 +49,49 @@ public class ShooterSubsystem {
         high.setInverted(true); 
         mid.setInverted(false); 
         low.setInverted(false);
-        high.setNeutralMode(NeutralMode.Brake);
-        mid.setNeutralMode(NeutralMode.Brake);
-        low.setNeutralMode(NeutralMode.Brake);
+        high.setNeutralMode(NeutralModeValue.Brake);
+        mid.setNeutralMode(NeutralModeValue.Brake);
+        low.setNeutralMode(NeutralModeValue.Brake);
         currentShooterState = ShooterStates.OFF;
-
     }
 
     public void periodic(){
         System.out.println("CURRENT SHOOTER STATE: " + currentShooterState);
         if (currentShooterState == ShooterStates.INTAKING){
-            high.set(ControlMode.PercentOutput, 0);
-            mid.set(ControlMode.PercentOutput, 0);
-            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED); 
+            high.setControl(dutyCycleOut.withOutput(0));
+            mid.setControl(dutyCycleOut.withOutput(0));
+            low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED)); 
             //low.set(ControlMode.PercentOutput, AMP_SPEED);
         }else if (currentShooterState == ShooterStates.WARMUP){ //same as speaking holding but doesnt assume we have a note
-            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
-            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED); //negative
-            low.set(ControlMode.PercentOutput, LOW_INTAKING_SPEED);  
+            high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
+            mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
+            low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED));  
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
-            high.set(ControlMode.PercentOutput, -AMP_SPEED); //negative
-            mid.set(ControlMode.PercentOutput, AMP_SPEED);
-            low.set(ControlMode.PercentOutput, 0);
+            high.setControl(dutyCycleOut.withOutput(-AMP_SPEED)); //negative
+            mid.setControl(dutyCycleOut.withOutput(0));
+            low.setControl(dutyCycleOut.withOutput(0));
         } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
-            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);
-            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED); //negative
-            low.set(ControlMode.PercentOutput, 0);
+            high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
+            mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
+            low.setControl(dutyCycleOut.withOutput(0));
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
-            high.set(ControlMode.PercentOutput, -AMP_SPEED); //negative
-            mid.set(ControlMode.PercentOutput, AMP_SPEED);
-            low.set(ControlMode.PercentOutput, AMP_SPEED);
+            System.out.println("==========WE ARE SHOOTING IN AMP==========");
+            high.setControl(dutyCycleOut.withOutput(-AMP_SPEED)); //negative
+            mid.setControl(dutyCycleOut.withOutput(0)); // TODO: check if this is correct
+            low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: might need a different value for amp shooting
         }else if(currentShooterState == ShooterStates.SPEAKER){
-            System.out.println("==========WE ARE SHOOTING==========");
-            high.set(ControlMode.PercentOutput, HIGH_SPEAKER_SPEED);//TODO walk through logic
-            mid.set(ControlMode.PercentOutput, -MID_SPEAKER_SPEED); //negative
-            low.set(ControlMode.PercentOutput, LOW_SHOOTING_SPEED);
-            //low.set(ControlMode.PercentOutput, MID_SPEAKER_SPEED);
+            System.out.println("==========WE ARE SHOOTING IN SPEAKER==========");
+            high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));//TODO walk through logic
+            mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
+            low.setControl(dutyCycleOut.withOutput(LOW_SHOOTING_SPEED));
         }else if(currentShooterState == ShooterStates.OFF){
-            high.set(ControlMode.PercentOutput, 0);
-            mid.set(ControlMode.PercentOutput, 0);
-            low.set(ControlMode.PercentOutput, 0);
+            high.setControl(dutyCycleOut.withOutput(0));
+            mid.setControl(dutyCycleOut.withOutput(0));
+            low.setControl(dutyCycleOut.withOutput(0));
         }else{
-            high.set(ControlMode.PercentOutput, 0);
-            mid.set(ControlMode.PercentOutput, 0);
-            low.set(ControlMode.PercentOutput, 0);
+            high.setControl(dutyCycleOut.withOutput(0));
+            mid.setControl(dutyCycleOut.withOutput(0));
+            low.setControl(dutyCycleOut.withOutput(0));
             System.out.println("====UNRECOGNIZED SHOOTER STATE!!!!!==== current shooter state: " + currentShooterState);
         }
     }
