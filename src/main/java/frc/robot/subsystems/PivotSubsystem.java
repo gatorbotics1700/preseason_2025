@@ -21,8 +21,7 @@ public class PivotSubsystem{
     public static enum PivotStates{
         SPEAKER,
         AMP,
-        MANUAL_UP,
-        MANUAL_DOWN,
+        MANUAL,
         OFF;
     }
 
@@ -50,10 +49,8 @@ public class PivotSubsystem{
             pivot.set(ControlMode.PercentOutput, PIVOT_SPEED);
         }else if((pivotState == PivotStates.AMP) && ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -PIVOT_SPEED);
-        }else if((pivotState == PivotStates.MANUAL_UP) && speakerLimitSwitch.get()){
-            pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);
-        }else if((pivotState == PivotStates.MANUAL_DOWN) && ampLimitSwitch.get()){
-            pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);
+        }else if((pivotState == PivotStates.MANUAL) && speakerLimitSwitch.get() && ampLimitSwitch.get()){ //can be used to climb
+            manual();
         }else if(pivotState == PivotStates.OFF){
             pivot.set(ControlMode.PercentOutput, 0);
         }else{
@@ -70,12 +67,17 @@ public class PivotSubsystem{
         } else if(OI.getTwoRightAxis() < - 0.2) {
             pivot.set(ControlMode.PercentOutput, - 0.2);  
         } else {
-            pivot.set(ControlMode.PercentOutput, 0);
+            pivot.set(ControlMode.PercentOutput, 0);  
+            setState(PivotStates.OFF);
         }
     }
 
     public void setState(PivotStates newState) {
         pivotState = newState;
+    }
+
+    public PivotStates getState(){
+        return pivotState;
     }
 
     public boolean getSpeakerLimitSwitch(){ // true when NOT pressed, false when pressed

@@ -82,13 +82,7 @@ public class AutonomousBasePD extends AutonomousBase{
         currentState = stateSequence[stateIndex];
         System.out.println("===========================================STATE: " + currentState.name + " ==========================================="); 
 
-        // if(isFirstTimeInState){
-        //     startTimeForState = System.currentTimeMillis(); 
-        //     isFirstTimeInState = false;
-        // }
         if(currentState.name == AutoStates.FIRST){ 
-            //drivetrainSubsystem.resetOffsets();
-            //correct for twitching when offsets get applied
             double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
             System.out.println("starting rot: " + drivetrainSubsystem.getStartingGyroRotation());
             Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() - startingError))); 
