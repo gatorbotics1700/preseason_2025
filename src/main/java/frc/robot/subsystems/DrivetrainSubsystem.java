@@ -76,7 +76,64 @@ public class DrivetrainSubsystem {
    private double startingGyroRotation; 
   
    public DrivetrainSubsystem() {
-      remakeDrivetrain();
+      //remakeDrivetrain();
+      pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
+      tab = Shuffleboard.getTab("Drivetrain");
+      startingGyroRotation = getGyroscopeRotation().getDegrees();
+
+      // We will use mk4 modules with Falcon 500s with the L2 configuration. 
+      frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+         // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
+         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
+               .withSize(2, 4)
+               .withPosition(0, 0), //TODO: see if we can put this in constants
+            // This can be any level from L1-L4 depending on the gear configuration (the levels allow different amounts of speed and torque)
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            // This is the ID of the drive motor
+            Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
+            // This is the ID of the steer motor
+            Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
+            // This is the ID of the steer encoder
+            Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
+            // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
+            Constants.FRONT_LEFT_MODULE_STEER_OFFSET
+         );
+        
+      // We will do the same for the other modules
+      //TODO: check if we want to construct on every enable
+      frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
+         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+               .withSize(2, 4)
+               .withPosition(2, 0), //TODO: see if we can put this in constants
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
+            Constants.FRONT_RIGHT_MODULE_STEER_OFFSET
+      );
+        
+      backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+               .withSize(2, 4)
+               .withPosition(4, 0), //TODO: see if we can put this in constants
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_ENCODER,
+            Constants.BACK_LEFT_MODULE_STEER_OFFSET
+      );
+        
+      backRightModule = Mk4SwerveModuleHelper.createFalcon500(
+         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+               .withSize(2, 4)
+               .withPosition(6, 0), //TODO: see if we can put this in constants
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
+            Constants.BACK_RIGHT_MODULE_STEER_OFFSET
+      );
+
       onEnable();
    }
 
@@ -239,17 +296,10 @@ public class DrivetrainSubsystem {
       return startingGyroRotation; 
    }
 
-   public void remakeDrivetrain(){
-      pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
-      tab = Shuffleboard.getTab("Drivetrain");
-      startingGyroRotation = getGyroscopeRotation().getDegrees();
+   public void resetOffsets(){
 
-      // We will use mk4 modules with Falcon 500s with the L2 configuration. 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
          // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
-         tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-               .withSize(2, 4)
-               .withPosition(0, 0), //TODO: see if we can put this in constants
             // This can be any level from L1-L4 depending on the gear configuration (the levels allow different amounts of speed and torque)
             Mk4SwerveModuleHelper.GearRatio.L2,
             // This is the ID of the drive motor
@@ -265,9 +315,6 @@ public class DrivetrainSubsystem {
       // We will do the same for the other modules
       //TODO: check if we want to construct on every enable
       frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
-         tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-               .withSize(2, 4)
-               .withPosition(2, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
             Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
             Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
@@ -276,9 +323,6 @@ public class DrivetrainSubsystem {
       );
         
       backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
-         tab.getLayout("Back Left Module", BuiltInLayouts.kList)
-               .withSize(2, 4)
-               .withPosition(4, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
             Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
             Constants.BACK_LEFT_MODULE_STEER_MOTOR,
@@ -287,9 +331,6 @@ public class DrivetrainSubsystem {
       );
         
       backRightModule = Mk4SwerveModuleHelper.createFalcon500(
-         tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-               .withSize(2, 4)
-               .withPosition(6, 0), //TODO: see if we can put this in constants
             Mk4SwerveModuleHelper.GearRatio.L2,
             Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
             Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
@@ -297,5 +338,6 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
    }
+   
 }
 

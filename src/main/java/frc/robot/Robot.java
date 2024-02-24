@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getPoseDegrees()%360);
-        SmartDashboard.putBoolean("detectNote", m_mechanismSubsystem.getSensorSubsystem().detectNote());
+        // SmartDashboard.putBoolean("detectNote", m_mechanismSubsystem.getSensorSubsystem().detectNote());
     }
 
     /*

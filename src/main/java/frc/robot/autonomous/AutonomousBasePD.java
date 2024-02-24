@@ -87,9 +87,11 @@ public class AutonomousBasePD extends AutonomousBase{
         //     isFirstTimeInState = false;
         // }
         if(currentState.name == AutoStates.FIRST){ 
+            //drivetrainSubsystem.resetOffsets();
             //correct for twitching when offsets get applied
             double startingError = drivetrainSubsystem.getGyroscopeRotation().getDegrees() - drivetrainSubsystem.getStartingGyroRotation();
-            Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() + startingError))); 
+            System.out.println("starting rot: " + drivetrainSubsystem.getStartingGyroRotation());
+            Pose2d modifiedStartingCoordinate = new Pose2d(getStartingPoseX(), getStartingPoseY(), new Rotation2d(Math.toRadians(getStartingPoseRotation().getDegrees() - startingError))); 
             drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
             mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             turnController.setTolerance(TURN_DEADBAND); 
@@ -125,7 +127,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
-            if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
+            if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
                 moveToNextState();
             }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
