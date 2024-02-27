@@ -10,7 +10,7 @@ public class IntakeSubsystem {
 
     private TalonFX intakeMotor;
 
-    private final double INTAKE_SPEED = 0.45; //build says this is optimal after testing, DO NOT CHANGE
+    private final double INTAKE_SPEED = 0.35; //used to be 0.45, changed to 0.35 on 02/26 for testing//build says this is optimal after testing, DO NOT CHANGE
 
     private IntakeStates intakeState;
 
@@ -26,7 +26,7 @@ public class IntakeSubsystem {
 
     public void init() {
         System.out.println("Intake Init!");
-        intakeMotor.setInverted(true); //sets it to default sending a piece up (counterclockwise)
+        intakeMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
         intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
         setState(IntakeStates.OFF);
     }
