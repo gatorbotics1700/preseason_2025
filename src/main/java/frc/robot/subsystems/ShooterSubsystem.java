@@ -48,7 +48,7 @@ public class ShooterSubsystem {
     public void init(){
         high.setInverted(true); 
         mid.setInverted(false); 
-        low.setInverted(false);
+        low.setInverted(true);
         high.setNeutralMode(NeutralModeValue.Brake);
         mid.setNeutralMode(NeutralModeValue.Brake);
         low.setNeutralMode(NeutralModeValue.Brake);
