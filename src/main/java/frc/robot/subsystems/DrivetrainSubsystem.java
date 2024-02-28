@@ -299,21 +299,13 @@ public class DrivetrainSubsystem {
    public void resetOffsets(){
 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
-         // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
-            // This can be any level from L1-L4 depending on the gear configuration (the levels allow different amounts of speed and torque)
             Mk4SwerveModuleHelper.GearRatio.L2,
-            // This is the ID of the drive motor
             Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
-            // This is the ID of the steer motor
             Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
-            // This is the ID of the steer encoder
             Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
-            // This is how much the steer encoder is offset from true zero (In our case, zero is facing straight forward)
             Constants.FRONT_LEFT_MODULE_STEER_OFFSET
          );
-        
-      // We will do the same for the other modules
-      //TODO: check if we want to construct on every enable
+              
       frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
             Mk4SwerveModuleHelper.GearRatio.L2,
             Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,

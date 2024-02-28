@@ -5,8 +5,8 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
-// import frc.robot.subsystems.Mechanisms;
-// import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
     
-    // public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
+    public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     private AutonomousBase m_auto; 
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
-    // m_mechanismSubsystem.init();
+    m_mechanismSubsystem.init();
     
     
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_auto.periodic();
-    // m_mechanismSubsystem.periodic();
+    m_mechanismSubsystem.periodic();
     m_drivetrainSubsystem.drive();
     //System.out.println("current pose " + m_drivetrainSubsystem.getPose());
   }
@@ -139,8 +139,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
-        // m_mechanismSubsystem.setState(MechanismStates.OFF);
-        // m_mechanismSubsystem.init();
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() { 
         m_drivetrainSubsystem.driveTeleop();
         m_drivetrainSubsystem.drive();   
-        // m_mechanismSubsystem.periodic();
+        m_mechanismSubsystem.periodic();
         m_buttons.buttonsPeriodic();
 
     }
