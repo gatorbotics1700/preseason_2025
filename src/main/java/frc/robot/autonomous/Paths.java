@@ -47,22 +47,30 @@ public class Paths {
     private static final Rotation2d RED_RIGHT_TURN = new Rotation2d(Math.toRadians(-31.185));
     private static final Rotation2d BLUE_LEFT_TURN = new Rotation2d(Math.toRadians(211.185));
     private static final Rotation2d BLUE_RIGHT_TURN = new Rotation2d(Math.toRadians(148.815));
-    private static final Rotation2d RED_DRIVERSTATION = new Rotation2d(Math.toRadians(0.0));
-    private static final Rotation2d BLUE_DRIVERSTATION = new Rotation2d(Math.toRadians(180.0));
-    private static final double R1_B2_STARTING_Y = 277.5*Constants.METERS_PER_INCH;
-    private static final double R2_B1_STARTING_Y = 167.5*Constants.METERS_PER_INCH;
-    private static final double R3_B3_STARTING_Y = 222.5*Constants.METERS_PER_INCH;
-    private static final Pose2d RED_1_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, R1_B2_STARTING_Y, RED_DRIVERSTATION);
-    private static final Pose2d BLUE_1_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, R2_B1_STARTING_Y, BLUE_DRIVERSTATION);
-    private static final Pose2d RED_2_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, R2_B1_STARTING_Y, RED_DRIVERSTATION);
-    private static final Pose2d BLUE_2_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, R1_B2_STARTING_Y, BLUE_DRIVERSTATION);
-    private static final Pose2d BLUE_3_STARTING_POSE = new Pose2d(55.5*Constants.METERS_PER_INCH, R3_B3_STARTING_Y, BLUE_DRIVERSTATION);
-    private static final Pose2d RED_3_STARTING_POSE = new Pose2d(600*Constants.METERS_PER_INCH, R3_B3_STARTING_Y, RED_DRIVERSTATION);
-    private static final double RED_X_OFFCENTER_SHOOTING = 555*Constants.METERS_PER_INCH;
-    private static final double RED_X_CENTER_SHOOTING = 548*Constants.METERS_PER_INCH;
-    private static final double BLUE_X_OFFCENTER_SHOOTING = 96*Constants.METERS_PER_INCH;
-    private static final double BLUE_X_CENTER_SHOOTING = 103*Constants.METERS_PER_INCH;
-    private static final double CENTER_Y = 220*Constants.METERS_PER_INCH;
+    private static final Rotation2d RED_DRIVERSTATION = new Rotation2d(Math.toRadians(0));
+    private static final Rotation2d BLUE_DRIVERSTATION = new Rotation2d(Math.toRadians(180));
+
+    private static final double R_SHOOTING_X = 570 * Constants.METERS_PER_INCH;
+    private static final double R_INTAKING_X = 544 * Constants.METERS_PER_INCH;
+    
+    private static final double B1_SHOOTING_X = 81.25 * Constants.METERS_PER_INCH;
+    private static final double B1_INTAKING_X = 107.25 * Constants.METERS_PER_INCH;
+    private static final double B1_RIGHT_TURN = 148.815 * Constants.METERS_PER_INCH; //180-31.185
+
+    private static final double TOP_NOTE_Y = 277.5 * Constants.METERS_PER_INCH;
+    private static final double MID_NOTE_Y = 220.5 * Constants.METERS_PER_INCH;
+    private static final double BOTTOM_NOTE_Y = 167.5 * Constants.METERS_PER_INCH;
+
+    private static final Pose2d RED_1_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, TOP_NOTE_Y, RED_DRIVERSTATION);
+    private static final Pose2d BLUE_1_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION);
+    private static final Pose2d RED_2_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, BOTTOM_NOTE_Y, RED_DRIVERSTATION);
+    private static final Pose2d BLUE_2_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, TOP_NOTE_Y, BLUE_DRIVERSTATION);
+    private static final Pose2d BLUE_3_STARTING_POSE = new Pose2d(55.5*Constants.METERS_PER_INCH, MID_NOTE_Y, BLUE_DRIVERSTATION);
+    private static final Pose2d RED_3_STARTING_POSE = new Pose2d(600*Constants.METERS_PER_INCH, MID_NOTE_Y, RED_DRIVERSTATION);
+   // R1_STARTING_POS.getRotation() = 0
+
+   
+    // B1_STARTING_POS.getRotation() = 180
 
 
 
@@ -82,7 +90,7 @@ public class Paths {
             );
         } else if (selectedAuto == AUTO_OPTIONS.B_NO_GO){
             return new AutonomousBasePD(
-                new Pose2d(15, 56, BLUE_DRIVERSTATION),
+                new Pose2d(15, 56, 180),
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
                     new PDState(AutoStates.STOP)
@@ -90,7 +98,7 @@ public class Paths {
             );
         } else if (selectedAuto == AUTO_OPTIONS.R_NO_GO){
             return new AutonomousBasePD(
-                new Pose2d(634, 56, RED_DRIVERSTATION),
+                new Pose2d(634, 56, 0),
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
                     new PDState(AutoStates.STOP)
@@ -101,7 +109,7 @@ public class Paths {
                 RED_1_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_DRIVERSTATION)), //move to shoot 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_1_STARTING_POSE.getRotation())), //move to shoot 1
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //rotate clockwise
                     new PDState(AutoStates.HOLDING_TIMED, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //warm up shooter
                     new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //1 shoot preloaded
@@ -171,15 +179,17 @@ public class Paths {
                 RED_1_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_DRIVERSTATION)), //move to shoot 1
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //rotate clockwise
-                    new PDState(AutoStates.HOLDING_TIMED, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //warm up shooter
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //1 shoot preloaded
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_1_STARTING_POSE.getY(), RED_DRIVERSTATION)), // rotate back, intake 1
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //drive towards center note
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //2 shoot
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(RED_X_CENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), // intake 2
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_CENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //3 shoot
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, RED_1_STARTING_POSE.getY(), RED_1_STARTING_POSE.getRotation())), //move to shoot 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, RED_1_STARTING_POSE.getY(), RED_RIGHT_TURN)), //rotate clockwise
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_1_STARTING_POSE.getRotation())), // rotate back, intake 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_1_STARTING_POSE.getRotation())), //move toward speaker
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y,RED_1_STARTING_POSE.getRotation())), //move away from amp
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //2 shoot
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_1_STARTING_POSE.getRotation())), // intake 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y,RED_1_STARTING_POSE.getRotation())), //move towards speaker
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //3 shoot
                     new PDState(AutoStates.STOP)
                 }
             );
@@ -206,15 +216,18 @@ public class Paths {
                 RED_2_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_2_STARTING_POSE.getY(), RED_DRIVERSTATION)), //move to intake 1
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_2_STARTING_POSE.getY(), RED_LEFT_TURN)), //rotate
-                    new PDState(AutoStates.HOLDING_TIMED, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_2_STARTING_POSE.getY(), RED_LEFT_TURN)), //warm up shooter
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING,RED_2_STARTING_POSE.getY(), RED_LEFT_TURN)), //1 shoot preloaded
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(RED_X_OFFCENTER_SHOOTING, RED_2_STARTING_POSE.getY(), RED_DRIVERSTATION)),  //rotate back, intake 1
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //drive towards center note
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_OFFCENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //2 shoot
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(RED_X_CENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), // intake 2
-                    new PDState(AutoStates.SHOOTING_SPEAKER, new Pose2d(RED_X_CENTER_SHOOTING, CENTER_Y, RED_DRIVERSTATION)), //3 shoot
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_2_STARTING_POSE.getRotation())), //move towards stage
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_LEFT_TURN)), //turn towards source
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_2_STARTING_POSE.getRotation())), //turn towards driver station
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_2_STARTING_POSE.getRotation())), //move towards note, intake
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_2_STARTING_POSE.getRotation())),  //move towards stage
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_2_STARTING_POSE.getRotation())), //move towards source
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //2 shoot
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_2_STARTING_POSE.getRotation())), // intake 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_2_STARTING_POSE.getRotation())), //move towards stage
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //3 shoot
                     new PDState(AutoStates.STOP)
                 }
             );
