@@ -16,33 +16,20 @@ public class Buttons {
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("===STOPPED EVERYTHING====");
       }
-      if (OI.codriver.getAButton()){ 
+      //TODO review logic and make sure the other A button works
+      /*if (OI.codriver.getAButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
         System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
       }
       if (OI.codriver.getXButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
         System.out.println("=======X BUTTON======SHOOTING IN SPEAKER!!");
-      }
+      }*/
       if (OI.codriver.getYButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
       }
-      if (OI.codriver.getBButton()){
-        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
-          m_mechanismSubsystem.setState(MechanismStates.OFF);
-        } else {
-          m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        }
-        // TODO: for transition, we can use this button to turn both on and off at same time
-      }
-      if(OI.codriver.getLeftBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
-      }
-      if(OI.codriver.getRightBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
-      }
-      
+    
       if (OI.codriver.getAButton()){ 
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
@@ -54,12 +41,7 @@ public class Buttons {
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
         }
       }
-      
-      if (OI.codriver.getYButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.OFF);
-        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
-      }
-      
+
       if (OI.codriver.getBButton()){
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
@@ -68,8 +50,13 @@ public class Buttons {
           m_mechanismSubsystem.setState(MechanismStates.INTAKING);
           System.out.println("=======B BUTTON====INTAKING ON=======");
         }
-        
       }
+      
+      if (OI.codriver.getYButton()){ 
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
+      }
+
       if(OI.codriver.getLeftBumper()){
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
