@@ -59,9 +59,12 @@ public class Robot extends TimedRobot {
     auto_chooser.addOption("noGo-R!", Paths.AUTO_OPTIONS.R_NO_GO);
     auto_chooser.addOption("R-3 Piece 1", Paths.AUTO_OPTIONS.R_THREE_PIECE_1);
     auto_chooser.addOption("R-3 Piece 2", Paths.AUTO_OPTIONS.R_THREE_PIECE_2);
+    auto_chooser.addOption("R-3 Piece 3 Top", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_TOP);
+    auto_chooser.addOption("R-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_BOTTOM);
     auto_chooser.addOption("R-3 Piece AMP", Paths.AUTO_OPTIONS.R_THREE_PAMP);
-    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
     auto_chooser.addOption("R-4 Piece 1", Paths.AUTO_OPTIONS.R_FOUR_PIECE_1);
+    auto_chooser.addOption("R-4 Piece 2", Paths.AUTO_OPTIONS.R_FOUR_PIECE_2);
+    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
     auto_chooser.addOption("R-5 Piece 2", Paths.AUTO_OPTIONS.R_FIVE_PIECE_2);
     auto_chooser.addOption("R-Anaika's Dream 1", Paths.AUTO_OPTIONS.R_ANAIKAS_DREAM_1);
     auto_chooser.addOption("R-Bread", Paths.AUTO_OPTIONS.R_BREAD);
@@ -72,9 +75,12 @@ public class Robot extends TimedRobot {
     auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
     auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
     auto_chooser.addOption("B-3 Piece 2", Paths.AUTO_OPTIONS.B_THREE_PIECE_2);
+    auto_chooser.addOption("B-3 Piece 3 Top", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_TOP);
+    auto_chooser.addOption("B-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_BOTTOM);
     auto_chooser.addOption("B-3 Piece AMP", Paths.AUTO_OPTIONS.B_THREE_PAMP);
-    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
+    auto_chooser.addOption("B-4 Piece 1", Paths.AUTO_OPTIONS.B_FOUR_PIECE_1);
     auto_chooser.addOption("B-4 Piece 2", Paths.AUTO_OPTIONS.B_FOUR_PIECE_2);
+    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
     auto_chooser.addOption("B-5 Piece 1", Paths.AUTO_OPTIONS.B_FIVE_PIECE_1);
     auto_chooser.addOption("B-Anaika's Dream 2", Paths.AUTO_OPTIONS.B_ANAIKAS_DREAM_2);
     auto_chooser.addOption("B-Bread", Paths.AUTO_OPTIONS.B_BREAD);
