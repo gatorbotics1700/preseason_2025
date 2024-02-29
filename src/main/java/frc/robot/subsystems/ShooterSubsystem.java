@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;//KRAKENS MID AND HIGH
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants;
@@ -29,7 +29,7 @@ public class ShooterSubsystem {
     private ShooterStates currentState;
     
     public ShooterSubsystem() {
-        high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);
+        high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);//TODO mid and high are KRAKENS!!!!
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
         low = new TalonFX(Constants.LOW_MOTOR_CAN_ID);
         init();

@@ -31,17 +31,17 @@ public class SensorSubsystem {
 
     public boolean detectNote(){
         Color detectedColor = colorSensor.getColor();
-        System.out.println("detectedColor: " + detectedColor);
+        //System.out.println("detectedColor: " + detectedColor);
 
         boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= COLOR_THRESHOLD);
         boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= COLOR_THRESHOLD);
         boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= COLOR_THRESHOLD);
 
         if(redThreshold && greenThreshold && blueThreshold) {
-            System.out.println("WE'VE HIT THAT NOTE!!");
+            //System.out.println("WE'VE HIT THAT NOTE!!");
             return true;
         } else {
-            System.out.println("We don't see the note");
+            //System.out.println("We don't see the note");
             return false;
         }
     }
