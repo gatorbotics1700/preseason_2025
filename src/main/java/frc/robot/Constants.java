@@ -75,11 +75,11 @@ public final class Constants {
     public static final int INTAKE_MOTOR_CAN_ID = 28; // TODO: this is a placeholder
     public static final int PRE_TRANSITION_CAN_ID = 15; //TODO: this is a placeholder 
     public static final int AMP_MOTOR_CAN_ID = 42; //TODO: get actual can id
-    public static final int PIVOT_MOTOR_CAN_ID = 30; //TODO: this is a placeholder
-    public static final int TRANSITION_CAN_ID = 15;
+    public static final int PIVOT_MOTOR_CAN_ID = 32; 
+    //public static final int TRANSITION_CAN_ID = 15;
 
 
-    public static final int LOW_MOTOR_CAN_ID = 43;
-    public static final int SHOOTER_HIGH_CAN_ID = 41;
-    public static final int SHOOTER_MID_CAN_ID = 31;
+    public static final int LOW_MOTOR_CAN_ID = 30;
+    public static final int SHOOTER_HIGH_CAN_ID = 34;
+    public static final int SHOOTER_MID_CAN_ID = 33;
 }

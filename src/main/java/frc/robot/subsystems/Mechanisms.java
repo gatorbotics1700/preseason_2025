@@ -7,10 +7,10 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class Mechanisms {
 
-    public ShooterSubsystem shooterSubsystem;
+    public ShooterSubsystem shooterSubsystem; //TODO why is this public
     private IntakeSubsystem intakeSubsystem;
     private SensorSubsystem sensorSubsystem;
-    private PivotSubsystem pivotSubsystem;
+    public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
     private double stateStartTime;
     private static final int SHOOTING_TIME = 2500;

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -11,122 +13,87 @@ import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.PivotStates;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
+import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class Buttons {
     
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
-  // private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
-  private PivotSubsystem m_pivotSubsystem = Robot.m_pivotSubsystem;
-  //private IntakeSubsystem m_intakeSubsystem = Robot.m_mechanismSubsystem.intakeSubsystem;
-  //private ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  public double leftTrigger;
-  public double rightTrigger;
+  private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
   
   public void buttonsPeriodic(){
-      //driver
-      /*if (OI.m_controller.getBButton()){ //emergency stop EVERYTHING
-        m_drivetrainSubsystem.stopDrive(); 
-      }*/
-      
-      // if (OI.m_controller.getLeftBumper()){ //emergency stop EVERYTHING
-      //   m_drivetrainSubsystem.stopDrive(); 
-      // }
-
-      if (OI.driver.getAButton()){ 
-        System.out.println("A BUTTON: AMP");
-        m_pivotSubsystem.setState(PivotStates.AMP); 
-      }
-
-      if (OI.driver.getXButton()){ 
-        System.out.println("X BUTTON: OFF");
-        m_pivotSubsystem.setState(PivotStates.OFF); 
-      }
-
-      if (OI.driver.getYButton()){ 
-        System.out.println("Y BUTTON SPEAKER");
-        m_pivotSubsystem.setState(PivotStates.SPEAKER); 
-      }
-      //if (OI.m_controller_two.getAButton()){ 
-       // m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-       // System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
-      //}
-      if (OI.codriver.getXButton()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
-        System.out.println("=======X BUTTON======SHOOTING IN SPEAKER!!");
-      }
-      if (OI.codriver.getYButton()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.OFF);
-        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
-      }
-      if (OI.codriver.getBButton()){
-        System.out.println("=======B BUTTON====INTAKING=======");
-        // if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
-        //   m_mechanismSubsystem.setState(MechanismStates.OFF);
-        // } else {
-        //   m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        // }
-        // TODO: for transition, we can use this button to turn both on and off at same time
-      }
-      if(OI.codriver.getLeftBumper()){
-        // m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
-      }
-      if(OI.codriver.getRightBumper()){
-        // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
-      }
-      
-      if (OI.codriver.getAButton()){ 
-        // if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
-        //   m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-        //   System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
-        // }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
-        //   m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
-        //   System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
-        // }else{
-        //   System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
-        // }
-      }
-      
-      if (OI.codriver.getYButton()){ 
-        // m_mechanismSubsystem.setState(MechanismStates.OFF);
-        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
-      }
-      
-      if (OI.codriver.getBButton()){
-        // if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
-        //   m_mechanismSubsystem.setState(MechanismStates.OFF);
-        //   System.out.println("=======B BUTTON====INTAKING OFF=======");
-        // } else {
-        //   m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        //   System.out.println("=======B BUTTON====INTAKING ON=======");
-        // }
-        
-      }
-      if(OI.codriver.getLeftBumper()){
-        // m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
-        System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
-      }
-      
-      if(OI.codriver.getRightBumper()){
-        // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
-        System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
+    //DRIVER
+      if (OI.driver.getLeftBumper()){ //emergency stop EVERYTHING
+         m_drivetrainSubsystem.stopDrive(); 
       }
 
       if(OI.driver.getStartButton()){
         System.out.println("=======START BUTTON====REMAKING DRIVETRAIN=======");
-
         m_drivetrainSubsystem.resetOffsets();
         m_drivetrainSubsystem.onEnable();
       }
+      
 
-      //manual
-      //from patricia: maybe use dpad instead
-      // TODO: when we know the max rotation of the pivot motor we need to intergrate that here 
-      if(OI.getTwoRightAxis() > 0.2 && OI.getTwoRightAxis() < - 0.2) {
-        m_pivotSubsystem.setState(PivotStates.MANUAL); 
-      }else if(m_pivotSubsystem.getState() == PivotStates.MANUAL){
-         m_pivotSubsystem.setState(PivotStates.OFF);
+    //CODRIVER
+      if (OI.codriver.getXButton()){ 
+        System.out.println("=======X BUTTON======MANUAL CONTROLS");
+         if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.OFF){
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+          System.out.println("=====X BUTTON=====PIVOT SET TO MANUAL");
+        }else if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
+          System.out.println("=====X BUTTON=====PIVOT SET TO OFF");
+        }else{
+          System.out.println("=====X BUTTON=====PIVOT ERROR NOT IN MANUAL OR OFF");
+        }
+      }
+
+      if (OI.codriver.getYButton()){ 
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
+      }
+
+      if (OI.codriver.getAButton()){ 
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
+          System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
+          System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
+        }else{
+          System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
+        }
       }
       
+      if (OI.codriver.getBButton()){
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
+          m_mechanismSubsystem.setState(MechanismStates.OFF);
+          System.out.println("=======B BUTTON====INTAKING OFF=======");
+        } else {
+          m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+          System.out.println("=======B BUTTON====INTAKING ON=======");
+        }
+        
+      }
+      if(OI.codriver.getLeftBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+        System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
+      }
+      
+      if(OI.codriver.getRightBumper()){
+        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+        System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
+      }  
+
+      //TODO these are a temporary fix. try to get triggers working!!
+
+      if(OI.getTwoLeftAxis() > 0.2) {
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
+      }
+      if(OI.getTwoLeftAxis() < - 0.2) {
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+      }
+
   }
 }
