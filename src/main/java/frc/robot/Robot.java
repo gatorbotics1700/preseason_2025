@@ -29,8 +29,8 @@ public class Robot extends TimedRobot {
     
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
-    public static Buttons m_buttons = new Buttons();
     private AutonomousBase m_auto; 
+    public static Buttons m_buttons = new Buttons();
     public static Boolean isBlueAlliance = true;
 
   
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
         //m_sensorSubsystem.init();
 
         m_mechanismSubsystem.init();
-        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
     }
 
     /* This function is called periodically during test mode. */

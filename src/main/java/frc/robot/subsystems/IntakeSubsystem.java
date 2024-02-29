@@ -29,7 +29,7 @@ public class IntakeSubsystem {
 
     public void init() {
         System.out.println("Intake Init!");
-        intakeMotor.setInverted(true); //sets it to default sending a piece up (counterclockwise)
+        intakeMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
         transitionMotor.setInverted(true);
         intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
         transitionMotor.setNeutralMode(NeutralMode.Coast);

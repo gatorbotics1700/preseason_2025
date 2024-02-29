@@ -32,17 +32,17 @@ public class Mechanisms {
         intakeSubsystem.init();
         sensorSubsystem.init();
 
-        setState(MechanismStates.OFF); //TODO: figure out what state to start in
+        setState(MechanismStates.OFF); //TODO: figure out what state to start in; maybe intaking?
     }
 
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
-            shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING);
+            /*shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING);      //TODO uncomment when done testing
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
-            }
+            }*/
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             intakeSubsystem.setState(IntakeSubsystem.IntakeStates.OFF);
             shooterSubsystem.setState(ShooterSubsystem.ShooterStates.AMP_HOLDING);
