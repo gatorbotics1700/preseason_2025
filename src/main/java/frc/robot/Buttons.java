@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -19,9 +21,6 @@ public class Buttons {
     
   private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
-
-  public double leftTrigger;
-  public double rightTrigger;
   
   public void buttonsPeriodic(){
     //DRIVER
@@ -34,7 +33,6 @@ public class Buttons {
         m_drivetrainSubsystem.resetOffsets();
         m_drivetrainSubsystem.onEnable();
       }
-
 
     //CODRIVER
       if (OI.codriver.getXButton()){ 
@@ -86,5 +84,15 @@ public class Buttons {
         m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
       }  
+
+      //TODO these are a temporary fix. try to get triggers working!!
+
+      if(OI.getTwoLeftAxis() > 0.2) {
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
+      }
+      if(OI.getTwoLeftAxis() < - 0.2) {
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+      }
+
   }
 }
