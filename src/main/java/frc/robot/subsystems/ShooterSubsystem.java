@@ -22,6 +22,11 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
+    private var highConfigurator = high.getConfigurator();
+    private var midConfigurator = mid.getConfigurator();
+    var highConfigs = new TalonFXConfiguration();
+    var midConfigs = new TalonFXConfiguration();
+
     private final double AMP_SPEED = 0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
@@ -51,8 +56,10 @@ public class ShooterSubsystem {
     public void init(){
         //used pg 42 on this doc: https://pro.docs.ctr-electronics.com/_/downloads/en/latest/pdf/
         //TODO check if krakens are getting code and test these directions
-        high.setInverted(TalonFXInvertType.Clockwise);//Clockwise or CounterClockwise
-        mid.setInverted(TalonFXInvertType.Clockwise);
+        highConfigs.Inverted = InvertedValue.Clockwise_Positive;
+        highConfigurator.apply(highConfigs);
+        midConfigs.Inverted = InvertedValue.Clockwise_Positive;
+        midConfigurator.apply(midConfigs);
         low.setInverted(true);
 
         high.setNeutralMode(NeutralModeValue.Brake);
