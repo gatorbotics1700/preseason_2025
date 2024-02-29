@@ -54,9 +54,9 @@ public class ShooterSubsystem {
     }
 
     public void init(){
-        //used pg 42 on this doc: https://pro.docs.ctr-electronics.com/_/downloads/en/latest/pdf/
+        //https://v6.docs.ctr-electronics.com/en/stable/docs/api-reference/api-usage/configuration.html
         //TODO check if krakens are getting code and test these directions
-        highConfigs.Inverted = InvertedValue.Clockwise_Positive;
+        highConfigs.Inverted = InvertedValue.Clockwise_Positive;//otherwise CounterClockwise_Positive
         highConfigurator.apply(highConfigs);
         midConfigs.Inverted = InvertedValue.Clockwise_Positive;
         midConfigurator.apply(midConfigs);
