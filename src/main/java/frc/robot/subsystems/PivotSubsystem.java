@@ -41,15 +41,15 @@ public class PivotSubsystem{
         pivot.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void periodic(){//limit switches true, then false when pressed
+    public void periodic(){//limit switches finally swapped to true when pressed, false when not
         System.out.println("CURRENT PIVOT STATE: " + pivotState);
         System.out.println("top limit switch: " + speakerLimitSwitch.get());
         System.out.println("bottom limit switch: " + ampLimitSwitch.get());
-        if((pivotState == PivotStates.SPEAKER) && speakerLimitSwitch.get()){
+        if((pivotState == PivotStates.SPEAKER) && !speakerLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, PIVOT_SPEED);
-        }else if((pivotState == PivotStates.AMP) && ampLimitSwitch.get()){
+        }else if((pivotState == PivotStates.AMP) && !ampLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, -PIVOT_SPEED);
-        }else if((pivotState == PivotStates.MANUAL) && speakerLimitSwitch.get() && ampLimitSwitch.get()){ //can be used to climb
+        }else if(pivotState == PivotStates.MANUAL){ //can be used to climb
             manual();
         }else if(pivotState == PivotStates.OFF){
             pivot.set(ControlMode.PercentOutput, 0);
@@ -62,13 +62,12 @@ public class PivotSubsystem{
    
     public void manual() {
         // TODO: when we know the max rotation of the pivot motor we need to intergrate that here 
-        if(OI.getTwoRightAxis() > 0.2) {
-            pivot.set(ControlMode.PercentOutput, 0.2);    
-        } else if(OI.getTwoRightAxis() < - 0.2) {
-            pivot.set(ControlMode.PercentOutput, - 0.2);  
+        if((OI.getTwoRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
+            pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);    
+        } else if((OI.getTwoRightAxis() < - 0.2) && !ampLimitSwitch.get()) {
+            pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);  
         } else {
             pivot.set(ControlMode.PercentOutput, 0);  
-            setState(PivotStates.OFF);
         }
     }
 
