@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -38,7 +40,7 @@ public class Robot extends TimedRobot {
     private AutonomousBase m_auto; 
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
-    public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+    //public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
     public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
     public static Buttons m_buttons = new Buttons();
 
@@ -145,15 +147,15 @@ public class Robot extends TimedRobot {
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
-        m_mechanismSubsystem.setState(MechanismStates.OFF);
+        //m_mechanismSubsystem.setState(MechanismStates.OFF);
         m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() { 
-        m_drivetrainSubsystem.driveTeleop();
-        m_drivetrainSubsystem.drive();   
+        //m_drivetrainSubsystem.driveTeleop();
+        //m_drivetrainSubsystem.drive();   
         m_mechanismSubsystem.periodic();
         m_buttons.buttonsPeriodic();
 
@@ -171,10 +173,10 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-       // m_mechanismSubsystem.init();
+      m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
        // m_pivotSubsystem.init();
-       m_intakeSubsystem.init();
+       //m_intakeSubsystem.init();
     }
 
     /* This function is called periodically during test mode. */
@@ -188,14 +190,16 @@ public class Robot extends TimedRobot {
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        //m_mechanismSubsystem.periodic();
+        m_mechanismSubsystem.periodic();
+        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
         //m_pivotSubsystem.periodic();
-        m_intakeSubsystem.periodic();
-        m_buttons.buttonsPeriodic();
+        //m_intakeSubsystem.periodic();
+        //m_buttons.buttonsPeriodic();
+        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
 
       // m_pivotSubsystem.pivot.set(ControlMode.PercentOutput, 0.05);
         //System.out.println("top limit switch: " + m_pivotSubsystem.topLimitSwitch.get());

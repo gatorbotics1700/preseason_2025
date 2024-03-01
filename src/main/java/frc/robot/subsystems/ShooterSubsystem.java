@@ -17,11 +17,11 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
-    private final double AMP_SPEED = 0.3; // DO NOT TOUCH THIS VALUE!!
+    private final double AMP_SPEED = 0.5;//0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.8;
-    private final double LOW_INTAKING_SPEED = 0.18;
+    private final double LOW_INTAKING_SPEED = 0.7;
     
     public static enum ShooterStates {
         OFF,
@@ -38,7 +38,7 @@ public class ShooterSubsystem {
     public ShooterSubsystem() {
         high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
-        low = new TalonFX(Constants.AMP_MOTOR_CAN_ID);
+        low = new TalonFX(Constants.LOW_MOTOR_CAN_ID);
         
         init();
     }
@@ -47,7 +47,7 @@ public class ShooterSubsystem {
         //TODO check if krakens are getting code and test these directions
         high.setInverted(false);
         mid.setInverted(false);
-        low.setInverted(true);
+        low.setInverted(false);
 
         high.setNeutralMode(NeutralModeValue.Brake);
         mid.setNeutralMode(NeutralModeValue.Brake);
@@ -66,17 +66,17 @@ public class ShooterSubsystem {
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED));
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
-            high.setControl(dutyCycleOut.withOutput(-AMP_SPEED)); //negative
-            mid.setControl(dutyCycleOut.withOutput(0));
-           low.setControl(dutyCycleOut.withOutput(0));
+            high.setControl(dutyCycleOut.withOutput(0)); //negative
+            mid.setControl(dutyCycleOut.withOutput(0));//(AMP_SPEED));
+            low.setControl(dutyCycleOut.withOutput(AMP_SPEED));
         } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(dutyCycleOut.withOutput(0));
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
             System.out.println("==========WE ARE SHOOTING IN AMP==========");
-            high.setControl(dutyCycleOut.withOutput(-AMP_SPEED)); //negative
-            mid.setControl(dutyCycleOut.withOutput(0)); // TODO: check if this is correct
+            high.setControl(dutyCycleOut.withOutput(0)); 
+            mid.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: check if this is correct
             low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: might need a different value for amp shooting
         }else if(currentShooterState == ShooterStates.SPEAKER){
             System.out.println("==========WE ARE SHOOTING IN SPEAKER==========");

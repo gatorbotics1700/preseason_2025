@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix6.mechanisms.MechanismState;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -37,16 +38,7 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){ 
-        System.out.println("=======X BUTTON======MANUAL CONTROLS");
-         if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.OFF){
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
-          System.out.println("=====X BUTTON=====PIVOT SET TO MANUAL");
-        }else if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
-          System.out.println("=====X BUTTON=====PIVOT SET TO OFF");
-        }else{
-          System.out.println("=====X BUTTON=====PIVOT ERROR NOT IN MANUAL OR OFF");
-        }
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
       }
 
       if (OI.codriver.getYButton()){ 
@@ -67,6 +59,7 @@ public class Buttons {
       }
       
       if (OI.codriver.getBButton()){
+        // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
           System.out.println("=======B BUTTON====INTAKING OFF=======");
@@ -89,10 +82,10 @@ public class Buttons {
       //TODO these are a temporary fix. try to get triggers working!!
 
       if(OI.getTwoLeftAxis() > 0.2) {
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
+          // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
       }
       if(OI.getTwoLeftAxis() < - 0.2) {
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+          // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
       }
 
   }

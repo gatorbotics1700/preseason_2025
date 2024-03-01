@@ -10,7 +10,7 @@ public class IntakeSubsystem {
 
     private TalonFX intakeMotor;
 
-    private final double INTAKE_SPEED = 0.35; //used to be 0.45, changed to 0.35 on 02/26 for testing//build says this is optimal after testing, DO NOT CHANGE
+    private final double INTAKE_SPEED = 0.4; //used to be 0.45, changed to 0.35 on 02/26 for testing//build says this is optimal after testing, DO NOT CHANGE
 
     private IntakeStates intakeState;
 
