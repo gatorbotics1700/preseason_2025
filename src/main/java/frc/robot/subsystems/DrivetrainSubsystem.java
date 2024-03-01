@@ -298,5 +298,40 @@ public class DrivetrainSubsystem {
    public double getStartingGyroRotation(){
       return startingGyroRotation; 
    }
+
+   public void resetOffsets(){
+
+      frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
+            Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
+            Constants.FRONT_LEFT_MODULE_STEER_OFFSET
+         );
+              
+      frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
+            Constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
+            Constants.FRONT_RIGHT_MODULE_STEER_OFFSET
+      );
+        
+      backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_MOTOR,
+            Constants.BACK_LEFT_MODULE_STEER_ENCODER,
+            Constants.BACK_LEFT_MODULE_STEER_OFFSET
+      );
+        
+      backRightModule = Mk4SwerveModuleHelper.createFalcon500(
+            Mk4SwerveModuleHelper.GearRatio.L2,
+            Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
+            Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
+            Constants.BACK_RIGHT_MODULE_STEER_OFFSET
+      );
+   }
 }
 

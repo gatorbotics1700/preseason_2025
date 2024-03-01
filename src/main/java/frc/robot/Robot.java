@@ -5,6 +5,7 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
@@ -129,8 +130,8 @@ public class Robot extends TimedRobot {
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
-        m_mechanismSubsystem.setState(MechanismStates.OFF);
-        m_mechanismSubsystem.init();
+        //m_mechanismSubsystem.setState(MechanismStates.OFF);
+        //m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
@@ -139,7 +140,7 @@ public class Robot extends TimedRobot {
         m_buttons.buttonsPeriodic();
         m_drivetrainSubsystem.driveTeleop();
         m_drivetrainSubsystem.drive();   
-        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
     }
 
     /* This function is called once when the robot is disabled. */
@@ -154,8 +155,8 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-
-        m_mechanismSubsystem.init();
+        m_drivetrainSubsystem.onEnable();
+        //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
     }
 
@@ -164,13 +165,13 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
-        //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-        //m_drivetrainSubsystem.drive();
-        m_buttons.buttonsPeriodic();
+        m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+        m_drivetrainSubsystem.drive();
+        //m_buttons.buttonsPeriodic();
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
