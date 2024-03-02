@@ -51,14 +51,14 @@ public class Buttons {
         }*/
       }
 
-      if (OI.codriver.getYButton()){ //reagan wants all off mech
+      if (OI.codriver.getYButton()){ //all off mech
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
       }
 
       if (OI.codriver.getAButton()){ 
-        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
         }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
@@ -87,13 +87,11 @@ public class Buttons {
       }
       
       if(OI.codriver.getRightBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
         //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
       }  
 
-      //TODO these are a temporary fix. try to get triggers working!!
-
+      //TODO reagan wants dpad for pivot on/manual then buttons for speaker,amp
       if(OI.getTwoLeftAxis() > 0.2) {
           // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
       }
@@ -102,12 +100,10 @@ public class Buttons {
       }
 
      /* if(OI.codriver.getPOV() > 45 && OI.codriver.getPOV() < 135){
-        
         System.out.println("dpad");
       }
 
       if(OI.codriver.getPOV() > 225 && OI.codriver.getPOV() < 315){
-        
         System.out.println("dpad");
       }*/
 

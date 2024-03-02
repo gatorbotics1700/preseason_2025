@@ -8,6 +8,7 @@ import com.ctre.phoenix6.mechanisms.MechanismState;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
@@ -173,10 +174,11 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-      m_mechanismSubsystem.init();
+      //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
        // m_pivotSubsystem.init();
-       //m_intakeSubsystem.init();
+       m_intakeSubsystem.init();
+       m_intakeSubsystem.setState(IntakeStates.INTAKING);
     }
 
     /* This function is called periodically during test mode. */
@@ -190,15 +192,15 @@ public class Robot extends TimedRobot {
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        m_mechanismSubsystem.periodic();
-        m_mechanismSubsystem.pivotSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.pivotSubsystem.periodic();
 
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
         //m_pivotSubsystem.periodic();
-        //m_intakeSubsystem.periodic();
-        m_buttons.buttonsPeriodic();
+        m_intakeSubsystem.periodic();
+        //m_buttons.buttonsPeriodic();
 
         //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
 

@@ -44,7 +44,7 @@ public class ShooterSubsystem {
     }
 
     public void init(){
-        high.setInverted(false);
+        high.setInverted(true);//false testing
         mid.setInverted(false);
         low.setInverted(false);
 
