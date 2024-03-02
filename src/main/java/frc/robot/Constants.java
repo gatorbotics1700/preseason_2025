@@ -32,10 +32,10 @@ public final class Constants {
 
    //offsets Hulk 
      
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(212.87109375);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(115.86456298828125);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.14453125);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(358.28887939453125);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
+     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
+     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
+     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
     
     //offsets McQueen
     
