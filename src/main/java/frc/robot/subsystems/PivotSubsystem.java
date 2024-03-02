@@ -19,6 +19,7 @@ public class PivotSubsystem{
     private final double MANUAL_SPEED = 0.1;
     
     public static enum PivotStates{
+        FIRST,
         SPEAKER,
         AMP,
         MANUAL,
@@ -32,12 +33,11 @@ public class PivotSubsystem{
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
         speakerLimitSwitch = new DigitalInput(7); //check these ports
         ampLimitSwitch = new DigitalInput(4); 
-        
         init();
     }
     
     public void init(){
-        setState(PivotStates.OFF);
+        setState(PivotStates.FIRST);
         pivot.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -52,7 +52,7 @@ public class PivotSubsystem{
         }else if(pivotState == PivotStates.MANUAL){ //can be used to climb
             manual();
         }else if(pivotState == PivotStates.OFF){
-            pivot.set(ControlMode.PercentOutput, 0);
+            pivot.set(ControlMode.PercentOutput, 0);  
         }else{
             System.out.println("=========UNRECOGNIZED PIVOT STATE: " + pivotState.toString() + "========");
             pivotState = PivotStates.OFF;
@@ -71,7 +71,7 @@ public class PivotSubsystem{
             System.out.println("TOWARDS AMP");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);  
         } else {
-            pivot.set(ControlMode.PercentOutput, 0);  
+            pivot.set(ControlMode.PercentOutput, 0); 
         }
     }
 

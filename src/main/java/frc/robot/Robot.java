@@ -15,6 +15,7 @@ import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.PivotStates;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -35,14 +36,13 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
     private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
-    
+    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
+    public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     private AutonomousBase m_auto; 
-    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
-    //public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
-    public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
     public static Buttons m_buttons = new Buttons();
 
     double mpi = Constants.METERS_PER_INCH;//TODO just reference it from constants
@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         isBlueAlliance = allianceChooser.getSelected();
-        m_drivetrainSubsystem.onEnable();
+        //m_drivetrainSubsystem.onEnable();
         //m_mechanismSubsystem.setState(MechanismStates.OFF);
         m_mechanismSubsystem.init();
     }
@@ -174,11 +174,12 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
-      //m_mechanismSubsystem.init();
-        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-       // m_pivotSubsystem.init();
-       m_intakeSubsystem.init();
-       m_intakeSubsystem.setState(IntakeStates.INTAKING);
+      //m_mechanismSubsystem.intakeSubsystem.init();
+      //m_mechanismSubsystem.pivotSubsystem.init();
+      m_mechanismSubsystem.init();
+       m_mechanismSubsystem.setState(MechanismStates.TESTING);
+      //m_intakeSubsystem.init();
+      //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
     }
 
     /* This function is called periodically during test mode. */
@@ -192,15 +193,15 @@ public class Robot extends TimedRobot {
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        //m_mechanismSubsystem.periodic();
-        //m_mechanismSubsystem.pivotSubsystem.periodic();
+        m_mechanismSubsystem.periodic();
+       // m_mechanismSubsystem.pivotSubsystem.periodic();
 
-        //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
-        //m_pivotSubsystem.periodic();
-        m_intakeSubsystem.periodic();
-        //m_buttons.buttonsPeriodic();
+       // m_pivotSubsystem.periodic();
+       // m_intakeSubsystem.periodic();
+       //m_mechanismSubsystem.intakeSubsystem.periodic();
+       // m_buttons.buttonsPeriodic();
 
         //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
 

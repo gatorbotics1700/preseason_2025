@@ -17,6 +17,7 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
+    private final double TESTING_SPEED = 0.3;
     private final double AMP_SPEED = 0.5; //0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
@@ -30,7 +31,8 @@ public class ShooterSubsystem {
         AMP_HOLDING,
         SPEAKER_HOLDING,
         AMP,
-        SPEAKER; 
+        SPEAKER,
+        TESTING; 
     }
 
     private ShooterStates currentShooterState;
@@ -73,19 +75,21 @@ public class ShooterSubsystem {
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(dutyCycleOut.withOutput(0));
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
-            System.out.println("==========WE ARE SHOOTING IN AMP==========");
             high.setControl(dutyCycleOut.withOutput(0)); 
-            mid.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: check if this is correct
+            mid.setControl(dutyCycleOut.withOutput(-AMP_SPEED)); // TODO: check if this is correct
             low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: might need a different value for amp shooting
         }else if(currentShooterState == ShooterStates.SPEAKER){
-            System.out.println("==========WE ARE SHOOTING IN SPEAKER==========");
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));//TODO walk through logic
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
-            low.setControl(dutyCycleOut.withOutput(LOW_SHOOTING_SPEED));
+            low.setControl(dutyCycleOut.withOutput(LOW_SHOOTING_SPEED)); //TESTING
         }else if(currentShooterState == ShooterStates.OFF){
             high.setControl(dutyCycleOut.withOutput(0));
             mid.setControl(dutyCycleOut.withOutput(0));
             low.setControl(dutyCycleOut.withOutput(0));
+        } else if(currentShooterState == ShooterStates.TESTING){
+            //high.setControl(dutyCycleOut.withOutput(TESTING_SPEED));
+            mid.setControl(dutyCycleOut.withOutput(TESTING_SPEED));
+            // low.setControl(dutyCycleOut.withOutput(TESTING_SPEED));
         }else{
             high.setControl(dutyCycleOut.withOutput(0));
             mid.setControl(dutyCycleOut.withOutput(0));

@@ -37,7 +37,7 @@ public class Buttons {
       
 
     //CODRIVER
-      if (OI.codriver.getXButton()){ 
+      if (OI.codriver.getXButton()){ //manual
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
         System.out.println("x button");
@@ -57,7 +57,7 @@ public class Buttons {
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
       }
 
-      if (OI.codriver.getAButton()){ 
+      if (OI.codriver.getAButton()){  //amp/speaker shooting
          if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
@@ -67,10 +67,11 @@ public class Buttons {
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
         }
+
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
       }
       
-      if (OI.codriver.getBButton()){
+      if (OI.codriver.getBButtonPressed()){ //intaking toggle
         // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
@@ -87,16 +88,16 @@ public class Buttons {
       }
       
       if(OI.codriver.getRightBumper()){
-        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
       }  
 
       //TODO reagan wants dpad for pivot on/manual then buttons for speaker,amp
       if(OI.getTwoLeftAxis() > 0.2) {
-          // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
+        // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER); 
       }
       if(OI.getTwoLeftAxis() < - 0.2) {
-          // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+       //   m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
       }
 
      /* if(OI.codriver.getPOV() > 45 && OI.codriver.getPOV() < 135){
