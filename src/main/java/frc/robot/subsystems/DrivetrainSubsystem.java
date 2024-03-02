@@ -7,6 +7,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
@@ -14,6 +16,7 @@ import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -168,6 +171,8 @@ public class DrivetrainSubsystem {
          new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
       ); 
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
+
+     // driftController = new PIDController(driftKP, driftKI, driftKD); 
    }
   
    //from pigeon used for updating our odometry
@@ -212,6 +217,13 @@ public class DrivetrainSubsystem {
             getPoseRotation()
          )
       );
+      
+      // driftCorrection(ChassisSpeeds.fromFieldRelativeSpeeds(
+      //       translationXSupplier.getAsDouble(),
+      //       translationYSupplier.getAsDouble(),
+      //       rotationSupplier.getAsDouble(),
+      //       getPoseRotation()
+      //    ));
    }
 
    //responsible for moving the robot, called after a chassisSpeed is set
@@ -333,5 +345,19 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
    }
+
+   // public  double desiredHeading;
+   // public double pXY = 0;
+   // private static final double driftKP= 0.00001;
+   // private static final double driftKI= 0.0; 
+   // private static final double driftKD= 0.0002;
+   // private PIDController driftController;
+
+   // public void driftCorrection(ChassisSpeeds speeds){
+   //    double xy = Math.abs(speeds.vxMetersPerSecond) + Math.abs(speeds.vyMetersPerSecond);
+   //    if(Math.abs(speeds.omegaRadiansPerSecond) > 0.0 || pXY <= 0) desiredHeading = getPose().getRotation().getDegrees();
+   //    else if(xy > 0) speeds.omegaRadiansPerSecond += driftController.calculate(getPose().getRotation().getDegrees(), desiredHeading);
+   //       pXY = xy;
+   // }
 }
 
