@@ -53,7 +53,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
+                setState(MechanismStates.OFF); //TODO: this will change depending on if we're in teleop or auto        
             }
         } else if (mechanismState == MechanismStates.INTAKING_WITH_SHOOTER_WARMUP){ //just for auto
             // pivotSubsystem.setState(PivotStates.AMP);
@@ -75,11 +75,11 @@ public class Mechanisms {
             //if(!pivotSubsystem.getAmpLimitSwitch()){//TODO uncomment when done testing
                 intakeSubsystem.setState(IntakeStates.OFF);
                 shooterSubsystem.setState(ShooterStates.AMP);
-                if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
+                /*if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
                     setState(MechanismStates.INTAKING); //sets to intaking right after shooting
                 } else {
                     System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");
-                }
+                }*/
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             // pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);
