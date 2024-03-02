@@ -37,8 +37,8 @@ public class Buttons {
       
 
     //CODRIVER
-      if (OI.codriver.getXButtonPressed()){ 
-        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+      if (OI.codriver.getXButton()){ 
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
         System.out.println("x button");
 
@@ -58,7 +58,7 @@ public class Buttons {
       }
 
       if (OI.codriver.getAButton()){ 
-        /*if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
         }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
@@ -66,8 +66,8 @@ public class Buttons {
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
-        }*/
-        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+        }
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
       }
       
       if (OI.codriver.getBButton()){
@@ -87,7 +87,8 @@ public class Buttons {
       }
       
       if(OI.codriver.getRightBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
+        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
       }  
 

@@ -83,9 +83,9 @@ public class Mechanisms {
             // pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER);
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
-            }
+            //if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
+                //setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+            //}TESTING
         } else if (mechanismState == MechanismStates.OFF){
             // pivotSubsystem.setState(PivotStates.OFF);
             shooterSubsystem.setState(ShooterStates.OFF);

@@ -66,8 +66,8 @@ public class ShooterSubsystem {
             low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED));
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
             high.setControl(dutyCycleOut.withOutput(0)); //negative
-            mid.setControl(dutyCycleOut.withOutput(0));//(AMP_SPEED));
-            low.setControl(dutyCycleOut.withOutput(AMP_SPEED));//testing
+            mid.setControl(dutyCycleOut.withOutput(AMP_SPEED));//(AMP_SPEED));
+            low.setControl(dutyCycleOut.withOutput(0));//testing
         } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
