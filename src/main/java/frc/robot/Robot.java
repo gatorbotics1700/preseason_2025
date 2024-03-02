@@ -191,15 +191,16 @@ public class Robot extends TimedRobot {
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
         m_mechanismSubsystem.periodic();
-        m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        //m_mechanismSubsystem.pivotSubsystem.periodic();
+
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
         //m_pivotSubsystem.periodic();
         //m_intakeSubsystem.periodic();
-        //m_buttons.buttonsPeriodic();
-        //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+        m_buttons.buttonsPeriodic();
+
+        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
 
       // m_pivotSubsystem.pivot.set(ControlMode.PercentOutput, 0.05);
         //System.out.println("top limit switch: " + m_pivotSubsystem.topLimitSwitch.get());

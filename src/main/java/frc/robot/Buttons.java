@@ -39,15 +39,25 @@ public class Buttons {
     //CODRIVER
       if (OI.codriver.getXButton()){ 
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+
+        /*if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
+          System.out.println("=======x BUTTON====PIVOT OFF=======");
+        } else {
+          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+          System.out.println("=======x BUTTON====PIVOT IN MANUAL=======");
+        }*/
       }
 
-      if (OI.codriver.getYButton()){ 
+      if (OI.codriver.getYButton()){ //reagan wants all off mech
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
       }
 
       if (OI.codriver.getAButton()){ 
-        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+        /*if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
         }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
@@ -55,7 +65,8 @@ public class Buttons {
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
-        }
+        }*/
+        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
       }
       
       if (OI.codriver.getBButton()){
@@ -70,13 +81,13 @@ public class Buttons {
         
       }
       if(OI.codriver.getLeftBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
-        System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
+        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+        System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
       }
       
       if(OI.codriver.getRightBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
-        System.out.println("=======RIGHT BUMPER====SPEAKER HOLDING=======");
+        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+        System.out.println("=======LEFT BUMPER====AMP HOLDING=======");
       }  
 
       //TODO these are a temporary fix. try to get triggers working!!
@@ -87,6 +98,18 @@ public class Buttons {
       if(OI.getTwoLeftAxis() < - 0.2) {
           // m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
       }
+
+     /* if(OI.codriver.getPOV() > 45 && OI.codriver.getPOV() < 135){
+        
+        System.out.println("dpad");
+      }
+
+      if(OI.codriver.getPOV() > 225 && OI.codriver.getPOV() < 315){
+        
+        System.out.println("dpad");
+      }*/
+
+
 
   }
 }

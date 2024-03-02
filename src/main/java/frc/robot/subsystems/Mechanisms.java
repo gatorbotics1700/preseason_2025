@@ -10,7 +10,7 @@ public class Mechanisms {
     public ShooterSubsystem shooterSubsystem; //TODO why is this public
     private IntakeSubsystem intakeSubsystem;
     private SensorSubsystem sensorSubsystem;
-    // public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
+    public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
     private double stateStartTime;
     private static final int SHOOTING_TIME = 2500;
@@ -31,7 +31,7 @@ public class Mechanisms {
         shooterSubsystem = new ShooterSubsystem();
         sensorSubsystem = new SensorSubsystem();
         intakeSubsystem = new IntakeSubsystem();
-        // pivotSubsystem = new PivotSubsystem();
+        pivotSubsystem = new PivotSubsystem();
         init();
     }
 
@@ -39,7 +39,7 @@ public class Mechanisms {
         shooterSubsystem.init();
         intakeSubsystem.init();
         sensorSubsystem.init();
-        // pivotSubsystem.init();
+        pivotSubsystem.init();
 
         setState(MechanismStates.OFF); //TODO: figure out what state to start in
     }
@@ -61,12 +61,12 @@ public class Mechanisms {
                 setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
-            // pivotSubsystem.setState(PivotStates.AMP); 
+            //pivotSubsystem.setState(PivotStates.AMP); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP_HOLDING);
             //we stop transition motor in the shooter subsystem right now
         } else if(mechanismState == MechanismStates.SPEAKER_HOLDING){
-            // pivotSubsystem.setState(PivotStates.SPEAKER);
+            //pivotSubsystem.setState(PivotStates.SPEAKER);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
@@ -76,9 +76,9 @@ public class Mechanisms {
                 if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
                     setState(MechanismStates.INTAKING); //sets to intaking right after shooting
                 }
-            //} else {
+           // } else {
                 System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");
-            //}
+           // }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             // pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);

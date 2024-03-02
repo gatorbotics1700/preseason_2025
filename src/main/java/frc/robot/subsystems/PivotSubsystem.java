@@ -16,7 +16,7 @@ public class PivotSubsystem{
     private DigitalInput ampLimitSwitch;
 
     private final double PIVOT_SPEED = 0.08;
-    private final double MANUAL_SPEED = 0.06;
+    private final double MANUAL_SPEED = 0.1;
     
     public static enum PivotStates{
         SPEAKER,
@@ -30,8 +30,8 @@ public class PivotSubsystem{
 
     public PivotSubsystem(){
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
-        speakerLimitSwitch = new DigitalInput(0); //check these ports
-        ampLimitSwitch = new DigitalInput(7); 
+        speakerLimitSwitch = new DigitalInput(7); //check these ports
+        ampLimitSwitch = new DigitalInput(4); 
         
         init();
     }
@@ -58,13 +58,17 @@ public class PivotSubsystem{
             pivotState = PivotStates.OFF;
             pivot.set(ControlMode.PercentOutput, 0);
         }
+        //System.out.println("SPEAKER LIMIT SWITCH: " + speakerLimitSwitch.get());
+        //System.out.println("AMP LIMIT SWITCH: " + ampLimitSwitch.get());
     }
    
     public void manual() {
         // TODO: when we know the max rotation of the pivot motor we need to intergrate that here 
         if((OI.getTwoRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
+            System.out.println("TOWARDS SPEAKER");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);    
         } else if((OI.getTwoRightAxis() < - 0.2) && !ampLimitSwitch.get()) {
+            System.out.println("TOWARDS AMP");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);  
         } else {
             pivot.set(ControlMode.PercentOutput, 0);  

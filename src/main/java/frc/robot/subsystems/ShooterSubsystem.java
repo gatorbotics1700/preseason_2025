@@ -17,7 +17,7 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
-    private final double AMP_SPEED = 0.5;//0.3; // DO NOT TOUCH THIS VALUE!!
+    private final double AMP_SPEED = 0.5; //0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
     private final double MID_SPEAKER_SPEED = 0.8;
@@ -44,7 +44,6 @@ public class ShooterSubsystem {
     }
 
     public void init(){
-        //TODO check if krakens are getting code and test these directions
         high.setInverted(false);
         mid.setInverted(false);
         low.setInverted(false);
@@ -68,7 +67,7 @@ public class ShooterSubsystem {
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
             high.setControl(dutyCycleOut.withOutput(0)); //negative
             mid.setControl(dutyCycleOut.withOutput(0));//(AMP_SPEED));
-            low.setControl(dutyCycleOut.withOutput(AMP_SPEED));
+            low.setControl(dutyCycleOut.withOutput(AMP_SPEED));//testing
         } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
