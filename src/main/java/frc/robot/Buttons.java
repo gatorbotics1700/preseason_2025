@@ -37,9 +37,10 @@ public class Buttons {
       
 
     //CODRIVER
-      if (OI.codriver.getXButton()){ 
-        m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+      if (OI.codriver.getXButtonPressed()){ 
+        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+        System.out.println("x button");
 
         /*if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
           m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
