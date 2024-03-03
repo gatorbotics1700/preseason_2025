@@ -53,7 +53,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.OFF); //TODO: this will change depending on if we're in teleop or auto        
+                setState(MechanismStates.OFF);      
             }
         } else if (mechanismState == MechanismStates.INTAKING_WITH_SHOOTER_WARMUP){ //just for auto
             // pivotSubsystem.setState(PivotStates.AMP);
