@@ -77,7 +77,7 @@ public class ShooterSubsystem {
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
             high.setControl(dutyCycleOut.withOutput(AMP_SPEED)); //AMP SPEED FOR MID/HIGH AT .35 WORKS!!!! 3/2
             mid.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: check if this is correct
-            low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // LOW SPEED AT .25 IS GREAT
+            low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // LOW SPEED AT .25 IS GREAT, and .35 is better
         }else if(currentShooterState == ShooterStates.SPEAKER){
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));//TODO walk through logic
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
