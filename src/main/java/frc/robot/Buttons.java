@@ -38,17 +38,17 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){ //manual
-        m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+        //m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
+        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
         System.out.println("x button");
 
-        /*if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
-          System.out.println("=======x BUTTON====PIVOT OFF=======");
-        } else {
-          m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
-          System.out.println("=======x BUTTON====PIVOT IN MANUAL=======");
-        }*/
+        // if(m_mechanismSubsystem.pivotSubsystem.getState() == PivotStates.MANUAL){
+        //   m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.OFF);
+        //   System.out.println("=======x BUTTON====PIVOT OFF=======");
+        // } else {
+        //   m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+        //   System.out.println("=======x BUTTON====PIVOT IN MANUAL=======");
+        // }
       }
 
       if (OI.codriver.getYButton()){ //all off mech

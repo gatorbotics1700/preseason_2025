@@ -63,6 +63,7 @@ public class PivotSubsystem{
     }
    
     public void manual() {
+        System.out.println("+++++++++++IN MANUAL++++++++++");
         // TODO: when we know the max rotation of the pivot motor we need to intergrate that here 
         if((OI.getTwoRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
             System.out.println("TOWARDS SPEAKER");
@@ -77,6 +78,7 @@ public class PivotSubsystem{
 
     public void setState(PivotStates newState) {
         pivotState = newState;
+        System.out.println("setting pivot state");
     }
 
     public PivotStates getState(){

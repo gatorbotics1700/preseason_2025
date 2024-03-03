@@ -17,7 +17,7 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
-    private final double TESTING_SPEED = 0.25;
+    private final double TESTING_SPEED = 0.5;
     private final double AMP_SPEED = 0.35; //0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7;
     private final double HIGH_SPEAKER_SPEED = 0.8;
@@ -46,7 +46,7 @@ public class ShooterSubsystem {
     }
 
     public void init(){
-        high.setInverted(true);//false testing
+        high.setInverted(true);
         mid.setInverted(false);
         low.setInverted(false);
 
@@ -64,22 +64,22 @@ public class ShooterSubsystem {
             low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED));
         }else if (currentShooterState == ShooterStates.WARMUP){ //same as speaking holding but doesnt assume we have a note
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
-            mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
+            mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED));
             low.setControl(dutyCycleOut.withOutput(LOW_INTAKING_SPEED));
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
-            high.setControl(dutyCycleOut.withOutput(0)); //negative
-            mid.setControl(dutyCycleOut.withOutput(AMP_SPEED));//(AMP_SPEED));//.35 IS PERFECT
-            low.setControl(dutyCycleOut.withOutput(0));//testing
+            high.setControl(dutyCycleOut.withOutput(0));
+            mid.setControl(dutyCycleOut.withOutput(TESTING_SPEED));//(AMP_SPEED));//.35 IS PERFECT IN LAB, BUT .5 (SAME AS IN AMP WORKS BETTER IN PRACTICE) 
+            low.setControl(dutyCycleOut.withOutput(0));
         } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
             high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(dutyCycleOut.withOutput(0));
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
-            high.setControl(dutyCycleOut.withOutput(AMP_SPEED)); //AMP SPEED FOR MID/HIGH AT .35 WORKS!!!! 3/2
-            mid.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // TODO: check if this is correct
+            high.setControl(dutyCycleOut.withOutput(TESTING_SPEED)); //AMP SPEED FOR MID/HIGH AT .35 WORKS!!!! 3/2 .45 WORKS FOR SHOOTING INTO AMP
+            mid.setControl(dutyCycleOut.withOutput(TESTING_SPEED));
             low.setControl(dutyCycleOut.withOutput(AMP_SPEED)); // LOW SPEED AT .25 IS GREAT, and .35 is better
         }else if(currentShooterState == ShooterStates.SPEAKER){
-            high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));//TODO walk through logic
+            high.setControl(dutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(dutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(dutyCycleOut.withOutput(LOW_SHOOTING_SPEED)); //TESTING
         }else if(currentShooterState == ShooterStates.OFF){
