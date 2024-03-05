@@ -30,29 +30,21 @@ public final class Constants {
     public static final double SWERVE_TICKS_PER_INCH = TICKS_PER_REV*SWERVE_GEAR_RATIO/(SWERVE_WHEEL_DIAMETER*Math.PI); //talonfx drive encoder
     public static final double SWERVE_TICKS_PER_METER = SWERVE_TICKS_PER_INCH/Constants.METERS_PER_INCH;
 
-//    //offsets Hulk 
+    //WARNING: FRONT RIGHT AND BACK RIGHT STEER ENCODERS CAN IDS NEED CHANGES FOR HULK VS. MCQUEEN
+    //offsets Hulk 
      
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
+     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
      public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
      public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
      public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
     
     //offsets McQueen
-<<<<<<< HEAD
-    
-    //public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(21.1816);
-    //public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(277.8223);
-    //public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(356.3086);
-    //public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(73.125);
-    
-=======
 
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(21.1816);
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(277.8223);
     // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(356.3086);
     // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(73.125);
 
->>>>>>> refactorAuto
 
    // even can ids are steer, odd can ids are drive
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -71,24 +63,18 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4; //hulk
-    //public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 3; //mcqueen
+    // public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 3; //mcqueen
 
     public static final double DRIVE_MOTOR_MIN_VOLTAGE = 0.15;
     public static final double DRIVE_MOTOR_MAX_VOLTAGE = 0.7;
     public static final double STEER_MOTOR_MIN_VOLTAGE = 0.15;
     public static final double STEER_MOTOR_MAX_VOLTAGE = 0.6;
 
-    public static final double REVS_PER_ROTATION = 10; // TODO: this is a placeholder, get build to measure
     public static final double METERS_PER_INCH = 0.0254;
 
-    public static final int INTAKE_MOTOR_CAN_ID = 28; // TODO: this is a placeholder
+    public static final int INTAKE_MOTOR_CAN_ID = 28;
     public static final int PIVOT_MOTOR_CAN_ID = 32; 
-    //public static final int TRANSITION_CAN_ID = 15;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refactorAuto
     public static final int LOW_MOTOR_CAN_ID = 30;
     public static final int SHOOTER_HIGH_CAN_ID = 34;
     public static final int SHOOTER_MID_CAN_ID = 33;
