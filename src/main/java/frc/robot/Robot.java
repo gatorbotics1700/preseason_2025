@@ -3,13 +3,28 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+=======
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
+>>>>>>> refactorAuto
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.SensorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotSubsystem.PivotStates;
+import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.autonomous.AutonomousBase;
 import frc.robot.autonomous.Paths;
 
@@ -27,11 +42,19 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> allianceChooser = new SendableChooser<>();
     private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
 
-    
+    public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
+    public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
+    public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     private AutonomousBase m_auto; 
     public static Buttons m_buttons = new Buttons();
+<<<<<<< HEAD
+=======
+
+    double mpi = Constants.METERS_PER_INCH;//TODO just reference it from constants
+>>>>>>> refactorAuto
     public static Boolean isBlueAlliance = true;
 
   
@@ -43,14 +66,16 @@ public class Robot extends TimedRobot {
   public void robotInit() { //creates options for different autopaths, names are placeholders    
     System.out.println("#I'm Awake");
 
-    auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
+   auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
     //red paths
     auto_chooser.addOption("noGo-R!", Paths.AUTO_OPTIONS.R_NO_GO);
     auto_chooser.addOption("R-3 Piece 1", Paths.AUTO_OPTIONS.R_THREE_PIECE_1);
     auto_chooser.addOption("R-3 Piece 2", Paths.AUTO_OPTIONS.R_THREE_PIECE_2);
-    auto_chooser.addOption("R-3 Piece AMP", Paths.AUTO_OPTIONS.R_THREE_PAMP);
-    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
+    auto_chooser.addOption("R-3 Piece 3 Top", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_TOP);
+    auto_chooser.addOption("R-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_BOTTOM);
     auto_chooser.addOption("R-4 Piece 1", Paths.AUTO_OPTIONS.R_FOUR_PIECE_1);
+    auto_chooser.addOption("R-4 Piece 2", Paths.AUTO_OPTIONS.R_FOUR_PIECE_2);
+    auto_chooser.addOption("R-4 Piece 3", Paths.AUTO_OPTIONS.R_FOUR_PIECE_3);
     auto_chooser.addOption("R-5 Piece 2", Paths.AUTO_OPTIONS.R_FIVE_PIECE_2);
     auto_chooser.addOption("R-Anaika's Dream 1", Paths.AUTO_OPTIONS.R_ANAIKAS_DREAM_1);
     auto_chooser.addOption("R-Bread", Paths.AUTO_OPTIONS.R_BREAD);
@@ -61,9 +86,11 @@ public class Robot extends TimedRobot {
     auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
     auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
     auto_chooser.addOption("B-3 Piece 2", Paths.AUTO_OPTIONS.B_THREE_PIECE_2);
-    auto_chooser.addOption("B-3 Piece AMP", Paths.AUTO_OPTIONS.B_THREE_PAMP);
-    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
+    auto_chooser.addOption("B-3 Piece 3 Top", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_TOP);
+    auto_chooser.addOption("B-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_BOTTOM);
+    auto_chooser.addOption("B-4 Piece 1", Paths.AUTO_OPTIONS.B_FOUR_PIECE_1);
     auto_chooser.addOption("B-4 Piece 2", Paths.AUTO_OPTIONS.B_FOUR_PIECE_2);
+    auto_chooser.addOption("B-4 Piece 3", Paths.AUTO_OPTIONS.B_FOUR_PIECE_3);
     auto_chooser.addOption("B-5 Piece 1", Paths.AUTO_OPTIONS.B_FIVE_PIECE_1);
     auto_chooser.addOption("B-Anaika's Dream 2", Paths.AUTO_OPTIONS.B_ANAIKAS_DREAM_2);
     auto_chooser.addOption("B-Bread", Paths.AUTO_OPTIONS.B_BREAD);
@@ -90,7 +117,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("angle odometry",m_drivetrainSubsystem.getPoseDegrees()%360);
-        SmartDashboard.putBoolean("detectNote", m_mechanismSubsystem.getSensorSubsystem().detectNote());
+        // SmartDashboard.putBoolean("detectNote", m_mechanismSubsystem.getSensorSubsystem().detectNote());
     }
 
     /*
@@ -105,10 +132,10 @@ public class Robot extends TimedRobot {
      */
     @Override
   public void autonomousInit() {
-   // m_drivetrainSubsystem.autoInitCalled = false;
     Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
     m_auto = Paths.constructAuto(selectedAuto); 
     m_mechanismSubsystem.init();
+    
     
     //System.out.println("starting x: " + m_auto.getStartingPoseX() + "starting y: " + m_auto.getStartingPoseY() + "starting rotation: " + m_auto.getStartingPoseRotation());
     // m_drivetrainSubsystem.init(m_auto.getStartingPoseX(), m_auto.getStartingPoseY(), m_auto.getStartingPoseRotation());
@@ -128,19 +155,34 @@ public class Robot extends TimedRobot {
     /* This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
+<<<<<<< HEAD
         isBlueAlliance = allianceChooser.getSelected();
         m_drivetrainSubsystem.onEnable();
         //m_mechanismSubsystem.setState(MechanismStates.OFF);
         //m_mechanismSubsystem.init();
+=======
+        //isBlueAlliance = allianceChooser.getSelected();
+        //m_drivetrainSubsystem.onEnable();
+        //m_mechanismSubsystem.setState(MechanismStates.OFF);
+        m_mechanismSubsystem.init();
+>>>>>>> refactorAuto
     }
 
     /* This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() { 
+<<<<<<< HEAD
         m_buttons.buttonsPeriodic();
         m_drivetrainSubsystem.driveTeleop();
         m_drivetrainSubsystem.drive();   
         //m_mechanismSubsystem.periodic();
+=======
+        //m_drivetrainSubsystem.driveTeleop();
+        //m_drivetrainSubsystem.drive();   
+        m_mechanismSubsystem.periodic();
+        m_buttons.buttonsPeriodic();
+
+>>>>>>> refactorAuto
     }
 
     /* This function is called once when the robot is disabled. */
@@ -155,16 +197,27 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         //m_sensorSubsystem.init();
+<<<<<<< HEAD
         m_drivetrainSubsystem.onEnable();
         //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
+=======
+      //m_mechanismSubsystem.intakeSubsystem.init();
+      //m_mechanismSubsystem.pivotSubsystem.init();
+      m_mechanismSubsystem.init();
+       m_mechanismSubsystem.setState(MechanismStates.TESTING);
+      //m_intakeSubsystem.init();
+      //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+>>>>>>> refactorAuto
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
+        //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
+<<<<<<< HEAD
         m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
         m_drivetrainSubsystem.drive();
         //m_buttons.buttonsPeriodic();
@@ -174,9 +227,28 @@ public class Robot extends TimedRobot {
         //m_mechanismSubsystem.periodic();
         //m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         //m_shooterSubsystem.lowMotor.set(ControlMode.Position, 0.6);
+=======
+        //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+        //m_drivetrainSubsystem.drive();
+        
+        //m_sensorSubsystem.periodic();
+        //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
+        m_mechanismSubsystem.periodic();
+       // m_mechanismSubsystem.pivotSubsystem.periodic();
+
+>>>>>>> refactorAuto
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
+       // m_pivotSubsystem.periodic();
+       // m_intakeSubsystem.periodic();
+       //m_mechanismSubsystem.intakeSubsystem.periodic();
+       // m_buttons.buttonsPeriodic();
 
+        //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
+
+      // m_pivotSubsystem.pivot.set(ControlMode.PercentOutput, 0.05);
+        //System.out.println("top limit switch: " + m_pivotSubsystem.topLimitSwitch.get());
+        //System.out.println("bottom limit switch: " + m_pivotSubsystem.bottomLimitSwitch.get());
     }
     /* This function is called once when the robot is first started up. */
     @Override

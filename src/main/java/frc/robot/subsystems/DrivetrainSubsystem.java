@@ -1,8 +1,4 @@
-//DO NOT TOUCH THIS FILE UNLESS YOU HAVE CHECKED WITH MULTIPLE PEOPLE! THIS CODE IS FINALIZED!
 
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
 
@@ -83,9 +79,10 @@ public class DrivetrainSubsystem {
    private double startingGyroRotation; 
   
    public DrivetrainSubsystem() {
+      //remakeDrivetrain();
       pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
       tab = Shuffleboard.getTab("Drivetrain");
-      //startingGyroRotation = getGyroscopeRotation().getDegrees();
+      startingGyroRotation = getGyroscopeRotation().getDegrees();
 
       // We will use mk4 modules with Falcon 500s with the L2 configuration. 
       frontLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -345,6 +342,7 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
    }
+<<<<<<< HEAD
 
    // public  double desiredHeading;
    // public double pXY = 0;
@@ -359,5 +357,8 @@ public class DrivetrainSubsystem {
    //    else if(xy > 0) speeds.omegaRadiansPerSecond += driftController.calculate(getPose().getRotation().getDegrees(), desiredHeading);
    //       pXY = xy;
    // }
+=======
+   
+>>>>>>> refactorAuto
 }
 
