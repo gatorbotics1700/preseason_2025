@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import frc.robot.Constants;
 
@@ -31,13 +29,7 @@ public class IntakeSubsystem {
     public void init() {
         System.out.println("Intake Init!");
         intakeMotor.setInverted(false); //sets it to default sending a piece up (counterclockwise)
-<<<<<<< HEAD
-        transitionMotor.setInverted(true);
-        intakeMotor.setNeutralMode(NeutralMode.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
-        transitionMotor.setNeutralMode(NeutralMode.Coast);
-=======
         intakeMotor.setNeutralMode(NeutralModeValue.Coast); //coast mode bc so that it doesn't get stuck in the intake or transition
->>>>>>> refactorAuto
         setState(IntakeStates.OFF);
     }
 

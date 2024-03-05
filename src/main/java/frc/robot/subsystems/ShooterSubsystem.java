@@ -1,17 +1,10 @@
 package frc.robot.subsystems;
 
-<<<<<<< HEAD
-import com.ctre.phoenix.motorcontrol.can.TalonFX;//KRAKENS MID AND HIGH
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-=======
 //v6 for mid, high motors
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 
->>>>>>> refactorAuto
 import frc.robot.Constants;
  
 

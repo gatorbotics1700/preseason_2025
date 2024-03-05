@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class PivotSubsystem{
-    public TalonFX pivot;//public for testing
+    private TalonFX pivot;//public for testing
     // limit switches are true when not pressed (motor should run) and false when pressed (motor should stop)
     private DigitalInput speakerLimitSwitch;
     private DigitalInput ampLimitSwitch;
@@ -64,11 +64,10 @@ public class PivotSubsystem{
    
     public void manual() {
         System.out.println("+++++++++++IN MANUAL++++++++++");
-        // TODO: when we know the max rotation of the pivot motor we need to intergrate that here 
-        if((OI.getTwoRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
+        if((OI.getCodriverRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
             System.out.println("TOWARDS SPEAKER");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);    
-        } else if((OI.getTwoRightAxis() < - 0.2) && !ampLimitSwitch.get()) {
+        } else if((OI.getCodriverRightAxis() < - 0.2) && !ampLimitSwitch.get()) {
             System.out.println("TOWARDS AMP");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);  
         } else {

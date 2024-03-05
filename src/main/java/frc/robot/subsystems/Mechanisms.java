@@ -43,20 +43,12 @@ public class Mechanisms {
         sensorSubsystem.init();
         pivotSubsystem.init();
 
-<<<<<<< HEAD
-        setState(MechanismStates.OFF); //TODO: figure out what state to start in; maybe intaking?
-=======
         setState(MechanismStates.OFF);
->>>>>>> refactorAuto
     }
 
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
-<<<<<<< HEAD
-            intakeSubsystem.setState(IntakeSubsystem.IntakeStates.INTAKING);
-            /*shooterSubsystem.setState(ShooterSubsystem.ShooterStates.INTAKING);      //TODO uncomment when done testing
-=======
             // pivotSubsystem.setState(PivotStates.AMP); //need to be at speaker angle in order to intake
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
@@ -67,10 +59,9 @@ public class Mechanisms {
             // pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.WARMUP);
->>>>>>> refactorAuto
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
-            }*/
+            }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             //pivotSubsystem.setState(PivotStates.AMP); 
             intakeSubsystem.setState(IntakeStates.OFF);
