@@ -19,9 +19,9 @@ public class ShooterSubsystem {
 
     private final double TESTING_SPEED = 0.5;
     private final double AMP_SPEED = 0.35; //0.3; // DO NOT TOUCH THIS VALUE!!
-    private final double LOW_SHOOTING_SPEED = 0.7;
-    private final double HIGH_SPEAKER_SPEED = 0.8;
-    private final double MID_SPEAKER_SPEED = 0.8;
+    private final double LOW_SHOOTING_SPEED = 0.9;
+    private final double HIGH_SPEAKER_SPEED = 1.0;
+    private final double MID_SPEAKER_SPEED = 1.0;
     private final double LOW_INTAKING_SPEED = 0.7;
     
     public static enum ShooterStates {
