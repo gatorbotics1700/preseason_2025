@@ -15,7 +15,7 @@ public class PivotSubsystem{
     private DigitalInput speakerLimitSwitch;
     private DigitalInput ampLimitSwitch;
 
-    private final double PIVOT_SPEED = 0.08;
+    private final double PIVOT_SPEED = 0.12;
     private final double MANUAL_SPEED = 0.1;
     
     public static enum PivotStates{
@@ -37,14 +37,12 @@ public class PivotSubsystem{
     }
     
     public void init(){
-        setState(PivotStates.FIRST);
+        setState(PivotStates.OFF);
         pivot.setNeutralMode(NeutralMode.Brake);
     }
 
     public void periodic(){//limit switches finally swapped to true when pressed, false when not
         System.out.println("CURRENT PIVOT STATE: " + pivotState);
-        System.out.println("top limit switch: " + speakerLimitSwitch.get());
-        System.out.println("bottom limit switch: " + ampLimitSwitch.get());
         if((pivotState == PivotStates.SPEAKER) && !speakerLimitSwitch.get()){
             pivot.set(ControlMode.PercentOutput, PIVOT_SPEED);
         }else if((pivotState == PivotStates.AMP) && !ampLimitSwitch.get()){
@@ -77,7 +75,6 @@ public class PivotSubsystem{
 
     public void setState(PivotStates newState) {
         pivotState = newState;
-        System.out.println("setting pivot state");
     }
 
     public PivotStates getState(){

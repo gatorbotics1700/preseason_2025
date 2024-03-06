@@ -8,8 +8,8 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class Mechanisms {
 
-    public ShooterSubsystem shooterSubsystem; //testing
-    public IntakeSubsystem intakeSubsystem; //for testing
+    public ShooterSubsystem shooterSubsystem; //TODO: make private
+    public IntakeSubsystem intakeSubsystem; //TODO: make private
     private SensorSubsystem sensorSubsystem;
     public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
@@ -49,44 +49,44 @@ public class Mechanisms {
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
-            // pivotSubsystem.setState(PivotStates.AMP); //need to be at speaker angle in order to intake
+            pivotSubsystem.setState(PivotStates.AMP); //need to be at amp angle in order to intake
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.OFF);      
             }
         } else if (mechanismState == MechanismStates.INTAKING_WITH_SHOOTER_WARMUP){ //just for auto
-            // pivotSubsystem.setState(PivotStates.AMP);
+            pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.WARMUP);
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
-            //pivotSubsystem.setState(PivotStates.AMP); 
+            pivotSubsystem.setState(PivotStates.AMP); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP_HOLDING);
             //we stop transition motor in the shooter subsystem right now
         } else if(mechanismState == MechanismStates.SPEAKER_HOLDING){
-            //pivotSubsystem.setState(PivotStates.SPEAKER);
+            pivotSubsystem.setState(PivotStates.SPEAKER);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
-            //if(!pivotSubsystem.getAmpLimitSwitch()){//TODO uncomment when done testing
-                intakeSubsystem.setState(IntakeStates.OFF);
-                shooterSubsystem.setState(ShooterStates.AMP);
-                /*if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                    setState(MechanismStates.INTAKING); //sets to intaking right after shooting
-                } else {
-                    System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");
-                }*/
+            pivotSubsystem.setState(PivotStates.AMP);
+            intakeSubsystem.setState(IntakeStates.OFF);
+            shooterSubsystem.setState(ShooterStates.AMP);
+            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
+                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+            } else {
+                System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");
+            }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
-            // pivotSubsystem.setState(PivotStates.SPEAKER); 
+            pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER);
-            // if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-            //     setState(MechanismStates.INTAKING); //sets to intaking right after shooting
-            // }//TODO: TESTING
+            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
+                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+            }
         } else if (mechanismState == MechanismStates.OFF){
             pivotSubsystem.setState(PivotStates.OFF);
             shooterSubsystem.setState(ShooterStates.OFF);
@@ -101,6 +101,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.OFF);
             System.out.println("WHAT ARE YOU DOING----STATE NOT RECOGNIZED!!!!! CURRENT STATE: " + mechanismState);
         }
+        pivotSubsystem.periodic();
         intakeSubsystem.periodic();
         shooterSubsystem.periodic();
     }

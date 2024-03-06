@@ -155,7 +155,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         m_mechanismSubsystem.init();
-        m_mechanismSubsystem.setState(MechanismStates.TESTING);
+        //m_mechanismSubsystem.setState(MechanismStates.TESTING);
         //m_intakeSubsystem.init();
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
     }
@@ -171,15 +171,15 @@ public class Robot extends TimedRobot {
         
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
-        m_mechanismSubsystem.periodic();
+        //m_mechanismSubsystem.periodic();
         // m_mechanismSubsystem.pivotSubsystem.periodic();
 
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
-        // m_pivotSubsystem.periodic();
+        m_mechanismSubsystem.pivotSubsystem.periodic();
         // m_intakeSubsystem.periodic();
         //m_mechanismSubsystem.intakeSubsystem.periodic();
-        // m_buttons.buttonsPeriodic();
+        m_buttons.buttonsPeriodic();
 
         //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
 

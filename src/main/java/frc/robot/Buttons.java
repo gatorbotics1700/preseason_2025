@@ -25,13 +25,14 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){ //manual
-        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
-        System.out.println("=======X BUTTON====MANUAL PIVOT=======");
+        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
+        System.out.println("=======X BUTTON====SPEAKER PIVOT=======");
       }
 
       if (OI.codriver.getYButton()){ //all off mech
         m_mechanismSubsystem.setState(MechanismStates.OFF);
-        System.out.println("=======Y BUTTON====MECHANISMS STOP=======");
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+        System.out.println("=======Y BUTTON====AMP PIVOT=======");
       }
 
       if (OI.codriver.getAButton()){  //amp/speaker shooting
