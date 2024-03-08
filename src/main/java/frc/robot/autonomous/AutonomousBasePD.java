@@ -1,7 +1,5 @@
 package frc.robot.autonomous;
 
-import com.ctre.phoenix6.mechanisms.MechanismState;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;

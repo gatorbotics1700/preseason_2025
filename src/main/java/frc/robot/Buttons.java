@@ -21,6 +21,14 @@ public class Buttons {
         m_drivetrainSubsystem.resetOffsets();
         m_drivetrainSubsystem.onEnable();
       }
+
+      if(OI.driver.getRightBumperPressed()){
+        if(m_drivetrainSubsystem.getSlowDrive()){
+          m_drivetrainSubsystem.setSlowDrive(false);
+        }else{
+          m_drivetrainSubsystem.setSlowDrive(true);
+        }
+      }
       
 
     //CODRIVER

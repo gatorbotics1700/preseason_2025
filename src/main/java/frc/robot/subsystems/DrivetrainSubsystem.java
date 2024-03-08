@@ -74,6 +74,7 @@ public class DrivetrainSubsystem {
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    //we need to use this fix drift that happens when we apply the offsets, this is how that drift is measured
    private double startingGyroRotation; 
+   private boolean slowDrive;
   
    public DrivetrainSubsystem() {
       //remakeDrivetrain();
@@ -165,6 +166,8 @@ public class DrivetrainSubsystem {
          new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
       ); 
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
+
+      slowDrive = false;
    }
   
    //from pigeon used for updating our odometry
@@ -198,9 +201,9 @@ public class DrivetrainSubsystem {
       DoubleSupplier translationYSupplier;
       DoubleSupplier rotationSupplier;
       //TODO: check negative signs
-      translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
+      translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+      rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
             translationXSupplier.getAsDouble(),
@@ -242,14 +245,26 @@ public class DrivetrainSubsystem {
    }
 
    //makes it so the joystick axis value is squared so the driving can ramp up faster
-   private static double modifyJoystickAxis(double value) {
+   private static double modifyJoystickAxis(double value, boolean isSlow) {
       // Deadband
       value = joystickDeadband(value, 0.05);
 
       // Square the axis
       value = Math.copySign(value * value, value);
 
+      if(isSlow){
+         return 0.5*value;
+      }
+      
       return value;
+   }
+
+   public boolean getSlowDrive(){
+      return slowDrive;
+   }
+   
+   public void setSlowDrive(boolean isSlow){
+      slowDrive = isSlow;
    }
 
     //AUTO AND FAILSAFE

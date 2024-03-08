@@ -47,7 +47,7 @@ public class Paths {
     }
 
     //all left/right conventions are from robot perspective
-    private static final Rotation2d RED_LEFT_TURN = new Rotation2d(Math.toRadians(33.185)); //need to turn slightly more was 31
+    private static final Rotation2d RED_LEFT_TURN = new Rotation2d(Math.toRadians(33.185)); //TODO: INCREASE MORE (AND OTHER ANGLES)
     private static final Rotation2d RED_RIGHT_TURN = new Rotation2d(Math.toRadians(-31.185));
     private static final Rotation2d BLUE_LEFT_TURN = new Rotation2d(Math.toRadians(211.185));
     private static final Rotation2d BLUE_RIGHT_TURN = new Rotation2d(Math.toRadians(148.815));
