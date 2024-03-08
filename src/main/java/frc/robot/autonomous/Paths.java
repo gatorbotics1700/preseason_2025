@@ -47,14 +47,14 @@ public class Paths {
     }
 
     //all left/right conventions are from robot perspective
-    private static final Rotation2d RED_LEFT_TURN = new Rotation2d(Math.toRadians(31.185));
+    private static final Rotation2d RED_LEFT_TURN = new Rotation2d(Math.toRadians(33.185)); //need to turn slightly more was 31
     private static final Rotation2d RED_RIGHT_TURN = new Rotation2d(Math.toRadians(-31.185));
     private static final Rotation2d BLUE_LEFT_TURN = new Rotation2d(Math.toRadians(211.185));
     private static final Rotation2d BLUE_RIGHT_TURN = new Rotation2d(Math.toRadians(148.815));
     private static final Rotation2d RED_DRIVERSTATION = new Rotation2d(Math.toRadians(0));
     private static final Rotation2d BLUE_DRIVERSTATION = new Rotation2d(Math.toRadians(180));
 
-    private static final double R_SHOOTING_X = 570 * Constants.METERS_PER_INCH;
+    private static final double R_SHOOTING_X = (570-6) * Constants.METERS_PER_INCH;
     private static final double R_INTAKING_X = 544 * Constants.METERS_PER_INCH;
     
     private static final double B_SHOOTING_X = 81.25 * Constants.METERS_PER_INCH;
@@ -242,6 +242,7 @@ public class Paths {
                     new PDState(AutoStates.STOP)
                 }
             );
+
         }else if(selectedAuto == AUTO_OPTIONS.B_THREE_PIECE_1){
             return new AutonomousBasePD(
                 BLUE_1_STARTING_POSE,

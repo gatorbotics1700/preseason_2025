@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -112,35 +113,38 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
+        m_mechanismSubsystem.init();
         Paths.AUTO_OPTIONS selectedAuto = auto_chooser.getSelected(); 
         m_auto = Paths.constructAuto(selectedAuto); 
-        m_mechanismSubsystem.init();
+        m_auto.init();
+        
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        m_auto.periodic();
+        
         m_mechanismSubsystem.periodic();
         m_drivetrainSubsystem.drive();
+        m_auto.periodic();
+
     }
 
     /* This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
-        //m_drivetrainSubsystem.onEnable();
-        //m_mechanismSubsystem.setState(MechanismStates.OFF);
+        m_drivetrainSubsystem.onEnable();
+        m_mechanismSubsystem.setState(MechanismStates.OFF);
         m_mechanismSubsystem.init();
     }
 
     /* This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() { 
-        //m_drivetrainSubsystem.driveTeleop();
-        //m_drivetrainSubsystem.drive();   
+        m_drivetrainSubsystem.driveTeleop();
+        m_drivetrainSubsystem.drive();   
         m_mechanismSubsystem.periodic();
         m_buttons.buttonsPeriodic();
-
     }
 
     /* This function is called once when the robot is disabled. */
@@ -154,16 +158,18 @@ public class Robot extends TimedRobot {
     /* This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
-        m_mechanismSubsystem.init();
+       //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.TESTING);
-        //m_intakeSubsystem.init();
+        m_mechanismSubsystem.intakeSubsystem.init();
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+        //m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
-        //m_pivotSubsystem.setState(PivotStates.SPEAKER);
+      m_mechanismSubsystem.intakeSubsystem.testIntake();
+      //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
         //m_drivetrainSubsystem.driveTeleop();
         //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
@@ -176,10 +182,10 @@ public class Robot extends TimedRobot {
 
         //m_intakingSubsystem.intakeMotor.set(ControlMode.PercentOutput, -0.6);
         //m_intakingSubsystem.transitionMotor.set(ControlMode.PercentOutput, -0.6);
-        m_mechanismSubsystem.pivotSubsystem.periodic();
+        //m_mechanismSubsystem.pivotSubsystem.periodic();
         // m_intakeSubsystem.periodic();
         //m_mechanismSubsystem.intakeSubsystem.periodic();
-        m_buttons.buttonsPeriodic();
+        //m_buttons.buttonsPeriodic();
 
         //m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
 

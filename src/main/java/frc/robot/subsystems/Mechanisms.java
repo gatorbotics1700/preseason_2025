@@ -14,7 +14,7 @@ public class Mechanisms {
     public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
     private double stateStartTime;
-    private static final int SHOOTING_TIME = 2500;
+    private static final int SHOOTING_TIME = 2000;
 
     private MechanismStates mechanismState;
 
@@ -49,6 +49,7 @@ public class Mechanisms {
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
+            System.out.println("**************intaking*************");
             pivotSubsystem.setState(PivotStates.AMP); //need to be at amp angle in order to intake
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
@@ -72,6 +73,7 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
+
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP);
@@ -84,8 +86,11 @@ public class Mechanisms {
             pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER);
+            System.out.println("**********IN SHOOTING SPEAKER**********");
             if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+                System.out.println("++++++++++SETTING INTAKING+++++++++");
+                //setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+                mechanismState = MechanismStates.INTAKING;
             }
         } else if (mechanismState == MechanismStates.OFF){
             pivotSubsystem.setState(PivotStates.OFF);

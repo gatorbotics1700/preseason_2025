@@ -10,7 +10,7 @@ public class IntakeSubsystem {
 
     private TalonFX intakeMotor;
 
-    private final double INTAKE_SPEED = 0.4; //used to be 0.45, changed to 0.35 on 02/26 for testing//build says this is optimal after testing, DO NOT CHANGE
+    private final double INTAKE_SPEED = 0.25; //0.4; //used to be 0.45, changed to 0.35 on 02/26 for testing//build says this is optimal after testing, DO NOT CHANGE
 
     private IntakeStates intakeState;
 
@@ -40,6 +40,7 @@ public class IntakeSubsystem {
     public void periodic() {
         System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
         if(intakeState == IntakeStates.INTAKING) {
+            System.out.println("***********INTAKING*************");
             intakeMotor.setControl(dutyCycleOut.withOutput(INTAKE_SPEED));
         } else if (intakeState == IntakeStates.OFF){
             intakeMotor.setControl(dutyCycleOut.withOutput(0));
@@ -51,5 +52,9 @@ public class IntakeSubsystem {
 
     public IntakeStates getCurrentIntakeState() {
         return intakeState;
+    }
+
+    public void testIntake(){
+        intakeMotor.setControl(dutyCycleOut.withOutput(0.25));
     }
 }

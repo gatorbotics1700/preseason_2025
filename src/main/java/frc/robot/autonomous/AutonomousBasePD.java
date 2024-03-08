@@ -1,5 +1,7 @@
 package frc.robot.autonomous;
 
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,6 +11,7 @@ import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
    //hulk
@@ -22,14 +25,14 @@ public class AutonomousBasePD extends AutonomousBase{
     // private static final double TURN_DEADBAND = 3; //degrees!
 
 // //mcqueen
-    private static final double turnKP= 0.15; //increased slight *** not tested
+    private static final double turnKP= 0.3; //increased slight *** not tested
     private static final double turnKI= 0.0; 
-    private static final double turnKD= 0.005;
-    private static final double driveKP= 3.9; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double turnKD= 0.01;
+    private static final double driveKP= 4.5; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.005; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
-    private static final double TURN_DEADBAND = 1; //degrees!
+    private static final double TURN_DEADBAND = 3; //degrees!
 
 
     private PDState[] stateSequence;
@@ -45,10 +48,11 @@ public class AutonomousBasePD extends AutonomousBase{
     private PIDController xController;
     private PIDController yController;
 
+    private Boolean isFirstTimeInState;
+
     public AutonomousBasePD(Pose2d startingCoordinate, PDState[] stateSequence){
         super(startingCoordinate);
         this.stateSequence =  stateSequence;
-
         init();
     }
 
@@ -66,6 +70,9 @@ public class AutonomousBasePD extends AutonomousBase{
         turnController.enableContinuousInput(-180, 180); //turn controller reads rotation from 0 to 360 degrees 
         stateIndex = 0;
         startTimeForState = System.currentTimeMillis();
+        mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
+        isFirstTimeInState = true;
+
     }
 
     @Override
@@ -85,7 +92,7 @@ public class AutonomousBasePD extends AutonomousBase{
         } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.INTAKING_WITH_SHOOTER_WARMUP);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint()){
+            if(robotAtSetpoint() && (System.currentTimeMillis() - startTimeForState >= 2000)){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
@@ -109,12 +116,18 @@ public class AutonomousBasePD extends AutonomousBase{
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+            if (isFirstTimeInState){
+                mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+                isFirstTimeInState = false;
+            }
             if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
                 moveToNextState();
             }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
-            mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
+            if (isFirstTimeInState){
+                mechanismSubsystem.setState(Mechanisms.MechanismStates.SHOOTING_AMP);
+                isFirstTimeInState = false;
+            }
             if(mechanismSubsystem.getMechanismState()== MechanismStates.INTAKING){
                 moveToNextState();
             }
@@ -198,5 +211,6 @@ public class AutonomousBasePD extends AutonomousBase{
     private void moveToNextState(){
         stateIndex++;
         startTimeForState = System.currentTimeMillis();
+        isFirstTimeInState = true;
     }
 }

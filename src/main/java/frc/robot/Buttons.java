@@ -50,6 +50,7 @@ public class Buttons {
       }
       
       if (OI.codriver.getBButtonPressed()){ //intaking toggle
+       // m_mechanismSubsystem.setState(MechanismStates.INTAKING);
         // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
