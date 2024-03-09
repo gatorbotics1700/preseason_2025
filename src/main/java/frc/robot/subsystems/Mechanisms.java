@@ -40,8 +40,8 @@ public class Mechanisms {
     public void init(){
         shooterSubsystem.init();
         intakeSubsystem.init();
-        sensorSubsystem.init();
         pivotSubsystem.init();
+        sensorSubsystem.init();
 
         setState(MechanismStates.OFF);
     }
@@ -77,7 +77,7 @@ public class Mechanisms {
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP);
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
+            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME + 6000){ 
                 setState(MechanismStates.INTAKING); //sets to intaking right after shooting
             } else {
                 System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");

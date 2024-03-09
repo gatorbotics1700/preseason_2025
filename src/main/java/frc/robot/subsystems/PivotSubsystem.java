@@ -81,11 +81,11 @@ public class PivotSubsystem{
         return pivotState;
     }
 
-    public boolean getSpeakerLimitSwitch(){ // true when NOT pressed, false when pressed
+    public boolean getSpeakerLimitSwitch(){ // false when NOT pressed, true when pressed
         return speakerLimitSwitch.get();
     }
 
-    public boolean getAmpLimitSwitch(){ // true when NOT pressed, false when pressed
+    public boolean getAmpLimitSwitch(){ // false when NOT pressed, true when pressed
         return ampLimitSwitch.get();
     }
 

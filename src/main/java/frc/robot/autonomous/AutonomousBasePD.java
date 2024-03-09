@@ -26,10 +26,10 @@ public class AutonomousBasePD extends AutonomousBase{
     private static final double turnKP= 0.3; //increased slight *** not tested
     private static final double turnKI= 0.0; 
     private static final double turnKD= 0.01;
-    private static final double driveKP= 4.5; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKP= 4.7; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.005; //Robot.kD.getDouble(0.0);//0.0;
-    private static final double DRIVE_DEADBAND = 1 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    private static final double DRIVE_DEADBAND = 2 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
 
 
@@ -70,7 +70,6 @@ public class AutonomousBasePD extends AutonomousBase{
         startTimeForState = System.currentTimeMillis();
         mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
         isFirstTimeInState = true;
-
     }
 
     @Override
@@ -97,7 +96,7 @@ public class AutonomousBasePD extends AutonomousBase{
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
             mechanismSubsystem.setState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint()){
+            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.getSpeakerLimitSwitch()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }

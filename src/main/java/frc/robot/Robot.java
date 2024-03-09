@@ -160,21 +160,32 @@ public class Robot extends TimedRobot {
     public void testInit() {
        //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.TESTING);
-        m_mechanismSubsystem.intakeSubsystem.init();
+       // m_mechanismSubsystem.intakeSubsystem.init();
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
+        
+        
         //m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
-      m_mechanismSubsystem.intakeSubsystem.testIntake();
+      //m_sensorSubsystem.detectNote();
+      //m_mechanismSubsystem.intakeSubsystem.testIntake();
       //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
-        //m_drivetrainSubsystem.driveTeleop();
-        //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-        //m_drivetrainSubsystem.drive();
-        
+       // m_drivetrainSubsystem.driveTeleop();
+       
+       
+       
+       
+       //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+       // m_drivetrainSubsystem.drive();
+
+        m_intakeSubsystem.testIntake();
+        //m_shooterSubsystem.testShooter();
+        //m_mechanismSubsystem.periodic();
+        //m_buttons.buttonsPeriodic();
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
         //m_mechanismSubsystem.periodic();
