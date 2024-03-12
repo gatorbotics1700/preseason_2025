@@ -31,7 +31,7 @@ public class SensorSubsystem {
 
     public boolean detectNote(){
         Color detectedColor = colorSensor.getColor();
-        System.out.println("detectedColor: " + detectedColor);
+        //System.out.println("detectedColor: " + detectedColor);
 
         boolean redThreshold = (Math.abs(detectedColor.red-NOTE_COLOR.red) <= COLOR_THRESHOLD);
         boolean greenThreshold = (Math.abs(detectedColor.green-NOTE_COLOR.green) <= COLOR_THRESHOLD);

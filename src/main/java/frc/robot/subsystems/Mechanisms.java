@@ -14,7 +14,7 @@ public class Mechanisms {
     public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
     private double stateStartTime;
-    private static final int SHOOTING_TIME = 2000;
+    private static final int SPEAKER_SHOOTING_TIME = 2000;
 
     private MechanismStates mechanismState;
 
@@ -26,6 +26,7 @@ public class Mechanisms {
         SHOOTING_SPEAKER,
         SHOOTING_AMP,
         TESTING,
+        MANUAL,
         OFF;
     }
 
@@ -49,7 +50,7 @@ public class Mechanisms {
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
-            System.out.println("**************intaking*************");
+            //System.out.println("**************intaking*************");
             pivotSubsystem.setState(PivotStates.AMP); //need to be at amp angle in order to intake
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
@@ -73,22 +74,16 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
-
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP);
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME + 6000){ 
-                setState(MechanismStates.INTAKING); //sets to intaking right after shooting
-            } else {
-                System.out.println("======BLOCKED AMP SHOOTING BECAUSE AMP NOT UP======");
-            }
         } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             pivotSubsystem.setState(PivotStates.SPEAKER); 
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER);
-            System.out.println("**********IN SHOOTING SPEAKER**********");
-            if(System.currentTimeMillis()-stateStartTime >= SHOOTING_TIME){ 
-                System.out.println("++++++++++SETTING INTAKING+++++++++");
+           // System.out.println("**********IN SHOOTING SPEAKER**********");
+            if(System.currentTimeMillis()-stateStartTime >= SPEAKER_SHOOTING_TIME){ 
+              //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 //setState(MechanismStates.INTAKING); //sets to intaking right after shooting
                 mechanismState = MechanismStates.INTAKING;
             }
@@ -100,6 +95,8 @@ public class Mechanisms {
             //pivotSubsystem.setState(PivotStates.MANUAL);
             shooterSubsystem.setState(ShooterStates.TESTING);
             //intakeSubsystem.setState(IntakeStates.INTAKING);
+        }else if (mechanismState == MechanismStates.MANUAL){
+            pivotSubsystem.setState(PivotStates.MANUAL);
         } else {
             pivotSubsystem.setState(PivotStates.OFF);
             shooterSubsystem.setState(ShooterStates.OFF);

@@ -19,6 +19,7 @@ public class PDState{
 
     public static enum AutoStates{
         FIRST,
+        DRIVE_MECH_OFF,
         DRIVE_WITH_INTAKING, //move with intake and shooter going 
         DRIVE_WITH_HOLDING_SPEAKER, //move with speaker warming up
         DRIVE_WITH_HOLDING_AMP, // move with amp holding

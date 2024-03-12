@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.subsystems.PivotSubsystem.PivotStates;
 import frc.robot.subsystems.Mechanisms;
+import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -77,6 +78,16 @@ public class Buttons {
       if(OI.codriver.getRightBumper()){
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======RIGHT BUMPER====AMP HOLDING=======");
+      }
+
+      if(OI.codriver.getStartButtonPressed()){
+        System.out.println("start button pressed");
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.MANUAL){
+          m_mechanismSubsystem.setState(MechanismStates.OFF);
+        } else {
+          System.out.println("in manual pivot!");
+          m_mechanismSubsystem.setState(MechanismStates.MANUAL);
+        }
       }
   }
 }

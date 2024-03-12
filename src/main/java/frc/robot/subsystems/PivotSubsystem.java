@@ -61,12 +61,12 @@ public class PivotSubsystem{
     }
    
     public void manual() {
-        System.out.println("+++++++++++IN MANUAL++++++++++");
+        //System.out.println("+++++++++++IN MANUAL++++++++++");
         if((OI.getCodriverRightAxis() > 0.2) && !speakerLimitSwitch.get()) {
-            System.out.println("TOWARDS SPEAKER");
+            //System.out.println("TOWARDS SPEAKER");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);    
         } else if((OI.getCodriverRightAxis() < - 0.2) && !ampLimitSwitch.get()) {
-            System.out.println("TOWARDS AMP");
+            //System.out.println("TOWARDS AMP");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);  
         } else {
             pivot.set(ControlMode.PercentOutput, 0); 

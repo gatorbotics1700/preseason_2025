@@ -43,7 +43,15 @@ public class Paths {
         B_FALLBACK_1,//verified wo mech
         B_FALLBACK_3,
         R_NO_GO,
-        B_NO_GO;
+        B_NO_GO,
+        R_THREE_PIECE_1_ALT,
+        B_THREE_PIECE_1_ALT,
+        R_THREE_PIECE_2_ALT,
+        B_THREE_PIECE_2_ALT,
+        R_ONE_PIECE_AMP,
+        B_ONE_PIECE_AMP,
+        R_LEAVE,
+        B_LEAVE;
     }
 
     //all left/right conventions are from robot perspective
@@ -55,10 +63,10 @@ public class Paths {
     private static final Rotation2d BLUE_DRIVERSTATION = new Rotation2d(Math.toRadians(180));
 
     private static final double R_SHOOTING_X = (564) * Constants.METERS_PER_INCH;
-    private static final double R_INTAKING_X = 538 * Constants.METERS_PER_INCH;
+    private static final double R_INTAKING_X = 532 * Constants.METERS_PER_INCH;
     
     private static final double B_SHOOTING_X = 87.25 * Constants.METERS_PER_INCH;
-    private static final double B_INTAKING_X = 114.25 * Constants.METERS_PER_INCH;
+    private static final double B_INTAKING_X = 120.25 * Constants.METERS_PER_INCH;
 
     private static final double TOP_NOTE_Y = 277.5 * Constants.METERS_PER_INCH;
     private static final double MID_NOTE_Y = 220.5 * Constants.METERS_PER_INCH;
@@ -73,6 +81,14 @@ public class Paths {
     private static final double BREAD_FARTHEST_Y = 30 * Constants.METERS_PER_INCH;
     private static final double R_BREAD_STARTING_X = 593 * Constants.METERS_PER_INCH;
     private static final double B_BREAD_STARTING_X = 56 * Constants.METERS_PER_INCH;
+    private static final double AMP_STARTING_Y = (323 - 17.5 - 15.5) * Constants.METERS_PER_INCH; //up against amp safe zone
+    private static final double AMP_ENDING_Y = (323-15.5)*Constants.METERS_PER_INCH;
+    private static final double R_AMP_START_X = (652.73-76.3+15.5)*Constants.METERS_PER_INCH;
+    private static final double B_AMP_START_X = 60.8 * Constants.METERS_PER_INCH; //a little askew from white line 
+    private static final double R_AMP_X = (652.73-76.3)*Constants.METERS_PER_INCH; 
+    private static final double B_AMP_X = 76.3 * Constants.METERS_PER_INCH;
+    private static final double R_AMP_ENDING_X = (652.73-76.3-31) * Constants.METERS_PER_INCH;
+    private static final double B_AMP_ENDING_X = (76.3 + 31) * Constants.METERS_PER_INCH;
 
     private static final Pose2d RED_1_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, TOP_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_1_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION);
@@ -82,6 +98,8 @@ public class Paths {
     private static final Pose2d RED_3_STARTING_POSE = new Pose2d(600*Constants.METERS_PER_INCH, MID_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d RED_BREAD_STARTING_POSE = new Pose2d(R_BREAD_STARTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_BREAD_STARTING_POSE = new Pose2d(B_BREAD_STARTING_X, BOTTOM_NOTE_Y,BLUE_DRIVERSTATION);
+    private static final Pose2d BLUE_AMP_STARTING_POSE = new Pose2d(B_AMP_START_X, AMP_STARTING_Y, new Rotation2d(Math.toRadians(270))); //robot at edge of amp zone centered (ish) on the white tape line 
+    private static final Pose2d RED_AMP_STARTING_POSE = new Pose2d(R_AMP_START_X, AMP_STARTING_Y, new Rotation2d(Math.toRadians(270))); 
 
     public static AutonomousBase constructAuto(AUTO_OPTIONS selectedAuto){
         if(selectedAuto == AUTO_OPTIONS.PD_TESTPATH){
@@ -273,6 +291,8 @@ public class Paths {
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)),
@@ -291,6 +311,7 @@ public class Paths {
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.HOLDING_TIMED),
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)),
@@ -310,6 +331,7 @@ public class Paths {
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.HOLDING_TIMED),
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)),
@@ -329,6 +351,7 @@ public class Paths {
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.HOLDING_TIMED),
                     new PDState(AutoStates.SHOOTING_SPEAKER),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),
@@ -658,6 +681,145 @@ public class Paths {
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)), //rotate back
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, BREAD_FARTHEST_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(FARTHEST_INTAKING_X, BREAD_FARTHEST_Y, BLUE_DRIVERSTATION)), //intake 1
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.R_THREE_PIECE_1_ALT){
+            return new AutonomousBasePD(
+                RED_1_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //move to shoot 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_RIGHT_TURN)), //rotate clockwise
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), // rotate back
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), // intake 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //move toward speaker
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_RIGHT_TURN)),
+                    new PDState(AutoStates.HOLDING_TIMED), //2 seconds
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //2 shoot
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, TOP_NOTE_Y, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)), //move away from amp
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_DRIVERSTATION)), // intake 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)), //move towards speaker
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //3 shoot
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.B_THREE_PIECE_1_ALT){
+            return new AutonomousBasePD(
+                BLUE_1_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)), //move to shoot 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_RIGHT_TURN)), //rotate
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),  //rotate back
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),//intake 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_RIGHT_TURN)),
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER),
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)), //drive to mid note
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)), //intake 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)), //move to shooting position
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER),
+                    new PDState(AutoStates.STOP)
+                }
+            );
+         }else if(selectedAuto == AUTO_OPTIONS.R_THREE_PIECE_2_ALT){
+            return new AutonomousBasePD(
+                RED_2_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)), //move towards stage
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_LEFT_TURN)), //turn towards source
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)), //turn towards driver station
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)), //move towards note, intake
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)),  //move towards stage
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_LEFT_TURN)),
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //2 shoot
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)), //move towards source
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, MID_NOTE_Y, RED_DRIVERSTATION)), // intake 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(R_SHOOTING_X, MID_NOTE_Y, RED_DRIVERSTATION)), //move towards stage
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //3 shoot
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.B_THREE_PIECE_2_ALT){
+            return new AutonomousBasePD(
+                BLUE_2_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)), //move to shoot 1
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_LEFT_TURN)), //rotate clockwise
+                    new PDState(AutoStates.HOLDING_TIMED), //warm up shooter
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //1 shoot preloaded
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)), //rotate back, intake 1
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)),// intake note 2
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)), 
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_LEFT_TURN)),
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //shoot 2
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)), //move towards mid note shooting location
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_SPEAKER, new Pose2d(B_SHOOTING_X, MID_NOTE_Y, BLUE_DRIVERSTATION)), 
+                    new PDState(AutoStates.HOLDING_TIMED),
+                    new PDState(AutoStates.SHOOTING_SPEAKER), //shoot 3
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.R_ONE_PIECE_AMP){
+            return new AutonomousBasePD(
+                RED_AMP_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_START_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))),
+                    new PDState(AutoStates.SHOOTING_AMP),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_ENDING_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))),
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.B_ONE_PIECE_AMP){
+            return new AutonomousBasePD(
+                BLUE_AMP_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_START_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))),
+                    new PDState(AutoStates.SHOOTING_AMP),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_ENDING_X, AMP_ENDING_Y, new Rotation2d(Math.toRadians(270)))),
+                    new PDState(AutoStates.STOP)
+                }
+            );
+        }else if(selectedAuto == AUTO_OPTIONS.R_LEAVE){
+            return new AutonomousBasePD(
+                RED_1_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(RED_1_STARTING_POSE.getX()-100*Constants.METERS_PER_INCH, RED_1_STARTING_POSE.getY(), RED_1_STARTING_POSE.getRotation())),
+                    new PDState(AutoStates.STOP)
+                }
+            );
+
+        }else if(selectedAuto == AUTO_OPTIONS.B_LEAVE){
+            return new AutonomousBasePD(
+                BLUE_1_STARTING_POSE,
+                new PDState[]{
+                    new PDState(AutoStates.FIRST),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(BLUE_1_STARTING_POSE.getX()+100*Constants.METERS_PER_INCH, BLUE_1_STARTING_POSE.getY(), BLUE_1_STARTING_POSE.getRotation())),
                     new PDState(AutoStates.STOP)
                 }
             );

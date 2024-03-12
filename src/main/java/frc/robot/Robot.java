@@ -63,6 +63,10 @@ public class Robot extends TimedRobot {
         auto_chooser.addOption("R-Fallback 1", Paths.AUTO_OPTIONS.R_FALLBACK_1);
         auto_chooser.addOption("R-Fallback 2", Paths.AUTO_OPTIONS.R_FALLBACK_2);
         auto_chooser.addOption("R-Fallback 3", Paths.AUTO_OPTIONS.R_FALLBACK_3);
+        auto_chooser.addOption("R-3 Piece 1 ALT", Paths.AUTO_OPTIONS.R_THREE_PIECE_1_ALT);
+        auto_chooser.addOption("R-3 Piece 2 ALT", Paths.AUTO_OPTIONS.R_THREE_PIECE_2_ALT);
+        auto_chooser.addOption("R-1 Piece AMP", Paths.AUTO_OPTIONS.R_ONE_PIECE_AMP);
+        auto_chooser.addOption("R-LEAVE", Paths.AUTO_OPTIONS.R_LEAVE);
         //blue paths
         auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
         auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
@@ -78,6 +82,10 @@ public class Robot extends TimedRobot {
         auto_chooser.addOption("B-Fallback 1", Paths.AUTO_OPTIONS.B_FALLBACK_1);
         auto_chooser.addOption("B-Fallback 2", Paths.AUTO_OPTIONS.B_FALLBACK_2);
         auto_chooser.addOption("B-Fallback 3", Paths.AUTO_OPTIONS.B_FALLBACK_3);
+        auto_chooser.addOption("B-3 Piece 1 ALT", Paths.AUTO_OPTIONS.B_THREE_PIECE_1_ALT);
+        auto_chooser.addOption("B-3 Piece 2 ALT", Paths.AUTO_OPTIONS.B_THREE_PIECE_2_ALT);
+        auto_chooser.addOption("B-1 Piece AMP", Paths.AUTO_OPTIONS.B_ONE_PIECE_AMP);
+        auto_chooser.addOption("B-LEAVE", Paths.AUTO_OPTIONS.B_LEAVE);
 
         SmartDashboard.putData("Auto Choices", auto_chooser); 
         
@@ -133,7 +141,7 @@ public class Robot extends TimedRobot {
     /* This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
-        m_drivetrainSubsystem.onEnable();
+        m_drivetrainSubsystem.onEnable(); 
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         m_mechanismSubsystem.init();
     }
@@ -164,7 +172,7 @@ public class Robot extends TimedRobot {
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
         
         
-        //m_drivetrainSubsystem.onEnable();
+        m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
@@ -179,10 +187,10 @@ public class Robot extends TimedRobot {
        
        
        
-       //m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-       // m_drivetrainSubsystem.drive();
+       m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+       m_drivetrainSubsystem.drive();
 
-        m_intakeSubsystem.testIntake();
+        //m_intakeSubsystem.testIntake();
         //m_shooterSubsystem.testShooter();
         //m_mechanismSubsystem.periodic();
         //m_buttons.buttonsPeriodic();

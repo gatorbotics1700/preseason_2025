@@ -228,7 +228,7 @@ public class DrivetrainSubsystem {
       backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
       backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
       //System.out.println("robot position: "+ getPose());
-      System.out.println("=====robot position   X: "+ getPoseX() + "   Y: " + getPoseY() + "   Rotation (Degrees): " + getPoseDegrees());
+     // System.out.println("=====robot position   X: "+ getPoseX() + "   Y: " + getPoseY() + "   Rotation (Degrees): " + getPoseDegrees());
 
    }
 
@@ -269,7 +269,7 @@ public class DrivetrainSubsystem {
 
     //AUTO AND FAILSAFE
    public void stopDrive() {
-      System.out.println("=========================STOPPED DRIVE SOMETHING MIGHT HAVE GONE WRONG=========================");
+      //System.out.println("=========================STOPPED DRIVE SOMETHING MIGHT HAVE GONE WRONG=========================");
       setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.0, 0.0, 0.0, getPoseRotation()));
       drive();
    }

@@ -18,7 +18,7 @@ public class ShooterSubsystem {
     private TalonFX mid;
     private TalonFX low;
 
-    private final double TESTING_SPEED = 0.6;
+    private final double TESTING_SPEED = 0.5;
     private final double AMP_SPEED = 0.2; //35; //0.3; // DO NOT TOUCH THIS VALUE!!
     private final double LOW_SHOOTING_SPEED = 0.7; //0.7;
     private final double HIGH_SPEAKER_SPEED = 0.7; //0.7;
