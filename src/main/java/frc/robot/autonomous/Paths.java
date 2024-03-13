@@ -96,15 +96,15 @@ public class Paths {
     private static final double AMP_ENDING_Y = 307.5 * Constants.METERS_PER_INCH;
 
     private static final double R_AMP_STARTING_X = 591.93 * Constants.METERS_PER_INCH;
-    private static final double B_AMP_STARTING_X = 60.8 * Constants.METERS_PER_INCH; //a little askew from white line 
+    private static final double B_AMP_STARTING_X = 59.07 * Constants.METERS_PER_INCH; //a little askew from white line 
     private static final double R_AMP_X = 576.43 * Constants.METERS_PER_INCH; 
-    private static final double B_AMP_X = 76.3 * Constants.METERS_PER_INCH;
+    private static final double B_AMP_X = 74.57 * Constants.METERS_PER_INCH;
     private static final double R_AMP_ENDING_X = 545.43 * Constants.METERS_PER_INCH;
-    private static final double B_AMP_ENDING_X = 107.3 * Constants.METERS_PER_INCH;
+    private static final double B_AMP_ENDING_X = 105.57 * Constants.METERS_PER_INCH;
 
     private static final double LEAVE_STARTING_Y = 78 * Constants.METERS_PER_INCH;
-    private static final double R_LEAVE_ENDING_X = 516*Constants.METERS_PER_INCH;
-    private static final double B_LEAVE_ENDING_X = 133*Constants.METERS_PER_INCH;
+    private static final double R_LEAVE_ENDING_X = 516 * Constants.METERS_PER_INCH;
+    private static final double B_LEAVE_ENDING_X = 135 * Constants.METERS_PER_INCH;
     
     private static final Pose2d RED_1_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, TOP_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_1_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION);
