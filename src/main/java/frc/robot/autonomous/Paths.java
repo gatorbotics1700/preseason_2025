@@ -65,8 +65,7 @@ public class Paths {
     private static final Rotation2d BLUE_RIGHT_TURN = new Rotation2d(Math.toRadians(143.815)); //changed
     private static final Rotation2d RED_DRIVERSTATION = new Rotation2d(Math.toRadians(0));
     private static final Rotation2d BLUE_DRIVERSTATION = new Rotation2d(Math.toRadians(180));
-    private static final Rotation2d RED_AMP = new Rotation2d(Math.toRadians(90)); //TODO: CHECK
-    private static final Rotation2d BLUE_AMP = new Rotation2d(Math.toRadians(270)); //TODO: CHECK
+    private static final Rotation2d AMP_ANGLE = new Rotation2d(Math.toRadians(270)); //TODO: CHECK
 
     private static final double R_SHOOTING_X = 564 * Constants.METERS_PER_INCH;
     private static final double R_INTAKING_X = 532 * Constants.METERS_PER_INCH;
@@ -114,8 +113,8 @@ public class Paths {
     private static final Pose2d RED_3_STARTING_POSE = new Pose2d(600*Constants.METERS_PER_INCH, MID_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d RED_BREAD_STARTING_POSE = new Pose2d(R_BREAD_STARTING_X, BOTTOM_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_BREAD_STARTING_POSE = new Pose2d(B_BREAD_STARTING_X, BOTTOM_NOTE_Y,BLUE_DRIVERSTATION);
-    private static final Pose2d BLUE_AMP_STARTING_POSE = new Pose2d(B_AMP_STARTING_X, AMP_STARTING_Y, BLUE_AMP); //robot at edge of amp zone centered (ish) on the white tape line 
-    private static final Pose2d RED_AMP_STARTING_POSE = new Pose2d(R_AMP_STARTING_X, AMP_STARTING_Y, RED_AMP); 
+    private static final Pose2d BLUE_AMP_STARTING_POSE = new Pose2d(B_AMP_STARTING_X, AMP_STARTING_Y, AMP_ANGLE); //robot at edge of amp zone centered (ish) on the white tape line 
+    private static final Pose2d RED_AMP_STARTING_POSE = new Pose2d(R_AMP_STARTING_X, AMP_STARTING_Y, AMP_ANGLE); 
     private static final Pose2d RED_LEAVE_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, LEAVE_STARTING_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_LEAVE_STARTING_POSE = new Pose2d(16*Constants.METERS_PER_INCH, LEAVE_STARTING_Y, BLUE_DRIVERSTATION);
 
@@ -661,10 +660,10 @@ public class Paths {
                 RED_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, RED_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_ENDING_X, AMP_ENDING_Y, RED_AMP)), //moves away from amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_ENDING_X, AMP_ENDING_Y, AMP_ANGLE)), //moves away from amp
                     new PDState(AutoStates.STOP) 
                 }
             );
@@ -673,10 +672,10 @@ public class Paths {
                 BLUE_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, BLUE_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_ENDING_X, AMP_ENDING_Y, BLUE_AMP)), //moves away from amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_ENDING_X, AMP_ENDING_Y, AMP_ANGLE)), //moves away from amp
                     new PDState(AutoStates.STOP)
                 }
             );
@@ -704,15 +703,15 @@ public class Paths {
                 RED_AMP_STARTING_POSE,   
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, RED_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)), //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //moves down to line up with the top note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //INTAKE
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, TOP_NOTE_Y, RED_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, TOP_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -722,15 +721,15 @@ public class Paths {
                 BLUE_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, BLUE_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_DRIVERSTATION)), // moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)),  //moves down to line up with the top note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_INTAKING_X, TOP_NOTE_Y, BLUE_DRIVERSTATION)), //INTAKE
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_INTAKING_X, TOP_NOTE_Y, BLUE_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, TOP_NOTE_Y, BLUE_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_INTAKING_X, TOP_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, TOP_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -740,15 +739,15 @@ public class Paths {
                 BLUE_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, BLUE_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), // shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_DRIVERSTATION)),  //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //moves down to line up with the fart top note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //INTAKE
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, BLUE_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, BLUE_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -758,15 +757,15 @@ public class Paths {
                 RED_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, RED_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), // shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)), //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //moves down to line up with the far top note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //INTAKE
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, RED_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -776,18 +775,18 @@ public class Paths {
                 BLUE_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, BLUE_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), // shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_DRIVERSTATION)), //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //moves down to line up with the farthest (below the farther) note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(261*Constants.METERS_PER_INCH, FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //intake
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(261*Constants.METERS_PER_INCH, SECOND_FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)), //intake
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, BLUE_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, BLUE_AMP)), 
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, BLUE_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, AMP_ANGLE)), 
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -797,18 +796,18 @@ public class Paths {
                 RED_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, RED_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)), //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //moves down to line up with the farthest (below the farther) note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(379*Constants.METERS_PER_INCH, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), 
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(379*Constants.METERS_PER_INCH, SECOND_FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //intake
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, RED_AMP)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, RED_AMP)), //TURN
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_AMP)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, SECOND_FARTHEST_NOTE_Y, AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //TURN
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -818,8 +817,8 @@ public class Paths {
                 BLUE_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, BLUE_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_AMP)), //
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(B_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, AMP_ENDING_Y, BLUE_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(B_AMP_X, FARTHEST_NOTE_Y, BLUE_DRIVERSTATION)),
@@ -840,8 +839,8 @@ public class Paths {
                 new Pose2d(B_AMP_STARTING_X, AMP_STARTING_Y, new Rotation2d(Math.toRadians(270))),
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, RED_AMP)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_AMP)),
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)),
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)),
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)),
