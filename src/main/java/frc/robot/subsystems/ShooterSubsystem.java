@@ -32,6 +32,7 @@ public class ShooterSubsystem {
         AMP_HOLDING,
         SPEAKER_HOLDING,
         AMP,
+        AMP_WARMUP,
         SPEAKER,
         TESTING; 
     }
@@ -66,6 +67,10 @@ public class ShooterSubsystem {
         }else if (currentShooterState == ShooterStates.WARMUP){ //same as speaking holding but doesnt assume we have a note
             high.setControl(highDutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(midDutyCycleOut.withOutput(-MID_SPEAKER_SPEED));
+            low.setControl(lowDutyCycleOut.withOutput(LOW_INTAKING_SPEED));
+        }else if (currentShooterState == ShooterStates.AMP_WARMUP){ //same as speaking holding but doesnt assume we have a note
+            high.setControl(highDutyCycleOut.withOutput(0));
+            mid.setControl(midDutyCycleOut.withOutput(TESTING_SPEED));
             low.setControl(lowDutyCycleOut.withOutput(LOW_INTAKING_SPEED));
         }else if (currentShooterState == ShooterStates.AMP_HOLDING) { // DO NOT TOUCH THESE VALUES!!
             high.setControl(highDutyCycleOut.withOutput(0));

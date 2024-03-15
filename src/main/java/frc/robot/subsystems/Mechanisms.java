@@ -20,7 +20,7 @@ public class Mechanisms {
 
     public static enum MechanismStates{
         INTAKING,
-        INTAKING_WITH_SHOOTER_WARMUP, //needed for auto only
+        INTAKING_WITH_AMP_WARMUP, //needed for auto only
         AMP_HOLDING,
         SPEAKER_HOLDING,
         SHOOTING_SPEAKER,
@@ -57,12 +57,12 @@ public class Mechanisms {
             if (sensorSubsystem.detectNote()){
                 setState(MechanismStates.OFF);      
             }
-        } else if (mechanismState == MechanismStates.INTAKING_WITH_SHOOTER_WARMUP){ //just for auto
+        } else if (mechanismState == MechanismStates.INTAKING_WITH_AMP_WARMUP){ //just for auto
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.INTAKING);
-            shooterSubsystem.setState(ShooterStates.WARMUP);
+            shooterSubsystem.setState(ShooterStates.AMP_WARMUP);
             if (sensorSubsystem.detectNote()){
-                setState(MechanismStates.SPEAKER_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
+                setState(MechanismStates.AMP_HOLDING); //TODO: this will change depending on if we're in teleop or auto        
             }
         } else if(mechanismState == MechanismStates.AMP_HOLDING){
             pivotSubsystem.setState(PivotStates.AMP); 

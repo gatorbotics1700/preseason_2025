@@ -44,7 +44,7 @@ public class Paths {
         B_THREE_PIECE_1_ALT,
         R_THREE_PIECE_2_ALT,
         B_THREE_PIECE_2_ALT,
-        R_ONE_PIECE_AMP,
+        R_ONE_PIECE_AMP, //DONT CHANGE UNLESS YOU TALK TO AUTO LEAD
         B_ONE_PIECE_AMP,
         R_TWO_AMP,
         B_TWO_AMP,
@@ -73,7 +73,7 @@ public class Paths {
     private static final double B_SHOOTING_X = 87.25 * Constants.METERS_PER_INCH;
     private static final double B_INTAKING_X = 119 * Constants.METERS_PER_INCH;
 
-    private static final double TOP_NOTE_Y = 277.5 * Constants.METERS_PER_INCH;
+    private static final double TOP_NOTE_Y = (277.5-2) * Constants.METERS_PER_INCH;
     private static final double MID_NOTE_Y = 220.5 * Constants.METERS_PER_INCH;
     private static final double BOTTOM_NOTE_Y = 167.5 * Constants.METERS_PER_INCH;
 
@@ -92,11 +92,11 @@ public class Paths {
     private static final double B_BREAD_STARTING_X = 56 * Constants.METERS_PER_INCH;
 
     private static final double AMP_STARTING_Y = 283.5 * Constants.METERS_PER_INCH; //up against amp safe zone
-    private static final double AMP_ENDING_Y = 307.25 * Constants.METERS_PER_INCH;
+    private static final double AMP_ENDING_Y = (306.25 -4) * Constants.METERS_PER_INCH; //DONT CHANG UNLESS U TALK TO AUTO LEAD
 
     private static final double R_AMP_STARTING_X = 591.93 * Constants.METERS_PER_INCH;
     private static final double B_AMP_STARTING_X = 59.07 * Constants.METERS_PER_INCH; //a little askew from white line 
-    private static final double R_AMP_X = 576.43 * Constants.METERS_PER_INCH; 
+    private static final double R_AMP_X = (576.43-2) * Constants.METERS_PER_INCH; 
     private static final double B_AMP_X = 74.57 * Constants.METERS_PER_INCH;
     private static final double R_AMP_ENDING_X = 545.43 * Constants.METERS_PER_INCH;
     private static final double B_AMP_ENDING_X = 105.57 * Constants.METERS_PER_INCH;
@@ -106,7 +106,7 @@ public class Paths {
     private static final double B_LEAVE_ENDING_X = 135 * Constants.METERS_PER_INCH;
 
     private static final double B_FARTHEST_NOTE_LINEUP_X = 261 * Constants.METERS_PER_INCH;
-    private static final double B_FARTHEST_NOTE_LINEUP_X = 379 * Constants.METERS_PER_INCH;
+    private static final double R_FARTHEST_NOTE_LINEUP_X = 379 * Constants.METERS_PER_INCH;
     
     private static final Pose2d RED_1_STARTING_POSE = new Pose2d(633*Constants.METERS_PER_INCH, TOP_NOTE_Y, RED_DRIVERSTATION);
     private static final Pose2d BLUE_1_STARTING_POSE = new Pose2d(15*Constants.METERS_PER_INCH, BOTTOM_NOTE_Y, BLUE_DRIVERSTATION);
@@ -127,10 +127,10 @@ public class Paths {
                 new Pose2d(100.0 * Constants.METERS_PER_INCH, 0.0, RED_DRIVERSTATION),
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(140 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(140 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(45)))),
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(140 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(100 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(140 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(140 * Constants.METERS_PER_INCH, 0, new Rotation2d(Math.toRadians(90)))),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(140 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(100 * Constants.METERS_PER_INCH, 0, RED_DRIVERSTATION)),
                     new PDState(AutoStates.STOP)
                 }
             );
@@ -658,7 +658,7 @@ public class Paths {
                     new PDState(AutoStates.STOP)
                 }
             );
-        }else if(selectedAuto == AUTO_OPTIONS.R_ONE_PIECE_AMP){
+        }else if(selectedAuto == AUTO_OPTIONS.R_ONE_PIECE_AMP){ //DONT CHANGE UNLESS YOU TALK TO AN AUTO LEAD
             return new AutonomousBasePD(
                 RED_AMP_STARTING_POSE,
                 new PDState[]{
@@ -708,13 +708,13 @@ public class Paths {
                     new PDState(AutoStates.FIRST),
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
-                    new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)), //moves away from amp
+                    new PDState(AutoStates.SHOOTING_AMP), //shoots preloaded piece into amp 
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, TOP_NOTE_Y, AMP_ANGLE)), //moves away from amp
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //moves down to line up with the top note
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, RED_DRIVERSTATION)), //INTAKE
                     new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_INTAKING_X, TOP_NOTE_Y, AMP_ANGLE)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, TOP_NOTE_Y, AMP_ANGLE)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), TOP_NOTE_Y, AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), AMP_ENDING_Y - (4*Constants.METERS_PER_INCH), AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }
@@ -760,15 +760,16 @@ public class Paths {
                 RED_AMP_STARTING_POSE,
                 new PDState[]{
                     new PDState(AutoStates.FIRST),
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y, AMP_ANGLE)), //basically where the amp is - our length
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //moves up to amp
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_STARTING_X, AMP_ENDING_Y + (2*Constants.METERS_PER_INCH), AMP_ANGLE)), //basically where the amp is - our length
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y + (2*Constants.METERS_PER_INCH), AMP_ANGLE)), //moves up to amp
                     new PDState(AutoStates.SHOOTING_AMP), // shoots preloaded piece into amp
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, AMP_ENDING_Y, RED_DRIVERSTATION)), //moves away from amp
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //moves down to line up with the far top note
-                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, RED_DRIVERSTATION)), //INTAKE
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //turn
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y, AMP_ANGLE)), //move x
-                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y, AMP_ANGLE)), //move y
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), AMP_ANGLE)), //moves away from amp
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), RED_DRIVERSTATION)), //moves down to line up with the far top note
+                    new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X + (7*Constants.METERS_PER_INCH), FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), RED_DRIVERSTATION)), //INTAKE
+                    new PDState(AutoStates.INTAKING_TIMED, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X + (7*Constants.METERS_PER_INCH), FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), RED_DRIVERSTATION)), //INTAKE
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(SECOND_FARTHEST_NOTE_INTAKING_X + (7*Constants.METERS_PER_INCH), FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), AMP_ANGLE)), //turn
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, FARTHEST_NOTE_Y - (1*Constants.METERS_PER_INCH), AMP_ANGLE)), //move x
+                    new PDState(AutoStates.DRIVE_WITH_HOLDING_AMP, new Pose2d(R_AMP_X, AMP_ENDING_Y + (12*Constants.METERS_PER_INCH), AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
                     new PDState(AutoStates.STOP)
                 }

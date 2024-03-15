@@ -1,5 +1,7 @@
 package frc.robot.autonomous;
 
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -13,13 +15,13 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
 // //mcqueen
-    private static final double turnKP= 0.3; //increased slight *** not tested
+    private static final double turnKP= 0.15; //0.2; //increased slight *** not tested
     private static final double turnKI= 0.0; 
-    private static final double turnKD= 0.01;
-    private static final double driveKP= 3; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double turnKD= 0.01; //0.02;
+    private static final double driveKP= 3.8; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.05; //Robot.kD.getDouble(0.0);//0.0;
-    private static final double DRIVE_DEADBAND = 2 * Constants.METERS_PER_INCH; //meters - previously 3 inches
+    private static final double driveKD= 0.09; //0.07; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
 
 
@@ -77,7 +79,7 @@ public class AutonomousBasePD extends AutonomousBase{
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
-            setInitialMechState(Mechanisms.MechanismStates.INTAKING_WITH_SHOOTER_WARMUP);
+            setInitialMechState(Mechanisms.MechanismStates.INTAKING_WITH_AMP_WARMUP);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint() && (System.currentTimeMillis() - startTimeForState >= 2000)){
                 moveToNextState(); //move on regardless of whether or not we have a note
@@ -112,12 +114,18 @@ public class AutonomousBasePD extends AutonomousBase{
             if(System.currentTimeMillis()-startTimeForState >=3000){
                 moveToNextState();
             }
+        }else if(currentState.name == AutoStates.INTAKING_TIMED){
+            setInitialMechState(Mechanisms.MechanismStates.INTAKING);
+            if(System.currentTimeMillis()-startTimeForState >=1000){
+                moveToNextState();
+            }
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
             mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             //System.out.println("stopped in auto");
         } else if(currentState.name == AutoStates.DRIVE_MECH_OFF){
             setInitialMechState(Mechanisms.MechanismStates.OFF);
+            driveToLocation(currentState.coordinate);
             if(robotAtSetpoint()){
                 moveToNextState();
             }
