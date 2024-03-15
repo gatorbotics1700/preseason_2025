@@ -91,8 +91,8 @@ public class Paths {
     private static final double R_BREAD_STARTING_X = 593 * Constants.METERS_PER_INCH;
     private static final double B_BREAD_STARTING_X = 56 * Constants.METERS_PER_INCH;
 
-    private static final double AMP_STARTING_Y = 290 * Constants.METERS_PER_INCH; //up against amp safe zone
-    private static final double AMP_ENDING_Y = 307.5 * Constants.METERS_PER_INCH;
+    private static final double AMP_STARTING_Y = 283.5 * Constants.METERS_PER_INCH; //up against amp safe zone
+    private static final double AMP_ENDING_Y = 301.25 * Constants.METERS_PER_INCH;
 
     private static final double R_AMP_STARTING_X = 591.93 * Constants.METERS_PER_INCH;
     private static final double B_AMP_STARTING_X = 59.07 * Constants.METERS_PER_INCH; //a little askew from white line 
