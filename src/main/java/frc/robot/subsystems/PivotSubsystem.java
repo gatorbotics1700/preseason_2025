@@ -31,7 +31,7 @@ public class PivotSubsystem{
 
     public PivotSubsystem(){
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
-        speakerLimitSwitch = new DigitalInput(8);
+        speakerLimitSwitch = new DigitalInput(5);
         ampLimitSwitch = new DigitalInput(9); 
         init();
     }

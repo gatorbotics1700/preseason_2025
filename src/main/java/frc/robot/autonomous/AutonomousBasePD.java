@@ -109,7 +109,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
             setInitialMechState(Mechanisms.MechanismStates.SHOOTING_AMP);
-            if(System.currentTimeMillis()-startTimeForState >=6000){
+            if(System.currentTimeMillis()-startTimeForState >=3000){
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){

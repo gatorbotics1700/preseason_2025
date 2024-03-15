@@ -67,6 +67,10 @@ public class Robot extends TimedRobot {
         auto_chooser.addOption("R-3 Piece 2 ALT", Paths.AUTO_OPTIONS.R_THREE_PIECE_2_ALT);
         auto_chooser.addOption("R-1 Piece AMP", Paths.AUTO_OPTIONS.R_ONE_PIECE_AMP);
         auto_chooser.addOption("R-LEAVE", Paths.AUTO_OPTIONS.R_LEAVE);
+        auto_chooser.addOption("R 2 AMP", Paths.AUTO_OPTIONS.R_TWO_AMP);
+        auto_chooser.addOption("R 2 AMP FAR", Paths.AUTO_OPTIONS.R_TWO_AMP_FAR);
+        auto_chooser.addOption("R 2 AMP FARTHER", Paths.AUTO_OPTIONS.R_TWO_AMP_FARTHER);
+
         //blue paths
         auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
         auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
@@ -86,6 +90,9 @@ public class Robot extends TimedRobot {
         auto_chooser.addOption("B-3 Piece 2 ALT", Paths.AUTO_OPTIONS.B_THREE_PIECE_2_ALT);
         auto_chooser.addOption("B-1 Piece AMP", Paths.AUTO_OPTIONS.B_ONE_PIECE_AMP);
         auto_chooser.addOption("B-LEAVE", Paths.AUTO_OPTIONS.B_LEAVE);
+        auto_chooser.addOption("B 2 AMP", Paths.AUTO_OPTIONS.B_TWO_AMP);
+        auto_chooser.addOption("B 2 AMP FAR", Paths.AUTO_OPTIONS.B_TWO_AMP_FAR);
+        auto_chooser.addOption("B 2 AMP FARTHER", Paths.AUTO_OPTIONS.B_TWO_AMP_FARTHER);
 
         SmartDashboard.putData("Auto Choices", auto_chooser); 
         
