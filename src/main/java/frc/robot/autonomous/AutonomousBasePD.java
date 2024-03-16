@@ -15,12 +15,12 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
 // //mcqueen
-    private static final double turnKP= 0.15; //0.2; //increased slight *** not tested
+    private static final double turnKP= 0.17; //0.2; //increased slight *** not tested
     private static final double turnKI= 0.0; 
     private static final double turnKD= 0.01; //0.02;
-    private static final double driveKP= 3.8; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKP= 4; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.09; //0.07; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.07; //0.07; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
 
@@ -88,7 +88,7 @@ public class AutonomousBasePD extends AutonomousBase{
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
             setInitialMechState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.getSpeakerLimitSwitch()){
+            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.atSpeaker()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
@@ -116,7 +116,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         }else if(currentState.name == AutoStates.INTAKING_TIMED){
             setInitialMechState(Mechanisms.MechanismStates.INTAKING);
-            if(System.currentTimeMillis()-startTimeForState >=250){
+            if(System.currentTimeMillis()-startTimeForState >=500){
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){
