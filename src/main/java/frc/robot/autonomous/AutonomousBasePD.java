@@ -116,7 +116,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         }else if(currentState.name == AutoStates.INTAKING_TIMED){
             setInitialMechState(Mechanisms.MechanismStates.INTAKING);
-            if(System.currentTimeMillis()-startTimeForState >=1000){
+            if(System.currentTimeMillis()-startTimeForState >=250){
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.STOP){
