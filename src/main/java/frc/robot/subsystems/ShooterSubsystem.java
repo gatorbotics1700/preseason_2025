@@ -24,16 +24,20 @@ public class ShooterSubsystem {
     private final double HIGH_SPEAKER_SPEED = 0.7; //0.7;
     private final double MID_SPEAKER_SPEED = 0.7; //0.7;
     private final double LOW_INTAKING_SPEED = 0.3;
+    private final double HIGH_STAGE_SPEED = 0.7; //watch current limits
+    private final double MID_STAGE_SPEED = 0.7; //watch current limits
     
     public static enum ShooterStates {
         OFF,
         INTAKING,
         WARMUP, //for auto only
         AMP_HOLDING,
-        SPEAKER_HOLDING,
+        SUBWOOFER_HOLDING,
+        STAGE_HOLDING,
         AMP,
         AMP_WARMUP,
-        SPEAKER,
+        SUBWOOFER,
+        STAGE,
         TESTING; 
     }
 
@@ -76,18 +80,26 @@ public class ShooterSubsystem {
             high.setControl(highDutyCycleOut.withOutput(0));
             mid.setControl(midDutyCycleOut.withOutput(TESTING_SPEED));//(AMP_SPEED));//.35 IS PERFECT IN LAB, BUT .5 (SAME AS IN AMP WORKS BETTER IN PRACTICE) 
             low.setControl(lowDutyCycleOut.withOutput(0));
-        } else if(currentShooterState == ShooterStates.SPEAKER_HOLDING){
+        } else if(currentShooterState == ShooterStates.SUBWOOFER_HOLDING){
             high.setControl(highDutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(midDutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
+            low.setControl(lowDutyCycleOut.withOutput(0));
+        }else if(currentShooterState == ShooterStates.STAGE_HOLDING){
+            high.setControl(highDutyCycleOut.withOutput(HIGH_STAGE_SPEED));
+            mid.setControl(midDutyCycleOut.withOutput(-MID_STAGE_SPEED)); //negative
             low.setControl(lowDutyCycleOut.withOutput(0));
         }else if(currentShooterState == ShooterStates.AMP){ // DO NOT TOUCH THESE VALUES!!
             high.setControl(highDutyCycleOut.withOutput(0)); //TESTING_SPEED)); //AMP SPEED FOR MID/HIGH AT .35 WORKS!!!! 3/2 .45 WORKS FOR SHOOTING INTO AMP
             mid.setControl(midDutyCycleOut.withOutput(TESTING_SPEED));
             low.setControl(lowDutyCycleOut.withOutput(AMP_SPEED)); // LOW SPEED AT .25 IS GREAT, and .35 is better
-        }else if(currentShooterState == ShooterStates.SPEAKER){
+        }else if(currentShooterState == ShooterStates.SUBWOOFER){
             high.setControl(highDutyCycleOut.withOutput(HIGH_SPEAKER_SPEED));
             mid.setControl(midDutyCycleOut.withOutput(-MID_SPEAKER_SPEED)); //negative
             low.setControl(lowDutyCycleOut.withOutput(LOW_SHOOTING_SPEED)); //TESTING
+        } else if(currentShooterState == ShooterStates.STAGE){
+            high.setControl(highDutyCycleOut.withOutput(HIGH_STAGE_SPEED));
+            mid.setControl(midDutyCycleOut.withOutput(-MID_STAGE_SPEED)); //negative
+            low.setControl(lowDutyCycleOut.withOutput(LOW_SHOOTING_SPEED));
         }else if(currentShooterState == ShooterStates.OFF){
             high.setControl(highDutyCycleOut.withOutput(0));
             mid.setControl(midDutyCycleOut.withOutput(0));

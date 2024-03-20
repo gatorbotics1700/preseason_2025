@@ -22,10 +22,11 @@ public class Mechanisms {
         INTAKING,
         INTAKING_WITH_AMP_WARMUP, //needed for auto only
         AMP_HOLDING,
-        SPEAKER_HOLDING,
-        STAGE_TO_SPEAKER_HOLDING,
-        SHOOTING_SPEAKER,
+        SUBWOOFER_HOLDING,
+        STAGE_HOLDING,
         SHOOTING_AMP,
+        SHOOTING_SUBWOOFER,
+        SHOOTING_STAGE,
         TESTING,
         MANUAL,
         OFF;
@@ -70,25 +71,33 @@ public class Mechanisms {
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP_HOLDING);
             //we stop transition motor in the shooter subsystem right now
-        } else if(mechanismState == MechanismStates.SPEAKER_HOLDING){
+        } else if(mechanismState == MechanismStates.SUBWOOFER_HOLDING){
             pivotSubsystem.setState(PivotStates.SUBWOOFER);
             intakeSubsystem.setState(IntakeStates.OFF);
-            shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
-        }else if (mechanismState == MechanismStates.STAGE_TO_SPEAKER_HOLDING){
-            pivotSubsystem.setState(PivotStates.STAGE_TO_SPEAKER);
+            shooterSubsystem.setState(ShooterStates.SUBWOOFER_HOLDING);
+        }else if (mechanismState == MechanismStates.STAGE_HOLDING){
+            pivotSubsystem.setState(PivotStates.STAGE);
             intakeSubsystem.setState(IntakeStates.OFF);
-            shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
+            shooterSubsystem.setState(ShooterStates.STAGE_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.AMP); 
-        }else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
+        }else if(mechanismState == MechanismStates.SHOOTING_SUBWOOFER){
             intakeSubsystem.setState(IntakeStates.OFF);
-            shooterSubsystem.setState(ShooterStates.SPEAKER);
+            shooterSubsystem.setState(ShooterStates.SUBWOOFER);
            // System.out.println("**********IN SHOOTING SPEAKER**********");
             if(System.currentTimeMillis()-stateStartTime >= SPEAKER_SHOOTING_TIME){ 
               //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 //setState(MechanismStates.INTAKING); //sets to intaking right after shooting
+                mechanismState = MechanismStates.INTAKING;
+            }
+        }else if(mechanismState == MechanismStates.SHOOTING_STAGE){
+            intakeSubsystem.setState(IntakeStates.OFF);
+            shooterSubsystem.setState(ShooterStates.STAGE);
+           // System.out.println("**********IN SHOOTING SPEAKER**********");
+            if(System.currentTimeMillis()-stateStartTime >= SPEAKER_SHOOTING_TIME){ 
+              //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 mechanismState = MechanismStates.INTAKING;
             }
         } else if (mechanismState == MechanismStates.OFF){

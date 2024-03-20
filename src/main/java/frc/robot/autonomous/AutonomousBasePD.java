@@ -86,9 +86,9 @@ public class AutonomousBasePD extends AutonomousBase{
                 System.out.println("REACHED SETPOINT");
             }
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
-            setInitialMechState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            setInitialMechState(Mechanisms.MechanismStates.SUBWOOFER_HOLDING);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.atSpeaker()){
+            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.atSubwoofer()){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
@@ -100,12 +100,12 @@ public class AutonomousBasePD extends AutonomousBase{
                 System.out.println("REACHED SETPOINT");
             }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){ //for preloaded note where shooter might not have warmed up
-            setInitialMechState(Mechanisms.MechanismStates.SPEAKER_HOLDING);
+            setInitialMechState(Mechanisms.MechanismStates.SUBWOOFER_HOLDING);
             if(System.currentTimeMillis()-startTimeForState >= 1750){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
-            setInitialMechState(Mechanisms.MechanismStates.SHOOTING_SPEAKER);
+            setInitialMechState(Mechanisms.MechanismStates.SHOOTING_SUBWOOFER);
             if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
                 moveToNextState();
             }

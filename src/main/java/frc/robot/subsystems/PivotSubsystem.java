@@ -24,20 +24,19 @@ public class PivotSubsystem{
     private final double PIVOT_TICKS_PER_DEGREE = 2048 * 100 / 360;
     private final double MANUAL_SPEED = 0.1;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
-    //we want amp angle to be like 90 degrees and parallel to floor to be 0 degrees for clarity
-    private final double AMP_ANGLE = 0.0;//93; //try 93 for now, 96 is more realistic
+    private final double AMP_ANGLE = 0.0;
     private final double SUBWOOFER_ANGLE = -47.0;//THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double STAGE_TO_SPEAKER_ANGLE = -60.0; //orig 55 //THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double STAGE_ANGLE = -75.0;//-70.0;//25; //TODO: test
+    private final double STAGE_ANGLE = -60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
+    private final double UNDER_STAGE_ANGLE = -75.0;//-70.0;//25; //TODO: test
     private double deadband = 1 * PIVOT_TICKS_PER_DEGREE;
     
     public static enum PivotStates{
         AMP,
         SUBWOOFER,
-        STAGE_TO_SPEAKER,
-        STAGE, //TODO add to buttons/mechanisms
+        STAGE,
+        UNDER_STAGE,
         MANUAL,
-        OFF;
+        OFF; //TODO consider deleting?
         //TODO add climb state?
     }
 
@@ -69,16 +68,18 @@ public class PivotSubsystem{
         //System.out.println("position ticks: " + pivot.getSelectedSensorPosition());//prints O.0
         //System.out.println(pivot.getSelectedSensorPosition()/PIVOT_TICKS_PER_DEGREE);
         //System.out.println("is at amp: " + atAmp());
-        //System.out.println("is at speaker: " + atSpeaker());
+        //System.out.println("is at subwoofer: " + atSubwoofer());
+        //System.out.println("is at stage: " + atStage());
+        //System.out.println("is at under stage: " + atUnderStage());
         if((pivotState == PivotStates.AMP) && !atAmp() && !ampLimitSwitch.get()){
             setPivot(AMP_ANGLE);
-        }else if((pivotState == PivotStates.SUBWOOFER) && !atSpeaker()){
+        }else if((pivotState == PivotStates.SUBWOOFER) && !atSubwoofer()){
             setPivot(SUBWOOFER_ANGLE);
-        }else if (pivotState == PivotStates.STAGE_TO_SPEAKER) {
-            setPivot(STAGE_TO_SPEAKER_ANGLE);
-        }else if(pivotState == PivotStates.STAGE && !atStage() && !stageLimitSwitch.get()){//TODO check if one of these conditions is the problem
-            System.out.println("IN STAGE!!!!!!!!");
+        }else if ((pivotState == PivotStates.STAGE) && !atStage()){
             setPivot(STAGE_ANGLE);
+        }else if(pivotState == PivotStates.UNDER_STAGE && !atUnderStage() && !stageLimitSwitch.get()){//TODO check if one of these conditions is the problem
+            System.out.println("IN STAGE!!!!!!!!");
+            setPivot(UNDER_STAGE_ANGLE);
         }else if(pivotState == PivotStates.MANUAL){
             manual();
         //}else if(pivotState == PivotStates.OFF){
@@ -136,12 +137,16 @@ public class PivotSubsystem{
         return (Math.abs(pivot.getSelectedSensorPosition()-(AMP_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }
 
-    public boolean atSpeaker(){
+    public boolean atSubwoofer(){
         return (Math.abs(pivot.getSelectedSensorPosition()-(SUBWOOFER_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }
 
     public boolean atStage(){
         return (Math.abs(pivot.getSelectedSensorPosition()-(STAGE_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
+    }
+
+    public boolean atUnderStage(){
+        return (Math.abs(pivot.getSelectedSensorPosition()-(UNDER_STAGE_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }
 
     public boolean getAmpLimitSwitch(){ // false when NOT pressed, true when pressed

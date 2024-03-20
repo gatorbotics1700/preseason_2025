@@ -4,6 +4,9 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
+
+import com.ctre.phoenix6.mechanisms.MechanismState;
+
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class Buttons {
@@ -34,7 +37,7 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){
-        m_mechanismSubsystem.setState(MechanismStates.STAGE_TO_SPEAKER_HOLDING);
+        m_mechanismSubsystem.setState(MechanismStates.STAGE_HOLDING);
         System.out.println("===========X BUTTON========STAGE TO SPEAKER=========");
         //TESTING
         //System.out.println("====X BUTTON PRESSED====PIVOT STAGE====");
@@ -50,9 +53,11 @@ public class Buttons {
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
-        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING
-        || m_mechanismSubsystem.getMechanismState() == MechanismStates.STAGE_TO_SPEAKER_HOLDING){
-          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SUBWOOFER_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SUBWOOFER);
+          System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.STAGE_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_STAGE);
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
@@ -78,7 +83,7 @@ public class Buttons {
           m_mechanismSubsystem.setState(MechanismStates.OFF);
         }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.OFF ||
                m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
-          m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+          m_mechanismSubsystem.setState(MechanismStates.SUBWOOFER_HOLDING);
         }
 
 
