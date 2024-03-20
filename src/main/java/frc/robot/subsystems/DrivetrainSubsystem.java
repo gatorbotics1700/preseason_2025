@@ -74,17 +74,6 @@ public class DrivetrainSubsystem {
    private SwerveDrivePoseEstimator positionManager;
    private ShuffleboardTab tab;
 
-   private static final double driftKP= 0.0; 
-   private static final double driftKI= 0.0; 
-   private static final double driftKD= 0.0;
-   private static final double driftRotKP= 0.0; 
-   private static final double driftRotKI= 0.0; 
-   private static final double driftRotKD= 0.0;
-
-   private PIDController turnController;
-   private PIDController xController;
-   private PIDController yController;
-
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
    //we need to use this fix drift that happens when we apply the offsets, this is how that drift is measured
@@ -183,13 +172,6 @@ public class DrivetrainSubsystem {
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
 
       slowDrive = false;
-
-      turnController = new PIDController(driftRotKP, driftRotKI, driftRotKP); 
-      xController = new PIDController(driftKP, driftKI, driftKD);
-      yController = new PIDController(driftKP, driftKI, driftKD);
-      xController.reset();
-      yController.reset();
-      turnController.reset();
    }
   
    //from pigeon used for updating our odometry
@@ -236,27 +218,27 @@ public class DrivetrainSubsystem {
       );
    }
 
-   private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
-    final double LOOP_TIME_S = 0.02;
-    Pose2d futureRobotPose =
-        new Pose2d(
-            originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
-            originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
-            Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
-    Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
-    ChassisSpeeds updatedSpeeds =
-        new ChassisSpeeds(
-            twistForPose.dx / LOOP_TIME_S,
-            twistForPose.dy / LOOP_TIME_S,
-            twistForPose.dtheta / LOOP_TIME_S);
-      return updatedSpeeds;
-   }
+   // private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
+   //  final double LOOP_TIME_S = 0.05;
+   //  Pose2d futureRobotPose =
+   //      new Pose2d(
+   //          originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+   //          originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+   //          Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+   //  Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
+   //  ChassisSpeeds updatedSpeeds =
+   //      new ChassisSpeeds(
+   //          twistForPose.dx / LOOP_TIME_S,
+   //          twistForPose.dy / LOOP_TIME_S,
+   //          twistForPose.dtheta / LOOP_TIME_S);
+   //    return updatedSpeeds;
+   // }
   
    //responsible for moving the robot, called after a chassisSpeed is set
    public void drive() { //runs periodically
       updatePositionManager();
 
-      correctForDynamics(chassisSpeeds);
+      //correctForDynamics(chassisSpeeds);
 
       //array of states filled with the speed and angle for each module (made from linear and angular motion for the whole robot) 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);

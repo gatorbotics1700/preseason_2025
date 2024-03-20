@@ -33,34 +33,33 @@ public class Buttons {
       
 
     //CODRIVER
-      if (OI.codriver.getXButton()){ //manual
-        m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
-        System.out.println("=======X BUTTON====SPEAKER PIVOT=======");
+      if (OI.codriver.getXButton()){
+        m_mechanismSubsystem.setState(MechanismStates.STAGE_TO_SPEAKER_HOLDING);
+        System.out.println("===========X BUTTON========STAGE TO SPEAKER=========");
+        //TESTING
+        //System.out.println("====X BUTTON PRESSED====PIVOT STAGE====");
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.STAGE);
       }
 
       if (OI.codriver.getYButton()){ //all off mech
         m_mechanismSubsystem.setState(MechanismStates.OFF);
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
-        System.out.println("=======Y BUTTON====AMP PIVOT=======");
+        System.out.println("=======Y BUTTON====ALL OFF MECH=======");
       }
 
       if (OI.codriver.getAButton()){  //amp/speaker shooting
-         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
-        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING){
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SPEAKER_HOLDING
+        || m_mechanismSubsystem.getMechanismState() == MechanismStates.STAGE_TO_SPEAKER_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SPEAKER);
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");
         }
-
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
       }
       
       if (OI.codriver.getBButtonPressed()){ //intaking toggle
-       // m_mechanismSubsystem.setState(MechanismStates.INTAKING);
-        // m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.OFF);
           System.out.println("=======B BUTTON====INTAKING OFF=======");
@@ -68,16 +67,33 @@ public class Buttons {
           m_mechanismSubsystem.setState(MechanismStates.INTAKING);
           System.out.println("=======B BUTTON====INTAKING ON=======");
         }
-        
       }
+
       if(OI.codriver.getLeftBumper()){
-        m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
-        System.out.println("=======LEFT BUMPER====SPEAKER HOLDING=======");
+        // //sets state to off so the motors don't immediately go the other way from amp holding
+        // //then warms up speaker motors (codriver has to click twice)
+        ////this button works under the assumption that the driver will primarily go to amp
+        System.out.println("=======LEFT BUMPER====OFF THEN SPEAKER HOLDING=======");
+        if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.OFF);
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.OFF ||
+               m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
+          m_mechanismSubsystem.setState(MechanismStates.SPEAKER_HOLDING);
+        }
+
+
+        //TESTING
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
+        //System.out.println("====LEFT BUMPER====PIVOT SPEAKER====");
       }
       
       if(OI.codriver.getRightBumper()){
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======RIGHT BUMPER====AMP HOLDING=======");
+
+        //TESTING
+        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
+        //System.out.println("====RIGHT BUMPER====PIVOT AMP====");
       }
 
       if(OI.codriver.getStartButtonPressed()){

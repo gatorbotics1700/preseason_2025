@@ -60,7 +60,7 @@ public class AutonomousBasePD extends AutonomousBase{
         turnController.enableContinuousInput(-180, 180); //turn controller reads rotation from 0 to 360 degrees 
         stateIndex = 0;
         startTimeForState = System.currentTimeMillis();
-        mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
+        mechanismSubsystem.pivotSubsystem.setState(PivotStates.SUBWOOFER);
         isFirstTimeInState = true;
     }
 

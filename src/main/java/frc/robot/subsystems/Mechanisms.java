@@ -23,6 +23,7 @@ public class Mechanisms {
         INTAKING_WITH_AMP_WARMUP, //needed for auto only
         AMP_HOLDING,
         SPEAKER_HOLDING,
+        STAGE_TO_SPEAKER_HOLDING,
         SHOOTING_SPEAKER,
         SHOOTING_AMP,
         TESTING,
@@ -70,15 +71,18 @@ public class Mechanisms {
             shooterSubsystem.setState(ShooterStates.AMP_HOLDING);
             //we stop transition motor in the shooter subsystem right now
         } else if(mechanismState == MechanismStates.SPEAKER_HOLDING){
-            pivotSubsystem.setState(PivotStates.SPEAKER);
+            pivotSubsystem.setState(PivotStates.SUBWOOFER);
+            intakeSubsystem.setState(IntakeStates.OFF);
+            shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
+        }else if (mechanismState == MechanismStates.STAGE_TO_SPEAKER_HOLDING){
+            pivotSubsystem.setState(PivotStates.STAGE_TO_SPEAKER);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
         } else if(mechanismState == MechanismStates.SHOOTING_AMP){
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
-            shooterSubsystem.setState(ShooterStates.AMP);
-        } else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
-            pivotSubsystem.setState(PivotStates.SPEAKER); 
+            shooterSubsystem.setState(ShooterStates.AMP); 
+        }else if(mechanismState == MechanismStates.SHOOTING_SPEAKER){
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER);
            // System.out.println("**********IN SHOOTING SPEAKER**********");
@@ -98,7 +102,7 @@ public class Mechanisms {
         }else if (mechanismState == MechanismStates.MANUAL){
             pivotSubsystem.setState(PivotStates.MANUAL);
         } else {
-            pivotSubsystem.setState(PivotStates.OFF);
+            //pivotSubsystem.setState(PivotStates.OFF);
             shooterSubsystem.setState(ShooterStates.OFF);
             intakeSubsystem.setState(IntakeStates.OFF);
             System.out.println("WHAT ARE YOU DOING----STATE NOT RECOGNIZED!!!!! CURRENT STATE: " + mechanismState);
