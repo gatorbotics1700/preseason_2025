@@ -3,6 +3,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
@@ -10,6 +12,7 @@ import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -21,6 +24,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.Constants;
+import frc.robot.GeometryUtils;
 import frc.robot.OI;
 
 public class DrivetrainSubsystem {
@@ -69,6 +73,17 @@ public class DrivetrainSubsystem {
 
    private SwerveDrivePoseEstimator positionManager;
    private ShuffleboardTab tab;
+
+   private static final double driftKP= 0.0; 
+   private static final double driftKI= 0.0; 
+   private static final double driftKD= 0.0;
+   private static final double driftRotKP= 0.0; 
+   private static final double driftRotKI= 0.0; 
+   private static final double driftRotKD= 0.0;
+
+   private PIDController turnController;
+   private PIDController xController;
+   private PIDController yController;
 
    //ChassisSpeeds takes in y velocity, x velocity, speed of rotation
    private ChassisSpeeds chassisSpeeds; //sets expected chassis speed to be called the next time drive is run
@@ -168,6 +183,13 @@ public class DrivetrainSubsystem {
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
 
       slowDrive = false;
+
+      turnController = new PIDController(driftRotKP, driftRotKI, driftRotKP); 
+      xController = new PIDController(driftKP, driftKI, driftKD);
+      yController = new PIDController(driftKP, driftKI, driftKD);
+      xController.reset();
+      yController.reset();
+      turnController.reset();
    }
   
    //from pigeon used for updating our odometry
@@ -214,9 +236,27 @@ public class DrivetrainSubsystem {
       );
    }
 
+   private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
+    final double LOOP_TIME_S = 0.02;
+    Pose2d futureRobotPose =
+        new Pose2d(
+            originalSpeeds.vxMetersPerSecond * LOOP_TIME_S,
+            originalSpeeds.vyMetersPerSecond * LOOP_TIME_S,
+            Rotation2d.fromRadians(originalSpeeds.omegaRadiansPerSecond * LOOP_TIME_S));
+    Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
+    ChassisSpeeds updatedSpeeds =
+        new ChassisSpeeds(
+            twistForPose.dx / LOOP_TIME_S,
+            twistForPose.dy / LOOP_TIME_S,
+            twistForPose.dtheta / LOOP_TIME_S);
+      return updatedSpeeds;
+   }
+  
    //responsible for moving the robot, called after a chassisSpeed is set
    public void drive() { //runs periodically
       updatePositionManager();
+
+      correctForDynamics(chassisSpeeds);
 
       //array of states filled with the speed and angle for each module (made from linear and angular motion for the whole robot) 
       SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
@@ -229,7 +269,6 @@ public class DrivetrainSubsystem {
       backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
       //System.out.println("robot position: "+ getPose());
      // System.out.println("=====robot position   X: "+ getPoseX() + "   Y: " + getPoseY() + "   Rotation (Degrees): " + getPoseDegrees());
-
    }
 
    private static double joystickDeadband(double value, double deadband) {
