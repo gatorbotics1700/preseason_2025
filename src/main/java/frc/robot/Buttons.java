@@ -37,7 +37,7 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){
-        m_mechanismSubsystem.setState(MechanismStates.STAGE_HOLDING);
+        m_mechanismSubsystem.setState(MechanismStates.PODIUM_HOLDING);
         System.out.println("===========X BUTTON========STAGE TO SPEAKER=========");
         //TESTING
         //System.out.println("====X BUTTON PRESSED====PIVOT STAGE====");
@@ -56,8 +56,8 @@ public class Buttons {
         }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.SUBWOOFER_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_SUBWOOFER);
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
-        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.STAGE_HOLDING){
-          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_STAGE);
+        }else if(m_mechanismSubsystem.getMechanismState() == MechanismStates.PODIUM_HOLDING){
+          m_mechanismSubsystem.setState(MechanismStates.SHOOTING_PODIUM);
           System.out.println("=====A BUTTON=====SHOOTING IN SPEAKER!!");
         }else{
           System.out.println("=====A BUTTON=====ERROR NOT IN HOLDING CANNOT SHOOT !!!!!!!!!!!!!!!!!");

@@ -79,6 +79,10 @@ public final class Constants {
     public static final int SHOOTER_HIGH_CAN_ID = 34;
     public static final int SHOOTER_MID_CAN_ID = 38;
 
-    public static final int kTimeoutMs = 500;
-    public static  final int kPIDLoopIdx =0;
+    public static final int CONFIG_TIMEOUT_MS = 500;
+    public static final int PID_LOOP_IDX = 0;
+    public static final int SLOT_IDX = 0;
+
+    public static final int AMP_LIMIT_SWITCH_PORT = 8;
+    public static final int STAGE_LIMIT_SWITCH_PORT = 9;
 }
