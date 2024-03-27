@@ -4,12 +4,14 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3; 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+//import edu.wpi.first.wpilibj.DigitalInput;
 
 
 public class SensorSubsystem {
 
     
     private ColorSensorV3 colorSensor;
+    //private DigitalInput beambreak;
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color NOTE_COLOR = new Color(98, 106, 50);
     private final double COLOR_THRESHOLD = 0.15;//0.12; //CALIBRATE AT COMPS 
@@ -20,6 +22,7 @@ public class SensorSubsystem {
     public SensorSubsystem(){
         I2C.Port i2cPort = I2C.Port.kOnboard;
         colorSensor = new ColorSensorV3(i2cPort);
+        //beambreak = new DigitalInput(Constants.BEAMBREAK_PORT);
         init();
     }
 
@@ -44,5 +47,13 @@ public class SensorSubsystem {
             //System.out.println("We don't see the note");
             return false;
         }
+
+        /*if((redThreshold && greenThreshold && blueThreshold) || beambreak.get()) {
+            //System.out.println("WE'VE HIT THAT NOTE!!");
+            return true;
+        } else {
+            //System.out.println("We don't see the note");
+            return false;
+        }*/
     }
 }
