@@ -110,5 +110,13 @@ public class Buttons {
           m_mechanismSubsystem.setState(MechanismStates.MANUAL);
         }
       }
+      if(OI.codriver.getPOV() > 225 && OI.codriver.getPOV() < 315){
+        if(m_mechanismSubsystem.sensorSubsystem.detectNote()){
+          m_mechanismSubsystem.setState(MechanismStates.OFF);
+        } else {
+          System.out.println("========SWALLOWING NOTE BACK IN========");
+          m_mechanismSubsystem.setState(MechanismStates.SWALLOWING);
+        }
+      }
   }
 }

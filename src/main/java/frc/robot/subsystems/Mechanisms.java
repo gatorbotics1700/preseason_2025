@@ -10,7 +10,7 @@ public class Mechanisms {
 
     public ShooterSubsystem shooterSubsystem; //TODO: make private
     public IntakeSubsystem intakeSubsystem; //TODO: make private
-    private SensorSubsystem sensorSubsystem;
+    public SensorSubsystem sensorSubsystem;
     public PivotSubsystem pivotSubsystem; //TODO so we can refer to it for testing; make private
 
     private double stateStartTime;
@@ -28,6 +28,7 @@ public class Mechanisms {
         SHOOTING_AMP,
         SHOOTING_SUBWOOFER,
         SHOOTING_PODIUM,
+        SWALLOWING,
         TESTING,
         MANUAL,
         OFF;
@@ -109,6 +110,13 @@ public class Mechanisms {
               //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 setState(MechanismStates.INTAKING);
             }
+        } else if(mechanismState == MechanismStates.SWALLOWING){
+            pivotSubsystem.setState(PivotStates.AMP);
+            intakeSubsystem.setState(IntakeStates.OFF);
+            shooterSubsystem.setState(ShooterStates.SWALLOWING);
+            if (sensorSubsystem.detectNote()){ //|| sensorSubsystem.isBeamBroken()){ // once note is in place, set back to holding
+                setState(MechanismStates.OFF);      
+            }        
         } else if (mechanismState == MechanismStates.OFF){
             //let pivot stay wherever it was before
             shooterSubsystem.setState(ShooterStates.OFF);
