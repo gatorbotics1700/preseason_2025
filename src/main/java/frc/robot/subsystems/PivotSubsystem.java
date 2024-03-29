@@ -12,9 +12,9 @@ public class PivotSubsystem{
     private DigitalInput ampLimitSwitch;
     private DigitalInput stageLimitSwitch;
 
-    private static final double _kP = 0.04;//0.04;//TODO tune PID
+    private static final double _kP = 0.025;//0.04;//TODO tune PID
     private static final double _kI = 0.0;
-    private static final double _kD = 0.0;
+    private static final double _kD = 0.005;
     private static final int _kIzone = 0; //not in use
     private static final double _kPeakOutput = 1.0; //not in use
 
@@ -25,7 +25,7 @@ public class PivotSubsystem{
     private final double MANUAL_SPEED = 0.15;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
     private final double AMP_ANGLE = 0.0;
-    private final double SUBWOOFER_ANGLE = -47.0;//THIS ANGLE IS GREAT DO NOT CHANGE
+    private final double SUBWOOFER_ANGLE = -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
     private final double STAGE_ANGLE = -60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
     private final double UNDER_STAGE_ANGLE = -75.0;//-70.0;//25; //TODO: test
     private double deadband = 2 * PIVOT_TICKS_PER_DEGREE;
@@ -91,10 +91,10 @@ public class PivotSubsystem{
     }
     
     public void manual() {
-        if((OI.getCodriverRightAxis() < -0.2) ){//&& !stageLimitSwitch.get()) {
+        if((OI.getCodriverRightAxis() < -0.2) && !stageLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);    
-        } else if((OI.getCodriverRightAxis() > 0.2) ){//&& !ampLimitSwitch.get()) {
+        } else if((OI.getCodriverRightAxis() > 0.2)  && !ampLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);  
         } else {
@@ -150,5 +150,5 @@ public class PivotSubsystem{
     public boolean getStageLimitSwitch(){ // false when NOT pressed, true when pressed
         return stageLimitSwitch.get();
     }
-
+    
 }
