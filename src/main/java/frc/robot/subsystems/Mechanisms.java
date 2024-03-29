@@ -48,7 +48,7 @@ public class Mechanisms {
         pivotSubsystem.init();
         sensorSubsystem.init();
 
-        setState(MechanismStates.OFF);
+        setState(MechanismStates.MANUAL);
     }
 
     public void periodic(){
