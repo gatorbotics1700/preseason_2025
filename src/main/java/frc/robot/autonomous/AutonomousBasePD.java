@@ -92,13 +92,6 @@ public class AutonomousBasePD extends AutonomousBase{
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
-        } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_AMP){
-            setInitialMechState(Mechanisms.MechanismStates.AMP_HOLDING);
-            driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint()){
-                moveToNextState(); //move on regardless of whether or not we have a note
-                System.out.println("REACHED SETPOINT");
-            }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){ //for preloaded note where shooter might not have warmed up
             setInitialMechState(Mechanisms.MechanismStates.SUBWOOFER_HOLDING);
             if(System.currentTimeMillis()-startTimeForState >= 1750){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?

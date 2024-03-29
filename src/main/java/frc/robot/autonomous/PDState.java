@@ -22,7 +22,6 @@ public class PDState{
         DRIVE_MECH_OFF,
         DRIVE_WITH_INTAKING, //move with intake and shooter going 
         DRIVE_WITH_HOLDING_SPEAKER, //move with speaker warming up
-        DRIVE_WITH_HOLDING_AMP, // move with amp holding
         HOLDING_TIMED, //hold while shooter warms up (only for preloaded)
         SHOOTING_AMP, //stay still while shooting happens 
         SHOOTING_SPEAKER, //stay still while shooting happens
