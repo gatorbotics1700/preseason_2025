@@ -93,10 +93,10 @@ public class PivotSubsystem{
     public void manual() {
         System.out.println("amp: " + getAmpLimitSwitch());
         System.out.println("stage: " + getStageLimitSwitch());
-        if((OI.getCodriverRightAxis() < -0.2) && !stageLimitSwitch.get()){
+        if((OI.getCodriverRightAxis() < -0.2) && !ampLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);    
-        } else if((OI.getCodriverRightAxis() > 0.2) && !ampLimitSwitch.get()){
+        } else if((OI.getCodriverRightAxis() > 0.2) && !stageLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);  
         } else {
@@ -109,8 +109,8 @@ public class PivotSubsystem{
         System.out.println("desiredTicks: " + desiredTicks);
         double diff = desiredTicks - pivot.getSelectedSensorPosition();
         System.out.println("diff: " + diff);
-        boolean runningIntoStage = diff<0 && stageLimitSwitch.get();
-        boolean runningIntoAmp = diff>0 && ampLimitSwitch.get();
+        boolean runningIntoStage = (diff < 0) && stageLimitSwitch.get();
+        boolean runningIntoAmp = (diff > 0) && ampLimitSwitch.get();
 
 
         if (runningIntoStage || runningIntoAmp || Math.abs(diff)<deadband){
