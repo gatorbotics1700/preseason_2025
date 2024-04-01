@@ -109,8 +109,10 @@ public class PivotSubsystem{
         System.out.println("desiredTicks: " + desiredTicks);
         double diff = desiredTicks - pivot.getSelectedSensorPosition();
         System.out.println("diff: " + diff);
-        boolean runningIntoStage = (diff < 0) && stageLimitSwitch.get();
-        boolean runningIntoAmp = (diff > 0) && ampLimitSwitch.get();
+        System.out.println("stage limit switch: " + stageLimitSwitch.get()); 
+        System.out.println("amp limit switch: " + ampLimitSwitch.get());
+        boolean runningIntoStage = diff<0 && stageLimitSwitch.get();
+        boolean runningIntoAmp = diff>0 && ampLimitSwitch.get();
 
 
         if (runningIntoStage || runningIntoAmp || Math.abs(diff)<deadband){
