@@ -1,69 +1,36 @@
 package frc.robot.subsystems;
 
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.AddressableLED;
-import frc.robot.autonomous.PDState;
-// import frc.robot.autonomous.Paths;
-// import frc.robot.autonomous.PDState.AutoStates;
-import frc.robot.autonomous.AutonomousBasePD;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+//code came from this chief delphi post: https://www.chiefdelphi.com/t/rev-blinkin-example-code/452871/3
 
 public class LEDSubsystem {
-    public AddressableLED m_led;
-
-    public AddressableLEDBuffer m_ledBuffer;
-    AutonomousBasePD autonomousBasePD;
-    LEDStates state = LEDStates.NEUTRAL;
-
-    //getting class to draw getStateSequence
-    public LEDSubsystem(){ //AutonomousBasePD auto
-        m_led = new AddressableLED(Constants.LED_PORT); // port will change when actually plugged in
-        m_ledBuffer = new AddressableLEDBuffer(Constants.NUMLED); // # of LEDS
-        m_led.setLength(m_ledBuffer.getLength()); // gets length
+    public enum BlinkinPattern {
+        RAINBOW_PARTY_PALETTE(-0.97),
+        RED_ORANGE(+0.62), //good
+        LIME(+0.73), //good
+        PURPLE(+0.91); //test
+        public final double value;
+        private BlinkinPattern(double value) {
+          this.value = value;
+        }  
     }
 
-    public static enum LEDStates {
-        HAS_NOTE,//orange
-        OOP, // turns yellow
-        NEUTRAL; // turns green
-    }
+  private LEDSubsystem m_controller = null;
+  private Spark m_blinkin;
 
-    public void init(){ //was onEnable
-        m_led.setData(m_ledBuffer);
-        m_led.start();//TODO: 2/13/2024 originally was after set data, but switched to before. check if correct
-        //sets data
-        
-    }
+  public LEDSubsystem() {
+    m_blinkin = new Spark(Constants.LED_PORT);
 
-    public void periodic(){
-        System.out.println("LED state: " + getState());
-        if (state == LEDStates.HAS_NOTE){
-            for(int i = 0; i < m_ledBuffer.getLength(); i++){
-                m_ledBuffer.setRGB(i, 255,136,0);//orange
-            }
-        } else if (state == LEDStates.NEUTRAL){
-            for(var i = 0; i < m_ledBuffer.getLength(); i++){
-                m_ledBuffer.setRGB(i, 0,255,0);//green
-            }
-        } else if (state == LEDStates.OOP){
-            for(int i = 0; i < m_ledBuffer.getLength(); i++){
-                m_ledBuffer.setRGB(i, 0,255,0);//green
-            }
-        } else {
-            for(int i = 0; i < m_ledBuffer.getLength(); i++){
-                m_ledBuffer.setRGB(i, 255,235,0);//yellow
-            }
-        }
-        m_led.setData(m_ledBuffer);
-    }  
+  }
 
-    public void setState(LEDStates state) {
-        this.state = state;
-    }
+  public void setPattern(BlinkinPattern pattern) {
+    m_blinkin.set(pattern.value);
+  }
 
-    public LEDStates getState() {
-        return this.state;
-    }
-   
+  public LEDSubsystem getInstance() {
+    if (m_controller == null) m_controller = new LEDSubsystem();
+    return m_controller;
+  }
+     
 }

@@ -15,6 +15,8 @@ import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LEDSubsystem.BlinkinPattern;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autonomous.AutonomousBase;
@@ -36,8 +38,8 @@ public class Robot extends TimedRobot {
     public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-    public static final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
+    public static final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     private AutonomousBase m_auto; 
     public static Buttons m_buttons = new Buttons();
@@ -167,14 +169,16 @@ public class Robot extends TimedRobot {
         //m_mechanismSubsystem.setState(MechanismStates.TESTING);
        // m_mechanismSubsystem.intakeSubsystem.init();
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
-        m_ledSubsystem.init();
-        m_ledSubsystem.setState(LEDStates.NEUTRAL);
+       // m_ledSubsystem.init();
+       m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
         //m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
+       m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
+
       //m_sensorSubsystem.detectNote();
       //m_mechanismSubsystem.intakeSubsystem.testIntake();
       //m_pivotSubsystem.setState(PivotStates.SPEAKER);
@@ -192,7 +196,7 @@ public class Robot extends TimedRobot {
         //m_mechanismSubsystem.periodic();
         //m_buttons.buttonsPeriodic();
 
-        m_ledSubsystem.periodic();
+       // m_ledSubsystem.periodic();
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
         //m_mechanismSubsystem.periodic();
