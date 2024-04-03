@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
     public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+    public static final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
     public static final Mechanisms m_mechanismSubsystem = new Mechanisms();
     public static final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem(); //if anything breaks in the future it might be this
     private AutonomousBase m_auto; 

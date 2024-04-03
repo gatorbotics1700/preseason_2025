@@ -85,6 +85,9 @@ public final class Constants {
 
     public static final int AMP_LIMIT_SWITCH_PORT = 9;
     public static final int STAGE_LIMIT_SWITCH_PORT = 5;
+    public static final int LED_PORT =8;
+    public static final int NUMLED = 60; // change if needed
+
 
     //public static final int BEAMBREAK_PORT = 0;
 }
