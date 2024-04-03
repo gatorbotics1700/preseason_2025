@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.LEDSubsystem.*;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
 import frc.robot.subsystems.SensorSubsystem;
@@ -162,12 +163,12 @@ public class Robot extends TimedRobot {
     /* This function is called once when test mode is enabled. */
     @Override
     public void testInit() {
-       m_mechanismSubsystem.init();
+       //m_mechanismSubsystem.init();
         //m_mechanismSubsystem.setState(MechanismStates.TESTING);
        // m_mechanismSubsystem.intakeSubsystem.init();
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
-        
-        
+        m_ledSubsystem.init();
+        m_ledSubsystem.setState(LEDStates.NEUTRAL);
         //m_drivetrainSubsystem.onEnable();
     }
 
@@ -188,8 +189,10 @@ public class Robot extends TimedRobot {
 
         //m_intakeSubsystem.testIntake();
         //m_shooterSubsystem.testShooter();
-        m_mechanismSubsystem.periodic();
-        m_buttons.buttonsPeriodic();
+        //m_mechanismSubsystem.periodic();
+        //m_buttons.buttonsPeriodic();
+
+        m_ledSubsystem.periodic();
         //m_sensorSubsystem.periodic();
         //System.out.println("COLOR IS: " + m_sensorSubsystem.colorSensor.getColor());
         //m_mechanismSubsystem.periodic();

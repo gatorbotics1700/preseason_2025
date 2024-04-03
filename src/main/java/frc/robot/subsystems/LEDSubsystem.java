@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
+import frc.robot.Robot;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.AddressableLED;
 import frc.robot.autonomous.PDState;
 // import frc.robot.autonomous.Paths;
 // import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.autonomous.AutonomousBasePD;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import frc.robot.Robot;
-import frc.robot.Constants;
 
 public class LEDSubsystem {
     public AddressableLED m_led;
@@ -30,18 +30,20 @@ public class LEDSubsystem {
     }
 
     public void init(){ //was onEnable
+        m_led.setData(m_ledBuffer);
         m_led.start();//TODO: 2/13/2024 originally was after set data, but switched to before. check if correct
         //sets data
-        m_led.setData(m_ledBuffer);
+        
     }
 
     public void periodic(){
+        System.out.println("LED state: " + getState());
         if (state == LEDStates.HAS_NOTE){
             for(int i = 0; i < m_ledBuffer.getLength(); i++){
                 m_ledBuffer.setRGB(i, 255,136,0);//orange
             }
         } else if (state == LEDStates.NEUTRAL){
-            for(int i = 0; i < m_ledBuffer.getLength(); i++){
+            for(var i = 0; i < m_ledBuffer.getLength(); i++){
                 m_ledBuffer.setRGB(i, 0,255,0);//green
             }
         } else if (state == LEDStates.OOP){
@@ -53,10 +55,15 @@ public class LEDSubsystem {
                 m_ledBuffer.setRGB(i, 255,235,0);//yellow
             }
         }
+        m_led.setData(m_ledBuffer);
     }  
 
     public void setState(LEDStates state) {
         this.state = state;
+    }
+
+    public LEDStates getState() {
+        return this.state;
     }
    
 }
