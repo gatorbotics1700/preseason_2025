@@ -137,7 +137,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         m_drivetrainSubsystem.onEnable(); 
-        m_mechanismSubsystem.setState(MechanismStates.OFF);
         m_mechanismSubsystem.init();
     }
 

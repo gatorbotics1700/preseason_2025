@@ -10,9 +10,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 public class PivotSubsystem{
     private TalonFX pivot;
     private DigitalInput ampLimitSwitch;
-    private DigitalInput stageLimitSwitch;
+    //private DigitalInput stageLimitSwitch;
 
-    private static final double _kP = 0.025;//0.04;//TODO tune PID
+    private static final double _kP = 0.02;//0.025;//0.04;//TODO tune PID
     private static final double _kI = 0.0;
     private static final double _kD = 0.005;
     private static final int _kIzone = 0; //not in use
@@ -25,8 +25,8 @@ public class PivotSubsystem{
     private final double MANUAL_SPEED = 0.10;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
     private final double AMP_ANGLE = 0.0;
-    private final double SUBWOOFER_ANGLE = -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double STAGE_ANGLE = -60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
+    private final double SUBWOOFER_ANGLE = -30.0;// -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
+    private final double STAGE_ANGLE = -45.0;//-60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
     private final double UNDER_STAGE_ANGLE = -75.0;//-70.0;//25; //TODO: test
     private double deadband = 2 * PIVOT_TICKS_PER_DEGREE;
     
@@ -43,7 +43,7 @@ public class PivotSubsystem{
     public PivotSubsystem(){
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
         ampLimitSwitch = new DigitalInput(Constants.AMP_LIMIT_SWITCH_PORT); //check DIO port numbers
-        stageLimitSwitch = new DigitalInput(Constants.STAGE_LIMIT_SWITCH_PORT);
+       // stageLimitSwitch = new DigitalInput(Constants.STAGE_LIMIT_SWITCH_PORT);
 
         init();
     }
@@ -92,11 +92,11 @@ public class PivotSubsystem{
     
     public void manual() {
         System.out.println("amp: " + getAmpLimitSwitch());
-        System.out.println("stage: " + getStageLimitSwitch());
+       // System.out.println("stage: " + getStageLimitSwitch());
         if((OI.getCodriverRightAxis() < -0.2) && !ampLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);    
-        } else if((OI.getCodriverRightAxis() > 0.2) && !stageLimitSwitch.get()){
+        } else if((OI.getCodriverRightAxis() > 0.2) ){//&& !stageLimitSwitch.get()){
             System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);  
         } else {
@@ -109,13 +109,13 @@ public class PivotSubsystem{
         System.out.println("desiredTicks: " + desiredTicks);
         double diff = desiredTicks - pivot.getSelectedSensorPosition();
         System.out.println("diff: " + diff);
-        System.out.println("stage limit switch: " + stageLimitSwitch.get()); 
+        //System.out.println("stage limit switch: " + stageLimitSwitch.get()); 
         System.out.println("amp limit switch: " + ampLimitSwitch.get());
-        boolean runningIntoStage = diff<0 && stageLimitSwitch.get();
+        //boolean runningIntoStage = diff<0 && stageLimitSwitch.get();
         boolean runningIntoAmp = diff>0 && ampLimitSwitch.get();
 
 
-        if (runningIntoStage || runningIntoAmp || Math.abs(diff)<deadband){
+        if (/*runningIntoStage ||*/ runningIntoAmp || Math.abs(diff)<deadband){
             pivot.set(ControlMode.PercentOutput, 0);
         } else { //sets motor to right ticks
             System.out.println("setting PID");
@@ -151,8 +151,8 @@ public class PivotSubsystem{
         return ampLimitSwitch.get();
     }
 
-    public boolean getStageLimitSwitch(){ // false when NOT pressed, true when pressed
-        return stageLimitSwitch.get();
-    }
+    // public boolean getStageLimitSwitch(){ // false when NOT pressed, true when pressed
+    //     return stageLimitSwitch.get();
+    // }
     
 }

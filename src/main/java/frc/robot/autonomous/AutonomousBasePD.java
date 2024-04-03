@@ -15,12 +15,12 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
 // //mcqueen
-    private static final double turnKP= 0.17; //0.2; //increased slight *** not tested
+    private static final double turnKP= 0.11; //0.2; //increased slight *** not tested
     private static final double turnKI= 0.0; 
-    private static final double turnKD= 0.01; //0.02;
-    private static final double driveKP= 4; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double turnKD= 0.0055; //0.02;
+    private static final double driveKP= 3.4; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
-    private static final double driveKD= 0.07; //0.07; //Robot.kD.getDouble(0.0);//0.0;
+    private static final double driveKD= 0.015; //0.07; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches
     private static final double TURN_DEADBAND = 3; //degrees!
 
@@ -104,7 +104,7 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
             setInitialMechState(Mechanisms.MechanismStates.SHOOTING_AMP);
-            if(System.currentTimeMillis()-startTimeForState >=3000){
+            if(System.currentTimeMillis()-startTimeForState >=2100){
                 moveToNextState();
             }
         }else if(currentState.name == AutoStates.INTAKING_TIMED){
@@ -162,11 +162,11 @@ public class AutonomousBasePD extends AutonomousBase{
         } 
 
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
-        // double errorX = xController.getPositionError();
-        // double errorY = yController.getPositionError();
-        // double errorRotate = turnController.getPositionError();
+        double errorX = xController.getPositionError();
+        double errorY = yController.getPositionError();
+        double errorRotate = turnController.getPositionError();
         //System.out.println("Speed X: " + speedX + " Speed Y: " + speedY + " Speed R: " + speedRotate);
-        //System.out.println("error:" + errorX + ", " + errorY + ", " + errorRotate);
+        System.out.println("error:" + errorX + ", " + errorY + ", " + errorRotate);
     }
 
     private boolean xAtSetpoint(){
