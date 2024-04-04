@@ -9,7 +9,6 @@ import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
 import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
 
 public class Mechanisms {
-
     public ShooterSubsystem shooterSubsystem; //TODO: make private
     public IntakeSubsystem intakeSubsystem; //TODO: make private
     public SensorSubsystem sensorSubsystem;
@@ -27,10 +26,10 @@ public class Mechanisms {
         INTAKING_WITH_SPEAKER_WARMUP, //needed for auto only
         AMP_HOLDING,
         SUBWOOFER_HOLDING,
-        PODIUM_HOLDING,
+        //PODIUM_HOLDING,
         SHOOTING_AMP,
         SHOOTING_SUBWOOFER,
-        SHOOTING_PODIUM,
+        //SHOOTING_PODIUM,
         UNDER_STAGE,
         SWALLOWING,
         TESTING,
@@ -132,7 +131,7 @@ public class Mechanisms {
             pivotSubsystem.setState(PivotStates.UNDER_STAGE);     
         } else if (mechanismState == MechanismStates.OFF){
             //let pivot stay wherever it was before
-            //ledSubsystem.setPattern(BlinkinPattern.LIME); //COMMENTED OUT BECAUSE OF INTAKING
+            //let leds stay
             shooterSubsystem.setState(ShooterStates.OFF);
             intakeSubsystem.setState(IntakeStates.OFF);
         }else if (mechanismState == MechanismStates.FIXAMP){
