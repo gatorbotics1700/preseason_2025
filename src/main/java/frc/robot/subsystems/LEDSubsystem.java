@@ -16,7 +16,6 @@ public class LEDSubsystem {
         }  
     }
 
-  private LEDSubsystem m_controller = null;
   private Spark m_blinkin;
 
   public LEDSubsystem() {
@@ -26,11 +25,6 @@ public class LEDSubsystem {
 
   public void setPattern(BlinkinPattern pattern) {
     m_blinkin.set(pattern.value);
-  }
-
-  public LEDSubsystem getInstance() {
-    if (m_controller == null) m_controller = new LEDSubsystem();
-    return m_controller;
   }
      
 }
