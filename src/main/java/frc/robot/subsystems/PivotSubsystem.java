@@ -25,9 +25,9 @@ public class PivotSubsystem{
     private final double MANUAL_SPEED = 0.10;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
     private final double AMP_ANGLE = 0.0;
-    private final double SUBWOOFER_ANGLE = -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
-    //private final double PODIUM_ANGLE = -70.0;//-60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double UNDER_STAGE_ANGLE = -70.0;//-70.0;//25; //TODO: test
+    private final double SUBWOOFER_ANGLE = -55.0; //TODO test
+    //private final double PODIUM_ANGLE = -70.0;//-60.0; //NOT USED
+    private final double UNDER_STAGE_ANGLE = -70.0; //TODO test
     private double deadband = 2 * PIVOT_TICKS_PER_DEGREE;
     
     public static enum PivotStates{
@@ -69,7 +69,7 @@ public class PivotSubsystem{
         System.out.println("*************************************************************************" + pivot.getSelectedSensorPosition());
         //System.out.println("is at amp: " + atAmp());
         //System.out.println("is at subwoofer: " + atSubwoofer());
-        //System.out.println("is at stage: " + atStage());
+        //System.out.println("is at stage: " + atPodium());
         //System.out.println("is at under stage: " + atUnderStage());
         if(pivotState == PivotStates.AMP){
             setPivot(AMP_ANGLE);
@@ -104,6 +104,8 @@ public class PivotSubsystem{
         } else {
             pivot.set(ControlMode.PercentOutput, 0); 
         }
+
+        System.out.println("curr degrees: " + pivot.getSelectedSensorPosition / PIVOT_TICKS_PER_DEGREE);
     }
 
     public void setPivot(double desiredAngle){
@@ -141,7 +143,7 @@ public class PivotSubsystem{
         return (Math.abs(pivot.getSelectedSensorPosition()-(SUBWOOFER_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }
 
-    /*public boolean atStage(){
+    /*public boolean atPodium(){ //NOT USED
         return (Math.abs(pivot.getSelectedSensorPosition()-(PODIUM_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }*/
 

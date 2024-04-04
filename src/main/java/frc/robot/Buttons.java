@@ -82,20 +82,11 @@ public class Buttons {
                m_mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
           m_mechanismSubsystem.setState(MechanismStates.SUBWOOFER_HOLDING);
         }
-
-
-        //TESTING
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.SPEAKER);
-        //System.out.println("====LEFT BUMPER====PIVOT SPEAKER====");
       }
       
       if(OI.codriver.getRightBumper()){
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======RIGHT BUMPER====AMP HOLDING=======");
-
-        //TESTING
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP);
-        //System.out.println("====RIGHT BUMPER====PIVOT AMP====");
       }
 
       if(OI.codriver.getStartButtonPressed()){

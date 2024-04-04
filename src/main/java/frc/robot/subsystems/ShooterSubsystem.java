@@ -19,10 +19,10 @@ public class ShooterSubsystem {
     private TalonFX low;
 
     private final double AMP_MID_SPEED = 0.5;
-    private final double AMP_SPEED = 0.2; //35; //0.3; // DO NOT TOUCH THIS VALUE!!
-    private final double LOW_SHOOTING_SPEED = 0.7; //0.7;
-    private final double HIGH_SPEAKER_SPEED = 0.7; //0.7;
-    private final double MID_SPEAKER_SPEED = 0.7; //0.7;
+    private final double AMP_SPEED = 0.2;
+    private final double LOW_SHOOTING_SPEED = 0.7; 
+    private final double HIGH_SPEAKER_SPEED = 0.7;
+    private final double MID_SPEAKER_SPEED = 0.7;
     private final double LOW_INTAKING_SPEED = 0.3;
     private final double HIGH_STAGE_SPEED = 0.7; //watch current limits
     private final double MID_STAGE_SPEED = 0.7; //watch current limits
@@ -43,7 +43,7 @@ public class ShooterSubsystem {
     private ShooterStates currentShooterState;
 
     public ShooterSubsystem() {
-        high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);//TODO mid and high are KRAKENS!!!!
+        high = new TalonFX(Constants.SHOOTER_HIGH_CAN_ID);//mid and high are KRAKENS!!!!
         mid = new TalonFX(Constants.SHOOTER_MID_CAN_ID);
         low = new TalonFX(Constants.LOW_MOTOR_CAN_ID);
         
@@ -101,7 +101,7 @@ public class ShooterSubsystem {
             low.setControl(lowDutyCycleOut.withOutput(0));
         } else if(currentShooterState == ShooterStates.TESTING){
             //high.setControl(highDutyCycleOut.withOutput(TESTING_SPEED));
-            mid.setControl(midDutyCycleOut.withOutput(AMP_MID_SPEED));
+            //mid.setControl(midDutyCycleOut.withOutput(AMP_MID_SPEED));
             // low.setControl(lowDutyCycleOut.withOutput(TESTING_SPEED));
         }else{
             high.setControl(highDutyCycleOut.withOutput(0));
