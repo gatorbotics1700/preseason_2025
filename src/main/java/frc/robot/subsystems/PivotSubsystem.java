@@ -14,7 +14,7 @@ public class PivotSubsystem{
 
     private static final double _kP = 0.02;//0.025;//0.04;//TODO tune PID
     private static final double _kI = 0.0;
-    private static final double _kD = 0.005;
+    private static final double _kD = 0.019;
     private static final int _kIzone = 0; //not in use
     private static final double _kPeakOutput = 1.0; //not in use
 
@@ -25,26 +25,26 @@ public class PivotSubsystem{
     private final double MANUAL_SPEED = 0.10;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
     private final double AMP_ANGLE = 0.0;
-    private final double SUBWOOFER_ANGLE = -30.0;// -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double STAGE_ANGLE = -45.0;//-60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
-    private final double UNDER_STAGE_ANGLE = -75.0;//-70.0;//25; //TODO: test
+    private final double SUBWOOFER_ANGLE = -55.0;//THIS ANGLE IS GREAT DO NOT CHANGE
+    //private final double PODIUM_ANGLE = -70.0;//-60.0; //THIS ANGLE IS GREAT DO NOT CHANGE
+    private final double UNDER_STAGE_ANGLE = -70.0;//-70.0;//25; //TODO: test
     private double deadband = 2 * PIVOT_TICKS_PER_DEGREE;
     
     public static enum PivotStates{
         AMP,
+        FIX,
         SUBWOOFER,
-        PODIUM,
+       // PODIUM,
         UNDER_STAGE,
         MANUAL,
         PANIC_OFF;
-        //TODO add climb state?
     }
 
     public PivotSubsystem(){
         pivot = new TalonFX(Constants.PIVOT_MOTOR_CAN_ID);
+        pivot.setNeutralMode(NeutralMode.Brake);
         ampLimitSwitch = new DigitalInput(Constants.AMP_LIMIT_SWITCH_PORT); //check DIO port numbers
        // stageLimitSwitch = new DigitalInput(Constants.STAGE_LIMIT_SWITCH_PORT);
-
         init();
     }
 
@@ -73,10 +73,12 @@ public class PivotSubsystem{
         //System.out.println("is at under stage: " + atUnderStage());
         if(pivotState == PivotStates.AMP){
             setPivot(AMP_ANGLE);
+        }else if (pivotState == PivotStates.FIX){
+            setPivot(AMP_ANGLE- 4);
         }else if(pivotState == PivotStates.SUBWOOFER){
             setPivot(SUBWOOFER_ANGLE);
-        }else if(pivotState == PivotStates.PODIUM){
-            setPivot(STAGE_ANGLE);
+      /*  }else if(pivotState == PivotStates.PODIUM){
+            setPivot(PODIUM_ANGLE);          */
         }else if(pivotState == PivotStates.UNDER_STAGE){
             System.out.println("IN STAGE!!!!!!!!");
             setPivot(UNDER_STAGE_ANGLE); 
@@ -139,9 +141,9 @@ public class PivotSubsystem{
         return (Math.abs(pivot.getSelectedSensorPosition()-(SUBWOOFER_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
     }
 
-    public boolean atStage(){
-        return (Math.abs(pivot.getSelectedSensorPosition()-(STAGE_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
-    }
+    /*public boolean atStage(){
+        return (Math.abs(pivot.getSelectedSensorPosition()-(PODIUM_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);
+    }*/
 
     public boolean atUnderStage(){
         return (Math.abs(pivot.getSelectedSensorPosition()-(UNDER_STAGE_ANGLE*PIVOT_TICKS_PER_DEGREE)) < deadband);

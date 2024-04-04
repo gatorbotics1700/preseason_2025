@@ -37,11 +37,8 @@ public class Buttons {
 
     //CODRIVER
       if (OI.codriver.getXButton()){
-        m_mechanismSubsystem.setState(MechanismStates.PODIUM_HOLDING);
-        System.out.println("===========X BUTTON========STAGE TO SPEAKER=========");
-        //TESTING
-        //System.out.println("====X BUTTON PRESSED====PIVOT STAGE====");
-        //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.STAGE);
+        m_mechanismSubsystem.setState(MechanismStates.UNDER_STAGE);
+        System.out.println("===========X BUTTON======= UNDER STAGE =========");
       }
 
       if (OI.codriver.getYButton()){ //all off mech
@@ -117,6 +114,9 @@ public class Buttons {
           System.out.println("========SWALLOWING NOTE BACK IN========");
           m_mechanismSubsystem.setState(MechanismStates.SWALLOWING);
         }
+      }
+      if(OI.codriver.getPOV() > 45 && OI.codriver.getPOV() < 115){
+          m_mechanismSubsystem.setState(MechanismStates.FIXAMP);
       }
   }
 }

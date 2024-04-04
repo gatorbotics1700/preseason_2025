@@ -31,9 +31,11 @@ public class Mechanisms {
         SHOOTING_AMP,
         SHOOTING_SUBWOOFER,
         SHOOTING_PODIUM,
+        UNDER_STAGE,
         SWALLOWING,
         TESTING,
         MANUAL,
+        FIXAMP,
         OFF;
     }
 
@@ -51,19 +53,22 @@ public class Mechanisms {
         intakeSubsystem.init();
         pivotSubsystem.init();
         sensorSubsystem.init();
+        ledSubsystem.setPattern(BlinkinPattern.LIME);
         setState(MechanismStates.OFF);
     }
 
     public void periodic(){
         System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
-            ledSubsystem.setPattern(BlinkinPattern.LIME);
             //System.out.println("**************intaking*************");
             pivotSubsystem.setState(PivotStates.AMP); //need to be at amp angle in order to intake
             intakeSubsystem.setState(IntakeStates.INTAKING);
             shooterSubsystem.setState(ShooterStates.INTAKING);
             if (sensorSubsystem.detectNote()){
+                ledSubsystem.setPattern(BlinkinPattern.RED_ORANGE);
                 setState(MechanismStates.OFF);      
+            }else{
+                ledSubsystem.setPattern(BlinkinPattern.LIME);
             }
         } else if (mechanismState == MechanismStates.INTAKING_WITH_SPEAKER_WARMUP){ //just for auto
             ledSubsystem.setPattern(BlinkinPattern.LIME);
@@ -84,12 +89,12 @@ public class Mechanisms {
             pivotSubsystem.setState(PivotStates.SUBWOOFER);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
-        }else if (mechanismState == MechanismStates.PODIUM_HOLDING){
+        }/*else if (mechanismState == MechanismStates.PODIUM_HOLDING){
             ledSubsystem.setPattern(BlinkinPattern.RED_ORANGE);
             pivotSubsystem.setState(PivotStates.PODIUM);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SPEAKER_HOLDING);
-        } else if(mechanismState == MechanismStates.SHOOTING_AMP){
+        } */else if(mechanismState == MechanismStates.SHOOTING_AMP){
             ledSubsystem.setPattern(BlinkinPattern.LIME);
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
@@ -104,7 +109,7 @@ public class Mechanisms {
               //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 setState(MechanismStates.INTAKING);
             }
-        }else if(mechanismState == MechanismStates.SHOOTING_PODIUM){
+        }/*else if(mechanismState == MechanismStates.SHOOTING_PODIUM){
             ledSubsystem.setPattern(BlinkinPattern.LIME);
             pivotSubsystem.setState(PivotStates.PODIUM);
             intakeSubsystem.setState(IntakeStates.OFF);
@@ -114,19 +119,24 @@ public class Mechanisms {
               //  System.out.println("++++++++++SETTING INTAKING+++++++++");
                 setState(MechanismStates.INTAKING);
             }
-        } else if(mechanismState == MechanismStates.SWALLOWING){
+        }*/ else if(mechanismState == MechanismStates.SWALLOWING){
             ledSubsystem.setPattern(BlinkinPattern.PURPLE);
             pivotSubsystem.setState(PivotStates.AMP);
             intakeSubsystem.setState(IntakeStates.OFF);
             shooterSubsystem.setState(ShooterStates.SWALLOWING);
             if (sensorSubsystem.detectNote()){ //|| sensorSubsystem.isBeamBroken()){ // once note is in place, set back to holding
                 setState(MechanismStates.OFF);      
-            }        
+            }   
+        }else if(mechanismState == MechanismStates.UNDER_STAGE){
+            //everything else stays where it was
+            pivotSubsystem.setState(PivotStates.UNDER_STAGE);     
         } else if (mechanismState == MechanismStates.OFF){
             //let pivot stay wherever it was before
-            ledSubsystem.setPattern(BlinkinPattern.LIME);
+            //ledSubsystem.setPattern(BlinkinPattern.LIME); //COMMENTED OUT BECAUSE OF INTAKING
             shooterSubsystem.setState(ShooterStates.OFF);
             intakeSubsystem.setState(IntakeStates.OFF);
+        }else if (mechanismState == MechanismStates.FIXAMP){
+            pivotSubsystem.setState(PivotStates.FIX);
         }else if (mechanismState == MechanismStates.TESTING){
             //pivotSubsystem.setState(PivotStates.MANUAL);
             shooterSubsystem.setState(ShooterStates.TESTING);
