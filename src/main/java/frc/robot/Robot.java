@@ -55,8 +55,6 @@ public class Robot extends TimedRobot {
         auto_chooser.setDefaultOption("PD testPath", Paths.AUTO_OPTIONS.PD_TESTPATH);
         //red paths
         auto_chooser.addOption("noGo-R!", Paths.AUTO_OPTIONS.R_NO_GO);
-        auto_chooser.addOption("R-3 Piece 1", Paths.AUTO_OPTIONS.R_THREE_PIECE_1);
-        auto_chooser.addOption("R-3 Piece 2", Paths.AUTO_OPTIONS.R_THREE_PIECE_2);
         auto_chooser.addOption("R-3 Piece 3 Top", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_TOP);
         auto_chooser.addOption("R-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.R_THREE_PIECE_3_BOTTOM);
         auto_chooser.addOption("R-Fallback 1", Paths.AUTO_OPTIONS.R_FALLBACK_1);
@@ -72,8 +70,6 @@ public class Robot extends TimedRobot {
 
         //blue paths
         auto_chooser.addOption("noGo-B!", Paths.AUTO_OPTIONS.B_NO_GO);
-        auto_chooser.addOption("B-3 Piece 1", Paths.AUTO_OPTIONS.B_THREE_PIECE_1);
-        auto_chooser.addOption("B-3 Piece 2", Paths.AUTO_OPTIONS.B_THREE_PIECE_2);
         auto_chooser.addOption("B-3 Piece 3 Top", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_TOP);
         auto_chooser.addOption("B-3 Piece 3 Bottom", Paths.AUTO_OPTIONS.B_THREE_PIECE_3_BOTTOM);
         auto_chooser.addOption("B-Fallback 1", Paths.AUTO_OPTIONS.B_FALLBACK_1);

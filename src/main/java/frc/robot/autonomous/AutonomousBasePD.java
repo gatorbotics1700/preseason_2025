@@ -15,7 +15,7 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
 // //mcqueen
-    private static final double turnKP= 0.12; //0.2; //increased slight *** not tested
+    private static final double turnKP= 0.125; //0.2; //increased slight *** not tested
     private static final double turnKI= 0.0; 
     private static final double turnKD= 0.0055; //0.02;
     private static final double driveKP= 3.45; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
@@ -79,7 +79,7 @@ public class AutonomousBasePD extends AutonomousBase{
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
-            setInitialMechState(Mechanisms.MechanismStates.INTAKING_WITH_AMP_WARMUP);
+            setInitialMechState(Mechanisms.MechanismStates.INTAKING);
             driveToLocation(currentState.coordinate);
             if(robotAtSetpoint() && (System.currentTimeMillis() - startTimeForState >= 2000)){
                 moveToNextState(); //move on regardless of whether or not we have a note

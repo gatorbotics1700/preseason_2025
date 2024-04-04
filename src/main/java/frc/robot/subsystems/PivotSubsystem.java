@@ -27,7 +27,7 @@ public class PivotSubsystem{
     private final double AMP_ANGLE = 0.0;
     private final double SUBWOOFER_ANGLE = -55.0; //TODO test
     //private final double PODIUM_ANGLE = -70.0;//-60.0; //NOT USED
-    private final double UNDER_STAGE_ANGLE = -70.0; //TODO test
+    private final double UNDER_STAGE_ANGLE = -96.0; //TODO test
     private double deadband = 2 * PIVOT_TICKS_PER_DEGREE;
     
     public static enum PivotStates{
@@ -105,7 +105,7 @@ public class PivotSubsystem{
             pivot.set(ControlMode.PercentOutput, 0); 
         }
 
-        System.out.println("curr degrees: " + pivot.getSelectedSensorPosition / PIVOT_TICKS_PER_DEGREE);
+        System.out.println("curr degrees: " + pivot.getSelectedSensorPosition() / PIVOT_TICKS_PER_DEGREE);
     }
 
     public void setPivot(double desiredAngle){
