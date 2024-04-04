@@ -15,10 +15,10 @@ import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
 // //mcqueen
-    private static final double turnKP= 0.11; //0.2; //increased slight *** not tested
+    private static final double turnKP= 0.12; //0.2; //increased slight *** not tested
     private static final double turnKI= 0.0; 
     private static final double turnKD= 0.0055; //0.02;
-    private static final double driveKP= 3.4; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
+    private static final double driveKP= 3.45; //3.5; //Robot.kP.getDouble(0.00006);//0.00006;
     private static final double driveKI= 0.0; //Robot.kI.getDouble(0.0);//0.0;
     private static final double driveKD= 0.015; //0.07; //Robot.kD.getDouble(0.0);//0.0;
     private static final double DRIVE_DEADBAND = 3 * Constants.METERS_PER_INCH; //meters - previously 3 inches

@@ -115,8 +115,5 @@ public class Buttons {
           m_mechanismSubsystem.setState(MechanismStates.SWALLOWING);
         }
       }
-      if(OI.codriver.getPOV() > 45 && OI.codriver.getPOV() < 115){
-          m_mechanismSubsystem.setState(MechanismStates.FIXAMP);
-      }
   }
 }
