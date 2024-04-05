@@ -527,8 +527,9 @@ public class Paths {
                     new PDState(AutoStates.DRIVE_WITH_INTAKING, new Pose2d(R_INTAKING_X-2*Constants.METERS_PER_INCH, TOP_NOTE_Y, RED_DRIVERSTATION)), //INTAKE
                     new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(R_INTAKING_X-2*Constants.METERS_PER_INCH, TOP_NOTE_Y, AMP_ANGLE)), //turn
                     new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), TOP_NOTE_Y, AMP_ANGLE)), //move x
-                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), AMP_ENDING_Y - (0*Constants.METERS_PER_INCH), AMP_ANGLE)), //move y
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), AMP_ENDING_Y, AMP_ANGLE)), //move y
                     new PDState(AutoStates.SHOOTING_AMP),
+                    new PDState(AutoStates.DRIVE_MECH_OFF, new Pose2d(R_AMP_X + (4*Constants.METERS_PER_INCH), AMP_ENDING_Y, RED_DRIVERSTATION)), //rotate to set true north
                     new PDState(AutoStates.STOP)
                 }
             );
