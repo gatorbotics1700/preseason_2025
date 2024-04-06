@@ -93,8 +93,8 @@ public class AutonomousBasePD extends AutonomousBase{
                 System.out.println("REACHED SETPOINT");
             }
         } else if(currentState.name == AutoStates.HOLDING_TIMED){ //for preloaded note where shooter might not have warmed up
-            setInitialMechState(Mechanisms.MechanismStates.SUBWOOFER_HOLDING);
-            if(System.currentTimeMillis()-startTimeForState >= 1750){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
+            setInitialMechState(Mechanisms.MechanismStates.AMP_HOLDING);
+            if(System.currentTimeMillis()-startTimeForState >= 1000){ //TODO: maybe lower time - if we have alr shot it should be warmed up to a degree so lower to 1 sec?
                 moveToNextState();
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up

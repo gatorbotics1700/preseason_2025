@@ -9,7 +9,9 @@ public class LEDSubsystem {
         RAINBOW_PARTY_PALETTE(-0.97),
         RED_ORANGE(+0.62), //good
         LIME(+0.73), //good
-        PURPLE(+0.91); //test
+        PURPLE(+0.91), //test
+        PINK(+0.57),
+        BLUE(+0.83);
         public final double value;
         private BlinkinPattern(double value) {
           this.value = value;

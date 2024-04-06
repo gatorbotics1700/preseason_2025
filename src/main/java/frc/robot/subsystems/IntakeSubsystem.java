@@ -38,7 +38,7 @@ public class IntakeSubsystem {
     }
 
     public void periodic() {
-        System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
+        //System.out.println("CURRENT INTAKE STATE IS: " + intakeState);
         if(intakeState == IntakeStates.INTAKING) {
             //System.out.println("***********INTAKING*************");
             intakeMotor.setControl(dutyCycleOut.withOutput(INTAKE_SPEED));

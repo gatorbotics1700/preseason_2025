@@ -62,7 +62,7 @@ public class ShooterSubsystem {
     }
 
     public void periodic(){
-        System.out.println("CURRENT SHOOTER STATE: " + currentShooterState);
+        //System.out.println("CURRENT SHOOTER STATE: " + currentShooterState);
         if (currentShooterState == ShooterStates.INTAKING){
             high.setControl(highDutyCycleOut.withOutput(0));
             mid.setControl(midDutyCycleOut.withOutput(0));
