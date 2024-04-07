@@ -37,6 +37,7 @@ public class ShooterSubsystem {
         AMP_WARMUP,
         SPEAKER_SHOOTING,
         SWALLOWING,
+        VOMIT,
         TESTING; 
     }
 
@@ -94,8 +95,13 @@ public class ShooterSubsystem {
         } else if(currentShooterState == ShooterStates.SWALLOWING){ 
             high.setControl(highDutyCycleOut.withOutput(-AMP_MID_SPEED)); // TODO double check if we need high running - prob good idea in case note gets stuck between high and mid
             mid.setControl(midDutyCycleOut.withOutput(AMP_MID_SPEED));
-            low.setControl(lowDutyCycleOut.withOutput(-AMP_SPEED));    
-        } else if(currentShooterState == ShooterStates.OFF){
+            low.setControl(lowDutyCycleOut.withOutput(-AMP_SPEED)); 
+            
+        }else if(currentShooterState == ShooterStates.VOMIT){
+            high.setControl(highDutyCycleOut.withOutput(0)); 
+            mid.setControl(midDutyCycleOut.withOutput(0));
+            low.setControl(lowDutyCycleOut.withOutput(-LOW_INTAKING_SPEED));
+        }else if(currentShooterState == ShooterStates.OFF){
             high.setControl(highDutyCycleOut.withOutput(0));
             mid.setControl(midDutyCycleOut.withOutput(0));
             low.setControl(lowDutyCycleOut.withOutput(0));

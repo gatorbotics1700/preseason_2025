@@ -16,8 +16,13 @@ public class Buttons {
   
   public void buttonsPeriodic(){
     //DRIVER
-      if (OI.driver.getLeftBumper()){
+      if (OI.driver.getXButtonPressed()){
          m_drivetrainSubsystem.stopDrive(); 
+      }
+
+      if(OI.driver.getLeftBumperPressed()){
+        m_mechanismSubsystem.setState(MechanismStates.VOMIT);
+        System.out.println("=======LEFT BUMPER====VOMIT=======");
       }
 
       if(OI.driver.getStartButton()){

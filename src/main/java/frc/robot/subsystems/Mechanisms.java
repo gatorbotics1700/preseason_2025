@@ -32,6 +32,7 @@ public class Mechanisms {
         //SHOOTING_PODIUM,
         UNDER_STAGE,
         SWALLOWING,
+        VOMIT,
         TESTING,
         MANUAL,
         FIXAMP,
@@ -134,6 +135,10 @@ public class Mechanisms {
             //let leds stay
             shooterSubsystem.setState(ShooterStates.OFF);
             intakeSubsystem.setState(IntakeStates.OFF);
+        }else if(mechanismState == MechanismStates.VOMIT){
+            shooterSubsystem.setState(ShooterStates.VOMIT);
+            intakeSubsystem.setState(IntakeStates.VOMIT);
+            pivotSubsystem.setState(PivotStates.AMP);
         }else if (mechanismState == MechanismStates.FIXAMP){
             pivotSubsystem.setState(PivotStates.FIX);
         }else if (mechanismState == MechanismStates.TESTING){

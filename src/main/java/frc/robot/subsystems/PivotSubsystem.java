@@ -14,7 +14,7 @@ public class PivotSubsystem{
 
     private static final double _kP = 0.02;//0.025;//0.04;//TODO tune PID
     private static final double _kI = 0.0;
-    private static final double _kD = 0.02;
+    private static final double _kD = 0.019;
     private static final int _kIzone = 0; //not in use
     private static final double _kPeakOutput = 1.0; //not in use
 

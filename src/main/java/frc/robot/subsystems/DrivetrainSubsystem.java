@@ -163,14 +163,18 @@ public class DrivetrainSubsystem {
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
       
       System.out.println("assigning a value to positionManager");
-      positionManager = new SwerveDrivePoseEstimator(
-         kinematics, 
-         getGyroscopeRotation(), 
-         getModulePositionArray(), 
-         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
-      ); 
-      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
+     
+      if (positionManager == null){
+         positionManager = new SwerveDrivePoseEstimator(
+            kinematics, 
+            getGyroscopeRotation(), 
+            getModulePositionArray(), 
+            new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
+         ); 
+         System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
 
+      }
+      
       slowDrive = false;
    }
   
@@ -365,6 +369,9 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
+
+      positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))));
+      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
    }
    
 }
