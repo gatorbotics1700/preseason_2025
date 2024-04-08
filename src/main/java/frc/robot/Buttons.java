@@ -31,6 +31,10 @@ public class Buttons {
         m_drivetrainSubsystem.onEnable();
       }
 
+      if(OI.driver.getBButtonPressed()){
+        m_drivetrainSubsystem.flippedDrive = !m_drivetrainSubsystem.flippedDrive;
+      }
+
       if(OI.driver.getRightBumperPressed()){
         if(m_drivetrainSubsystem.getSlowDrive()){
           m_drivetrainSubsystem.setSlowDrive(false);

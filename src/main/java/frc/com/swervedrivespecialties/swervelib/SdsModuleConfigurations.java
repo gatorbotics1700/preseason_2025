@@ -23,7 +23,7 @@ public final class SdsModuleConfigurations {
             (15.0 / 32.0) * (10.0 / 60.0),
             true
     );
-    public static final ModuleConfiguration MK4_L2 = new ModuleConfiguration(
+    public static final ModuleConfiguration MK4_L2 = new ModuleConfiguration( //CHANGED FROM TRUE IN DRIVE AND STEER
             0.10033,
             (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0),
             true, 
