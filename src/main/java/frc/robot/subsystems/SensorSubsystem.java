@@ -13,7 +13,7 @@ public class SensorSubsystem {
     private ColorSensorV3 colorSensor;
     //private DigitalInput beambreak;
     private final ColorMatch m_colorMatcher = new ColorMatch();
-    private final Color NOTE_COLOR = new Color(98, 106, 50);
+    private final Color NOTE_COLOR = new Color(94, 106, 55);//(94, 106, 55);//98, 106, 50 //98, 106, 50 //champs: 
     private final double COLOR_THRESHOLD = 0.15;//0.12; //CALIBRATE AT COMPS 
     //Hex value converted to a fraction between 0 and 1; it's essentially the percentage of the color spectrum that we are allowing 
     //TODO: confirm COLOR_THRESHOLD
@@ -27,9 +27,9 @@ public class SensorSubsystem {
     }
 
     public void init(){
-        System.out.println("sensor init");
+        //System.out.println("sensor init"); //comment ouot prints post calibration 
         m_colorMatcher.addColorMatch(NOTE_COLOR);
-        System.out.println(colorSensor.getColor());
+        //System.out.println(colorSensor.getColor());
     }
 
     public boolean detectNote(){
@@ -41,10 +41,10 @@ public class SensorSubsystem {
         boolean blueThreshold = (Math.abs(detectedColor.blue-NOTE_COLOR.blue) <= COLOR_THRESHOLD);
 
         if(redThreshold && greenThreshold && blueThreshold) {
-            //System.out.println("WE'VE HIT THAT NOTE!!");
+           // System.out.println("WE'VE HIT THAT NOTE!!");
             return true;
         } else {
-            //System.out.println("We don't see the note");
+          //  System.out.println("We don't see the note");
             return false;
         }
 

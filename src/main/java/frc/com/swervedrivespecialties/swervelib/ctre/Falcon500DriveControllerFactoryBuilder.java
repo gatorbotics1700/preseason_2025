@@ -81,16 +81,30 @@ public final class Falcon500DriveControllerFactoryBuilder {
             motor.setNeutralMode(NeutralModeValue.Brake);
 
             if(moduleConfiguration.isDriveInverted() == true){
+
                 motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
-                talonFXConfigurator.apply(motorOutputConfigs);
+                System.out.println("-------------------------------------------------------------");
+                for(int i = 0; i < 5; i++){
+                    haveError =  CtreUtils.checkCtreError(talonFXConfigurator.apply(motorOutputConfigs), "Failed to configure Falcon 500"); //added can timeout on 03/03
+                    if(!haveError){
+                        break;
+                    }
+                }
                 motor.setNeutralMode(NeutralModeValue.Brake);
 
             }else{
-                 motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
-                talonFXConfigurator.apply(motorOutputConfigs);
+                motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
+                System.out.println("*****************************************************************************");
+                for(int i = 0; i < 5; i++){
+                    haveError =  CtreUtils.checkCtreError(talonFXConfigurator.apply(motorOutputConfigs), "Failed to configure Falcon 500"); //added can timeout on 03/03
+                    if(!haveError){
+                        break;
+                    }
+                }               
                 motor.setNeutralMode(NeutralModeValue.Brake);
 
             }
+            motor.optimizeBusUtilization();
         
             // Reduce CAN status frame rates
             CtreUtils.checkCtreError(

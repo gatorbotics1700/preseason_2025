@@ -16,14 +16,23 @@ public class Buttons {
   
   public void buttonsPeriodic(){
     //DRIVER
-      if (OI.driver.getLeftBumper()){
+      if (OI.driver.getXButtonPressed()){
          m_drivetrainSubsystem.stopDrive(); 
       }
 
-      if(OI.driver.getStartButton()){
+      if(OI.driver.getLeftBumperPressed()){
+        m_mechanismSubsystem.setState(MechanismStates.VOMIT);
+        System.out.println("=======LEFT BUMPER====VOMIT=======");
+      }
+
+      if(OI.driver.getStartButtonPressed()){ //should be PRESSED
         System.out.println("=======START BUTTON====REMAKING DRIVETRAIN=======");
         m_drivetrainSubsystem.resetOffsets();
         m_drivetrainSubsystem.onEnable();
+      }
+
+      if(OI.driver.getBButtonPressed()){
+        m_drivetrainSubsystem.flippedDrive = !m_drivetrainSubsystem.flippedDrive;
       }
 
       if(OI.driver.getRightBumperPressed()){
@@ -36,17 +45,17 @@ public class Buttons {
       
 
     //CODRIVER
-      if (OI.codriver.getXButton()){
+      if (OI.codriver.getXButtonPressed()){
         m_mechanismSubsystem.setState(MechanismStates.UNDER_STAGE);
         System.out.println("===========X BUTTON======= UNDER STAGE =========");
       }
 
-      if (OI.codriver.getYButton()){ //all off mech
+      if (OI.codriver.getYButtonPressed()){ //all off mech
         m_mechanismSubsystem.setState(MechanismStates.OFF);
         System.out.println("=======Y BUTTON====ALL OFF MECH=======");
       }
 
-      if (OI.codriver.getAButton()){  //amp/speaker shooting
+      if (OI.codriver.getAButtonPressed()){  //amp/speaker shooting
         if(m_mechanismSubsystem.getMechanismState() == MechanismStates.AMP_HOLDING){
           m_mechanismSubsystem.setState(MechanismStates.SHOOTING_AMP);
           System.out.println("=====A BUTTON=====SHOOTING IN AMP!!");
@@ -71,7 +80,7 @@ public class Buttons {
         }
       }
 
-      if(OI.codriver.getLeftBumper()){
+      if(OI.codriver.getLeftBumperPressed()){
         // //sets state to off so the motors don't immediately go the other way from amp holding
         // //then warms up speaker motors (codriver has to click twice)
         ////this button works under the assumption that the driver will primarily go to amp
@@ -84,7 +93,8 @@ public class Buttons {
         }
       }
       
-      if(OI.codriver.getRightBumper()){
+      if(OI.codriver.getRightBumperPressed()){
+        //TODO: determine whether we want to apply the same logic as getLeftBumperPressed
         m_mechanismSubsystem.setState(MechanismStates.AMP_HOLDING);
         System.out.println("=======RIGHT BUMPER====AMP HOLDING=======");
       }

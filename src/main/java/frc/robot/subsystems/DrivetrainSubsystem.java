@@ -38,6 +38,8 @@ public class DrivetrainSubsystem {
    public static final double MIN_VELOCITY_METERS_PER_SECOND = 0.15;
    //public static final double MIN_VELOCITY_METERS_PER_SECOND = 1.5; //TODO: fix dummy value
 
+   public boolean flippedDrive;
+
   /* The formula for calculating the theoretical maximum velocity is:
    * <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
    * The maximum velocity of the robot in meters per second.
@@ -144,6 +146,7 @@ public class DrivetrainSubsystem {
 
    public void onEnable(){
       System.out.println("Initializing drivetrain subsystem vars");
+      flippedDrive = false;
       /* 
        * Positive x values represent moving toward the front of the robot whereas positive y values represent moving toward the left of the robot.
        * Setting up location of modules relative to the center of the robot 
@@ -163,14 +166,18 @@ public class DrivetrainSubsystem {
       chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
       
       System.out.println("assigning a value to positionManager");
-      positionManager = new SwerveDrivePoseEstimator(
-         kinematics, 
-         getGyroscopeRotation(), 
-         getModulePositionArray(), 
-         new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
-      ); 
-      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
+     
+      if (positionManager == null){
+         positionManager = new SwerveDrivePoseEstimator(
+            kinematics, 
+            getGyroscopeRotation(), 
+            getModulePositionArray(), 
+            new Pose2d(0, 0, new Rotation2d(Math.toRadians(180)))
+         ); 
+         System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
 
+      }
+      
       slowDrive = false;
    }
   
@@ -205,9 +212,16 @@ public class DrivetrainSubsystem {
       DoubleSupplier translationYSupplier;
       DoubleSupplier rotationSupplier;
       //TODO: check negative signs
-      translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-      rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
+      if(flippedDrive){ //flipped (NOT ROTATION)
+         translationXSupplier = () -> modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+         translationYSupplier = () -> modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+         rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
+      }else{ //normal
+         translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+         translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+         rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
+      
+      }
       setSpeed(
          ChassisSpeeds.fromFieldRelativeSpeeds(
             translationXSupplier.getAsDouble(),
@@ -365,6 +379,9 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
+
+      positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))));
+      System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
    }
    
 }

@@ -64,9 +64,9 @@ public class PivotSubsystem{
     }
 
     public void periodic(){
-        System.out.println("CURRENT PIVOT STATE: " + pivotState);
+        //System.out.println("CURRENT PIVOT STATE: " + pivotState);
         //System.out.println("position ticks: " + pivot.getSelectedSensorPosition());//prints O.0
-        System.out.println("*************************************************************************" + pivot.getSelectedSensorPosition());
+        //System.out.println("*************************************************************************" + pivot.getSelectedSensorPosition());
         //System.out.println("is at amp: " + atAmp());
         //System.out.println("is at subwoofer: " + atSubwoofer());
         //System.out.println("is at stage: " + atPodium());
@@ -80,7 +80,7 @@ public class PivotSubsystem{
       /*  }else if(pivotState == PivotStates.PODIUM){
             setPivot(PODIUM_ANGLE);          */
         }else if(pivotState == PivotStates.UNDER_STAGE){
-            System.out.println("IN STAGE!!!!!!!!");
+            //System.out.println("IN STAGE!!!!!!!!");
             setPivot(UNDER_STAGE_ANGLE); 
         }else if(pivotState == PivotStates.MANUAL){
             manual();
@@ -93,28 +93,28 @@ public class PivotSubsystem{
     }
     
     public void manual() {
-        System.out.println("amp: " + getAmpLimitSwitch());
+        //System.out.println("amp: " + getAmpLimitSwitch());
        // System.out.println("stage: " + getStageLimitSwitch());
         if((OI.getCodriverRightAxis() < -0.2) && !ampLimitSwitch.get()){
-            System.out.println("+++++++++++IN MANUAL++++++++++");
+            //System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, -MANUAL_SPEED);    
         } else if((OI.getCodriverRightAxis() > 0.2) ){//&& !stageLimitSwitch.get()){
-            System.out.println("+++++++++++IN MANUAL++++++++++");
+            //System.out.println("+++++++++++IN MANUAL++++++++++");
             pivot.set(ControlMode.PercentOutput, MANUAL_SPEED);  
         } else {
             pivot.set(ControlMode.PercentOutput, 0); 
         }
 
-        System.out.println("curr degrees: " + pivot.getSelectedSensorPosition() / PIVOT_TICKS_PER_DEGREE);
+        //System.out.println("curr degrees: " + pivot.getSelectedSensorPosition() / PIVOT_TICKS_PER_DEGREE);
     }
 
     public void setPivot(double desiredAngle){
         double desiredTicks = desiredAngle * PIVOT_TICKS_PER_DEGREE; //calculates right ticks
-        System.out.println("desiredTicks: " + desiredTicks);
+        //System.out.println("desiredTicks: " + desiredTicks);
         double diff = desiredTicks - pivot.getSelectedSensorPosition();
-        System.out.println("diff: " + diff);
+        //System.out.println("diff: " + diff);
         //System.out.println("stage limit switch: " + stageLimitSwitch.get()); 
-        System.out.println("amp limit switch: " + ampLimitSwitch.get());
+        //System.out.println("amp limit switch: " + ampLimitSwitch.get());
         //boolean runningIntoStage = diff<0 && stageLimitSwitch.get();
         boolean runningIntoAmp = diff>0 && ampLimitSwitch.get();
 
@@ -122,7 +122,7 @@ public class PivotSubsystem{
         if (/*runningIntoStage ||*/ runningIntoAmp || Math.abs(diff)<deadband){
             pivot.set(ControlMode.PercentOutput, 0);
         } else { //sets motor to right ticks
-            System.out.println("setting PID");
+            //System.out.println("setting PID");
             pivot.set(ControlMode.Position, Math.signum(diff) * desiredTicks);
         }
     }
