@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
 
-import com.ctre.phoenix6.mechanisms.MechanismState;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,6 +10,7 @@ import frc.robot.autonomous.PDState.AutoStates;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.Mechanisms;
 import frc.robot.subsystems.Mechanisms.MechanismStates;
+import frc.robot.subsystems.PivotSubsystem;
 import frc.robot.subsystems.PivotSubsystem.PivotStates;
 
 public class AutonomousBasePD extends AutonomousBase{
@@ -60,7 +60,7 @@ public class AutonomousBasePD extends AutonomousBase{
         turnController.enableContinuousInput(-180, 180); //turn controller reads rotation from 0 to 360 degrees 
         stateIndex = 0;
         startTimeForState = System.currentTimeMillis();
-        mechanismSubsystem.pivotSubsystem.setState(PivotStates.SUBWOOFER);
+        mechanismSubsystem.pivotSubsystem.setState(PivotSubsystem.PivotStates.AMP);
         isFirstTimeInState = true;
     }
 
@@ -69,26 +69,27 @@ public class AutonomousBasePD extends AutonomousBase{
     {
         currentState = stateSequence[stateIndex];
         //System.out.println("===========================================STATE: " + currentState.name + " ==========================================="); 
-
+        System.out.println("pos: " + drivetrainSubsystem.getPose());
         if(currentState.name == AutoStates.FIRST){ 
             drivetrainSubsystem.getPositionManager().resetPosition(drivetrainSubsystem.getGyroscopeRotation(), drivetrainSubsystem.getModulePositionArray(), getStartingPose());//modifiedStartingCoordinate); //TODO: test this to make sure it works when using the getter for starting coordinate
             mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
             turnController.setTolerance(TURN_DEADBAND); 
             xController.setTolerance(DRIVE_DEADBAND);
             yController.setTolerance(DRIVE_DEADBAND);
+            System.out.println("pose**************************:" + drivetrainSubsystem.getPose());
             moveToNextState();
             return; //first is a pass through state, we don't have to call drive we can just move on
         } else if(currentState.name == AutoStates.DRIVE_WITH_INTAKING){
             setInitialMechState(Mechanisms.MechanismStates.INTAKING);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint() && (System.currentTimeMillis() - startTimeForState >= 2000)){
+            if((robotAtSetpoint() && (System.currentTimeMillis() - startTimeForState >= 2000)) || System.currentTimeMillis()-startTimeForState >=5000){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
         } else if (currentState.name == AutoStates.DRIVE_WITH_HOLDING_SPEAKER){
             setInitialMechState(Mechanisms.MechanismStates.SUBWOOFER_HOLDING);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.atSubwoofer()){
+            if((robotAtSetpoint() && mechanismSubsystem.pivotSubsystem.atSubwoofer()) || ( mechanismSubsystem.pivotSubsystem.atSubwoofer() && System.currentTimeMillis()-startTimeForState >=5000)){
                 moveToNextState(); //move on regardless of whether or not we have a note
                 System.out.println("REACHED SETPOINT");
             }
@@ -99,12 +100,12 @@ public class AutonomousBasePD extends AutonomousBase{
             }
         } else if(currentState.name == AutoStates.SHOOTING_SPEAKER){ //assumes we have alr warmed up
             setInitialMechState(Mechanisms.MechanismStates.SHOOTING_SUBWOOFER);
-            if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING){
+            if(mechanismSubsystem.getMechanismState() == MechanismStates.INTAKING || System.currentTimeMillis()-startTimeForState >=5000){
                 moveToNextState();
             }
         }else if(currentState.name == AutoStates.SHOOTING_AMP){
             setInitialMechState(Mechanisms.MechanismStates.SHOOTING_AMP);
-            if(System.currentTimeMillis()-startTimeForState >=2100){
+            if(System.currentTimeMillis()-startTimeForState >=3000){
                 moveToNextState();
             }
         }else if(currentState.name == AutoStates.INTAKING_TIMED){
@@ -115,11 +116,12 @@ public class AutonomousBasePD extends AutonomousBase{
         } else if(currentState.name == AutoStates.STOP){
             drivetrainSubsystem.stopDrive();
             mechanismSubsystem.setState(Mechanisms.MechanismStates.OFF);
+            mechanismSubsystem.pivotSubsystem.setState(PivotStates.AMP); //new
             //System.out.println("stopped in auto");
         } else if(currentState.name == AutoStates.DRIVE_MECH_OFF){
             setInitialMechState(Mechanisms.MechanismStates.OFF);
             driveToLocation(currentState.coordinate);
-            if(robotAtSetpoint()){
+            if(robotAtSetpoint()){//||System.currentTimeMillis()-startTimeForState >=5000){
                 moveToNextState();
             }
         } else {
@@ -164,6 +166,8 @@ public class AutonomousBasePD extends AutonomousBase{
         drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(speedX, speedY, speedRotate, drivetrainSubsystem.getPoseRotation()));  
         double errorX = xController.getPositionError();
         double errorY = yController.getPositionError();
+        System.out.println("setpoint y: " + yController.getSetpoint());
+
         double errorRotate = turnController.getPositionError();
         //System.out.println("Speed X: " + speedX + " Speed Y: " + speedY + " Speed R: " + speedRotate);
         System.out.println("error:" + errorX + ", " + errorY + ", " + errorRotate);

@@ -22,7 +22,7 @@ public class PivotSubsystem{
     private PivotStates pivotState;
 
     private final double PIVOT_TICKS_PER_DEGREE = 2048 * 100 / 360;
-    private final double MANUAL_SPEED = 0.10;
+    private final double MANUAL_SPEED = 0.60;
     // TODO check if angle values work - changed so that selectedSensorPosition is 0 in init (amp)
     private final double AMP_ANGLE = 0.0;
     private final double SUBWOOFER_ANGLE = -55.0; //TODO test

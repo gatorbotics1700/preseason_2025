@@ -29,6 +29,12 @@ import frc.robot.OI;
 
 public class DrivetrainSubsystem {
 
+   public void peropdic()
+   {
+            updatePositionManager();
+
+   }
+
   /*
    * The maximum voltage that will be delivered to the motors.
    * This can be reduced to cap the robot's maximum speed. Typically, this is useful during initial testing of the robot.
@@ -215,7 +221,7 @@ public class DrivetrainSubsystem {
       if(flippedDrive){ //flipped (NOT ROTATION)
          translationXSupplier = () -> modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
          translationYSupplier = () -> modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-         rotationSupplier = () -> modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
+         rotationSupplier = () -> -modifyJoystickAxis(OI.driver.getRightX(), slowDrive) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND; //changed direction per ananya's request
       }else{ //normal
          translationXSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftY(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
          translationYSupplier = () -> -modifyJoystickAxis(OI.driver.getLeftX(), slowDrive) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
@@ -230,6 +236,7 @@ public class DrivetrainSubsystem {
             getPoseRotation()
          )
       );
+      //System.out.println("t pos: " + getPose());
    }
 
    // private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalSpeeds) {
@@ -380,6 +387,9 @@ public class DrivetrainSubsystem {
             Constants.BACK_RIGHT_MODULE_STEER_OFFSET
       );
 
+   }
+
+   public void trueNorth180(){
       positionManager.resetPosition(getGyroscopeRotation(), getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(180))));
       System.out.println("set position manager to:" + positionManager.getEstimatedPosition());
    }
