@@ -167,21 +167,21 @@ public class Robot extends TimedRobot {
         //m_mechanismSubsystem.pivotSubsystem.setState(PivotStates.MANUAL);
        // m_ledSubsystem.init();
        //m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
-       m_sensorSubsystem.init();
-        //m_drivetrainSubsystem.onEnable();
+       //m_sensorSubsystem.init();
+        m_drivetrainSubsystem.onEnable();
     }
 
     /* This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
        //m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
-       m_sensorSubsystem.detectNote();
+       //.detectNote();
 
       //m_sensorSubsystem.detectNote();
       //m_mechanismSubsystem.intakeSubsystem.testIntake();
       //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
-       // m_drivetrainSubsystem.driveTeleop();
+         m_drivetrainSubsystem.driveTeleop();
        
     
        

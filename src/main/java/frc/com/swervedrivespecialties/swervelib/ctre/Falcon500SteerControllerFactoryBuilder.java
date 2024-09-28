@@ -10,7 +10,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import frc.com.swervedrivespecialties.swervelib.ctre.CtreUtils;
 
 public final class Falcon500SteerControllerFactoryBuilder {
-    private static final int CAN_TIMEOUT_MS = 500; //had changed to 500, changed back
+    private static final int CAN_TIMEOUT_MS = 750; //had changed to 500, changed back
     private static final int STATUS_FRAME_GENERAL_PERIOD_MS = 250;
 
     private static final double TICKS_PER_ROTATION = 2048.0;
