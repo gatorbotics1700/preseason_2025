@@ -86,8 +86,8 @@ public class Paths {
     private static final double B_BREAD_STARTING_X = 56 * Constants.METERS_PER_INCH;
 
     private static final double AMP_STARTING_Y = 283.5 * Constants.METERS_PER_INCH; //up against amp safe zone
-    private static final double AMP_ENDING_Y = (306.25 -2) * Constants.METERS_PER_INCH; //DONT CHANG UNLESS U TALK TO AUTO LEAD
-
+    private static final double     AMP_ENDING_Y = (304.25 - 3) * Constants.METERS_PER_INCH; //DONT CHANG UNLESS U TALK TO AUTO LEAD
+    //^^ changes to fit champs field better
     private static final double R_AMP_STARTING_X = 591.93 * Constants.METERS_PER_INCH;
     private static final double B_AMP_STARTING_X = 59.07 * Constants.METERS_PER_INCH; //a little askew from white line 
     private static final double R_AMP_X = (576.43) * Constants.METERS_PER_INCH; 

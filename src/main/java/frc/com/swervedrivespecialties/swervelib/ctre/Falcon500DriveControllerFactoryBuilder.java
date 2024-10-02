@@ -104,7 +104,7 @@ public final class Falcon500DriveControllerFactoryBuilder {
                 motor.setNeutralMode(NeutralModeValue.Brake);
 
             }
-            motor.optimizeBusUtilization();
+           // motor.optimizeBusUtilization(); //TODO: keep an eye on this!!!!
         
             // Reduce CAN status frame rates
             CtreUtils.checkCtreError(

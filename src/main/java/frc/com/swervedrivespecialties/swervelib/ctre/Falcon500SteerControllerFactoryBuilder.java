@@ -118,12 +118,12 @@ public final class Falcon500SteerControllerFactoryBuilder {
 
             TalonFX motor = new TalonFX(steerConfiguration.getMotorPort());
             boolean haveError = CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS), "Failed to configure steer Falcon 500 settings");
-            for(int i = 0; i < 5; i++){
-                haveError =  CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS), "Failed to configure steer Falcon 500 settings");
-                if(!haveError){
-                    break;
-                }
-            }
+            // for(int i = 0; i < 5; i++){
+            //     haveError =  CtreUtils.checkCtreError(motor.configAllSettings(motorConfiguration, CAN_TIMEOUT_MS), "Failed to configure steer Falcon 500 settings");
+            //     if(!haveError){
+            //         break;
+            //     }
+            // }
 
             if (hasVoltageCompensation()) {
                 motor.enableVoltageCompensation(true);

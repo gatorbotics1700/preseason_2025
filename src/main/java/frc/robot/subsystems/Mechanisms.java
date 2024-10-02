@@ -58,7 +58,7 @@ public class Mechanisms {
     }
 
     public void periodic(){
-       // System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
+        //System.out.println("=======CURRENT STATE IS: " + mechanismState + "=======");
         if (mechanismState == MechanismStates.INTAKING){
             //System.out.println("**************intaking*************");
             pivotSubsystem.setState(PivotStates.AMP); //need to be at amp angle in order to intake
@@ -133,6 +133,7 @@ public class Mechanisms {
         } else if (mechanismState == MechanismStates.OFF){
             //let pivot stay wherever it was before
             //let leds stay
+            pivotSubsystem.setState(PivotStates.AMP);
             shooterSubsystem.setState(ShooterStates.OFF);
             intakeSubsystem.setState(IntakeStates.OFF);
         }else if(mechanismState == MechanismStates.VOMIT){
