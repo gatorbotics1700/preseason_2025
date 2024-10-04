@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autonomous.AutonomousBase;
 import frc.robot.autonomous.Paths;
+import frc.robot.Limelight;
 
 
 /*
@@ -34,7 +35,7 @@ import frc.robot.autonomous.Paths;
 public class Robot extends TimedRobot {
     private final SendableChooser<Boolean> inverted = new SendableChooser<>();
     private final SendableChooser<Paths.AUTO_OPTIONS> auto_chooser = new SendableChooser<>();
-
+    public static final Limelight m_limelight = new Limelight();
     public static final SensorSubsystem m_sensorSubsystem = new SensorSubsystem();
     public static final PivotSubsystem m_pivotSubsystem = new PivotSubsystem();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -171,7 +172,8 @@ public class Robot extends TimedRobot {
        // m_ledSubsystem.init();
        //m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
        //m_sensorSubsystem.init();
-        m_drivetrainSubsystem.onEnable();
+      //  m_drivetrainSubsystem.onEnable();
+        m_limelight.init();
     }
 
     /* This function is called periodically during test mode. */
@@ -185,12 +187,12 @@ public class Robot extends TimedRobot {
       //m_pivotSubsystem.setState(PivotStates.SPEAKER);
         //OFFSETS
        // m_drivetrainSubsystem.driveTeleop();
-       
+       m_limelight.printTy();
     
        
        
-       m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
-       m_drivetrainSubsystem.drive();
+    //    m_drivetrainSubsystem.setSpeed(ChassisSpeeds.fromFieldRelativeSpeeds(0.3, 0, 0, m_drivetrainSubsystem.getPoseRotation()));
+    //    m_drivetrainSubsystem.drive();
 
         //m_intakeSubsystem.testIntake();
         //m_shooterSubsystem.testShooter();
