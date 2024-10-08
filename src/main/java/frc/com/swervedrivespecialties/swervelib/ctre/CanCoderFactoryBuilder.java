@@ -1,10 +1,18 @@
 package frc.com.swervedrivespecialties.swervelib.ctre;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+//import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+//import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderStatusFrame; //TODO
+import com.ctre.phoenix.sensors.SensorInitializationStrategy; //TODO
+
+import com.ctre.phoenix6.sensors.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.hardware.CANCoder;
+import com.ctre.phoenix6.configs.CANCoderConfiguration;
+
+//PARTWAY THROUGH IMPORTS FOR V6 CANCODER MIGRATION
+//https://api.ctr-electronics.com/phoenix6/release/java/com/ctre/phoenix6/signals/package-summary.html
+
 
 import frc.com.swervedrivespecialties.swervelib.AbsoluteEncoder;
 import frc.com.swervedrivespecialties.swervelib.AbsoluteEncoderFactory;
