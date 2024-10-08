@@ -1,7 +1,7 @@
 package frc.com.swervedrivespecialties.swervelib;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder; //need to migrate
 
 public interface SwerveModule {
     double getDriveVelocity();

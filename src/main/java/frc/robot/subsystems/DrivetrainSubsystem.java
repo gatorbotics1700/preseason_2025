@@ -67,7 +67,6 @@ public class DrivetrainSubsystem {
    private SwerveDriveKinematics kinematics;
 
    /*
-    * By default we use a Pigeon for our gyroscope. But if you use another gyroscope, like a NavX, you can change this.
     * The important thing about how you configure your gyroscope is that rotating the robot counter-clockwise should
     * cause the angle reading to increase until it wraps back over to zero.
     */ 
