@@ -178,11 +178,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
        //m_ledSubsystem.setPattern(BlinkinPattern.PURPLE);
-<<<<<<< HEAD
        //.detectNote();
-=======
-       //m_sensorSubsystem.detectNote();
->>>>>>> 52ed8a2cc680b8bb7f4b158bc4f59c23a22aea08
 
       //m_sensorSubsystem.detectNote();
       //m_mechanismSubsystem.intakeSubsystem.testIntake();

@@ -1,6 +1,6 @@
 package frc.com.swervedrivespecialties.swervelib;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenix.sensors.CANCoder;
 
 public interface AbsoluteEncoder {
     /**
@@ -10,5 +10,5 @@ public interface AbsoluteEncoder {
      */
     double getAbsoluteAngle();
     
-    CANCoder getCANCoderFB();
+    CANcoder getCANCoderFB();
 }
