@@ -14,23 +14,21 @@ public class Robot extends TimedRobot {
         // Initialize subsystems
         limelightSubsystem = new LimelightSubsystem();
 
-        // Initialize operator interface
        // oi = new OI(limelightSubsystem);
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
+        limelightSubsystem.printVerticalOffset();
     }
 
     @Override
     public void teleopInit() {
-        // You can add any commands to run when teleop starts
     }
 
     @Override
     public void teleopPeriodic() {
-        // Called periodically during teleop
     }
 
     @Override

@@ -48,4 +48,8 @@ public class LimelightSubsystem extends SubsystemBase {
     public void periodic() {
         // Called once per scheduler run. You can add diagnostic info or telemetry here if needed.
     }
+
+    public void printVerticalOffset(){
+        System.out.println(getVerticalOffset());
+    }
 }
