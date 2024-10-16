@@ -1,12 +1,17 @@
 package frc.com.swervedrivespecialties.swervelib;
-import com.ctre.phoenix.sensors.CANCoder;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 public interface SteerController {
+    MotorController getSteerMotor();
+
+    AbsoluteEncoder getSteerEncoder();
+
     double getReferenceAngle();
 
     void setReferenceAngle(double referenceAngleRadians);
 
     double getStateAngle();
 
-    double getAbsoluteAngleSC();
+    void resetToAbsolute();
 }
