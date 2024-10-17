@@ -96,7 +96,6 @@ public class ShooterSubsystem {
             high.setControl(highDutyCycleOut.withOutput(-AMP_MID_SPEED)); // TODO double check if we need high running - prob good idea in case note gets stuck between high and mid
             mid.setControl(midDutyCycleOut.withOutput(AMP_MID_SPEED));
             low.setControl(lowDutyCycleOut.withOutput(-AMP_SPEED)); 
-            
         }else if(currentShooterState == ShooterStates.VOMIT){
             high.setControl(highDutyCycleOut.withOutput(0)); 
             mid.setControl(midDutyCycleOut.withOutput(0));
