@@ -20,6 +20,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.LEDSubsystem.BlinkinPattern;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autonomous.AutonomousBase;
 import frc.robot.autonomous.Paths;
 
@@ -100,6 +101,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
         m_drivetrainSubsystem.peropdic();
         SmartDashboard.putNumber("x odometry",m_drivetrainSubsystem.getPoseX()/Constants.METERS_PER_INCH);
         SmartDashboard.putNumber("y odometry",m_drivetrainSubsystem.getPoseY()/Constants.METERS_PER_INCH);

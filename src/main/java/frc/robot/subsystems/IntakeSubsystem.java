@@ -7,9 +7,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class IntakeSubsystem {
+public class IntakeSubsystem extends SubsystemBase {
 
     private TalonFX intakeMotor;
 
@@ -62,16 +63,5 @@ public class IntakeSubsystem {
 
     public void testIntake(){
         intakeMotor.setControl(dutyCycleOut.withOutput(0.35));
-    }
-
-// FROM 254 FRC-2024-Public
-    public Command dutyCycleCommand(DoubleSupplier dutyCycleLeft, DoubleSupplier dutyCycleRight) {
-        return startEnd(() -> {
-            setOpenLoopDutyCycleLeftImpl(dutyCycleLeft.getAsDouble());
-            setOpenLoopDutyCycleRightImpl(dutyCycleRight.getAsDouble());
-        }, () -> {
-            setOpenLoopDutyCycleLeftImpl(0.0);
-            setOpenLoopDutyCycleRightImpl(0.0);
-        }).withName(getName() + "DutyCycleControl");
     }
 }
