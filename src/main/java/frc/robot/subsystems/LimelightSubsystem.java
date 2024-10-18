@@ -9,7 +9,6 @@ public class LimelightSubsystem extends SubsystemBase {
     private final NetworkTable limelightTable;
 
     public LimelightSubsystem() {
-        super();
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
     }
 
@@ -30,7 +29,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double getVerticalOffset() {
-        return limelightTable.getEntry("ty").getDouble(1.0);
+        return limelightTable.getEntry("ty").getDouble(0.0);
     }
 
     public double getTargetArea() {
@@ -45,15 +44,8 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tl").getDouble(0.0);
     }
 
-    //public void printVerticalOffset(){
-    //    System.out.println(getVerticalOffset());
-    //}
-
     @Override
     public void periodic() {
-        // Called once per scheduler run. You can add diagno4stic info or telemetry here if needed.
-        //System.out.println("AAAAAAAA");
-        System.out.println(getTargetArea());
+        // Called once per scheduler run. You can add diagnostic info or telemetry here if needed.
     }
-
 }
