@@ -46,6 +46,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // Called once per scheduler run. You can add diagnostic info or telemetry here if needed.
+        
     }
 }
