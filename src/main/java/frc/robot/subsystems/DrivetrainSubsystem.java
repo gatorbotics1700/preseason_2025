@@ -2,10 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private static final double MAX_VOLTAGE = 12.0;
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 4.14528;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
@@ -30,20 +32,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
 
-    private final Pigeon2 gyroscope = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
+    private final Pigeon2 pigeon;
 
-    private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+    private final SwerveDriveKinematics kinematics;
+    
+    private final SwerveDriveOdometry odometry;
+
+    private ChassisSpeeds chassisSpeeds;
+    
+    private ShuffleboardTab shuffleboardTab;
+
+    public DrivetrainSubsystem() {
+        shuffleboardTab = Shuffleboard.getTab("Drivetrain");
+
+        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
+
+        kinematics = new SwerveDriveKinematics(
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
             new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
             new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
-    private final SwerveDriveOdometry odometry;
 
-    private ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-
-    public DrivetrainSubsystem() {
-        ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
+        chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
         frontLeftModule = new MkSwerveModuleBuilder()
                 .withLayout(shuffleboardTab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -89,9 +100,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
+        //TODO: phoenix is lazy and won't fix this now but make a SwerveDrivePoseEstimator instead
         odometry = new SwerveDriveOdometry(
                 kinematics,
-                Rotation2d.fromDegrees(gyroscope.getAngle()),
+                Rotation2d.fromDegrees(pigeon.getAngle()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
         );
 
@@ -102,10 +114,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void zeroGyroscope() {
         odometry.resetPosition(
-                Rotation2d.fromDegrees(gyroscope.getAngle()),
+                Rotation2d.fromDegrees(pigeon.getAngle()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0))
         );
+        System.out.println("you pressed the right button yay you");
     }
 
     public Rotation2d getRotation() {
@@ -119,7 +132,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-                Rotation2d.fromDegrees(gyroscope.getAngle()),
+                Rotation2d.fromDegrees(pigeon.getAngle()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
         );
 
