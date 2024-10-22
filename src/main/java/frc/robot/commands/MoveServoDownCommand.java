@@ -1,11 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ServoSubsystem;
 
-public class MoveServoDownCommand extends InstantCommand {
+public class MoveServoDownCommand extends CommandBase {
 
     private final ServoSubsystem servoSubsystem;
+    private final double decrement = 10; // The amount to decrement the angle
+    private final double minAngle = 0;   // Minimum servo angle
 
     public MoveServoDownCommand(ServoSubsystem servoSubsystem) {
         this.servoSubsystem = servoSubsystem;
@@ -14,13 +16,14 @@ public class MoveServoDownCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        // Move the servo down when the command is initialized
-        servoSubsystem.moveDown();
+        // Decrement the servo angle by the specified amount
+        double currentAngle = servoSubsystem.getServoAngle();
+        double newAngle = Math.max(currentAngle - decrement, minAngle); // Ensure it doesn't go below the min
+        servoSubsystem.setServoAngle(newAngle);
     }
 
     @Override
     public boolean isFinished() {
-        // End the command immediately after moving down
-        return true;
+        return true; // The command is instantaneous
     }
 }

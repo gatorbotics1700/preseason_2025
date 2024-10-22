@@ -1,51 +1,56 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ServoSubsystem;
-import frc.robot.commands.MoveServoUpCommand;
-import frc.robot.commands.MoveServoDownCommand;
+import frc.robot.commands.MoveServoToAngleCommand;
 
 public class Robot extends TimedRobot {
 
     private ServoSubsystem servoSubsystem;
-    private boolean hasMovedUp = false;
-    private boolean hasMovedDown = false;
+    private MoveServoToAngleCommand moveServoToAngleCommand;
 
     @Override
     public void robotInit() {
-        // Initialize the servo subsystem (use correct servo port)
-        servoSubsystem = new ServoSubsystem(0); // Change 0 to the appropriate port number
+        // Initialize the ServoSubsystem
+        servoSubsystem = new ServoSubsystem(0); // Servo on PWM port 1
+    }
+
+    @Override
+    public void robotPeriodic() {
+        // Run the CommandScheduler periodically
+        CommandScheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-        // Reset flags when teleop starts
-        hasMovedUp = false;
-        hasMovedDown = false;
+        // When teleop starts, move the servo to a hardcoded angle (e.g., 90 degrees)
+        moveServoToAngleCommand = new MoveServoToAngleCommand(servoSubsystem, 90); // Rotate to 90 degrees
+        moveServoToAngleCommand.schedule(); // Schedule the command to run immediately
     }
 
     @Override
     public void teleopPeriodic() {
-        // Hard-coded logic to move the servo up and then down using commands
-        if (!hasMovedUp) {
-            new MoveServoUpCommand(servoSubsystem).schedule(); // Move servo up
-            hasMovedUp = true; // Set flag to avoid repeated movement
-        } else if (!hasMovedDown && hasMovedUp) {
-            // Add a delay before moving the servo down
-            try {
-                Thread.sleep(2000); // Wait for 2 seconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // Called periodically during teleop
+    }
 
-            new MoveServoDownCommand(servoSubsystem).schedule(); // Move servo down
-            hasMovedDown = true; // Set flag to avoid repeated movement
-        }
+    @Override
+    public void autonomousInit() {
+        // Add autonomous commands here if needed
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        // Called periodically during autonomous
     }
 
     @Override
     public void disabledInit() {
-        // Stop the servo when the robot is disabled
-        servoSubsystem.stopServo();
+        // Called once when the robot is disabled
+    }
+
+    @Override
+    public void disabledPeriodic() {
+        // Called periodically while disabled
     }
 }
