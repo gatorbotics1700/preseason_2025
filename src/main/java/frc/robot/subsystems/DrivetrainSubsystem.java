@@ -36,7 +36,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private final SwerveDriveKinematics kinematics;
     
-    private final SwerveDriveOdometry odometry;
+    private final SwerveDrivePoseEstimator odometry;
 
     private ChassisSpeeds chassisSpeeds;
     
@@ -100,29 +100,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
-        //TODO: phoenix is lazy and won't fix this now but make a SwerveDrivePoseEstimator instead
-        odometry = new SwerveDriveOdometry(
+        odometry = new SwerveDrivePoseEstimator(
                 kinematics,
-                Rotation2d.fromDegrees(pigeon.getAngle()),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+                // Rotation2d.fromDegrees(pigeon.getAngle()),
+                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
 
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
-        shuffleboardTab.addNumber("Pose X", () -> odometry.getPoseMeters().getX());
-        shuffleboardTab.addNumber("Pose Y", () -> odometry.getPoseMeters().getY());
+        shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
+        shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
     }
 
-    public void zeroGyroscope() {
-        odometry.resetPosition(
-                Rotation2d.fromDegrees(pigeon.getAngle()),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0))
-        );
-        System.out.println("you pressed the right button yay you");
-    }
+//     public void zeroGyroscope() {
+        // odometry.resetPosition(
+        //         new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+        //         new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+        //         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+        //         // new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
+        // );
+        // System.out.println("you pressed the right button yay you");
+//     }
 
     public Rotation2d getRotation() {
-        return odometry.getPoseMeters().getRotation();
+        return odometry.getEstimatedPosition().getRotation();
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -132,7 +134,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-                Rotation2d.fromDegrees(pigeon.getAngle()),
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
         );
 

@@ -21,8 +21,8 @@ public class RobotContainer {
                 () -> -modifyAxis(controller.getRightX())
         ));
 
-        new Trigger(controller::getBackButtonPressed)
-                .onTrue(new RunCommand(drivetrain::zeroGyroscope));
+        // new Trigger(controller::getBackButtonPressed)
+        //         .onTrue(new RunCommand(drivetrain::zeroGyroscope));
     }
 
     public DrivetrainSubsystem getDrivetrain() {
