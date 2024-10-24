@@ -2,7 +2,7 @@ package frc.robot;
 
 public final class Constants {
     // Falcon 500 Motor
-    public static final int FALCON500_MOTOR_PORT = 0; 
+    public static final int FALCON500_MOTOR_PORT = 30; 
 
     // Servo Motor
     public static final int SERVO_MOTOR_PORT = 0; 
