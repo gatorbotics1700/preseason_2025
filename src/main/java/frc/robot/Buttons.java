@@ -1,24 +1,24 @@
 package frc.robot;
 
-import frc.robot.subsystems.PivotSubsystem.PivotStates;
+// import frc.robot.subsystems.PivotSubsystem.PivotStates;
 // import frc.robot.subsystems.Mechanisms;
-import frc.robot.subsystems.PivotSubsystem;
+// import frc.robot.subsystems.PivotSubsystem;
 // import frc.robot.subsystems.Mechanisms.MechanismStates;
 
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.subsystems.DrivetrainSubsystem;
+// import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class Buttons {
     
-  private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
+  // private DrivetrainSubsystem m_drivetrainSubsystem = Robot.m_drivetrainSubsystem;
   // private Mechanisms m_mechanismSubsystem = Robot.m_mechanismSubsystem;
   
   public void buttonsPeriodic(){
     //DRIVER
       if (OI.driver.getYButtonPressed()){
-         m_drivetrainSubsystem.stopDrive(); 
+        //  m_drivetrainSubsystem.stopDrive(); 
       }
 
       if(OI.driver.getLeftBumperPressed()){
@@ -28,13 +28,13 @@ public class Buttons {
 
       if(OI.driver.getStartButtonPressed()){ //should be PRESSED
         System.out.println("=======START BUTTON====REMAKING DRIVETRAIN + setting posmanager=======");
-        m_drivetrainSubsystem.resetOffsets();
-        m_drivetrainSubsystem.trueNorth180();
-        m_drivetrainSubsystem.onEnable();
+        // m_drivetrainSubsystem.resetOffsets();
+        // m_drivetrainSubsystem.trueNorth180();
+        // m_drivetrainSubsystem.onEnable();
       }
 
       if(OI.driver.getBButtonPressed()){
-        m_drivetrainSubsystem.flippedDrive = !m_drivetrainSubsystem.flippedDrive;
+        // m_drivetrainSubsystem.flippedDrive = !m_drivetrainSubsystem.flippedDrive;
         System.out.println("=========B BUTTON====FLIPPED DRIVE========");
         //m_drivetrainSubsystem.getPositionManager().resetPosition(m_drivetrainSubsystem.getGyroscopeRotation(), m_drivetrainSubsystem.getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))));
         //System.out.println("set position manager to:" + m_drivetrainSubsystem.getPositionManager().getEstimatedPosition());
@@ -43,8 +43,8 @@ public class Buttons {
 
       if(OI.driver.getAButtonPressed()){ //
         System.out.println("=======A BUTTON====REMAKING DRIVETRAIN=======");
-        m_drivetrainSubsystem.resetOffsets();
-        m_drivetrainSubsystem.onEnable();
+        // m_drivetrainSubsystem.resetOffsets();
+        // m_drivetrainSubsystem.onEnable();
       }
 
       // if(OI.driver.getXButtonPressed()){
@@ -54,17 +54,17 @@ public class Buttons {
       // }
 
       if(OI.driver.getAButtonPressed()){
-        m_drivetrainSubsystem.getPositionManager().resetPosition(m_drivetrainSubsystem.getGyroscopeRotation(), m_drivetrainSubsystem.getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(270))));
-        System.out.println("set position manager to:" + m_drivetrainSubsystem.getPositionManager().getEstimatedPosition());
+        // m_drivetrainSubsystem.getPositionManager().resetPosition(m_drivetrainSubsystem.getGyroscopeRotation(), m_drivetrainSubsystem.getModulePositionArray(), new Pose2d(0, 0, new Rotation2d(Math.toRadians(270))));
+        // System.out.println("set position manager to:" + m_drivetrainSubsystem.getPositionManager().getEstimatedPosition());
 
       }
 
       if(OI.driver.getRightBumperPressed()){
-        if(m_drivetrainSubsystem.getSlowDrive()){
-          m_drivetrainSubsystem.setSlowDrive(false);
-        }else{
-          m_drivetrainSubsystem.setSlowDrive(true);
-        }
+        // if(m_drivetrainSubsystem.getSlowDrive()){
+        //   m_drivetrainSubsystem.setSlowDrive(false);
+        // }else{
+        //   // m_drivetrainSubsystem.setSlowDrive(true);
+        // }
       }
       
 

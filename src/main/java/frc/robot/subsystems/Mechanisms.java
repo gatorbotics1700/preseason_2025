@@ -1,12 +1,7 @@
 // package frc.robot.subsystems;
 
 // import frc.robot.Robot;
-// import frc.robot.subsystems.PivotSubsystem;
-// import frc.robot.subsystems.LEDSubsystem.BlinkinPattern;
-// import frc.robot.subsystems.LEDSubsystem;
-// import frc.robot.subsystems.PivotSubsystem.PivotStates;
-// import frc.robot.subsystems.IntakeSubsystem.IntakeStates;
-// import frc.robot.subsystems.ShooterSubsystem.ShooterStates;
+
 
 // public class Mechanisms {
 //     public ShooterSubsystem shooterSubsystem; //TODO: make private
