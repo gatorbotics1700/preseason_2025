@@ -113,15 +113,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
     }
 
-//     public void zeroGyroscope() {
-        // odometry.resetPosition(
-        //         new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
-        //         new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-        //         new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
-        //         // new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
-        // );
-        // System.out.println("you pressed the right button yay you");
-//     }
+    public void zeroGyroscope() {
+        odometry.resetPosition(
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+                // new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+                new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
+        );
+        System.out.println("you pressed the right button yay you");
+    }
 
     public Rotation2d getRotation() {
         return odometry.getEstimatedPosition().getRotation();
