@@ -8,40 +8,39 @@ import frc.robot.commands.SetServoAngleCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.MechanismSubsystem;
 
+import edu.wpi.first.wpilibj2.command.Command;
+
 public class Robot extends TimedRobot {
-    private MechanismSubsystem mechanismSubsystem;
-    private Command rotateFalconCommand;
-    
+    private Command teleopCommand;
+    private RobotContainer robotContainer;
+
     @Override
     public void robotInit() {
-        mechanismSubsystem = new MechanismSubsystem();
-        
-        rotateFalconCommand = new RotateFalconCommand(mechanismSubsystem, 0.5);
+        // Initialize RobotContainer
+        robotContainer = new RobotContainer();
     }
 
     @Override
     public void teleopInit() {
-        mechanismSubsystem.setEnabled(true);
-        rotateFalconCommand.schedule(); 
+        // Get the teleop command from RobotContainer (rotate the Falcon at 0.5 speed)
+        teleopCommand = robotContainer.getTeleopCommand();
+
+        // Schedule the command to run during teleop
+        if (teleopCommand != null) {
+            teleopCommand.schedule();
+        }
     }
 
     @Override
     public void teleopPeriodic() {
-        
+        // No additional logic required for now; command is already running
     }
 
     @Override
-    public void disabledInit() {
-        mechanismSubsystem.setEnabled(false);
-    }
-
-    @Override
-    public void autonomousInit() {
-       
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
+    public void teleopExit() {
+        // Stop the command when teleop ends
+        if (teleopCommand != null) {
+            teleopCommand.cancel();
+        }
     }
 }
