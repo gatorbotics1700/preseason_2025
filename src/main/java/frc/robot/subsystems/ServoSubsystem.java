@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ServoSubsystem extends SubsystemBase {
@@ -14,6 +15,7 @@ public class ServoSubsystem extends SubsystemBase {
 
     // Set the servo position to a specific angle (0 to 180 degrees)
     public void setServoAngle(double angle) {
+        System.out.println("servo angle set to: " + angle);
         servo.setAngle(angle);
     }
 

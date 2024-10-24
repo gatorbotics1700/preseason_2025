@@ -20,13 +20,15 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         // Run the CommandScheduler periodically
         CommandScheduler.getInstance().run();
+        
     }
 
     @Override
     public void teleopInit() {
-        // When teleop starts, move the servo to a hardcoded angle (e.g., 90 degrees)
+        System.out.println("in teleop");
         moveServoToAngleCommand = new MoveServoToAngleCommand(servoSubsystem, 90); // Rotate to 90 degrees
         moveServoToAngleCommand.schedule(); // Schedule the command to run immediately
+       
     }
 
     @Override
