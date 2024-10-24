@@ -14,15 +14,18 @@ public class RotateFalconCommand extends InstantCommand {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        mechanism.setEnabled(true);
+    }
 
     @Override
     public void execute() {
-        mechanism.rotateFalconToPosition(speed);
+        mechanism.rotateFalcon(speed);
     }
 
     @Override
     public void end(boolean interrupted) {
+        mechanism.setEnabled(false);
         mechanism.stopMotors();
     }
 

@@ -1,38 +1,46 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class MechanismSubsystem extends SubsystemBase {
-    private final WPI_TalonFX falconMotor;
+    private final TalonFX falconMotor;
     private final Servo servoMotor;
 
-    private static final double TICKS_PER_REVOLUTION = 2048.0;
-    private static final double GEAR_RATIO = 1.0; 
-    private static final double DEGREES_PER_REVOLUTION = 360.0;
+    private final double SPEED = 0.6; 
+
+    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+    private boolean isEnabled;
+
 
     public MechanismSubsystem() {
-        falconMotor = new WPI_TalonFX(Constants.FALCON500_MOTOR_PORT);
+        falconMotor = new TalonFX(Constants.FALCON500_MOTOR_PORT);
         servoMotor = new Servo(Constants.SERVO_MOTOR_PORT);
+        isEnabled = false;
+        falconMotor.getConfigurator().setPosition(0);
         
-        falconMotor.setSelectedSensorPosition(0);
     }
 
-    public void rotateFalconToPosition(double targetDegrees) {
-        double targetTicks = degreesToTicks(targetDegrees);
-        
-        falconMotor.set(ControlMode.Position, targetTicks);
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
-    private double degreesToTicks(double degrees) {
-        return (degrees / DEGREES_PER_REVOLUTION) * TICKS_PER_REVOLUTION * GEAR_RATIO;
+
+    public void rotateFalcon(double speed) {
+        if (isEnabled) {
+            falconMotor.setControl(dutyCycleOut.withOutput(speed)); 
+        } else {
+            falconMotor.stopMotor();
+        }
     }
 
     public void setServoAngle(double angle) {
-        angle = Math.max(Constants.SERVO_MIN_ANGLE, Math.min(angle, Constants.SERVO_MAX_ANGLE)); 
+        angle = Math.max(Constants.SERVO_MIN_ANGLE, Math.min(angle, Constants.SERVO_MAX_ANGLE));
         servoMotor.setAngle(angle);
     }
 

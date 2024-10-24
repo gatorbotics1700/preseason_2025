@@ -10,23 +10,38 @@ import frc.robot.subsystems.MechanismSubsystem;
 
 public class Robot extends TimedRobot {
     private MechanismSubsystem mechanismSubsystem;
-
+    private Command rotateFalconCommand;
+    
     @Override
     public void robotInit() {
         mechanismSubsystem = new MechanismSubsystem();
+        
+        rotateFalconCommand = new RotateFalconCommand(mechanismSubsystem, 0.5);
     }
 
     @Override
     public void teleopInit() {
-        // Rotate Falcon 500 motor 90 degrees
-        rotateFalconToPosition(90.0);
-        
-        // Set servo to 90 degrees
-        mechanismSubsystem.setServoAngle(90.0);
+        mechanismSubsystem.setEnabled(true);
+        rotateFalconCommand.schedule(); 
     }
 
-    public void rotateFalconToPosition(double targetDegrees) {
+    @Override
+    public void teleopPeriodic() {
+        
+    }
+
+    @Override
+    public void disabledInit() {
+        mechanismSubsystem.setEnabled(false);
+    }
+
+    @Override
+    public void autonomousInit() {
        
-        mechanismSubsystem.rotateFalconToPosition(targetDegrees);
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+
     }
 }
