@@ -73,12 +73,20 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
         m_turretSubsystem.init();
+
     }
 
     /* This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() { 
         m_turretSubsystem.periodic();
+        System.out.println(m_turretSubsystem.turretAngle());
+        // m_turretSubsystem.turnToAngle(361);
+        // m_turretSubsystem.turnToAngle(1056);
+        m_turretSubsystem.setDirection();
+        m_turretSubsystem.turnToAngle(361);
+        m_turretSubsystem.setDirection();
+        m_turretSubsystem.turnToAngle(19);
     }
 
     /* This function is called once when the robot is disabled. */

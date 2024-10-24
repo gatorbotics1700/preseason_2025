@@ -7,6 +7,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.robot.Constants;
 
 public class TurretSubsystem {
+    private boolean isCW;
     
     private TalonFX turretMotor;
 
@@ -30,7 +31,7 @@ public class TurretSubsystem {
     public void init() {
         turretMotor.setInverted(false);
         turretMotor.setNeutralMode(NeutralModeValue.Brake);
-        setState(TurretStates.CCW);
+        setState(TurretStates.CW);
     }
 
     public void periodic() {
@@ -38,10 +39,10 @@ public class TurretSubsystem {
             turretMotor.setControl(dutyCycleOut.withOutput(0));
             System.out.println("TURRET STATE IS OFF");
         } else if (turretState == TurretStates.CW) {
-            turretMotor.setControl(dutyCycleOut.withOutput(-TURRET_SPEED));
+            turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
             System.out.println("TURRET STATE IS CLOCKWISE");
         } else if (turretState == TurretStates.CCW) {
-            turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED) );
+            turretMotor.setControl(dutyCycleOut.withOutput(-TURRET_SPEED) );
             System.out.println("TURRET STATE IS COUNTERCLOCKWISE");
         } else {
             turretMotor.setControl(dutyCycleOut.withOutput(0));
@@ -52,4 +53,31 @@ public class TurretSubsystem {
     public void setState(TurretStates newState){
         turretState = newState;
     }
+
+    public double turretAngle(){
+        return turretMotor.getRotorPosition().getValue();
+    }
+
+    public void setDirection(){
+        isCW = false;
+    }
+
+    public void turnToAngle(double angle){
+        double difference =  Math.abs(turretMotor.getRotorPosition().getValue()-angle);
+        
+        if(turretMotor.getRotorPosition().getValue() > 180){
+            isCW = true;
+        }
+        if(difference<=1){
+            difference =  Math.abs(turretMotor.getRotorPosition().getValue()-angle);
+           if(isCW){
+            setState(TurretStates.CW);
+           }else{
+            setState(TurretStates.CCW);
+           }
+        } else {
+            setState(TurretStates.OFF);
+        }    
+    }
+
 }
