@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,9 +16,9 @@ public class TurretSubsystem extends SubsystemBase {
 
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
-  public TurretSubsystem() {
-    turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
-    setDefaultCommand(new MechStop(this));
+    public TurretSubsystem(TalonFX turretMotor) {
+      this.turretMotor = turretMotor;
+      //setDefaultCommand(new MechStop(this));
   }
 
   @Override

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,7 +20,7 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Joystick m_joystick = new Joystick(0);
-  private static final TurretSubsystem m_turretsub = new TurretSubsystem();
+  private static final TurretSubsystem m_turretsub = new TurretSubsystem(new TalonFX(30));
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -31,8 +33,8 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    JoystickButton slower = new JoystickButton(m_joystick, 1);
-    JoystickButton faster = new JoystickButton(m_joystick, 2);
+    // JoystickButton slower = new JoystickButton(m_joystick, 1);
+    // JoystickButton faster = new JoystickButton(m_joystick, 2);
 
 
     // slower.whileHeld(new SpinSlower(m_spinner));
@@ -47,6 +49,6 @@ public class RobotContainer {
 
   public Command getTeleopCommand() {
     // Replace turretSubsystem and TURRET_SPEED with your actual instances
-    return new TurretControlCommand(m_turretsub, 0.6);
+    return new TurretControlCommand(m_turretsub, 0.3 );
     }
 }

@@ -75,5 +75,6 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void testPeriodic() {}
+    //called when robot is first started
+    public void testPeriodic(){}
 }

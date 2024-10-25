@@ -13,6 +13,9 @@ public class TurretControlCommand extends InstantCommand {
     }
 
     @Override
+  public void initialize() {}
+  
+  @Override
     public void execute() {
         // Set the turret motor speed
         turretSubsystem.setTurretSpeed(turretSpeed);
