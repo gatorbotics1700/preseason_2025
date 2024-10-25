@@ -84,9 +84,10 @@ public class Robot extends TimedRobot {
         // m_turretSubsystem.turnToAngle(361);
         // m_turretSubsystem.turnToAngle(1056);
         m_turretSubsystem.setDirection();
-        m_turretSubsystem.turnToAngle(361);
-        m_turretSubsystem.setDirection();
-        m_turretSubsystem.turnToAngle(19);
+        m_turretSubsystem.turnToAngle(60);
+      //  System.out.println("AT FIRST ANGLE");
+        // m_turretSubsystem.setDirection();
+        // m_turretSubsystem.turnToAngle(19);
     }
 
     /* This function is called once when the robot is disabled. */

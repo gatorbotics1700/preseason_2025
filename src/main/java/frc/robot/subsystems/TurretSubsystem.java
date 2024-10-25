@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.Constants;
@@ -29,9 +30,10 @@ public class TurretSubsystem {
     }
 
     public void init() {
+       // turretMotor.configIntegratedSensorAbsoluteRange(AbsoluteSensorRangeValue(0.0,1.0));
         turretMotor.setInverted(false);
         turretMotor.setNeutralMode(NeutralModeValue.Brake);
-        setState(TurretStates.CW);
+        //setState(TurretStates.CW);
     }
 
     public void periodic() {
@@ -55,28 +57,31 @@ public class TurretSubsystem {
     }
 
     public double turretAngle(){
-        return turretMotor.getRotorPosition().getValue();
+        return ((turretMotor.getPosition().getValue())%1) *360;
     }
 
     public void setDirection(){
         isCW = false;
     }
 
+    
+
     public void turnToAngle(double angle){
-        double difference =  Math.abs(turretMotor.getRotorPosition().getValue()-angle);
-        
-        if(turretMotor.getRotorPosition().getValue() > 180){
-            isCW = true;
-        }
-        if(difference<=1){
-            difference =  Math.abs(turretMotor.getRotorPosition().getValue()-angle);
-           if(isCW){
+        double difference =  Math.abs(turretAngle()-angle);
+       // System.out.println("DIFFERENCE: " + difference);
+        if(difference>=5){
+            System.out.println("DIFFERENCE: "+difference);
             setState(TurretStates.CW);
-           }else{
-            setState(TurretStates.CCW);
-           }
+            difference =  Math.abs(turretAngle()-angle);
+            
+        //    if(isCW){
+        //     setState(TurretStates.CW);
+        //    }else{
+        //     setState(TurretStates.CCW);
+        //    }
         } else {
             setState(TurretStates.OFF);
+            System.out.println("AT ANGLE");
         }    
     }
 
