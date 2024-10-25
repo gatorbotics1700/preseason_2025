@@ -1,26 +1,52 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.RotateFalconCommand;
-import frc.robot.commands.SetServoAngleCommand;
-import frc.robot.subsystems.MechanismSubsystem;
+import frc.robot.commands.TurretControlCommand;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
+
 
 public class RobotContainer {
-    // Subsystems
-    private final MechanismSubsystem mechanismSubsystem = new MechanismSubsystem();
+  // The robot's subsystems and commands are defined here...
+  public static final Joystick m_joystick = new Joystick(0);
+  private static final TurretSubsystem m_turretsub = new TurretSubsystem();
+  private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
 
-    // Commands
-    private final Command rotateFalconCommand = new RotateFalconCommand(mechanismSubsystem, 0.5); // 50% speed
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the button bindings
+    // m_drive.setDefaultCommand(new DrivewithJoysticks(m_drive, m_joystick.getRawAxis(0), m_joystick.getRawAxis(1)));
+    
+    // SendableRegistry.add(m_drive, "drive");
+    // configureButtonBindings();
+  }
 
-    public RobotContainer() {
-        // No need to configure button bindings as no controller is used
-    }
+  private void configureButtonBindings() {
+    JoystickButton slower = new JoystickButton(m_joystick, 1);
+    JoystickButton faster = new JoystickButton(m_joystick, 2);
 
-    // Provide the command to run during teleop
-    public Command getTeleopCommand() {
-        return rotateFalconCommand; // Run the Falcon motor at 50% speed during teleop
+
+    // slower.whileHeld(new SpinSlower(m_spinner));
+    // faster.whileHeld(new SpinFaster(m_spinner));
+
+  }
+
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return new PrintCommand("test");
+  }
+
+  public Command getTeleopCommand() {
+    // Replace turretSubsystem and TURRET_SPEED with your actual instances
+    return new TurretControlCommand(m_turretsub, 0.6);
     }
 }

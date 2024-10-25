@@ -3,32 +3,44 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.RotateFalconCommand;
-import frc.robot.commands.SetServoAngleCommand;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.MechanismSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
-    private Command teleopCommand;
-    private RobotContainer robotContainer;
+    private Command m_teleopCommand;
+    private Command m_autoCommand;
+
+    private RobotContainer m_robotContainer;
 
     @Override
     public void robotInit() {
         // Initialize RobotContainer
-        robotContainer = new RobotContainer();
+        m_robotContainer = new RobotContainer();
+    }
+
+    @Override
+    public void robotPeriodic() {
+      CommandScheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
-        // Get the teleop command from RobotContainer (rotate the Falcon at 0.5 speed)
-        teleopCommand = robotContainer.getTeleopCommand();
-
-        // Schedule the command to run during teleop
-        if (teleopCommand != null) {
-            teleopCommand.schedule();
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+        if (m_autoCommand != null) {
+            m_autoCommand.cancel();
         }
+
+        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        // m_teleopCommand = m_robotContainer.getTeleopCommand();
+
+        // // Schedule the command to run during teleop
+        // if (m_teleopCommand != null) {
+        //     m_teleopCommand.schedule();
+        // }
     }
 
     @Override
@@ -36,11 +48,32 @@ public class Robot extends TimedRobot {
         // No additional logic required for now; command is already running
     }
 
+
     @Override
-    public void teleopExit() {
-        // Stop the command when teleop ends
-        if (teleopCommand != null) {
-            teleopCommand.cancel();
-        }
+    public void autonomousInit() {
+        m_autoCommand = m_robotContainer.getAutonomousCommand();
+  
+      // schedule the autonomous command (example)
+      if (m_autoCommand != null) {
+        m_autoCommand.schedule();
+      }
     }
+
+    @Override
+    public void autonomousPeriodic() {}
+
+    @Override
+    public void disabledInit() {}
+  
+    @Override
+    public void disabledPeriodic() {}
+
+    @Override
+    public void testInit() {
+      // Cancels all running commands at the start of test mode.
+      CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void testPeriodic() {}
 }
