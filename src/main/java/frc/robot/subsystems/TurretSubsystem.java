@@ -57,7 +57,7 @@ public class TurretSubsystem {
     }
 
     public double turretAngle(){
-        return ((turretMotor.getPosition().getValue())%1) *360;
+        return (((turretMotor.getPosition().getValue())/14)%1) *360;
     }
 
     public void setDirection(){
@@ -69,7 +69,7 @@ public class TurretSubsystem {
     public void turnToAngle(double angle){
         double difference =  Math.abs(turretAngle()-angle);
        // System.out.println("DIFFERENCE: " + difference);
-        if(difference>=5){
+        if(difference>=20){
             System.out.println("DIFFERENCE: "+difference);
             setState(TurretStates.CW);
             difference =  Math.abs(turretAngle()-angle);
