@@ -24,7 +24,8 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
+   // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
+    MechGo();
     
   }
 
@@ -39,8 +40,23 @@ public class TurretSubsystem extends SubsystemBase {
 
   }
   public void MechGo() {
-    turretMotor.setControl(dutyCycleOut.withOutput(0));
+    turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
 
+  }
+  
+  public double turretAngle(){
+    return(((turretMoter.getPosition().getValue())/14)%1)*360;
+  }
+
+
+
+  public void turnToAngle(double desiredAngle){
+    double difference = Math.abs(turretAngle()-desiredAngle);
+    if(difference >= 20){
+        MechGo();
+    } else {
+        MechStop();
+    }
   }
 
   public void setTurretSpeed(double speed) {
