@@ -4,6 +4,8 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.Servo;
+
 
 import frc.robot.Constants;
 
@@ -11,6 +13,8 @@ public class TurretSubsystem {
     private boolean isCW;
     
     private TalonFX turretMotor;
+
+    private Servo turretServo; 
 
     private final double TURRET_SPEED = 0.1;
   
@@ -26,6 +30,7 @@ public class TurretSubsystem {
     
     public TurretSubsystem() {
         turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
+        turretServo = new Servo(Constants.TURRET_SERVO_CAN_ID); //not sure if this should be a can id bc wpilib says use channel 
         init();
     }
 
@@ -34,6 +39,7 @@ public class TurretSubsystem {
         turretMotor.setInverted(false);
         turretMotor.setNeutralMode(NeutralModeValue.Brake);
         //setState(TurretStates.CW);
+
     }
 
     public void periodic() {
@@ -64,6 +70,9 @@ public class TurretSubsystem {
         isCW = false;
     }
 
+    public void setTurretServoAngle(double servoAngle){
+        turretServo.setAngle(servoAngle);
+    }
     
 
     public void turnToAngle(double angle){

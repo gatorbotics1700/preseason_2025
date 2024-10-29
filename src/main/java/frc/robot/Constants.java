@@ -72,7 +72,8 @@ public final class Constants {
 
     public static final int INTAKE_MOTOR_CAN_ID = 28;
     public static final int PIVOT_MOTOR_CAN_ID = 32; 
-    public static final int TURRET_MOTOR_CAN_ID = 30;
+    public static final int TURRET_MOTOR_CAN_ID = 30; //double usage look below- 30 CAN ID fix later
+    public static final int TURRET_SERVO_CAN_ID = 31; //temporary- check later
 
     public static final int LOW_MOTOR_CAN_ID = 30;
     public static final int SHOOTER_HIGH_CAN_ID = 34;
