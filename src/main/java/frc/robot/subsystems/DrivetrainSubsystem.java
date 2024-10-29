@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.config.RobotConfig;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -108,6 +112,36 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
 
+      RobotConfig config;
+      try{
+         config = RobotConfig.fromGUISettings();
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+
+      AutoBuilder.configure(
+         this::getPose,
+         this::resetPose,
+         this::getRobotRelativeSpeeds,
+         (speeds, feedforwards) -> driveRobotRelative(speeds),
+         new PPHolonomicDriveController(
+               new PIDConstants(5.0, 0.0, 0.0),
+               new PIDConstants(5.0, 0.0, 0.0)
+         ),
+         config, 
+         () -> {
+            var alliance = DriverStation.getAlliance();
+            if(alliance.isPresent()){
+               return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+
+         },
+         this
+      );
+
+
+
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
@@ -123,12 +157,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
         System.out.println("you pressed the right button yay you");
     }
 
+    public Pose2d getPose() {
+        return odometry.getEstimatedPosition();
+    }
+
+    public void resetPose(Pose2d pose) {
+        odometry.resetPosition(pigeon.getYaw().getValue(), getPositions(), pose); // TODO: write getPositions method
+    }
+    
     public Rotation2d getRotation() {
         return odometry.getEstimatedPosition().getRotation();
     }
 
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return kinematics.toChassisSpeeds(getModuleStates());// TODO: write getMOduleStates method
+    }
+
     public void drive(ChassisSpeeds chassisSpeeds) {
         this.chassisSpeeds = chassisSpeeds;
+    }
+
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+
+        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+        setStates(targetStates); //TODO: write setStates method
     }
 
     @Override
