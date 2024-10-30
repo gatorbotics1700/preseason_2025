@@ -45,7 +45,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
   
   public double turretAngle(){
-    return(((turretMoter.getPosition().getValue())/14)%1)*360;
+    return(((turretMotor.getPosition().getValue())/14)%1)*360;
   }
 
 

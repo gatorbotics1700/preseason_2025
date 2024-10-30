@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TurretControlCommand;
+import frc.robot.commands.TurretControlGroup;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -47,8 +48,9 @@ public class RobotContainer {
     return new PrintCommand("test");
   }
 
-  public Command getTeleopCommand() {
-    // Replace turretSubsystem and TURRET_SPEED with your actual instances
-    return new TurretControlCommand(m_turretsub, 0.3, 60 );
+    public Command getTeleopCommand() {
+        double turretSpeed = 0.5; // Example speed value
+        double targetAngle = 90; // Example angle value
+        return new TurretControlGroup(m_turretsub, turretSpeed, targetAngle);
     }
 }
