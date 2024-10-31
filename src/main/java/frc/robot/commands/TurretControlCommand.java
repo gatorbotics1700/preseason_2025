@@ -23,7 +23,7 @@ public class TurretControlCommand extends InstantCommand {
 
     @Override
     public boolean isFinished() {
-        if (Math.abs(turretSubsystem.getTurretAngle() - turretAngle) < 5){
+        if (Math.abs(turretSubsystem.getTurretAngle() - turretAngle) < 1){
             return true;
         }
         return false;
