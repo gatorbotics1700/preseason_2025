@@ -23,7 +23,7 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
+   // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
     
   }
 
