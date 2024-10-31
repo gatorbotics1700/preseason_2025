@@ -40,13 +40,8 @@ public class RobotContainer {
 
   }
 
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new PrintCommand("test");
-  }
-
   public Command getTeleopCommand() {
     // Replace turretSubsystem and TURRET_SPEED with your actual instances
-    return new TurretControlCommand(m_turretsub, 0.6);
+    return new TurretControlCommand(m_turretsub, 0.2, 5);
     }
 }

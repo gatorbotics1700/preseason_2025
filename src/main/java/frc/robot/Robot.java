@@ -34,9 +34,9 @@ public class Robot extends TimedRobot {
         // m_teleopCommand = m_robotContainer.getTeleopCommand();
 
         // // Schedule the command to run during teleop
-        // if (m_teleopCommand != null) {
-        //     m_teleopCommand.schedule();
-        // }
+        if (m_teleopCommand != null) {
+            m_teleopCommand.schedule();
+        }
     }
 
     @Override

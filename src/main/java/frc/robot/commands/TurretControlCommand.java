@@ -5,10 +5,12 @@ import frc.robot.subsystems.TurretSubsystem;
 public class TurretControlCommand extends InstantCommand {
     private final TurretSubsystem turretSubsystem;
     private final double turretSpeed;
+    private final double turretAngle;
 
-    public TurretControlCommand(TurretSubsystem turretSubsystem, double turretSpeed) {
+    public TurretControlCommand(TurretSubsystem turretSubsystem, double turretSpeed, double turretAngle)  {
         this.turretSubsystem = turretSubsystem;
         this.turretSpeed = turretSpeed;
+        this.turretAngle = turretAngle;
         addRequirements(turretSubsystem); // Ensure this command requires the turret subsystem
     }
 
@@ -16,11 +18,14 @@ public class TurretControlCommand extends InstantCommand {
     public void execute() {
         // Set the turret motor speed
         turretSubsystem.setTurretSpeed(turretSpeed);
+        //turretSubsystem.turnToAngle(turretAngle);
     }
 
     @Override
     public boolean isFinished() {
-        // Command runs continuously in teleop, so it never finishes
+        if (Math.abs(turretSubsystem.getTurretAngle() - turretAngle) < 5){
+            return true;
+        }
         return false;
     }
 
