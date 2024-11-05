@@ -3,7 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.PIDConstants;
+
 import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
@@ -41,6 +44,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     
     private final SwerveDrivePoseEstimator odometry;
+
+
+    private SwerveModuleState[] states; 
 
     private ChassisSpeeds chassisSpeeds;
     
@@ -111,6 +117,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
+        states=kinematics.toSwerveModuleStates(chassisSpeeds);
 
       RobotConfig config;
       try{
@@ -124,10 +131,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          this::resetPose,
          this::getRobotRelativeSpeeds,
          (speeds, feedforwards) -> driveRobotRelative(speeds),
-         new PPHolonomicDriveController(
-               new PIDConstants(5.0, 0.0, 0.0),
-               new PIDConstants(5.0, 0.0, 0.0)
-         ),
+         new PPHolonomicDriveController(new PIDConstants(5, 0, 0), new PIDConstants(5, 0, 0), MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
          config, 
          () -> {
             var alliance = DriverStation.getAlliance();
@@ -162,7 +166,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void resetPose(Pose2d pose) {
-        odometry.resetPosition(pigeon.getYaw().getValue(), getPositions(), pose); // TODO: write getPositions method
+        odometry.resetPosition(new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())), getModulePositionArray(), pose); 
+    }
+
+    public SwerveModulePosition[] getModulePositionArray(){
+        return new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition()};
     }
     
     public Rotation2d getRotation() {
@@ -170,7 +178,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds() {
-        return kinematics.toChassisSpeeds(getModuleStates());// TODO: write getMOduleStates method
+        return kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public SwerveModuleState[] getModuleStates(){
+        return states;
+    }
+
+
+
+    public void setStates(SwerveModuleState[] targetStates){
+        states = kinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+        frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
+        frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
+        backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
+        backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
