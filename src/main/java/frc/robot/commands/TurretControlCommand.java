@@ -17,15 +17,22 @@ public class TurretControlCommand extends InstantCommand {
     @Override
     public void execute() {
         // Set the turret motor speed
-        turretSubsystem.setTurretSpeed(turretSpeed);
+        if (turretSubsystem.getTurretAngle() < turretAngle){
+            turretSubsystem.setTurretSpeed(turretSpeed);
+        } else {
+            turretSubsystem.setTurretSpeed(-turretSpeed);
+        }
         //turretSubsystem.turnToAngle(turretAngle);
+        System.out.println("EXECUTE");
     }
 
     @Override
     public boolean isFinished() {
         if (Math.abs(turretSubsystem.getTurretAngle() - turretAngle) < 1){
+            System.out.println("FINISHED");
             return true;
         }
+        System.out.println("NOT FINISHED");
         return false;
     }
 
@@ -33,5 +40,6 @@ public class TurretControlCommand extends InstantCommand {
     public void end(boolean interrupted) {
         // Stop the turret when the command ends
         turretSubsystem.setTurretSpeed(0);
+        System.out.println("STOPPING TURRET");
     }
 }

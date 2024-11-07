@@ -42,6 +42,10 @@ public class RobotContainer {
 
   public Command getTeleopCommand() {
     // Replace turretSubsystem and TURRET_SPEED with your actual instances
-    return new TurretControlCommand(m_turretsub, 0.2, 5);
-    }
+    return new TurretControlCommand(m_turretsub, 0.05, 30).
+    andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
+    andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+  }
 }

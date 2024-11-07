@@ -50,7 +50,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public void turnToAngle(double desiredAngle){
     double difference = Math.abs(turretAngle()-desiredAngle);
-    if(difference >= 20){
+    if(difference >= 3){
         MechGo();
     } else {
         MechStop();
@@ -63,7 +63,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public double getTurretAngle() {
-    return turretMotor.getPosition().getValueAsDouble();
+    return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360;
   }
 
 }
