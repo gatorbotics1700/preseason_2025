@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
     /* This function is called once when teleop is enabled. */
     @Override
     public void teleopInit() { //BEFORE TESTING: MAKE SURE YOU HAVE EITHER DEPLOYED OR ADDED DRIVETRAIN INIT
-        m_turretSubsystem.init();
+        //m_turretSubsystem.init();
 
     }
 
@@ -83,7 +83,6 @@ public class Robot extends TimedRobot {
         System.out.println(m_turretSubsystem.turretAngle());
         // m_turretSubsystem.turnToAngle(361);
         // m_turretSubsystem.turnToAngle(1056);
-        m_turretSubsystem.setDirection();
         m_turretSubsystem.turnToAngle(120);
       //  System.out.println("AT FIRST ANGLE");
         // m_turretSubsystem.setDirection();
