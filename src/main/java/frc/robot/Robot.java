@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
     private Command m_teleopCommand;
+    private Command m_teleopCommand1;
 
     private RobotContainer m_robotContainer;
 
@@ -37,11 +38,17 @@ public class Robot extends TimedRobot {
         if (m_teleopCommand != null) {
             m_teleopCommand.schedule();
         }
+
+
     }
 
     @Override
     public void teleopPeriodic() {
-        // No additional logic required for now; command is already running
+        m_teleopCommand1 = m_robotContainer.getTeleopCommand1();
+        if (m_teleopCommand1 != null) {
+            m_teleopCommand1.schedule();
+        }
+
     }
 
 

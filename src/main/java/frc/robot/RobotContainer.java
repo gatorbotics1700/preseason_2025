@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ServoControlCommand;
 import frc.robot.commands.TurretControlCommand;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 
@@ -20,6 +22,7 @@ public class RobotContainer {
   public static final Joystick m_joystick = new Joystick(0);
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
+  private static final ServoSubsystem m_servosub = new ServoSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -41,11 +44,20 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand() {
-    // Replace turretSubsystem and TURRET_SPEED with your actual instances
-    return new TurretControlCommand(m_turretsub, 0.05, 30).
-    andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
-    andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
-    andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
-    andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+    return new TurretControlCommand(m_turretsub, 0.05, 90);
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+   // return new ServoControlCommand(m_servosub, 20);
+  }
+
+  public Command getTeleopCommand1() {
+    // return new TurretControlCommand(m_turretsub, 0.05, 30).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
+    // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+    return new ServoControlCommand(m_servosub, 50);
   }
 }
