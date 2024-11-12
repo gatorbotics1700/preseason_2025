@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ServoControlCommand;
 import frc.robot.commands.TurretControlCommand;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -59,5 +60,9 @@ public class RobotContainer {
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
     return new ServoControlCommand(m_servosub, 50);
+  }
+
+  public Command getTeleopCommand2() {
+    return new LimelightControlCommand(m_limelightsub, m_turretsub, 0.05);
   }
 }

@@ -44,6 +44,10 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tl").getDouble(0.0);
     }
 
+    public double getTargetID() {
+        return limelightTable.getEntry("tid").getDouble(0.0);
+    }
+
     @Override
     public void periodic() {
         
