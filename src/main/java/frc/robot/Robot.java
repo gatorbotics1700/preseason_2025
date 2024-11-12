@@ -25,9 +25,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         System.out.println("in teleop");
-        moveServoToAngleCommand = new MoveServoToAngleCommand(servoSubsystem, 90); // Rotate to 90 degrees
-        moveServoToAngleCommand.schedule(); // Schedule the command to run immediately
-       
     }
 
     @Override
