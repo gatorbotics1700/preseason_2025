@@ -42,7 +42,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     private ShuffleboardTab shuffleboardTab;
 
+    private boolean slowDrive;
+
     public DrivetrainSubsystem() {
+        slowDrive = false;
+
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
         pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
@@ -111,6 +115,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
+    }
+
+    public void setSlowDrive(){
+        slowDrive = !slowDrive;
+        System.out.println("use of slow drive to not slow drive");
+    }
+
+    public boolean getSlowDrive(){
+        return slowDrive;
     }
 
     public void zeroGyroscope() {

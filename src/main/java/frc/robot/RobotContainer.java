@@ -5,6 +5,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
@@ -22,14 +23,18 @@ public class RobotContainer {
         ));
 
         new Trigger(controller::getBackButtonPressed)
-                 .onTrue(new RunCommand(drivetrain::zeroGyroscope));
+                .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
+
+        new Trigger(controller::getRightBumperPressed)
+                .onTrue(new InstantCommand(drivetrain::setSlowDrive));
     }
+    //instant command means that it runs one time rather then run command which runs continuosly
 
     public DrivetrainSubsystem getDrivetrain() {
         return drivetrain;
     }
 
-    private static double deadband(double value, double deadband) {
+    private double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
             if (value > 0.0) {
                 return (value - deadband) / (1.0 - deadband);
@@ -41,12 +46,16 @@ public class RobotContainer {
         }
     }
 
-    private static double modifyAxis(double value) {
+    private double modifyAxis(double value) {
         // Deadband
         value = deadband(value, 0.05);
 
         // Square the axis
         value = Math.copySign(value * value, value);
+
+        if(drivetrain.getSlowDrive()){
+            return (0.5 * value);
+        }
 
         return value;
     }
