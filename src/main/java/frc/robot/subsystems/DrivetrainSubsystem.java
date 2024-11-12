@@ -4,10 +4,12 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.PIDConstants;
-
-// import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
+//import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 // import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.wpilibj.DriverStation;
+
 
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -119,7 +121,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
 
-      RobotConfig config;
+        AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetPose,
+            this::getRobotRelativeSpeeds,
+            this::driveRobotRelative,
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(10,0,0),
+                new PIDConstants(10,0,0),
+                MAX_VELOCITY_METERS_PER_SECOND,
+                0.449072,
+                new ReplanningConfig()
+            ),
+            () -> {
+
+                var alliance = DriverStation.getAlliance();
+                if(alliance.isPresent()){
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                    return false;
+            
+            }, 
+            this
+        );
+
+    /*  RobotConfig config;
       try{
          config = RobotConfig.fromGUISettings();
       } catch (Exception e) {
@@ -144,7 +170,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
          this
       );
 
-
+*/
 
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
