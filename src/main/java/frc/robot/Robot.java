@@ -34,7 +34,10 @@ public class Robot extends TimedRobot {
         // if (m_teleopCommand != null) {
         //     m_teleopCommand.schedule();
         // }
-
+        m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
+        if (m_teleopCommand2 != null) {
+            m_teleopCommand2.schedule();
+        }
 
     }
 
@@ -45,10 +48,10 @@ public class Robot extends TimedRobot {
         //     m_teleopCommand1.schedule();
         // }
 
-        m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
-        if (m_teleopCommand2 != null) {
-            m_teleopCommand2.schedule();
-        }
+        // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
+        // if (m_teleopCommand2 != null) {
+        //     m_teleopCommand2.schedule();
+        // }
 
     }
 

@@ -23,7 +23,9 @@ public class LimelightControlCommand extends InstantCommand {
         // check if limelight sees apriltag and spins if not
         if (limelightSubsystem.hasValidTarget()==false) {
             turretSubsystem.setTurretSpeed(turretSpeed);
-        } 
+        } else {
+            turretSubsystem.setTurretSpeed(0);
+        }
     }
 
     @Override
