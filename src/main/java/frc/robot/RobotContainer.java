@@ -15,6 +15,10 @@ import frc.robot.commands.TurretControlCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.BlinkinLEDController.BlinkinPattern;
+import frc.robot.subsystems.BlinkinLEDController;
+import frc.robot.commands.LEDsControlCommand;;
+
 
 
 public class RobotContainer {
@@ -23,6 +27,7 @@ public class RobotContainer {
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
+  private static final BlinkinLEDController m_blinkinledcontroll = new BlinkinLEDController();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -44,7 +49,9 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand() {
-    return new TurretControlCommand(m_turretsub, 0.05, 90);
+    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.LIME);
+
+    // return new TurretControlCommand(m_turretsub, 0.05, 90);
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
