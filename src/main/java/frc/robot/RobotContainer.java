@@ -48,7 +48,7 @@ public class RobotContainer {
 
   }
 
-  public Command getTeleopCommand() {
+  public Command getTeleopColor() {
     return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.LIME);
 
     // return new TurretControlCommand(m_turretsub, 0.05, 90);
@@ -57,6 +57,10 @@ public class RobotContainer {
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
    // return new ServoControlCommand(m_servosub, 20);
+  }
+
+  public Command getAutoColor(){
+    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.RED_ORANGE);
   }
 
   public Command getTeleopCommand1() {

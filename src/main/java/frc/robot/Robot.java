@@ -8,8 +8,9 @@ import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
-    private Command m_teleopCommand;
+    private Command m_teleopColor;
     private Command m_teleopCommand1;
+    private Command m_autoColor;
 
     private RobotContainer m_robotContainer;
 
@@ -31,12 +32,12 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
-        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        m_teleopColor = m_robotContainer.getTeleopColor();
         // m_teleopCommand = m_robotContainer.getTeleopCommand();
 
         // // Schedule the command to run during teleop
-        if (m_teleopCommand != null) {
-            m_teleopCommand.schedule();
+        if (m_teleopColor != null) {
+            m_teleopColor.schedule();
         }
 
 
@@ -53,9 +54,15 @@ public class Robot extends TimedRobot {
 
 
     @Override
-    public void autonomousInit() {
+    public void autonomousInit(){
+        m_autoColor = m_robotContainer.getAutoColor();
+
+        if (m_autoColor != null) {
+            m_autoColor.schedule();
+        }
+    } 
        
-    }
+    
 
     @Override
     public void autonomousPeriodic() {}
