@@ -1,8 +1,11 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.AprilTagProcessor;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,6 +14,8 @@ public class Robot extends TimedRobot {
     private Command m_teleopCommand;
     private Command m_teleopCommand1;
     private Command m_teleopCommand2;
+    private AprilTagProcessor aprilTagProcessor;
+
 
     private RobotContainer m_robotContainer;
 
@@ -18,11 +23,22 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         // Initialize RobotContainer
         m_robotContainer = new RobotContainer();
+        aprilTagProcessor = new AprilTagProcessor(3, 5.5, 4.0, 2.0);
+
     }
 
     @Override
     public void robotPeriodic() {
       CommandScheduler.getInstance().run();
+      Pose2d robotPose = aprilTagProcessor.getRobotPose();
+        
+        if (robotPose != null) {
+            // Use the robot pose for navigation/targeting
+            SmartDashboard.putNumber("Robot X", robotPose.getX());
+            SmartDashboard.putNumber("Robot Y", robotPose.getY());
+            SmartDashboard.putNumber("Robot Rotation", robotPose.getRotation().getDegrees());
+        }
+        
     }
 
     @Override
