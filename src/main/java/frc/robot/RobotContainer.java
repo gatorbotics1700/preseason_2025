@@ -22,7 +22,6 @@ public class RobotContainer {
 
     private final XboxController controller = new XboxController(0);
 
-    private final SendableChooser<Command> autoChooser;
     public RobotContainer() {
         drivetrain.register();
 
@@ -37,14 +36,13 @@ public class RobotContainer {
                  .onTrue(new RunCommand(drivetrain::zeroGyroscope));
 
 
-                 autoChooser = AutoBuilder.buildAutoChooser();
-
-
-                 SmartDashboard.putData("Auto Chooser", autoChooser);
-
         autoChooser = AutoBuilder.buildAutoChooser();
-        SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
+        SmartDashboard.putData("Auto Chooser", autoChooser);         
+
     }
+
 
     public Command getAutonomousCommand(){
         return autoChooser.getSelected();
