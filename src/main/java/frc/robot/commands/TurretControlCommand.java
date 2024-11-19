@@ -20,22 +20,25 @@ public class TurretControlCommand extends InstantCommand {
     @Override
     public void execute() {
         // Set the turret motor speed
+        System.out.println("EXECUTE");
         if(limelightSubsystem.hasValidTarget()){
-             if (limelightSubsystem.getHorizontalOffset() > 4){
+             if (Math.abs(limelightSubsystem.getHorizontalOffset()) > 4){
                  turretSubsystem.turnToAngle(turretSubsystem.getTurretAngle()+limelightSubsystem.getHorizontalOffset());
+                 System.out.print("offset greater than 4");
              } else {
-                 turretSubsystem.setTurretSpeed(turretSpeed);
+                 turretSubsystem.setTurretSpeed(0);
+                 System.out.print("offset less than 4");
              }
         } else {
             turretSubsystem.setTurretSpeed(turretSpeed);
+            System.out.print("not seeing target");
         //turretSubsystem.turnToAngle(turretAngle);
         // if(Math.abs(limelightSubsystem.getHorizontalOffset())>3) {
         //     turretSubsystem.setTurretSpeed(turretSpeed);
         // } else {
         //     turretSubsystem.setTurretSpeed(0);
         // }
-        System.out.println("EXECUTE");
-        System.out.println(limelightSubsystem.getHorizontalOffset());
+       // System.out.println(limelightSubsystem.getHorizontalOffset());
         }
     }
 
