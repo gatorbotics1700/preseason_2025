@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -9,11 +10,14 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
+    private final SendableChooser<Command> autoChooser;
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
 
     private final XboxController controller = new XboxController(0);
@@ -37,10 +41,14 @@ public class RobotContainer {
 
 
                  SmartDashboard.putData("Auto Chooser", autoChooser);
+
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
     public Command getAutonomousCommand(){
         return autoChooser.getSelected();
+        // return new PathPlannerAuto("Test Auto");
     }
 
     public DrivetrainSubsystem getDrivetrain() {
