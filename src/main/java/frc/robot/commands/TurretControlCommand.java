@@ -23,7 +23,7 @@ public class TurretControlCommand extends InstantCommand {
         System.out.println("EXECUTE");
         if(limelightSubsystem.hasValidTarget()){
              if (Math.abs(limelightSubsystem.getHorizontalOffset()) > 4){
-                 turretSubsystem.turnToAngle(turretSubsystem.getTurretAngle()+limelightSubsystem.getHorizontalOffset());
+                 turretSubsystem.turnToAngle(turretSubsystem.getTurretAngle()+limelightSubsystem.getHorizontalOffset(), turretSpeed);
                  System.out.print("offset greater than 4");
              } else {
                  turretSubsystem.setTurretSpeed(0);

@@ -12,7 +12,7 @@ import frc.robot.commands.MechStop;
 public class TurretSubsystem extends SubsystemBase {
 
   private final TalonFX turretMotor; //motor
-  private double TURRET_SPEED = 0.6;
+  private double TURRET_SPEED = 0.05;
 
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
@@ -48,12 +48,14 @@ public class TurretSubsystem extends SubsystemBase {
     return(((turretMotor.getPosition().getValue())/14)%1)*360;
   }
 
-  public void turnToAngle(double desiredAngle){
+  public void turnToAngle(double desiredAngle, double speed){
     double difference = Math.abs(turretAngle()-desiredAngle);
     if(difference >= 3){
-        MechGo();
+        DutyCycleOut dutyCycleOut = new DutyCycleOut(speed); 
+        turretMotor.setControl(dutyCycleOut.withOutput(speed));
     } else {
-        MechStop();
+        DutyCycleOut dutyCycleOut = new DutyCycleOut(0); 
+        turretMotor.setControl(dutyCycleOut.withOutput(0));
     }
   }
 

@@ -53,6 +53,11 @@ public class Robot extends TimedRobot {
         //     m_teleopCommand2.schedule();
         // }
 
+        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        if (m_teleopCommand != null) {
+             m_teleopCommand.schedule();
+        }
+
     }
 
 
