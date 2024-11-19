@@ -38,7 +38,6 @@ public class Robot extends TimedRobot {
         // if (m_teleopCommand2 != null) {
         //     m_teleopCommand2.schedule();
         // }
-
     }
 
     @Override
