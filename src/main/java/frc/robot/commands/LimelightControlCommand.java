@@ -26,13 +26,13 @@ public class LimelightControlCommand extends InstantCommand {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             
             // Calculate desired angle by adding the offset to current angle
-            double desiredAngle = targetOffset;
+            double desiredAngle = currentAngle + targetOffset;
             
             // Normalize the angle to stay within 0-360 range
-            desiredAngle = ((desiredAngle % 360) + 360) % 360;
+            targetOffset = ((targetOffset % 360) + 360) % 360;
             
             // Use the existing turnToAngle method
-            turretSubsystem.turnToAngle(desiredAngle, TURNING_SPEED);
+            turretSubsystem.turnToAngle(targetOffset, TURNING_SPEED);
         } else {
             // If no target is found, you might want to implement a search pattern
             // For example, slowly rotate the turret
