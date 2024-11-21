@@ -26,7 +26,7 @@ public class LimelightControlCommand extends InstantCommand {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             
             // Calculate desired angle by adding the offset to current angle
-            double desiredAngle = currentAngle + targetOffset;
+            double desiredAngle = targetOffset;
             
             // Normalize the angle to stay within 0-360 range
             desiredAngle = ((desiredAngle % 360) + 360) % 360;
