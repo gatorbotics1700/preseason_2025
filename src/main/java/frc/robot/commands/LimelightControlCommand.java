@@ -8,46 +8,41 @@ public class LimelightControlCommand extends InstantCommand {
 
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
-    private final double turretSpeed;
-    private static final double kP = 0.025; // Proportional control constant - adjust this value
-    private static final double DEADBAND = 1.0;
+    private static final double TURNING_SPEED = 0.1; // Adjust this value as needed
 
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, double turretSpeed) {
+    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
-        this.turretSpeed = turretSpeed;
-
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
     @Override
     public void execute() {
-        if (!limelightSubsystem.hasValidTarget()) {
-            // Search for target by spinning
-            turretSubsystem.setTurretSpeed(turretSpeed);
+        if (limelightSubsystem.hasValidTarget()) {
+            // Get current turret angle
+            double currentAngle = turretSubsystem.getTurretAngle();
+            
+            // Get horizontal offset from limelight (-27 to 27 degrees typically)
+            double targetOffset = limelightSubsystem.getHorizontalOffset();
+            
+            // Calculate desired angle by adding the offset to current angle
+            double desiredAngle = currentAngle + targetOffset;
+            
+            // Normalize the angle to stay within 0-360 range
+            desiredAngle = ((desiredAngle % 360) + 360) % 360;
+            
+            // Use the existing turnToAngle method
+            turretSubsystem.turnToAngle(desiredAngle, TURNING_SPEED);
         } else {
-            // Get horizontal offset from target (-27 to 27 degrees typically)
-            double tx = limelightSubsystem.getHorizontalOffset();
-            
-            // Calculate motor output based on how far we need to turn
-            double adjustment = tx * kP;
-            
-            // Only move if we're outside the deadband
-            if (Math.abs(tx) > DEADBAND) {
-                turretSubsystem.setTurretSpeed(adjustment);
-            } else {
-                turretSubsystem.setTurretSpeed(0);
-            }
+            // If no target is found, you might want to implement a search pattern
+            // For example, slowly rotate the turret
+            turretSubsystem.setTurretSpeed(0.05);
         }
     }
 
-   @Override
+    @Override
     public boolean isFinished() {
-        // Only finish if we have a target AND we're within the deadband
-        if (limelightSubsystem.hasValidTarget()) {
-            double tx = limelightSubsystem.getHorizontalOffset();
-            return Math.abs(tx) <= DEADBAND;
-        }
+        // Command continues running until explicitly stopped
         return false;
     }
 }

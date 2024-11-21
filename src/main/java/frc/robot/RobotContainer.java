@@ -63,6 +63,6 @@ public class RobotContainer {
   }
 
   public Command getTeleopCommand2() {
-    return new LimelightControlCommand(m_limelightsub, m_turretsub, 0.05);
+    return new LimelightControlCommand(m_limelightsub, m_turretsub);
   }
 }
