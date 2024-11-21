@@ -1,4 +1,6 @@
 package frc.robot.commands;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -21,17 +23,7 @@ public class TurretControlCommand extends InstantCommand {
     public void execute() {
         // Set the turret motor speed
         System.out.println("EXECUTE");
-        if(limelightSubsystem.hasValidTarget()){
-             if (Math.abs(limelightSubsystem.getHorizontalOffset()) > 4){
-                 turretSubsystem.turnToAngle(turretSubsystem.getTurretAngle()-limelightSubsystem.getHorizontalOffset(), turretSpeed);
-                 System.out.print("offset greater than 4");
-             } else {
-                 turretSubsystem.setTurretSpeed(0);
-                 System.out.print("offset less than 4");
-             }
-        } else {
-            turretSubsystem.setTurretSpeed(turretSpeed);
-            System.out.print("not seeing target");
+       turretSubsystem.turnToAngle(90, 0.1);
         //turretSubsystem.turnToAngle(turretAngle);
         // if(Math.abs(limelightSubsystem.getHorizontalOffset())>3) {
         //     turretSubsystem.setTurretSpeed(turretSpeed);
@@ -40,22 +32,18 @@ public class TurretControlCommand extends InstantCommand {
         // }
        // System.out.println(limelightSubsystem.getHorizontalOffset());
         }
-    }
 
     @Override
     public boolean isFinished() {
-        if (Math.abs(limelightSubsystem.getHorizontalOffset()) < 4){
+        if ((turretSubsystem.getTurretAngle() > 85) && (turretSubsystem.getTurretAngle() < 95)){
             System.out.println("FINISHED");
+            DutyCycleOut dutyCycleOut = new DutyCycleOut(0); 
+
+            turretSubsystem.turretMotor.setControl(dutyCycleOut.withOutput(0));
             return true;
         }
         System.out.println("NOT FINISHED");
         return false;
     }
 
-    @Override
-    public void end(boolean interrupted) {
-        // Stop the turret when the command ends
-        turretSubsystem.setTurretSpeed(0);
-        System.out.println("STOPPING TURRET");
-    }
 }

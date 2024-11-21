@@ -4,13 +4,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LimelightSubsystem;
-
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
     private Command m_teleopCommand;
     private Command m_teleopCommand1;
     private Command m_teleopCommand2;
+    private TurretSubsystem m_turretSubsystem;
 
     private RobotContainer m_robotContainer;
 
@@ -28,31 +29,28 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-        m_teleopCommand2 = m_robotContainer.getTeleopCommand();
+        //m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
 
-        // // // Schedule the command to run during teleop
-        if (m_teleopCommand2 != null) {
-             m_teleopCommand2.schedule();
-        }
-        // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
         // if (m_teleopCommand2 != null) {
-        //     m_teleopCommand2.schedule();
+        //      m_teleopCommand2.schedule();
         // }
+        m_teleopCommand = m_robotContainer.getTeleopCommand();
+
+        if (m_teleopCommand != null) {
+             m_teleopCommand.schedule();
+        }
     }
 
     @Override
     public void teleopPeriodic() {
-        // m_teleopCommand1 = m_robotContainer.getTeleopCommand1();
-        // if (m_teleopCommand1 != null) {
-        //     m_teleopCommand1.schedule();
-        // }
 
         // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
         // if (m_teleopCommand2 != null) {
-        //     m_teleopCommand2.schedule();
+        //      m_teleopCommand2.schedule();
         // }
 
         m_teleopCommand = m_robotContainer.getTeleopCommand();
+
         if (m_teleopCommand != null) {
              m_teleopCommand.schedule();
         }
