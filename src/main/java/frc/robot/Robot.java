@@ -28,11 +28,11 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        m_teleopCommand2 = m_robotContainer.getTeleopCommand();
 
         // // // Schedule the command to run during teleop
-        if (m_teleopCommand != null) {
-             m_teleopCommand.schedule();
+        if (m_teleopCommand2 != null) {
+             m_teleopCommand2.schedule();
         }
         // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
         // if (m_teleopCommand2 != null) {

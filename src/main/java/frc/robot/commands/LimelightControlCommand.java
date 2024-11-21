@@ -9,6 +9,8 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private final double turretSpeed;
+    private static final double kP = 0.025; // Proportional control constant - adjust this value
+    private static final double DEADBAND = 1.0;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, double turretSpeed) {
         this.limelightSubsystem = limelightSubsystem;
@@ -20,21 +22,32 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        // check if limelight sees apriltag and spins if not
-        if (limelightSubsystem.hasValidTarget()==false) {
+        if (!limelightSubsystem.hasValidTarget()) {
+            // Search for target by spinning
             turretSubsystem.setTurretSpeed(turretSpeed);
         } else {
-            turretSubsystem.setTurretSpeed(0);
+            // Get horizontal offset from target (-27 to 27 degrees typically)
+            double tx = limelightSubsystem.getHorizontalOffset();
+            
+            // Calculate motor output based on how far we need to turn
+            double adjustment = tx * kP;
+            
+            // Only move if we're outside the deadband
+            if (Math.abs(tx) > DEADBAND) {
+                turretSubsystem.setTurretSpeed(adjustment);
+            } else {
+                turretSubsystem.setTurretSpeed(0);
+            }
         }
     }
 
-    @Override
+   @Override
     public boolean isFinished() {
+        // Only finish if we have a target AND we're within the deadband
         if (limelightSubsystem.hasValidTarget()) {
-            System.out.println("FINISHED");
-            return true;
+            double tx = limelightSubsystem.getHorizontalOffset();
+            return Math.abs(tx) <= DEADBAND;
         }
-        System.out.println("NOT FINISHED");
         return false;
     }
 }
