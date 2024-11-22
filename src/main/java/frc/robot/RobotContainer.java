@@ -6,6 +6,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,7 +46,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        return new PathPlannerAuto("New Path"); // Replace "YourAutoName" with your auto path name
+        return new PathPlannerPath("New Auto"); // Replace "YourAutoName" with your auto path name
     }
 
     public DrivetrainSubsystem getDrivetrain() {
