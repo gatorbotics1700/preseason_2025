@@ -218,10 +218,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         states = targetStates;
 
-        frontLeftModule.set(targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[0].angle.getRadians());
-        frontRightModule.set(targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[1].angle.getRadians());
-        backLeftModule.set(targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[2].angle.getRadians());
-        backRightModule.set(targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[3].angle.getRadians());
+        // Apply states and print voltages
+        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+
+        System.out.println("Applied voltages - FL: " + fl_voltage + " FR: " + fr_voltage +
+                          " BL: " + bl_voltage + " BR: " + br_voltage);
+
+        frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
+        frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
+        backLeftModule.set(bl_voltage, targetStates[2].angle.getRadians());
+        backRightModule.set(br_voltage, targetStates[3].angle.getRadians());
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -229,9 +238,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+        System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
+                          " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
+                          " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
+                          
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
-
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+        
+        // Print target states before applying them
+        System.out.println("Target states:");
+        for (int i = 0; i < targetStates.length; i++) {
+            System.out.println("Module " + i + ": Speed=" + targetStates[i].speedMetersPerSecond +
+                             " Angle=" + targetStates[i].angle.getDegrees());
+        }
+        
         setStates(targetStates);
     }
 

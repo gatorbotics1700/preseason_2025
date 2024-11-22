@@ -46,7 +46,9 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        return new FollowPathCommand(drivetrain, "New Path");
+        String pathName = "Test Path"; // Make sure this matches your path file name exactly
+        System.out.println("Creating auto command for path: " + pathName);
+        return new FollowPathCommand(drivetrain, pathName);
     }
 
     public DrivetrainSubsystem getDrivetrain() {
