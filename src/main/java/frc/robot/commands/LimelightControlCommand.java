@@ -9,7 +9,7 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private static final double TURNING_SPEED = 0.05;
-    private static final double TOLERANCE = 2.0; // Degrees of acceptable error
+    private static final double TOLERANCE = 5.0; // Degrees of acceptable error
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
