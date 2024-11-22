@@ -218,15 +218,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         states = targetStates;
 
-        // Apply states and print voltages
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        // Calculate voltages (using a higher minimum voltage to ensure movement)
+        double fl_voltage = Math.max(1.0, targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
+        double fr_voltage = Math.max(1.0, targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
+        double bl_voltage = Math.max(1.0, targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
+        double br_voltage = Math.max(1.0, targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
 
-        System.out.println("Applied voltages - FL: " + fl_voltage + " FR: " + fr_voltage +
-                          " BL: " + bl_voltage + " BR: " + br_voltage);
+        System.out.println("Setting voltages - FL: " + fl_voltage + 
+                          " FR: " + fr_voltage +
+                          " BL: " + bl_voltage + 
+                          " BR: " + br_voltage);
 
+        // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
         frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
         backLeftModule.set(bl_voltage, targetStates[2].angle.getRadians());
@@ -259,14 +262,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         odometry.update(
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
+                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), 
+                                          backLeftModule.getPosition(), backRightModule.getPosition() }
         );
 
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-
-        frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-        frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-        backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-        backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+        // Debug current module states
+        System.out.println("Module Positions:");
+        System.out.println("FL: " + frontLeftModule.getPosition().distanceMeters);
+        System.out.println("FR: " + frontRightModule.getPosition().distanceMeters);
+        System.out.println("BL: " + backLeftModule.getPosition().distanceMeters);
+        System.out.println("BR: " + backRightModule.getPosition().distanceMeters);
     }
 }

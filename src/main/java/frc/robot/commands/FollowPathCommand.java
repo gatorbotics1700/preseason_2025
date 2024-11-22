@@ -20,7 +20,7 @@ public class FollowPathCommand extends Command {
             // Load the path from the deployed files
             path = PathPlannerPath.fromPathFile(pathName);
             System.out.println("Path loaded successfully: " + pathName);
-            System.out.println("Path duration: " + path.getTotalTime() + " seconds");
+
             
             // Create the path following command using AutoBuilder
             pathFollowingCommand = AutoBuilder.followPath(path);

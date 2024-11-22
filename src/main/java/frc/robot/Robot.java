@@ -8,6 +8,7 @@ public class Robot extends TimedRobot {
     @SuppressWarnings("unused")
 
     private Command m_autonomousCommand;
+    private Command m_testCommand;
     private RobotContainer container;
 
     @Override
@@ -22,17 +23,28 @@ public class Robot extends TimedRobot {
     }
     @Override
     public void autonomousInit(){
-        m_autonomousCommand = container.getAutonomousCommand();
+        m_testCommand = container.getAutonomousCommand();
 
-        if(m_autonomousCommand != null){
-            m_autonomousCommand.schedule();
+        if(m_testCommand != null){
+            m_testCommand.schedule();
         }
+
+        // m_autonomousCommand = container.getAutonomousCommand();
+
+        // if(m_autonomousCommand != null){
+        //     m_autonomousCommand.schedule();
+        // }
     }
     @Override
     public void teleopInit (){
-        if(m_autonomousCommand != null){
-            m_autonomousCommand.cancel();
+        if(m_testCommand != null){
+            m_testCommand.cancel();
 
         }
+
+        // if(m_autonomousCommand != null){
+        //     m_autonomousCommand.cancel();
+
+        // }
     }
 }

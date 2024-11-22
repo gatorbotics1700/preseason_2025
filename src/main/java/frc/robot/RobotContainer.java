@@ -1,6 +1,8 @@
 package frc.robot;
 
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.FollowPathCommand;
+import frc.robot.commands.TestDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -46,9 +48,11 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        String pathName = "Test Path"; // Make sure this matches your path file name exactly
-        System.out.println("Creating auto command for path: " + pathName);
-        return new FollowPathCommand(drivetrain, pathName);
+        return new FollowPathCommand(drivetrain, "Test Path");
+    }
+
+    public Command getTestCommand(){
+        return new TestDriveCommand(drivetrain);
     }
 
     public DrivetrainSubsystem getDrivetrain() {
