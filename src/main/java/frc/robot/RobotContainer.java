@@ -46,7 +46,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        return new PathPlannerPath("New Auto"); // Replace "YourAutoName" with your auto path name
+        return new FollowPathCommand(drivetrain, "Test Path");
     }
 
     public DrivetrainSubsystem getDrivetrain() {
