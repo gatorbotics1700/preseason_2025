@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
         }
         
         // Get and schedule the teleop command
-        Command m_teleCommand = container.getTeleopCommand();
+        m_teleCommand = container.getTeleopCommand();
         if (m_teleCommand != null) {
             m_teleCommand.schedule();
         }
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
         }
         
         // Get and schedule the teleop command
-        Command m_teleCommand = container.getTeleopCommand();
+        m_teleCommand = container.getTeleopCommand();
         if (m_teleCommand != null) {
             m_teleCommand.schedule();
         }
