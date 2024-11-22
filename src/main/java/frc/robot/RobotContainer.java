@@ -48,7 +48,15 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        return new FollowPathCommand(drivetrain, "Test Path");
+        try {
+            PathPlannerAuto auto = new PathPlannerAuto("Test Path");
+            System.out.println("Auto loaded successfully: Test Path");
+            return auto;
+        } catch (Exception e) {
+            System.err.println("Failed to load auto path: " + e.getMessage());
+            e.printStackTrace();
+            return new TestDriveCommand(drivetrain);
+        }
     }
 
     public Command getTestCommand(){
