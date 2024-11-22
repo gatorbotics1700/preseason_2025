@@ -238,6 +238,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void drive(ChassisSpeeds chassisSpeeds) {
         this.chassisSpeeds = chassisSpeeds;
+        
+        // Convert chassis speeds to module states and apply them
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+        setStates(targetStates);
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
