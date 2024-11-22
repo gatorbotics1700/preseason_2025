@@ -27,7 +27,8 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        // Print the initial joystick values
+        // Print initial joystick values
+        System.out.println("RobotContainer initializing");
         System.out.println("Initial joystick values:");
         System.out.println("LeftY: " + controller.getLeftY());
         System.out.println("LeftX: " + controller.getLeftX());
@@ -42,6 +43,8 @@ public class RobotContainer {
                 () -> -modifyAxis(controller.getRightX())  // Rotation
             )
         );
+        
+        System.out.println("Default command set");
 
         // Zero gyroscope button binding
         new Trigger(controller::getBackButtonPressed)
