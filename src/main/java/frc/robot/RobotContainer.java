@@ -47,17 +47,8 @@ public class RobotContainer {
     }
 
 
-    public Command getAutonomousCommand() {
-        // Get the selected auto command from the chooser
-        Command selectedAuto = autoChooser.getSelected();
-        
-        if (selectedAuto != null) {
-            System.out.println("Running auto: " + selectedAuto.getName());
-            return selectedAuto;
-        } else {
-            System.out.println("No auto selected, falling back to test command");
-            return new TestDriveCommand(drivetrain);
-        }
+    public Command getAutonomousCommand(){
+        return new FollowPathCommand(drivetrain, "Test Path");
     }
 
     public Command getTestCommand(){
