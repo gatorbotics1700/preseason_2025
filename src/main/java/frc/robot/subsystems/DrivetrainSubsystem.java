@@ -266,16 +266,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), 
-                                          backLeftModule.getPosition(), backRightModule.getPosition() }
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+            new SwerveModulePosition[]{ 
+                frontLeftModule.getPosition(), 
+                frontRightModule.getPosition(), 
+                backLeftModule.getPosition(), 
+                backRightModule.getPosition() 
+            }
         );
-
-        // Debug current module states
-        System.out.println("Module Positions:");
-        System.out.println("FL: " + frontLeftModule.getPosition().distanceMeters);
-        System.out.println("FR: " + frontRightModule.getPosition().distanceMeters);
-        System.out.println("BL: " + backLeftModule.getPosition().distanceMeters);
-        System.out.println("BR: " + backRightModule.getPosition().distanceMeters);
     }
 }

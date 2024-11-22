@@ -12,8 +12,6 @@ public class TeleopDriveCommand extends Command {
     private final DoubleSupplier ySupplier;
     private final DoubleSupplier rotSupplier;
     
-    private static final double DEADBAND = 0.1;
-
     public TeleopDriveCommand(DrivetrainSubsystem drivetrain, 
                              DoubleSupplier xSupplier, 
                              DoubleSupplier ySupplier, 
@@ -26,43 +24,17 @@ public class TeleopDriveCommand extends Command {
     }
 
     @Override
-    public void initialize() {
-        System.out.println("TeleopDriveCommand initialized");
-        drivetrain.drive(new ChassisSpeeds());
-    }
-
-    @Override
     public void execute() {
-        // Get the raw joystick inputs and print them
-        double rawX = xSupplier.getAsDouble();
-        double rawY = ySupplier.getAsDouble();
-        double rawRot = rotSupplier.getAsDouble();
-
-        System.out.println("Raw joystick values - X: " + rawX + 
-                         " Y: " + rawY + 
-                         " Rot: " + rawRot);
-
-        // Only proceed if inputs are above deadband
-        if (Math.abs(rawX) <= DEADBAND) rawX = 0.0;
-        if (Math.abs(rawY) <= DEADBAND) rawY = 0.0;
-        if (Math.abs(rawRot) <= DEADBAND) rawRot = 0.0;
-
-        // Scale to max speeds
-        double xSpeed = rawX * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-        double ySpeed = rawY * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-        double rotSpeed = rawRot * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
-
-        // Create chassis speeds from the inputs
-        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
-
-        // Drive the robot
-        drivetrain.drive(chassisSpeeds);
+        drivetrain.drive(new ChassisSpeeds(
+            xSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            ySupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            rotSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+        ));
     }
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("TeleopDriveCommand ended");
-        drivetrain.drive(new ChassisSpeeds());
+        drivetrain.drive(new ChassisSpeeds(0, 0, 0));
     }
 
     @Override
