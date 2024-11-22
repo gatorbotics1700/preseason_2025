@@ -14,9 +14,9 @@ public class LimelightControlCommand extends InstantCommand {
     private static final double TURNING_SPEED = 0.02;
     private static final double TOLERANCE = 2.0;
     
-    private static final double kP = 0.8;
+    private static final double kP = 0.2;
     private static final double kI = 0.0;
-    private static final double kD = 0.09;
+    private static final double kD = 0.0;
     
     private static final boolean USE_PID = true;
 
