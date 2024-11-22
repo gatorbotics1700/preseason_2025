@@ -32,7 +32,7 @@ public class LimelightControlCommand extends InstantCommand {
                 turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
             }
             
-            turretSubsystem.setTurretSpeed(-turnSpeed); // Negative because positive offset means target is to the right
+            turretSubsystem.setTurretSpeed(turnSpeed); // Removed the negative sign since Limelight is on turret
         } else {
             System.out.println("NO APRILTAG FOUND");
             turretSubsystem.setTurretSpeed(0); // Stop if no target
