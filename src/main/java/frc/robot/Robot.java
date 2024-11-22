@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class Robot extends TimedRobot {
     @SuppressWarnings("unused")
@@ -11,6 +12,7 @@ public class Robot extends TimedRobot {
     private Command m_testCommand;
     private RobotContainer container;
     private Command m_teleCommand;
+    private DrivetrainSubsystem m_drivetrainSubsystem;
 
     @Override
     
@@ -44,7 +46,7 @@ public class Robot extends TimedRobot {
         }
         
         // Remove the teleop command scheduling since we're using default command
-        drivetrain.setDefaultCommand(container.getDrivetrain().getDefaultCommand());
+        m_drivetrainSubsystem.setDefaultCommand(container.getDrivetrain().getDefaultCommand());
     }
 
     @Override
