@@ -41,9 +41,7 @@ public class LimelightControlCommand extends InstantCommand {
             // Clamp the output to prevent excessive speed
             turnSpeed = Math.max(-0.1, Math.min(0.1, turnSpeed));
             
-            System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-            
-            turretSubsystem.setTurretSpeed(turnSpeed);
+            turretSubsystem.setTurretSpeed(-turnSpeed); // Negative because positive offset means target is to the right
         } else {
             System.out.println("NO APRILTAG FOUND");
             pidController.reset();
