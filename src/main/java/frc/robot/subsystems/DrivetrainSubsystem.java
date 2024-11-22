@@ -213,13 +213,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
 
 
-    public void setStates(SwerveModuleState[] targetStates){
-        states = kinematics.toSwerveModuleStates(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-        frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-        frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-        backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-        backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+    public void setStates(SwerveModuleState[] targetStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
+
+        states = targetStates;
+
+        frontLeftModule.set(targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[0].angle.getRadians());
+        frontRightModule.set(targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[1].angle.getRadians());
+        backLeftModule.set(targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[2].angle.getRadians());
+        backRightModule.set(targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, targetStates[3].angle.getRadians());
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -230,7 +232,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
-        setStates(targetStates); //TODO: write setStates method
+        setStates(targetStates);
     }
 
     @Override

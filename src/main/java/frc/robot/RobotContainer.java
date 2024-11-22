@@ -46,7 +46,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
-        return new FollowPathCommand(drivetrain, "Test Path");
+        return new FollowPathCommand(drivetrain, "New Path");
     }
 
     public DrivetrainSubsystem getDrivetrain() {
