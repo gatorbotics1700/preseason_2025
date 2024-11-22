@@ -21,28 +21,20 @@ public class TurretControlCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        // Set the turret motor speed
-        System.out.println("EXECUTE");
-       turretSubsystem.turnToAngle(90, 0.1);
-        //turretSubsystem.turnToAngle(turretAngle);
-        // if(Math.abs(limelightSubsystem.getHorizontalOffset())>3) {
-        //     turretSubsystem.setTurretSpeed(turretSpeed);
-        // } else {
-        //     turretSubsystem.setTurretSpeed(0);
-        // }
-       // System.out.println(limelightSubsystem.getHorizontalOffset());
-        }
+        System.out.println("Current Angle: " + turretSubsystem.getTurretAngle());
+        turretSubsystem.turnToAngle(90, turretSpeed);
+    }
 
     @Override
     public boolean isFinished() {
-        if ((turretSubsystem.getTurretAngle() > 85) && (turretSubsystem.getTurretAngle() < 95)){
-            System.out.println("FINISHED");
-            DutyCycleOut dutyCycleOut = new DutyCycleOut(0); 
-
-            turretSubsystem.turretMotor.setControl(dutyCycleOut.withOutput(0));
+        double currentAngle = turretSubsystem.getTurretAngle();
+        boolean isAtTarget = (currentAngle > 85) && (currentAngle < 95);
+        
+        if (isAtTarget) {
+            System.out.println("Target reached: " + currentAngle);
+            turretSubsystem.setTurretSpeed(0);
             return true;
         }
-        System.out.println("NOT FINISHED");
         return false;
     }
 

@@ -48,14 +48,23 @@ public class TurretSubsystem extends SubsystemBase {
     return(((turretMotor.getPosition().getValue())/14)%1)*360;
   }
 
-  public void turnToAngle(double desiredAngle, double speed){
-    double difference = Math.abs(turretAngle()-desiredAngle);
-    if(difference >= 5){
-        DutyCycleOut dutyCycleOut = new DutyCycleOut(speed); 
-        turretMotor.setControl(dutyCycleOut.withOutput(speed));
+  public void turnToAngle(double desiredAngle, double speed) {
+    double currentAngle = getTurretAngle();
+    double error = desiredAngle - currentAngle;
+    
+    // Normalize the error to -180 to 180 degrees
+    if (error > 180) {
+        error -= 360;
+    } else if (error < -180) {
+        error += 360;
+    }
+    
+    if (Math.abs(error) >= 5) {
+        // Set direction based on shortest path
+        double direction = Math.signum(error);
+        setTurretSpeed(speed * direction);
     } else {
-        DutyCycleOut dutyCycleOut = new DutyCycleOut(0); 
-        turretMotor.setControl(dutyCycleOut.withOutput(0));
+        setTurretSpeed(0);
     }
   }
 
