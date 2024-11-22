@@ -12,7 +12,7 @@ import frc.robot.commands.MechStop;
 public class TurretSubsystem extends SubsystemBase {
 
   public final TalonFX turretMotor; //motor
-  private double TURRET_SPEED = 0.05;
+  private double TURRET_SPEED = 0.01;
   private double turretOffset = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
