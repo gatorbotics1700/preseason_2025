@@ -38,7 +38,7 @@ public class LimelightControlCommand extends InstantCommand {
             double turnSpeed;
             
             if (USE_PID) {
-                turnSpeed = pidController.calculate(targetOffset);
+                turnSpeed = -pidController.calculate(targetOffset);
                 
                 turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
             } else {
