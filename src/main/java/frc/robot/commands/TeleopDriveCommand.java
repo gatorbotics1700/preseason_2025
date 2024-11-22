@@ -11,6 +11,8 @@ public class TeleopDriveCommand extends Command {
     private final DoubleSupplier xSupplier;
     private final DoubleSupplier ySupplier;
     private final DoubleSupplier rotSupplier;
+    
+    private static final double DEADBAND = 0.1;
 
     public TeleopDriveCommand(DrivetrainSubsystem drivetrain, 
                              DoubleSupplier xSupplier, 
@@ -24,11 +26,34 @@ public class TeleopDriveCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        // Ensure we start with zero speeds
+        drivetrain.drive(new ChassisSpeeds());
+    }
+
+    @Override
     public void execute() {
-        // Get the joystick inputs
-        double xSpeed = xSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-        double ySpeed = ySupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-        double rotSpeed = rotSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+        // Get the raw joystick inputs
+        double xInput = xSupplier.getAsDouble();
+        double yInput = ySupplier.getAsDouble();
+        double rotInput = rotSupplier.getAsDouble();
+
+        // Apply deadband
+        double xSpeed = Math.abs(xInput) > DEADBAND ? xInput : 0.0;
+        double ySpeed = Math.abs(yInput) > DEADBAND ? yInput : 0.0;
+        double rotSpeed = Math.abs(rotInput) > DEADBAND ? rotInput : 0.0;
+
+        // Scale to max speeds
+        xSpeed *= DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        ySpeed *= DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        rotSpeed *= DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+
+        // Debug print
+        if (xSpeed != 0 || ySpeed != 0 || rotSpeed != 0) {
+            System.out.println("Joystick inputs - X: " + xSpeed + 
+                             " Y: " + ySpeed + 
+                             " Rot: " + rotSpeed);
+        }
 
         // Create chassis speeds from the inputs
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rotSpeed);
@@ -45,6 +70,6 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false; // Command never finishes on its own
+        return false;
     }
 } 
