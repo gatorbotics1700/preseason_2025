@@ -31,7 +31,7 @@ public class RobotContainer {
 
         drivetrain.setDefaultCommand(new DriveCommand(
                 drivetrain,
-                () -> -modifyAxis(controller.getLeftY()), // Axes are flipped here on purpose
+                () -> -modifyAxis(controller.getLeftY()),
                 () -> -modifyAxis(controller.getLeftX()),
                 () -> -modifyAxis(controller.getRightX())
         ));
@@ -90,19 +90,5 @@ public class RobotContainer {
         value = Math.copySign(value * value, value);
 
         return value;
-    }
-
-    public Command getTeleopCommand() {
-        // Return your default teleop command here
-        return new RunCommand(
-            () -> drivetrain.drive(
-                new ChassisSpeeds(
-                    -controller.getLeftY() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                    -controller.getLeftX() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-                    -controller.getRightX() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-                )
-            ),
-            drivetrain
-        );
     }
 }

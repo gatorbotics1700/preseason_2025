@@ -43,24 +43,12 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
         
-        // Get and schedule the teleop command
-        m_teleCommand = container.getTeleopCommand();
-        if (m_teleCommand != null) {
-            m_teleCommand.schedule();
-        }
+        // Remove the teleop command scheduling since we're using default command
+        drivetrain.setDefaultCommand(container.getDrivetrain().getDefaultCommand());
     }
 
     @Override
     public void teleopPeriodic() {
-        // This makes sure that the autonomous stops running when teleop starts
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
-        }
-        
-        // Get and schedule the teleop command
-        m_teleCommand = container.getTeleopCommand();
-        if (m_teleCommand != null) {
-            m_teleCommand.schedule();
-        }
+        // Remove this entire method or leave it empty
     }
 }
