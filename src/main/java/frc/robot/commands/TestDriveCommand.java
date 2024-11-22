@@ -20,7 +20,7 @@ public class TestDriveCommand extends Command {
     @Override
     public void execute() {
         // Try to drive forward at 1 m/s
-        ChassisSpeeds speeds = new ChassisSpeeds(1.0, 0.0, 0.0);
+        ChassisSpeeds speeds = new ChassisSpeeds(0.2, 0.0, 0.0);
         System.out.println("Attempting to drive forward...");
         drivetrain.driveRobotRelative(speeds);
     }
