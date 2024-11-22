@@ -47,8 +47,18 @@ public class RobotContainer {
     }
 
 
-    public Command getAutonomousCommand(){
-        return new FollowPathCommand(drivetrain, "Test Path");
+    public Command getAutonomousCommand() {
+        try {
+            // Use "Test Auto" to match the exact file name
+            PathPlannerAuto auto = new PathPlannerAuto("Test Auto");
+            System.out.println("Auto loaded successfully: Test Auto");
+            return auto;
+        } catch (Exception e) {
+            System.err.println("Failed to load auto path: " + e.getMessage());
+            e.printStackTrace();
+            // Fallback to test command if path fails to load
+            return new TestDriveCommand(drivetrain);
+        }
     }
 
     public Command getTestCommand(){
@@ -79,5 +89,19 @@ public class RobotContainer {
         value = Math.copySign(value * value, value);
 
         return value;
+    }
+
+    public Command getTeleopCommand() {
+        // Return your default teleop command here
+        return new RunCommand(
+            () -> drivetrain.drive(
+                new ChassisSpeeds(
+                    -controller.getLeftY() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                    -controller.getLeftX() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+                    -controller.getRightX() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+                )
+            ),
+            drivetrain
+        );
     }
 }

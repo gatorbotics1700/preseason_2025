@@ -10,6 +10,7 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private Command m_testCommand;
     private RobotContainer container;
+    private Command m_teleCommand;
 
     @Override
     
@@ -36,15 +37,30 @@ public class Robot extends TimedRobot {
         }
     }
     @Override
-    public void teleopInit (){
-        // if(m_testCommand != null){
-        //     m_testCommand.cancel();
-
-        // }
-
-        if(m_autonomousCommand != null){
+    public void teleopInit() {
+        // This makes sure that the autonomous stops running when teleop starts
+        if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
+        }
+        
+        // Get and schedule the teleop command
+        Command m_teleCommand = container.getTeleopCommand();
+        if (m_teleCommand != null) {
+            m_teleCommand.schedule();
+        }
+    }
 
+    @Override
+    public void teleopPeriodic() {
+        // This makes sure that the autonomous stops running when teleop starts
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
+        
+        // Get and schedule the teleop command
+        Command m_teleCommand = container.getTeleopCommand();
+        if (m_teleCommand != null) {
+            m_teleCommand.schedule();
         }
     }
 }
