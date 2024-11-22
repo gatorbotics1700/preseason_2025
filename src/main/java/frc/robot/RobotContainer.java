@@ -3,6 +3,7 @@ package frc.robot;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FollowPathCommand;
 import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -21,53 +22,40 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
-    private final SendableChooser<Command> autoChooser;
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-
     private final XboxController controller = new XboxController(0);
+    private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        drivetrain.register();
-
-        drivetrain.setDefaultCommand(new DriveCommand(
+        // Set up the default drive command
+        drivetrain.setDefaultCommand(
+            new TeleopDriveCommand(
                 drivetrain,
-                () -> -modifyAxis(controller.getLeftY()),
-                () -> -modifyAxis(controller.getLeftX()),
-                () -> -modifyAxis(controller.getRightX())
-        ));
+                () -> -modifyAxis(controller.getLeftY()),  // Forward/backward
+                () -> -modifyAxis(controller.getLeftX()),  // Left/right
+                () -> -modifyAxis(controller.getRightX())  // Rotation
+            )
+        );
 
+        // Zero gyroscope button binding
         new Trigger(controller::getBackButtonPressed)
-                 .onTrue(new RunCommand(drivetrain::zeroGyroscope));
+                .onTrue(new RunCommand(drivetrain::zeroGyroscope));
 
-
+        // Auto chooser setup
         autoChooser = AutoBuilder.buildAutoChooser();
-
-
-        SmartDashboard.putData("Auto Chooser", autoChooser);         
-
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
-
 
     public Command getAutonomousCommand() {
         try {
-            // Use "Test Auto" to match the exact file name
             PathPlannerAuto auto = new PathPlannerAuto("Test Auto");
             System.out.println("Auto loaded successfully: Test Auto");
             return auto;
         } catch (Exception e) {
             System.err.println("Failed to load auto path: " + e.getMessage());
             e.printStackTrace();
-            // Fallback to test command if path fails to load
             return new TestDriveCommand(drivetrain);
         }
-    }
-
-    public Command getTestCommand(){
-        return new TestDriveCommand(drivetrain);
-    }
-
-    public DrivetrainSubsystem getDrivetrain() {
-        return drivetrain;
     }
 
     private static double deadband(double value, double deadband) {
