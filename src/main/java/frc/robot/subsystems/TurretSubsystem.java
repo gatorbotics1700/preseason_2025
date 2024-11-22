@@ -7,18 +7,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.MechStop;
-
+import edu.wpi.first.math.controller.PIDController;
 
 public class TurretSubsystem extends SubsystemBase {
-
-  public final TalonFX turretMotor; //motor
   private double TURRET_SPEED = 0.01;
   private double turretOffset = 0;
+  private static final double TOLERANCE = 2.0;
+  private static final double kP = 0.2;
+  private static final double kI = 0.0;
+  private static final double kD = 0.0;
+  private static final boolean USE_PID = true;
+  public final TalonFX turretMotor; //motor
+  private final PIDController pidController;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+
+  private LimelightSubsystem limelightSubsystem;
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
     //setDefaultCommand(new MechStop(this));
+    this.pidController = new PIDController(kP, kI, kD);
+      pidController.setTolerance(TOLERANCE);
+      pidController.setSetpoint(0.0);
   }
 
   @Override
@@ -61,6 +71,42 @@ public class TurretSubsystem extends SubsystemBase {
         setTurretSpeed(speed * direction);
     } else {
         setTurretSpeed(0);
+    }
+
+
+    if (limelightSubsystem.hasValidTarget()) {
+      double targetAngle = limelightSubsystem.getHorizontalOffset();
+      double turnSpeed;
+      
+      // if (USE_PID) {
+
+      //     // turnSpeed = -pidController.calculate(targetAngle);
+          
+      //     // turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+      // } else {
+      //     // turnSpeed = 0;
+      //     // if (Math.abs(targetAngle) > TOLERANCE) {
+      //     //     turnSpeed = Math.signum(targetAngle) * TURNING_SPEED;
+      //     // }
+      // }
+      
+      System.out.println("Target Offset: " + targetAngle);
+      //turretSubsystem.setTurretSpeed(turnSpeed);
+      turnToAngle(targetAngle,0.1);
+      
+    } else {
+      System.out.println("NO APRILTAG FOUND");
+      if (USE_PID) {
+          pidController.reset();
+      }
+      setTurretSpeed(0);
+    }
+
+    double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
+    boolean isAligned = offset < TOLERANCE;
+    if (isAligned) {       
+      setTurretSpeed(0);
+      System.out.println("Target Aligned! Offset: " + offset);
     }
   }
 
