@@ -29,7 +29,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Set up the default drive command
         drivetrain.setDefaultCommand(
-            new TeleopDriveCommand(
+            new DriveCommand(
                 drivetrain,
                 () -> -modifyAxis(controller.getLeftY()),  // Forward/backward
                 () -> -modifyAxis(controller.getLeftX()),  // Left/right
