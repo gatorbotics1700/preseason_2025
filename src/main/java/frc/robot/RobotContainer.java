@@ -45,6 +45,7 @@ public class RobotContainer {
 
 
     public Command getAutonomousCommand(){
+        System.out.println("auto path: " + autoChooser.getSelected());
         return autoChooser.getSelected();
         // return new PathPlannerAuto("Test Auto");
     }
