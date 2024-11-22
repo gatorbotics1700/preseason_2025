@@ -22,17 +22,17 @@ public class LimelightControlCommand extends InstantCommand {
         if (limelightSubsystem.hasValidTarget()) {
             // Get horizontal offset from limelight
             double targetOffset = limelightSubsystem.getHorizontalOffset();
-            double currentAngle = turretSubsystem.getTurretAngle();
-            
-            // Calculate the desired angle by adding the offset to current angle
-            double desiredAngle = currentAngle + targetOffset;
             
             System.out.println("Target Offset: " + targetOffset);
-            System.out.println("Current Angle: " + currentAngle);
-            System.out.println("Desired Angle: " + desiredAngle);
             
-            // Turn the turret to eliminate the offset
-            turretSubsystem.turnToAngle(desiredAngle, TURNING_SPEED);
+            // Directly use the offset to determine turn direction and speed
+            double turnSpeed = 0;
+            if (Math.abs(targetOffset) > TOLERANCE) {
+                // Use a smaller multiplier to reduce turn speed
+                turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
+            }
+            
+            turretSubsystem.setTurretSpeed(-turnSpeed); // Negative because positive offset means target is to the right
         } else {
             System.out.println("NO APRILTAG FOUND");
             turretSubsystem.setTurretSpeed(0); // Stop if no target
