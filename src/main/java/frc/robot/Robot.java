@@ -35,10 +35,11 @@ public class Robot extends TimedRobot {
         //      m_teleopCommand2.schedule();
         // }
         m_limelightCommand = m_robotContainer.getLimelightCommand();
-
+        m_turretSubsystem = m_robotContainer.getTurretSubsystem() ;
         if (m_limelightCommand != null) {
              m_limelightCommand.schedule();
         }
+        m_turretSubsystem.zeroTurret();
     }
 
     @Override

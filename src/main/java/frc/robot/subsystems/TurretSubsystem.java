@@ -13,7 +13,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   public final TalonFX turretMotor; //motor
   private double TURRET_SPEED = 0.05;
-  private final double TURRET_OFFSET = 0;
+  private double turretOffset = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
   public TurretSubsystem() {
@@ -43,10 +43,6 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
 
   }
-  
-  public double turretAngle(){
-    return(((turretMotor.getPosition().getValue())/14)%1)*360;
-  }
 
   public void turnToAngle(double desiredAngle, double speed) {
     double currentAngle = getTurretAngle();
@@ -73,8 +69,14 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setControl(dutyCycleOut.withOutput(speed));
   }
 
+  public void zeroTurret(){
+    turretOffset = turretMotor.getPosition().getValueAsDouble(); 
+    System.out.println("Zeroing the turret");
+    System.out.println("turret offset: " + turretOffset);
+  }
+
   public double getTurretAngle() {
-    return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360 + TURRET_OFFSET;
+    return (((turretMotor.getPosition().getValueAsDouble() - turretOffset) / 9.2) * 360) % 360; //converts the turret angle rotations to degrees
   }
 
 }

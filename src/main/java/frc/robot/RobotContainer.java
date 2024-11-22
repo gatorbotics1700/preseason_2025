@@ -55,4 +55,8 @@ public class RobotContainer {
   public Command getTurretCommand() {
     return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
   }
+
+  public TurretSubsystem getTurretSubsystem() {
+    return m_turretsub;
+  }
 }
