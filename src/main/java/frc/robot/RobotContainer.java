@@ -27,9 +27,15 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        // Print the initial joystick values
+        System.out.println("Initial joystick values:");
+        System.out.println("LeftY: " + controller.getLeftY());
+        System.out.println("LeftX: " + controller.getLeftX());
+        System.out.println("RightX: " + controller.getRightX());
+
         // Set up the default drive command
         drivetrain.setDefaultCommand(
-            new DriveCommand(
+            new TeleopDriveCommand(
                 drivetrain,
                 () -> -modifyAxis(controller.getLeftY()),  // Forward/backward
                 () -> -modifyAxis(controller.getLeftX()),  // Left/right
