@@ -47,14 +47,15 @@ public class RobotContainer {
     }
 
 
-    public Command getAutonomousCommand(){
-        try {
-            PathPlannerAuto auto = new PathPlannerAuto("Test Path");
-            System.out.println("Auto loaded successfully: Test Path");
-            return auto;
-        } catch (Exception e) {
-            System.err.println("Failed to load auto path: " + e.getMessage());
-            e.printStackTrace();
+    public Command getAutonomousCommand() {
+        // Get the selected auto command from the chooser
+        Command selectedAuto = autoChooser.getSelected();
+        
+        if (selectedAuto != null) {
+            System.out.println("Running auto: " + selectedAuto.getName());
+            return selectedAuto;
+        } else {
+            System.out.println("No auto selected, falling back to test command");
             return new TestDriveCommand(drivetrain);
         }
     }
