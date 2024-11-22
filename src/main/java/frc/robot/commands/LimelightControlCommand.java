@@ -35,8 +35,8 @@ public class LimelightControlCommand extends InstantCommand {
             // Get horizontal offset from limelight
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             
-            // Calculate motor output using PID
-            double turnSpeed = pidController.calculate(targetOffset);
+            // Calculate motor output using PID and invert it
+            double turnSpeed = -pidController.calculate(targetOffset);
             
             // Clamp the output to prevent excessive speed
             turnSpeed = Math.max(-0.1, Math.min(0.1, turnSpeed));
