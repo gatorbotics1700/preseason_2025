@@ -8,7 +8,8 @@ public class LimelightControlCommand extends InstantCommand {
 
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
-    private static final double TURNING_SPEED = 0.05; // Adjust this value as needed
+    private static final double TURNING_SPEED = 0.05;
+    private static final double TOLERANCE = 2.0; // Degrees of acceptable error
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
@@ -18,37 +19,39 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void execute() {
-      //  System.out.println("*********************************************************");
-
         if (limelightSubsystem.hasValidTarget()) {
-            System.out.println("*********************************************************");
-            // Get current turret angle
-            //double currentAngle = turretSubsystem.getTurretAngle();
-            
-            // Get horizontal offset from limelight (-27 to 27 degrees typically)
+            // Get horizontal offset from limelight
             double targetOffset = limelightSubsystem.getHorizontalOffset();
+            double currentAngle = turretSubsystem.getTurretAngle();
             
-            // Calculate desired angle by adding the offset to current angle
-           // double desiredAngle = currentAngle + targetOffset;
+            // Calculate the desired angle by adding the offset to current angle
+            double desiredAngle = currentAngle + targetOffset;
             
-            // Normalize the angle to stay within 0-360 range
-            targetOffset = ((targetOffset % 360) + 360) % 360;
-            System.out.println("DESIRED ANGLE: " + targetOffset);
+            System.out.println("Target Offset: " + targetOffset);
+            System.out.println("Current Angle: " + currentAngle);
+            System.out.println("Desired Angle: " + desiredAngle);
             
-            // Use the existing turnToAngle method
-            turretSubsystem.turnToAngle(targetOffset, TURNING_SPEED);
+            // Turn the turret to eliminate the offset
+            turretSubsystem.turnToAngle(desiredAngle, TURNING_SPEED);
         } else {
-            // If no target is found, you might want to implement a search pattern
-            // For example, slowly rotate the turret
-           // turretSubsystem.setTurretSpeed(0.05);
-           System.out.println("NO APRILTAG FOUND");
+            System.out.println("NO APRILTAG FOUND");
+            turretSubsystem.setTurretSpeed(0); // Stop if no target
         }
     }
 
     @Override
     public boolean isFinished() {
-        // Command continues running until explicitly stopped
-        if(Math.abs(turretSubsystem.getTurretAngle()-limelightSubsystem.getHorizontalOffset()) < 5){
+        if (!limelightSubsystem.hasValidTarget()) {
+            return false;
+        }
+        
+        // Command is finished when horizontal offset is near zero
+        double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
+        boolean isAligned = offset < TOLERANCE;
+        
+        if (isAligned) {
+            turretSubsystem.setTurretSpeed(0);
+            System.out.println("Target Aligned! Offset: " + offset);
             return true;
         }
         return false;

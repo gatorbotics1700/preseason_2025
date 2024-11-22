@@ -44,25 +44,15 @@ public class RobotContainer {
 
   }
 
-  public Command getTeleopCommand() {
-    return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
-   // return new ServoControlCommand(m_servosub, 20);
+  public Command getLimelightCommand() {
+    return new LimelightControlCommand(m_limelightsub, m_turretsub);
   }
 
-  public Command getTeleopCommand1() {
-    // return new TurretControlCommand(m_turretsub, 0.05, 30).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 60)).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
-    // andThen(new TurretControlCommand(m_turretsub, 0.05, 90));
+  public Command getServoCommand() {
     return new ServoControlCommand(m_servosub, 50);
   }
 
-  public Command getTeleopCommand2() {
-    return new LimelightControlCommand(m_limelightsub, m_turretsub);
+  public Command getTurretCommand() {
+    return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
   }
 }

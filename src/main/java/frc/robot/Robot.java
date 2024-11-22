@@ -8,9 +8,9 @@ import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class Robot extends TimedRobot {
-    private Command m_teleopCommand;
-    private Command m_teleopCommand1;
-    private Command m_teleopCommand2;
+    private Command m_limelightCommand;
+    private Command m_servoCommand;
+    private Command m_turretCommand;
     private TurretSubsystem m_turretSubsystem;
 
     private RobotContainer m_robotContainer;
@@ -34,10 +34,10 @@ public class Robot extends TimedRobot {
         // if (m_teleopCommand2 != null) {
         //      m_teleopCommand2.schedule();
         // }
-        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        m_limelightCommand = m_robotContainer.getLimelightCommand();
 
-        if (m_teleopCommand != null) {
-             m_teleopCommand.schedule();
+        if (m_limelightCommand != null) {
+             m_limelightCommand.schedule();
         }
     }
 
@@ -49,10 +49,10 @@ public class Robot extends TimedRobot {
         //      m_teleopCommand2.schedule();
         // }
 
-        m_teleopCommand = m_robotContainer.getTeleopCommand();
+        m_limelightCommand = m_robotContainer.getLimelightCommand();
 
-        if (m_teleopCommand != null) {
-             m_teleopCommand.schedule();
+        if (m_limelightCommand != null) {
+             m_limelightCommand.schedule();
         }
 
     }
