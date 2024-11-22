@@ -126,7 +126,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return slowDrive;
     }
 
-    public void zeroGyroscope() {
+    public void zeroGyroscope() { //TODO: fix
         odometry.resetPosition( //shouldn't be using this
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
