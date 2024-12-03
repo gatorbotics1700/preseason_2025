@@ -219,10 +219,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         states = targetStates;
 
         // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = Math.max(1.0, targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
-        double fr_voltage = Math.max(1.0, targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
-        double bl_voltage = Math.max(1.0, targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
-        double br_voltage = Math.max(1.0, targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE);
+        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
 
         System.out.println("Setting voltages - FL: " + fl_voltage + 
                           " FR: " + fr_voltage +
