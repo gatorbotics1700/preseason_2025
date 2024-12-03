@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 public class TurretSubsystem extends SubsystemBase {
   private double TURRET_SPEED = 0.01;
   private double turretOffset = 0;
+  private static final double TURNING_SPEED = 0.02;
   private static final double TOLERANCE = 2.0;
   private static final double kP = 0.2;
   private static final double kI = 0.0;
@@ -27,15 +28,15 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
     //setDefaultCommand(new MechStop(this));
     this.pidController = new PIDController(kP, kI, kD);
-      pidController.setTolerance(TOLERANCE);
-      pidController.setSetpoint(0.0);
+    pidController.setTolerance(TOLERANCE);
+    pidController.setSetpoint(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
    // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
-   System.out.println("TURRET ANGLE: " + getTurretAngle());
+    System.out.println("TURRET ANGLE: " + getTurretAngle());
     
   }
 
@@ -58,55 +59,64 @@ public class TurretSubsystem extends SubsystemBase {
     double currentAngle = getTurretAngle();
     double error = desiredAngle - currentAngle;
     
-    // Normalize the error to -180 to 180 degrees
-    if (error > 180) {
-        error -= 360;
-    } else if (error < -180) {
-        error += 360;
-    }
-    
-    if (Math.abs(error) >= 5) {
-        // Set direction based on shortest path
-        double direction = Math.signum(error);
-        setTurretSpeed(speed * direction);
-    } else {
-        setTurretSpeed(0);
-    }
-
-
+    //if(USE_PID){
     if (limelightSubsystem.hasValidTarget()) {
       double targetAngle = limelightSubsystem.getHorizontalOffset();
       double turnSpeed;
       
       // if (USE_PID) {
 
-      //     // turnSpeed = -pidController.calculate(targetAngle);
-          
-      //     // turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+      turnSpeed = -pidController.calculate(targetAngle);
+      turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+
+      System.out.println("Target Offset: " + targetAngle + " Turn Speed: " + turnSpeed);
       // } else {
       //     // turnSpeed = 0;
       //     // if (Math.abs(targetAngle) > TOLERANCE) {
       //     //     turnSpeed = Math.signum(targetAngle) * TURNING_SPEED;
       //     // }
       // }
-      
-      System.out.println("Target Offset: " + targetAngle);
-      //turretSubsystem.setTurretSpeed(turnSpeed);
-      turnToAngle(targetAngle,0.1);
+    
+      setTurretSpeed(turnSpeed);
+        //turnToAngle(targetAngle,0.1);
       
     } else {
       System.out.println("NO APRILTAG FOUND");
-      if (USE_PID) {
-          pidController.reset();
-      }
+        //if (USE_PID) {
+      pidController.reset();
+        //}
       setTurretSpeed(0);
     }
 
+
+    
+    // } else {
+    //   // Normalize the error to -180 to 180 degrees
+    //   if (error > 180) {
+    //     error -= 360;
+    //   } else if (error < -180) {
+    //     error += 360;
+    //   }
+    
+    //   if (Math.abs(error) >= 5) {
+    //     // Set direction based on shortest path
+    //     double direction = Math.signum(error);
+    //     setTurretSpeed(speed * direction);
+    //   } else {
+    //     setTurretSpeed(0);
+    //   }
+    // }
+  }
+
+  public boolean isAtTarget(){
     double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
     boolean isAligned = offset < TOLERANCE;
-    if (isAligned) {       
-      setTurretSpeed(0);
+    if(isAligned){
+      System.out.println("Turret is aligned!");
+      return true;
+    } else {
       System.out.println("Target Aligned! Offset: " + offset);
+      return false;
     }
   }
 
