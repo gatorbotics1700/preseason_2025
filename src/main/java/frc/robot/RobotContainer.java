@@ -38,8 +38,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             new TeleopDriveCommand(
                 drivetrain,
-                () -> -modifyAxis(controller.getLeftX()),    // Changed to raw values
-                () -> -modifyAxis(controller.getLeftY()),     // Changed to raw values
+                () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
+                () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
                 () -> -modifyAxis(controller.getRightX())    // Changed to raw values
             )
         );
