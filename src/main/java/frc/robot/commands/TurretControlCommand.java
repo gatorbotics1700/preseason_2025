@@ -23,7 +23,7 @@ public class TurretControlCommand extends InstantCommand {
     @Override
     public void execute() {
         System.out.println("Current Angle: " + turretSubsystem.getTurretAngle());
-        turretSubsystem.turnToAngle(limelightSubsystem.getHorizontalOffset(), turretSpeed);
+        turretSubsystem.turnToAngle();
     }
 
     @Override

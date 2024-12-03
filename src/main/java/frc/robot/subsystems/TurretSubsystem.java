@@ -55,13 +55,14 @@ public class TurretSubsystem extends SubsystemBase {
 
   }
 
-  public void turnToAngle(double desiredAngle, double speed) {
-    double currentAngle = getTurretAngle();
-    double error = desiredAngle - currentAngle;
+  public void turnToAngle() {
+    // double currentAngle = getTurretAngle();
+    // double error = limelightSubsystem.getHorizontalOffset() - currentAngle;
     
     //if(USE_PID){
     if (limelightSubsystem.hasValidTarget()) {
-      double targetAngle = limelightSubsystem.getHorizontalOffset();
+      double targetAngle = limelightSubsystem.getHorizontalOffset(); // assuming it is zeroed
+      System.out.println("TARGET ANGLE: " + targetAngle);
       double turnSpeed;
       
       // if (USE_PID) {
@@ -69,7 +70,7 @@ public class TurretSubsystem extends SubsystemBase {
       turnSpeed = -pidController.calculate(targetAngle);
       turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
 
-      System.out.println("Target Offset: " + targetAngle + " Turn Speed: " + turnSpeed);
+      System.out.println("Turn Speed: " + turnSpeed);
       // } else {
       //     // turnSpeed = 0;
       //     // if (Math.abs(targetAngle) > TOLERANCE) {
@@ -109,8 +110,9 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public boolean isAtTarget(){
+    double currentAngle = getTurretAngle();
     double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
-    boolean isAligned = offset < TOLERANCE;
+    boolean isAligned = Math.abs(currentAngle-offset) < TOLERANCE;
     if(isAligned){
       System.out.println("Turret is aligned!");
       return true;
