@@ -35,14 +35,14 @@ public class RobotContainer {
         System.out.println("RightX: " + controller.getRightX());
 
         // Set up the default drive command
-        drivetrain.setDefaultCommand(
-            new TeleopDriveCommand(
-                drivetrain,
-                () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
-                () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
-                () -> -modifyAxis(controller.getRightX())    // Changed to raw values
-            )
-        );
+        // drivetrain.setDefaultCommand(
+        //     new TeleopDriveCommand(
+        //         drivetrain,
+        //         () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
+        //         () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
+        //         () -> -modifyAxis(controller.getRightX())    // Changed to raw values
+        //     )
+        // );
         
         System.out.println("Default command set");
 
@@ -65,6 +65,21 @@ public class RobotContainer {
             e.printStackTrace();
             return new TestDriveCommand(drivetrain);
         }
+    }
+
+    public void setDefaultTeleopCommand(){
+        drivetrain.setDefaultCommand(
+            new TeleopDriveCommand(
+                drivetrain,
+                () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
+                () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
+                () -> -modifyAxis(controller.getRightX())    // Changed to raw values
+            )
+        );
+    }
+
+    public DrivetrainSubsystem getDrivetrain(){
+        return drivetrain;
     }
 
     private static double deadband(double value, double deadband) {
