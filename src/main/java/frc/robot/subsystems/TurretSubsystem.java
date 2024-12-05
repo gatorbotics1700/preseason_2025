@@ -55,58 +55,25 @@ public class TurretSubsystem extends SubsystemBase {
 
   }
 
-  public void turnToAngle() {
-    // double currentAngle = getTurretAngle();
-    // double error = limelightSubsystem.getHorizontalOffset() - currentAngle;
-    
-    //if(USE_PID){
+  public void turnToAngle(double targetAngle) {
     if (limelightSubsystem.hasValidTarget()) {
-      double targetAngle = limelightSubsystem.getHorizontalOffset(); // assuming it is zeroed
-      System.out.println("TARGET ANGLE: " + targetAngle);
-      double turnSpeed;
-      
-      // if (USE_PID) {
+        double currentAngle = getTurretAngle();
+        double error = targetAngle - currentAngle;
 
-      turnSpeed = -pidController.calculate(targetAngle);
-      turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+        // Normalize the error to -180 to 180 degrees
+        if (error > 180) {
+            error -= 360;
+        } else if (error < -180) {
+            error += 360;
+        }
 
-      System.out.println("Turn Speed: " + turnSpeed);
-      // } else {
-      //     // turnSpeed = 0;
-      //     // if (Math.abs(targetAngle) > TOLERANCE) {
-      //     //     turnSpeed = Math.signum(targetAngle) * TURNING_SPEED;
-      //     // }
-      // }
-    
-      setTurretSpeed(turnSpeed);
-        //turnToAngle(targetAngle,0.1);
-      
+        double turnSpeed = Math.signum(error) * TURNING_SPEED; // Set speed based on direction
+        setTurretSpeed(turnSpeed);
+        System.out.println("Turn Speed: " + turnSpeed);
     } else {
-      System.out.println("NO APRILTAG FOUND");
-        //if (USE_PID) {
-      pidController.reset();
-        //}
-      setTurretSpeed(0);
+        System.out.println("NO APRILTAG FOUND");
+        setTurretSpeed(0);
     }
-
-
-    
-    // } else {
-    //   // Normalize the error to -180 to 180 degrees
-    //   if (error > 180) {
-    //     error -= 360;
-    //   } else if (error < -180) {
-    //     error += 360;
-    //   }
-    
-    //   if (Math.abs(error) >= 5) {
-    //     // Set direction based on shortest path
-    //     double direction = Math.signum(error);
-    //     setTurretSpeed(speed * direction);
-    //   } else {
-    //     setTurretSpeed(0);
-    //   }
-    // }
   }
 
   public boolean isAtTarget(){
