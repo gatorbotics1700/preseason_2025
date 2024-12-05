@@ -29,24 +29,16 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-        // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
+        //m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
 
         // if (m_teleopCommand2 != null) {
         //      m_teleopCommand2.schedule();
         // }
         m_limelightCommand = m_robotContainer.getLimelightCommand();
-        // m_turretSubsystem = m_robotContainer.getTurretSubsystem() ;
+
         if (m_limelightCommand != null) {
              m_limelightCommand.schedule();
         }
-        // m_turretSubsystem.zeroTurret();
-
-        m_turretCommand = m_robotContainer.getTurretCommand();
-        m_turretSubsystem = m_robotContainer.getTurretSubsystem() ;
-        if (m_turretCommand != null) {
-             m_turretCommand.schedule();
-        }
-        m_turretSubsystem.zeroTurret();
     }
 
     @Override
@@ -61,12 +53,6 @@ public class Robot extends TimedRobot {
 
         if (m_limelightCommand != null) {
              m_limelightCommand.schedule();
-        }
-
-        m_turretCommand = m_robotContainer.getTurretCommand();
-
-        if (m_turretCommand != null) {
-             m_turretCommand.schedule();
         }
 
     }

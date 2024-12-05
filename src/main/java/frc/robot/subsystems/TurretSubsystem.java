@@ -7,36 +7,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.MechStop;
-import edu.wpi.first.math.controller.PIDController;
+
 
 public class TurretSubsystem extends SubsystemBase {
-  private double TURRET_SPEED = 0.01;
-  private double turretOffset = 0;
-  private static final double TURNING_SPEED = 0.02;
-  private static final double TOLERANCE = 2.0;
-  private static final double kP = 0.2;
-  private static final double kI = 0.0;
-  private static final double kD = 0.0;
-  private static final boolean USE_PID = true;
-  public final TalonFX turretMotor; //motor
-  private final PIDController pidController;
-  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
-  private LimelightSubsystem limelightSubsystem;
+  public final TalonFX turretMotor; //motor
+  private double TURRET_SPEED = 0.05;
+  private final double TURRET_OFFSET = 0;
+  private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
     //setDefaultCommand(new MechStop(this));
-    this.pidController = new PIDController(kP, kI, kD);
-    pidController.setTolerance(TOLERANCE);
-    pidController.setSetpoint(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
    // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
-    System.out.println("TURRET ANGLE: " + getTurretAngle());
+   System.out.println("TURRET ANGLE: " + getTurretAngle());
     
   }
 
@@ -54,38 +43,28 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
 
   }
-
-  public void turnToAngle(double targetAngle) {
-    if (limelightSubsystem.hasValidTarget()) {
-        double currentAngle = getTurretAngle();
-        double error = targetAngle - currentAngle;
-
-        // Normalize the error to -180 to 180 degrees
-        if (error > 180) {
-            error -= 360;
-        } else if (error < -180) {
-            error += 360;
-        }
-
-        double turnSpeed = Math.signum(error) * TURNING_SPEED; // Set speed based on direction
-        setTurretSpeed(turnSpeed);
-        System.out.println("Turn Speed: " + turnSpeed);
-    } else {
-        System.out.println("NO APRILTAG FOUND");
-        setTurretSpeed(0);
-    }
+  
+  public double turretAngle(){
+    return(((turretMotor.getPosition().getValue())/14)%1)*360;
   }
 
-  public boolean isAtTarget(){
+  public void turnToAngle(double desiredAngle, double speed) {
     double currentAngle = getTurretAngle();
-    double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
-    boolean isAligned = Math.abs(currentAngle-offset) < TOLERANCE;
-    if(isAligned){
-      System.out.println("Turret is aligned!");
-      return true;
+    double error = desiredAngle - currentAngle;
+    
+    // Normalize the error to -180 to 180 degrees
+    if (error > 180) {
+        error -= 360;
+    } else if (error < -180) {
+        error += 360;
+    }
+    
+    if (Math.abs(error) >= 5) {
+        // Set direction based on shortest path
+        double direction = Math.signum(error);
+        setTurretSpeed(speed * direction);
     } else {
-      System.out.println("Target Aligned! Offset: " + offset);
-      return false;
+        setTurretSpeed(0);
     }
   }
 
@@ -94,14 +73,8 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setControl(dutyCycleOut.withOutput(speed));
   }
 
-  public void zeroTurret(){
-    turretOffset = turretMotor.getPosition().getValueAsDouble(); 
-    System.out.println("Zeroing the turret");
-    System.out.println("turret offset: " + turretOffset);
-  }
-
   public double getTurretAngle() {
-    return (((turretMotor.getPosition().getValueAsDouble() - turretOffset) / 9.2) * 360) % 360; //converts the turret angle rotations to degrees
+    return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360 + TURRET_OFFSET;
   }
 
 }
