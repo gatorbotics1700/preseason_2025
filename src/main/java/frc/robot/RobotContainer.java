@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightControlCommand;
+import frc.robot.commands.PneumaticIntakeControlCommand;
 import frc.robot.commands.ServoControlCommand;
 import frc.robot.commands.TurretControlCommand;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.PneumaticIntakeSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
@@ -24,6 +26,7 @@ public class RobotContainer {
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
+  private static final PneumaticIntakeSubsystem m_pneumaticIntakeSub = new PneumaticIntakeSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -56,7 +59,15 @@ public class RobotContainer {
     return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
   }
 
+  public Command getPneumaticIntakeCommand() {
+    return new PneumaticIntakeControlCommand(m_pneumaticIntakeSub);
+  }
+
   public TurretSubsystem getTurretSubsystem() {
     return m_turretsub;
+  }
+
+  public PneumaticIntakeSubsystem getPneumaticIntakeSubsystem() {
+    return m_pneumaticIntakeSub;
   }
 }

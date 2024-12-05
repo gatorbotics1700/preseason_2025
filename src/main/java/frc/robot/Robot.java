@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.PneumaticIntakeSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -11,9 +12,12 @@ public class Robot extends TimedRobot {
     private Command m_limelightCommand;
     private Command m_servoCommand;
     private Command m_turretCommand;
+    private Command m_pneumaticIntakeCommand;
     private TurretSubsystem m_turretSubsystem;
+    private PneumaticIntakeSubsystem m_pneumaticIntakeSubsystem;
 
     private RobotContainer m_robotContainer;
+    private OI m_OI;
 
     @Override
     public void robotInit() {
@@ -47,6 +51,11 @@ public class Robot extends TimedRobot {
              m_turretCommand.schedule();
         }
         m_turretSubsystem.zeroTurret();
+
+        m_pneumaticIntakeSubsystem = m_robotContainer.getPneumaticIntakeSubsystem();
+        m_pneumaticIntakeCommand = m_robotContainer.getPneumaticIntakeCommand();
+
+        m_OI = new OI(m_pneumaticIntakeCommand);
     }
 
     @Override
@@ -68,6 +77,7 @@ public class Robot extends TimedRobot {
         if (m_turretCommand != null) {
              m_turretCommand.schedule();
         }
+
 
     }
 
