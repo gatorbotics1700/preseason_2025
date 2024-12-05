@@ -33,7 +33,8 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+        double currentAngle = turretSubsystem.getTurretAngle();
+        turretSubsystem.setTurretOffset(-currentAngle);
     }
 
     @Override
