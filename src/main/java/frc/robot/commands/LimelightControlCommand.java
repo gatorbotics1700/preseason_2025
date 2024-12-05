@@ -32,30 +32,19 @@ public class LimelightControlCommand extends InstantCommand {
     }
 
     @Override
+    public void initialize() {
+        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+    }
+
+    @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
-            double turnSpeed;
+            turretSubsystem.turnToAngle(targetOffset, TURNING_SPEED);
             
-            if (USE_PID) {
-                turnSpeed = -pidController.calculate(targetOffset);
-                
-                turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
-            } else {
-                turnSpeed = 0;
-                if (Math.abs(targetOffset) > TOLERANCE) {
-                    turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
-                }
-            }
-            
-            System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-            turretSubsystem.setTurretSpeed(turnSpeed);
-            
+            System.out.println("Target Offset: " + targetOffset);
         } else {
             System.out.println("NO APRILTAG FOUND");
-            if (USE_PID) {
-                pidController.reset();
-            }
             turretSubsystem.setTurretSpeed(0);
         }
     }
