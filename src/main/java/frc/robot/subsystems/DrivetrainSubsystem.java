@@ -127,7 +127,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             this::getRobotRelativeSpeeds,
             this::driveRobotRelative,
             new HolonomicPathFollowerConfig(
-                new PIDConstants(10,0,0),
+                new PIDConstants(10,0,0.05), //try 0.1 after
                 new PIDConstants(10,0,0),
                 MAX_VELOCITY_METERS_PER_SECOND,
                 0.449072,
