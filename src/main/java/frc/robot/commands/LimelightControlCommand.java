@@ -19,6 +19,12 @@ public class LimelightControlCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        // Set the turret to turn to 0 degrees when the command is enabled
+        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+    }
+
+    @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
