@@ -16,7 +16,7 @@ public class MechStop extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_turretsub.MechStop();
+   // m_turretsub.MechStop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
