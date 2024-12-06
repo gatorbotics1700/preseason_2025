@@ -19,11 +19,25 @@ public class LimelightControlCommand extends InstantCommand {
     private static final double kI = 0.0;
     private static final double kD = 0.09;
     
-    private static final boolean USE_PID = false;
+    private static final boolean USE_PID = true;
 
-private double lastTargetOffset = 0.0; // Track the last known target offset
-    private static final double TOLERANCE = 3.0; // Tolerance for stopping
-    private static final double SIGNIFICANT_CHANGE = 5.0; // Significant change for resuming movement
+    private double lastTargetOffset = 0.0; // Track the last known target offset
+
+    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
+        this.limelightSubsystem = limelightSubsystem;
+        this.turretSubsystem = turretSubsystem;
+        
+        this.pidController = new PIDController(kP, kI, kD);
+        pidController.setTolerance(TOLERANCE);
+        pidController.setSetpoint(0.0);
+        
+        addRequirements(limelightSubsystem, turretSubsystem);
+    }
+
+    @Override
+    public void initialize() {
+        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+    }
 
     @Override
     public void execute() {
@@ -34,23 +48,10 @@ private double lastTargetOffset = 0.0; // Track the last known target offset
             if (Math.abs(targetOffset) <= TOLERANCE) {
                 System.out.println("Target is within tolerance. Stopping turret.");
                 turretSubsystem.setTurretSpeed(0); // Stop the turret
-                lastTargetOffset = targetOffset; // Update last known offset to current
             } else {
-                // If the target offset has changed significantly, update the turret speed
-                if (Math.abs(targetOffset - lastTargetOffset) > SIGNIFICANT_CHANGE) {
-                    lastTargetOffset = targetOffset; // Update the last known offset
-
-                    double turnSpeed;
-                    if (USE_PID) {
-                        turnSpeed = -pidController.calculate(targetOffset);
-                        turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
-                    } else {
-                        turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
-                    }
-
-                    System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-                    turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
-                }
+                double turnSpeed = Math.signum(targetOffset) * TURNING_SPEED; // Calculate turn speed
+                System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
+                turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
             }
         } else {
             System.out.println("NO APRILTAG FOUND");
