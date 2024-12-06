@@ -7,23 +7,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.MechStop;
-import edu.wpi.first.math.controller.PIDController;
 
 
 public class TurretSubsystem extends SubsystemBase {
 
   public final TalonFX turretMotor; //motor
-  private double TURRET_SPEED = 0.05;
+  private double TURRET_SPEED = 0.1;
   private final double TURRET_OFFSET = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
-  private final PIDController pidController;
-  private final double kP = 0.005;
-  private final double kI = 0.0;
-  private final double kD = 0.0002;
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
-    pidController = new PIDController(kP, kI, kD);
     //setDefaultCommand(new MechStop(this));
   }
 
@@ -54,10 +48,24 @@ public class TurretSubsystem extends SubsystemBase {
     return(((turretMotor.getPosition().getValue())/14)%1)*360;
   }
 
-  public void turnToAngle(double desiredAngle) {
+  public void turnToAngle(double desiredAngle, double speed) {
     double currentAngle = getTurretAngle();
-    double output = pidController.calculate(currentAngle, desiredAngle);
-    setTurretSpeed(output);
+    double error = desiredAngle - currentAngle;
+    
+    // Normalize the error to -180 to 180 degrees
+    if (error > 180) {
+        error -= 360;
+    } else if (error < -180) {
+        error += 360;
+    }
+    
+    if (Math.abs(error) >= 5) {
+        // Set direction based on shortest path
+        double direction = Math.signum(error);
+        setTurretSpeed(speed * direction);
+    } else {
+        setTurretSpeed(0);
+    }
   }
 
   public void setTurretSpeed(double speed) {
