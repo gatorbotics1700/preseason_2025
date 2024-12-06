@@ -8,6 +8,7 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private final double speed;
+    private double lastHorizontalOffset = 0.0; // Store the last known horizontal offset
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
@@ -25,7 +26,11 @@ public class LimelightControlCommand extends InstantCommand {
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
-            turretSubsystem.turnToAngle(horizontalOffset - 12, speed);
+            // Check if the change in horizontal offset is greater than 3 degrees
+            if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
+                turretSubsystem.turnToAngle(horizontalOffset - 12, speed);
+                lastHorizontalOffset = horizontalOffset; // Update the last known offset
+            }
         } else {
             turretSubsystem.MechStop(); // Stop turret if no valid target
         }
