@@ -10,19 +10,31 @@ public class TurretControlCommand extends InstantCommand {
     private final TurretSubsystem turretSubsystem;
     private final LimelightSubsystem limelightSubsystem;
     private final double turretSpeed;
+    private final double desiredAngle;
 
     public TurretControlCommand(TurretSubsystem turretSubsystem, LimelightSubsystem limelightSubsystem, double turretSpeed)  {
         this.turretSubsystem = turretSubsystem;
         this.limelightSubsystem = limelightSubsystem;
         this.turretSpeed = turretSpeed;
+        desiredAngle = 0.0;
         addRequirements(turretSubsystem); // Ensure this command requires the turret subsystem
         addRequirements(limelightSubsystem);
+    }
+
+    public TurretControlCommand(TurretSubsystem turretSubsystem, double turretSpeed, double desiredAngle) {
+        this.turretSubsystem = turretSubsystem;
+        this.turretSpeed = turretSpeed;
+        this.desiredAngle = desiredAngle;
+        limelightSubsystem = null;
     }
 
     @Override
     public void execute() {
         System.out.println("Current Angle: " + turretSubsystem.getTurretAngle());
-      //  turretSubsystem.turnToAngle(90, turretSpeed);
+        if (limelightSubsystem == null) {
+            turretSubsystem.turnToAngle(desiredAngle, turretSpeed);
+        } 
+        //  turretSubsystem.turnToAngle(90, turretSpeed);
     }
 
     @Override
