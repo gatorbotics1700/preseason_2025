@@ -12,7 +12,7 @@ public class LimelightControlCommand extends InstantCommand {
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
-        this.speed = 0.05; // Set the speed for turret movement
+        this.speed = 0.02; // Set the speed for turret movement
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
@@ -25,7 +25,7 @@ public class LimelightControlCommand extends InstantCommand {
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
-            turretSubsystem.turnToAngle(horizontalOffset, speed);
+            turretSubsystem.turnToAngle(horizontalOffset - 12, speed);
         } else {
             turretSubsystem.MechStop(); // Stop turret if no valid target
         }
