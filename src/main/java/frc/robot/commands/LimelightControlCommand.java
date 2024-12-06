@@ -20,7 +20,8 @@ public class LimelightControlCommand extends InstantCommand {
     
     private static final boolean USE_PID = true;
 
-    private double lastTargetOffset = 0.0;
+    private double lastTargetOffset = 0.0; // Track the last known target offset
+    private boolean isMoving = false; // Track if the turret is currently moving
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
@@ -34,25 +35,35 @@ public class LimelightControlCommand extends InstantCommand {
     }
 
     @Override
+    public void initialize() {
+        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+    }
+
+    @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             double turnSpeed;
-            
+
+            // Check if the target offset has changed significantly
             if (Math.abs(targetOffset - lastTargetOffset) > TOLERANCE) {
-                lastTargetOffset = targetOffset;
-                
+                lastTargetOffset = targetOffset; // Update the last known offset
+                isMoving = true; // Set moving flag
+
                 if (USE_PID) {
                     turnSpeed = -pidController.calculate(targetOffset);
                     turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
                 } else {
                     turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
                 }
-                
+
                 System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
                 turretSubsystem.setTurretSpeed(turnSpeed);
-            } else {
+            } else if (isMoving) {
+                // Stop the turret if the target hasn't moved significantly
+                System.out.println("Stopping turret as target is stable.");
                 turretSubsystem.setTurretSpeed(0);
+                isMoving = false; // Reset moving flag
             }
         } else {
             System.out.println("NO APRILTAG FOUND");
@@ -60,6 +71,7 @@ public class LimelightControlCommand extends InstantCommand {
                 pidController.reset();
             }
             turretSubsystem.setTurretSpeed(0);
+            isMoving = false; // Reset moving flag when no target is found
         }
     }
 
