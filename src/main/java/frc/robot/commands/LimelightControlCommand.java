@@ -22,6 +22,7 @@ public class LimelightControlCommand extends InstantCommand {
     private static final boolean USE_PID = true;
 
     private double lastTargetOffset = 0.0; // Track the last known target offset
+    private boolean hasExecuted = false; // Flag to track if the command has executed
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
@@ -41,18 +42,22 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        if (limelightSubsystem.hasValidTarget()) {
+        if (!hasExecuted && limelightSubsystem.hasValidTarget()) {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
 
-            // Check if the target is within the tolerance
+            // Calculate turn speed based on the target offset
+            double turnSpeed = Math.signum(targetOffset) * TURNING_SPEED; 
+            System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
+            turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
+
+            // Check if the turret is within tolerance to stop
             if (Math.abs(targetOffset) <= TOLERANCE) {
                 System.out.println("Target is within tolerance. Stopping turret.");
                 turretSubsystem.setTurretSpeed(0); // Stop the turret
-            } else {
-                double turnSpeed = Math.signum(targetOffset) * TURNING_SPEED; // Calculate turn speed
-                System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-                turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
+                hasExecuted = true; // Mark as executed
             }
+        } else if (hasExecuted) {
+            turretSubsystem.setTurretSpeed(0); // Ensure turret is stopped after execution
         } else {
             System.out.println("NO APRILTAG FOUND");
             turretSubsystem.setTurretSpeed(0); // Stop the turret if no target is found
