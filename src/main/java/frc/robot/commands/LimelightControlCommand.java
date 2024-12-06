@@ -20,6 +20,8 @@ public class LimelightControlCommand extends InstantCommand {
     
     private static final boolean USE_PID = true;
 
+    private double lastTargetOffset = 0.0;
+
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
@@ -37,20 +39,21 @@ public class LimelightControlCommand extends InstantCommand {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             double turnSpeed;
             
-            if (USE_PID) {
-                turnSpeed = -pidController.calculate(targetOffset);
+            if (Math.abs(targetOffset - lastTargetOffset) > TOLERANCE) {
+                lastTargetOffset = targetOffset;
                 
-                turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
-            } else {
-                turnSpeed = 0;
-                if (Math.abs(targetOffset) > TOLERANCE) {
+                if (USE_PID) {
+                    turnSpeed = -pidController.calculate(targetOffset);
+                    turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+                } else {
                     turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
                 }
+                
+                System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
+                turretSubsystem.setTurretSpeed(turnSpeed);
+            } else {
+                turretSubsystem.setTurretSpeed(0);
             }
-            
-            System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-            turretSubsystem.setTurretSpeed(turnSpeed);
-            
         } else {
             System.out.println("NO APRILTAG FOUND");
             if (USE_PID) {
