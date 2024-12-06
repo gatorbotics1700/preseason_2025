@@ -17,9 +17,9 @@ public class TurretSubsystem extends SubsystemBase {
   private final double TURRET_OFFSET = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
   private final PIDController pidController;
-  private final double kP = 0.1;
+  private final double kP = 0.005;
   private final double kI = 0.0;
-  private final double kD = 0.0;
+  private final double kD = 0.0002;
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
