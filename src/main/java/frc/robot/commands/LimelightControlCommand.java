@@ -19,7 +19,7 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void initialize() {
-        // Initialization logic if needed
+        // 
     }
 
     @Override
