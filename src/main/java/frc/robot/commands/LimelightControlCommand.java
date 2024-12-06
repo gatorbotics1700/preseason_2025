@@ -26,9 +26,8 @@ public class LimelightControlCommand extends InstantCommand {
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
-            // Check if the change in horizontal offset is greater than 3 degrees
             if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
-                turretSubsystem.turnToAngle(horizontalOffset - 12, speed);
+                turretSubsystem.turnToAngle(horizontalOffset - 12);
                 lastHorizontalOffset = horizontalOffset; // Update the last known offset
             }
         } else {
