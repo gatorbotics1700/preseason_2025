@@ -29,10 +29,10 @@ public class RobotContainer {
     public RobotContainer() {
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
-        System.out.println("Initial joystick values:");
-        System.out.println("LeftY: " + controller.getLeftY());
-        System.out.println("LeftX: " + controller.getLeftX());
-        System.out.println("RightX: " + controller.getRightX());
+        // System.out.println("Initial joystick values:");
+        // System.out.println("LeftY: " + controller.getLeftY());
+        // System.out.println("LeftX: " + controller.getLeftX());
+        // System.out.println("RightX: " + controller.getRightX());
 
         // Set up the default drive command
         // drivetrain.setDefaultCommand(
@@ -44,7 +44,7 @@ public class RobotContainer {
         //     )
         // );
         
-        System.out.println("Default command set");
+        // System.out.println("Default command set");
 
         // Zero gyroscope button binding
         new Trigger(controller::getBackButtonPressed)
@@ -57,8 +57,8 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         try {
-            PathPlannerAuto auto = new PathPlannerAuto("Test Auto");
-            System.out.println("Auto loaded successfully: Test Auto");
+            Command auto = autoChooser.getSelected();
+            System.out.println("Auto loaded successfully: " + autoChooser.getSelected().getName());
             return auto;
         } catch (Exception e) {
             System.err.println("Failed to load auto path: " + e.getMessage());
@@ -68,6 +68,7 @@ public class RobotContainer {
     }
 
     public void setDefaultTeleopCommand(){
+        System.out.println("SETTING DEFAULT TELEOP COMMAND");
         drivetrain.setDefaultCommand(
             new TeleopDriveCommand(
                 drivetrain,

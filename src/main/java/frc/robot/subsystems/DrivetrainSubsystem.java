@@ -127,7 +127,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             this::getRobotRelativeSpeeds,
             this::driveRobotRelative,
             new HolonomicPathFollowerConfig(
-                new PIDConstants(10,0,0.05), //try 0.1 after
+                new PIDConstants(5,0,0.05), //try 0.1 after
                 new PIDConstants(10,0,0),
                 MAX_VELOCITY_METERS_PER_SECOND,
                 0.449072,
@@ -256,11 +256,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         
         // Print target states before applying them
-        System.out.println("Target states:");
-        for (int i = 0; i < targetStates.length; i++) {
-            System.out.println("Module " + i + ": Speed=" + targetStates[i].speedMetersPerSecond +
-                             " Angle=" + targetStates[i].angle.getDegrees());
-        }
+        // System.out.println("Target states:");
+        // for (int i = 0; i < targetStates.length; i++) {
+        //     System.out.println("Module " + i + ": Speed=" + targetStates[i].speedMetersPerSecond +
+        //                      " Angle=" + targetStates[i].angle.getDegrees());
+        // }
         
         setStates(targetStates);
     }
