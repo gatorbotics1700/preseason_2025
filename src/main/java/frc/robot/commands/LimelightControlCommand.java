@@ -12,7 +12,7 @@ public class LimelightControlCommand extends InstantCommand {
     private final PIDController pidController;
     
     private static final double TURNING_SPEED = 0.02;
-    private static final double TOLERANCE = 2.0;
+    private static final double TOLERANCE = 5.0;
     
     private static final double kP = 0.8;
     private static final double kI = 0.0;
@@ -42,25 +42,27 @@ public class LimelightControlCommand extends InstantCommand {
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
-            double turnSpeed;
 
             // Check if the target is within the tolerance
             if (Math.abs(targetOffset) <= TOLERANCE) {
                 System.out.println("Target is within tolerance. Stopping turret.");
                 turretSubsystem.setTurretSpeed(0); // Stop the turret
             } else {
-                // Update the last known offset
-                lastTargetOffset = targetOffset;
+                // Update the last known offset only if it has changed significantly
+                if (Math.abs(targetOffset - lastTargetOffset) > TOLERANCE) {
+                    lastTargetOffset = targetOffset; // Update the last known offset
 
-                if (USE_PID) {
-                    turnSpeed = -pidController.calculate(targetOffset);
-                    turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
-                } else {
-                    turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
+                    double turnSpeed;
+                    if (USE_PID) {
+                        turnSpeed = -pidController.calculate(targetOffset);
+                        turnSpeed = Math.max(-TURNING_SPEED, Math.min(TURNING_SPEED, turnSpeed));
+                    } else {
+                        turnSpeed = Math.signum(targetOffset) * TURNING_SPEED;
+                    }
+
+                    System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
+                    turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
                 }
-
-                System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-                turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
             }
         } else {
             System.out.println("NO APRILTAG FOUND");
