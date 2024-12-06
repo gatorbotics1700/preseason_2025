@@ -21,7 +21,6 @@ public class LimelightControlCommand extends InstantCommand {
     private static final boolean USE_PID = true;
 
     private double lastTargetOffset = 0.0; // Track the last known target offset
-    private boolean isMoving = false; // Track if the turret is currently moving
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
@@ -45,10 +44,13 @@ public class LimelightControlCommand extends InstantCommand {
             double targetOffset = limelightSubsystem.getHorizontalOffset();
             double turnSpeed;
 
-            // Check if the target offset has changed significantly
-            if (Math.abs(targetOffset - lastTargetOffset) > TOLERANCE) {
-                lastTargetOffset = targetOffset; // Update the last known offset
-                isMoving = true; // Set moving flag
+            // Check if the target is within the tolerance
+            if (Math.abs(targetOffset) <= TOLERANCE) {
+                System.out.println("Target is within tolerance. Stopping turret.");
+                turretSubsystem.setTurretSpeed(0); // Stop the turret
+            } else {
+                // Update the last known offset
+                lastTargetOffset = targetOffset;
 
                 if (USE_PID) {
                     turnSpeed = -pidController.calculate(targetOffset);
@@ -58,20 +60,11 @@ public class LimelightControlCommand extends InstantCommand {
                 }
 
                 System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-                turretSubsystem.setTurretSpeed(turnSpeed);
-            } else if (isMoving) {
-                // Stop the turret if the target hasn't moved significantly
-                System.out.println("Stopping turret as target is stable.");
-                turretSubsystem.setTurretSpeed(0);
-                isMoving = false; // Reset moving flag
+                turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
             }
         } else {
             System.out.println("NO APRILTAG FOUND");
-            if (USE_PID) {
-                pidController.reset();
-            }
-            turretSubsystem.setTurretSpeed(0);
-            isMoving = false; // Reset moving flag when no target is found
+            turretSubsystem.setTurretSpeed(0); // Stop the turret if no target is found
         }
     }
 
