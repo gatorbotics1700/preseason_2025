@@ -48,6 +48,17 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tid").getDouble(0.0);
     }
 
+    public double[] getRobotPosition() {
+        double horizontalOffset = getHorizontalOffset(); // Get horizontal offset
+        double verticalOffset = getVerticalOffset(); // Get vertical offset
+
+        // Assuming the camera is mounted at a certain height and angle, you may need to adjust these calculations
+        double x = horizontalOffset; // X coordinate relative to AprilTag
+        double y = verticalOffset; // Y coordinate relative to AprilTag
+
+        return new double[]{x, y}; // Return the coordinates as an array
+    }
+
     @Override
     public void periodic() {
         
