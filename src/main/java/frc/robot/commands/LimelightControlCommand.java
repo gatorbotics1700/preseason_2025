@@ -12,7 +12,8 @@ public class LimelightControlCommand extends InstantCommand {
     private final PIDController pidController;
     
     private static final double TURNING_SPEED = 0.02;
-    private static final double TOLERANCE = 5.0;
+    private static final double TOLERANCE = 3.0;
+    private static final double SIGNIFICANT_CHANGE = 5.0;
     
     private static final double kP = 0.8;
     private static final double kI = 0.0;
@@ -49,7 +50,7 @@ public class LimelightControlCommand extends InstantCommand {
                 turretSubsystem.setTurretSpeed(0); // Stop the turret
             } else {
                 // Update the last known offset only if it has changed significantly
-                if (Math.abs(targetOffset - lastTargetOffset) > TOLERANCE) {
+                if (Math.abs(targetOffset - lastTargetOffset) > SIGNIFICANT_CHANGE) {
                     lastTargetOffset = targetOffset; // Update the last known offset
 
                     double turnSpeed;
