@@ -49,7 +49,7 @@ public class LimelightControlCommand extends InstantCommand {
                 System.out.println("Target is within tolerance. Stopping turret.");
                 turretSubsystem.setTurretSpeed(0); // Stop the turret
             } else {
-                // Update the last known offset only if it has changed significantly
+                // If the target offset has changed significantly, update the turret speed
                 if (Math.abs(targetOffset - lastTargetOffset) > SIGNIFICANT_CHANGE) {
                     lastTargetOffset = targetOffset; // Update the last known offset
 
