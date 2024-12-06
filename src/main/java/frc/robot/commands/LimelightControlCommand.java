@@ -19,25 +19,11 @@ public class LimelightControlCommand extends InstantCommand {
     private static final double kI = 0.0;
     private static final double kD = 0.09;
     
-    private static final boolean USE_PID = true;
+    private static final boolean USE_PID = false;
 
-    private double lastTargetOffset = 0.0; // Track the last known target offset
-
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
-        this.limelightSubsystem = limelightSubsystem;
-        this.turretSubsystem = turretSubsystem;
-        
-        this.pidController = new PIDController(kP, kI, kD);
-        pidController.setTolerance(TOLERANCE);
-        pidController.setSetpoint(0.0);
-        
-        addRequirements(limelightSubsystem, turretSubsystem);
-    }
-
-    @Override
-    public void initialize() {
-        turretSubsystem.turnToAngle(0, TURNING_SPEED);
-    }
+private double lastTargetOffset = 0.0; // Track the last known target offset
+    private static final double TOLERANCE = 3.0; // Tolerance for stopping
+    private static final double SIGNIFICANT_CHANGE = 5.0; // Significant change for resuming movement
 
     @Override
     public void execute() {
