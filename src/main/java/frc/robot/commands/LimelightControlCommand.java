@@ -1,83 +1,44 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class LimelightControlCommand extends InstantCommand {
-
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
-    private final PIDController pidController;
-    
-    private static final double TURNING_SPEED = 0.02;
-    private static final double TOLERANCE = 3.0;
-    private static final double SIGNIFICANT_CHANGE = 5.0;
-    
-    private static final double kP = 0.8;
-    private static final double kI = 0.0;
-    private static final double kD = 0.09;
-    
-    private static final boolean USE_PID = true;
-
-    private double lastTargetOffset = 0.0; // Track the last known target offset
-    private boolean hasExecuted = false; // Flag to track if the command has executed
+    private final double speed;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
-        
-        this.pidController = new PIDController(kP, kI, kD);
-        pidController.setTolerance(TOLERANCE);
-        pidController.setSetpoint(0.0);
-        
+        this.speed = 0.05; // Set the speed for turret movement
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
     @Override
     public void initialize() {
-        turretSubsystem.turnToAngle(0, TURNING_SPEED);
+        // Initialization logic if needed
     }
 
     @Override
     public void execute() {
-        if (!hasExecuted && limelightSubsystem.hasValidTarget()) {
-            double targetOffset = limelightSubsystem.getHorizontalOffset();
-
-            // Calculate turn speed based on the target offset
-            double turnSpeed = Math.signum(targetOffset) * TURNING_SPEED; 
-            System.out.println("Target Offset: " + targetOffset + " Turn Speed: " + turnSpeed);
-            turretSubsystem.setTurretSpeed(turnSpeed); // Set turret speed to turn towards the target
-
-            // Check if the turret is within tolerance to stop
-            if (Math.abs(targetOffset) <= TOLERANCE) {
-                System.out.println("Target is within tolerance. Stopping turret.");
-                turretSubsystem.setTurretSpeed(0); // Stop the turret
-                hasExecuted = true; // Mark as executed
-            }
-        } else if (hasExecuted) {
-            turretSubsystem.setTurretSpeed(0); // Ensure turret is stopped after execution
+        if (limelightSubsystem.hasValidTarget()) {
+            double horizontalOffset = limelightSubsystem.getHorizontalOffset();
+            turretSubsystem.turnToAngle(horizontalOffset, speed);
         } else {
-            System.out.println("NO APRILTAG FOUND");
-            turretSubsystem.setTurretSpeed(0); // Stop the turret if no target is found
+            turretSubsystem.MechStop(); // Stop turret if no valid target
         }
     }
 
     @Override
     public boolean isFinished() {
-        if (!limelightSubsystem.hasValidTarget()) {
-            return false;
-        }
-        
-        double offset = Math.abs(limelightSubsystem.getHorizontalOffset());
-        boolean isAligned = offset < TOLERANCE;
-        
-        if (isAligned) {
-            turretSubsystem.setTurretSpeed(0);
-            System.out.println("Target Aligned! Offset: " + offset);
-            return true;
-        }
-        return false;
+        // Command finishes when the turret is aligned with the target
+        return !limelightSubsystem.hasValidTarget();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        turretSubsystem.MechStop(); // Ensure turret stops when command ends
     }
 }
