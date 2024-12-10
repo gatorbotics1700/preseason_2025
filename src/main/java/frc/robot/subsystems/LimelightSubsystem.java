@@ -48,6 +48,10 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tid").getDouble(0.0);
     }
 
+    public void setPipeline(int pipelineID) {
+        limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
+    }
+
     @Override
     public void periodic() {
         
