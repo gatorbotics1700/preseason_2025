@@ -16,6 +16,7 @@ import frc.robot.commands.TurretControlCommand;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class RobotContainer {
@@ -54,5 +55,9 @@ public class RobotContainer {
 
   public Command getTurretCommand() {
     return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
+  }
+
+  public void setPipeline(int pipelineID) {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineID);
   }
 }
