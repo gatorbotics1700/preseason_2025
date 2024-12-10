@@ -46,7 +46,7 @@ public class RobotContainer {
   }
 
   public Command getLimelightCommand() {
-    return new LimelightControlCommand(m_limelightsub, m_turretsub, 9);
+    return new LimelightControlCommand(m_limelightsub, m_turretsub, 1);
   }
 
   public Command getServoCommand() {

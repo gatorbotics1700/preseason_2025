@@ -8,25 +8,25 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private final double speed;
-    private final int targetID; // Field for target ID
+    private final int pipeline; // New field for pipeline number
     private double lastHorizontalOffset = 0.0; // Store the last known horizontal offset
 
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, int targetID) {
+    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
         this.speed = 0.02; // Set the speed for turret movement
-        this.targetID = targetID; // Initialize target ID
+        this.pipeline = pipeline; // Initialize pipeline number
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
     @Override
     public void initialize() {
-        // 
+        limelightSubsystem.setPipeline(pipeline); // Set the pipeline in the subsystem
     }
 
     @Override
     public void execute() {
-        if (limelightSubsystem.hasValidTarget() && limelightSubsystem.getTargetID() == targetID) { // Check for specific target ID
+        if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
             // Check if the change in horizontal offset is greater than 3 degrees
             if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
@@ -41,7 +41,7 @@ public class LimelightControlCommand extends InstantCommand {
     @Override
     public boolean isFinished() {
         // Command finishes when the turret is aligned with the target
-        return !limelightSubsystem.hasValidTarget() || limelightSubsystem.getTargetID() != targetID; // Check if the target ID is still valid
+        return !limelightSubsystem.hasValidTarget(); // Check if the target is still valid
     }
 
     @Override
