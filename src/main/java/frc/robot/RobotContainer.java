@@ -43,9 +43,13 @@ public class RobotContainer {
 
     Trigger aButton = m_controller_two.a();
     Trigger bButton = m_controller_two.b();
+    // Trigger xButton = m_controller_two.x();
+    // Trigger yButton = m_controller_two.y();
 
     aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
     bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+    // xButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 180.0));
+    // yButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, -90.0));
     // slower.whileHeld(new SpinSlower(m_spinner));
     // faster.whileHeld(new SpinFaster(m_spinner));
   }

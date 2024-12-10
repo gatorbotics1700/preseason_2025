@@ -54,17 +54,17 @@ public class TurretSubsystem extends SubsystemBase {
     
     // Normalize the error to -180 to 180 degrees
     if (error > 180) {
-        error -= 360;
+      error -= 360;
     } else if (error < -180) {
-        error += 360;
+      error += 360;
     }
     
     if (Math.abs(error) >= 5) {
-        // Set direction based on shortest path
-        double direction = Math.signum(error);
-        setTurretSpeed(speed * direction);
+      // Set direction based on shortest path
+      double direction = Math.signum(error);
+      setTurretSpeed(speed * direction);
     } else {
-        setTurretSpeed(0);
+      setTurretSpeed(0);
     }
   }
 
