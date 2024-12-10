@@ -22,11 +22,13 @@ public class LimelightControlCommand extends InstantCommand {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline); // Set the pipeline in the subsystem
+        System.out.println("Pipeline set to: " + pipeline); // Debug statement
     }
 
     @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
+            System.out.println("Valid target detected."); // Debug statement
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
             // Check if the change in horizontal offset is greater than 3 degrees
             if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
@@ -34,6 +36,7 @@ public class LimelightControlCommand extends InstantCommand {
                 lastHorizontalOffset = horizontalOffset; // Update the last known offset
             }
         } else {
+            System.out.println("No valid target detected."); // Debug statement
             turretSubsystem.MechStop(); // Stop turret if no valid target
         }
     }
