@@ -8,12 +8,14 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private final double speed;
+    private final int targetID; // New field for target ID
     private double lastHorizontalOffset = 0.0; // Store the last known horizontal offset
 
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem) {
+    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, int targetID) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
         this.speed = 0.02; // Set the speed for turret movement
+        this.targetID = targetID; // Initialize target ID
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
@@ -24,7 +26,7 @@ public class LimelightControlCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        if (limelightSubsystem.hasValidTarget()) {
+        if (limelightSubsystem.hasValidTarget() && limelightSubsystem.getTargetID() == targetID) { // Check for specific target ID
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
             // Check if the change in horizontal offset is greater than 3 degrees
             if (Math.abs(horizontalOffset - lastHorizontalOffset) > 3) {
@@ -39,7 +41,7 @@ public class LimelightControlCommand extends InstantCommand {
     @Override
     public boolean isFinished() {
         // Command finishes when the turret is aligned with the target
-        return !limelightSubsystem.hasValidTarget();
+        return !limelightSubsystem.hasValidTarget() || limelightSubsystem.getTargetID() != targetID; // Check if the target ID is still valid
     }
 
     @Override
