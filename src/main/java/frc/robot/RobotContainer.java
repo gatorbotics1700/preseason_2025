@@ -23,7 +23,8 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Joystick m_joystick = new Joystick(0);
-  public static final CommandXboxController m_controller_two = new CommandXboxController(1);
+  // public static final CommandXboxController m_controller_two = new CommandXboxController(1);
+  public static final XboxController co_driver = new XboxController(1);
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
@@ -41,15 +42,22 @@ public class RobotContainer {
     // JoystickButton slower = new JoystickgiButton(m_joystick, 1);
     // JoystickButton faster = new JoystickButton(m_joystick, 2);
 
-    Trigger aButton = m_controller_two.a();
-    Trigger bButton = m_controller_two.b();
+    // Trigger aButton = m_controller_two.a();
+    // Trigger bButton = m_controller_two.b();
     // Trigger xButton = m_controller_two.x();
     // Trigger yButton = m_controller_two.y();
 
-    aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
-    bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+    // aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
+    // bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
     // xButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 180.0));
     // yButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, -90.0));
+
+    Trigger aButton = new JoystickButton(co_driver, XboxController.Button.kA.value);
+    Trigger bButton = new JoystickButton(co_driver, XboxController.Button.kB.value);
+    aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
+    bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+
+
     // slower.whileHeld(new SpinSlower(m_spinner));
     // faster.whileHeld(new SpinFaster(m_spinner));
   }

@@ -13,11 +13,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   public final TalonFX turretMotor; //motor
   private double TURRET_SPEED = 0.1;
-  private final double TURRET_OFFSET = 0;
+  private double initialTurretOffset = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
+    initialTurretOffset = getTurretAngle();
     //setDefaultCommand(new MechStop(this));
   }
 
@@ -74,7 +75,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public double getTurretAngle() {
-    return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360 + TURRET_OFFSET;
+    return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360 - initialTurretOffset;
   }
 
   
