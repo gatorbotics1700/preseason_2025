@@ -22,6 +22,24 @@
           "data": {
             "pathName": "tipsy"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "curvy"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "back it up"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bring it back"
+          }
         }
       ]
     }
