@@ -19,7 +19,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         // Initialize RobotContainer
         m_robotContainer = new RobotContainer();
-        m_robotContainer.setPipeline(1);
     }
 
     @Override

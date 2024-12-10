@@ -46,7 +46,7 @@ public class RobotContainer {
   }
 
   public Command getLimelightCommand() {
-    return new LimelightControlCommand(m_limelightsub, m_turretsub, 9, 1);
+    return new LimelightControlCommand(m_limelightsub, m_turretsub, 9);
   }
 
   public Command getServoCommand() {
@@ -57,7 +57,4 @@ public class RobotContainer {
     return new TurretControlCommand(m_turretsub, m_limelightsub, 0.05);
   }
 
-  public void setPipeline(int pipelineID) {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipelineID);
-  }
 }

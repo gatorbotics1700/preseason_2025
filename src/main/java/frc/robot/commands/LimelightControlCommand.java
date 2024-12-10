@@ -8,17 +8,14 @@ public class LimelightControlCommand extends InstantCommand {
     private final LimelightSubsystem limelightSubsystem;
     private final TurretSubsystem turretSubsystem;
     private final double speed;
-    private final int targetID; // New field for target ID
+    private final int targetID; // Field for target ID
     private double lastHorizontalOffset = 0.0; // Store the last known horizontal offset
-    private final int pipelineID; // New field for pipeline ID
 
-    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, int targetID, int pipelineID) {
+    public LimelightControlCommand(LimelightSubsystem limelightSubsystem, TurretSubsystem turretSubsystem, int targetID) {
         this.limelightSubsystem = limelightSubsystem;
         this.turretSubsystem = turretSubsystem;
         this.speed = 0.02; // Set the speed for turret movement
         this.targetID = targetID; // Initialize target ID
-        this.pipelineID = pipelineID; // Initialize pipeline ID
-        limelightSubsystem.setPipeline(pipelineID); // Set the pipeline ID in the subsystem
         addRequirements(limelightSubsystem, turretSubsystem);
     }
 
