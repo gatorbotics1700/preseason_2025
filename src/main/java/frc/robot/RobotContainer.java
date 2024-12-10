@@ -49,7 +49,7 @@ public class RobotContainer {
   }
 
   public Command getTeleopColor() {
-    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.LIME);
+    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.LIME, BlinkinPattern.PURPLE); //purple is CAN error color
 
     // return new TurretControlCommand(m_turretsub, 0.05, 90);
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
@@ -60,7 +60,7 @@ public class RobotContainer {
   }
 
   public Command getAutoColor(){
-    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.RED_ORANGE);
+    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.RED_ORANGE, BlinkinPattern.PURPLE);
   }
 
   public Command getTeleopCommand1() {
