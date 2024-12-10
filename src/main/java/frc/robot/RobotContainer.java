@@ -38,7 +38,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // JoystickButton slower = new JoystickButton(m_joystick, 1);
+    // JoystickButton slower = new JoystickgiButton(m_joystick, 1);
     // JoystickButton faster = new JoystickButton(m_joystick, 2);
 
     Trigger aButton = m_controller_two.a();
@@ -48,9 +48,6 @@ public class RobotContainer {
     bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
     // slower.whileHeld(new SpinSlower(m_spinner));
     // faster.whileHeld(new SpinFaster(m_spinner));
-
-
-
   }
 
   public Command getLimelightCommand() {
