@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.compound.Diff_DutyCycleOut_Position;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +16,7 @@ public class TurretSubsystem extends SubsystemBase {
   private double TURRET_SPEED = 0.1;
   private double initialTurretOffset = 0;
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+  private final PositionVoltage positionControl = new PositionVoltage(0).withSlot(0);
 
   public TurretSubsystem() {
     turretMotor = new TalonFX(Constants.TURRET_MOTOR_CAN_ID);
@@ -65,9 +67,9 @@ public class TurretSubsystem extends SubsystemBase {
     
     // Only move if error is significant
     if (Math.abs(error) > 1) { // Tighter deadband
-        setTurretSpeed(outputSpeed);
+      setTurretSpeed(outputSpeed);
     } else {
-        setTurretSpeed(0);
+      setTurretSpeed(0);
     }
 }
 
@@ -79,7 +81,5 @@ public class TurretSubsystem extends SubsystemBase {
   public double getTurretAngle() {
     return ((turretMotor.getPosition().getValueAsDouble() / 9.2) * 360) % 360 - initialTurretOffset;
   }
-
-  
 
 }

@@ -60,7 +60,7 @@ public class RobotContainer {
     // new Trigger(co_driver::getAButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
     // new Trigger(co_driver::getBButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
 
-    m_controller_two.a().onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, -90.0));
+    m_controller_two.a().onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
     m_controller_two.b().onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
 
     // faster.whileHeld(new SpinFaster(m_spinner));
