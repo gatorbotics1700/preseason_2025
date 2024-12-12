@@ -52,13 +52,13 @@ public class RobotContainer {
     // xButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 180.0));
     // yButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, -90.0));
 
-    Trigger aButton = new JoystickButton(co_driver, XboxController.Button.kA.value);
-    Trigger bButton = new JoystickButton(co_driver, XboxController.Button.kB.value);
-    aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
-    bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+    // Trigger aButton = new JoystickButton(co_driver, XboxController.Button.kA.value);
+    // Trigger bButton = new JoystickButton(co_driver, XboxController.Button.kB.value);
+    // aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
+    // bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
 
-
-    // slower.whileHeld(new SpinSlower(m_spinner));
+    new Trigger(co_driver::getAButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
+    new Trigger(co_driver::getBButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
     // faster.whileHeld(new SpinFaster(m_spinner));
   }
 
