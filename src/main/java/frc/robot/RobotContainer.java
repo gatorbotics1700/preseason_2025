@@ -23,8 +23,8 @@ import frc.robot.subsystems.TurretSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Joystick m_joystick = new Joystick(0);
-  // public static final CommandXboxController m_controller_two = new CommandXboxController(1);
-  public static final XboxController co_driver = new XboxController(1);
+  public static final CommandXboxController m_controller_two = new CommandXboxController(1);
+  // public static final XboxController co_driver = new XboxController(1);
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
@@ -57,8 +57,12 @@ public class RobotContainer {
     // aButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
     // bButton.onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
 
-    new Trigger(co_driver::getAButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
-    new Trigger(co_driver::getBButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+    // new Trigger(co_driver::getAButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 90.0));
+    // new Trigger(co_driver::getBButtonPressed).onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+
+    m_controller_two.a().onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, -90.0));
+    m_controller_two.b().onTrue(new TurretControlCommand(m_turretsub, Constants.TURRET_SPEED, 0.0));
+
     // faster.whileHeld(new SpinFaster(m_spinner));
   }
 
