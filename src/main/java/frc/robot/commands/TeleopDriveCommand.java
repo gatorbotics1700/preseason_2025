@@ -38,20 +38,20 @@ public class TeleopDriveCommand extends Command {
         double rot = rotationSupplier.getAsDouble();
 
         // Apply deadband
-        xSpeed = Math.abs(xSpeed) > DEADBAND ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > DEADBAND ? ySpeed : 0.0;
-        rot = Math.abs(rot) > DEADBAND ? rot : 0.0;
+        // xSpeed = Math.abs(xSpeed) > DEADBAND ? xSpeed : 0.0;
+        // ySpeed = Math.abs(ySpeed) > DEADBAND ? ySpeed : 0.0;
+        // rot = Math.abs(rot) > DEADBAND ? rot : 0.0;
 
         // Print values if any are non-zero
-        if (xSpeed != 0.0 || ySpeed != 0.0 || rot != 0.0) {
-            System.out.println("Joystick values after deadband - X: " + xSpeed + " Y: " + ySpeed + " Rot: " + rot);
-        }
+        // if (xSpeed != 0.0 || ySpeed != 0.0 || rot != 0.0) {
+        //     System.out.println("Joystick values after deadband - X: " + xSpeed + " Y: " + ySpeed + " Rot: " + rot);
+        // }
 
         // If all inputs are zero, make sure we're stopped
-        if (xSpeed == 0.0 && ySpeed == 0.0 && rot == 0.0) {
-            drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
-            return;
-        }
+        // if (xSpeed == 0.0 && ySpeed == 0.0 && rot == 0.0) {
+        //     drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+        //     return;
+        // }
 
         // Scale to max speeds
         xSpeed *= DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
@@ -59,7 +59,11 @@ public class TeleopDriveCommand extends Command {
         rot *= DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
         // Drive robot
-        drivetrain.drive(new ChassisSpeeds(xSpeed, ySpeed, rot));
+        drivetrain.drive(
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSpeed, ySpeed, rot, drivetrain.getRotation()
+            )
+        );
     }
 
     @Override
