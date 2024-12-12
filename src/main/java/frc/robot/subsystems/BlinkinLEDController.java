@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants;
+import edu.wpi.first.hal.can.CANJNI;
+import edu.wpi.first.hal.can.CANStatus;
 
 public class BlinkinLEDController extends SubsystemBase{
     public enum BlinkinPattern {
@@ -19,6 +21,7 @@ public class BlinkinLEDController extends SubsystemBase{
   private static BlinkinLEDController m_controller = null;
   private Spark m_blinkin;
   private BlinkinPattern m_currentPattern;
+  private CANStatus m_status;
 
   public BlinkinLEDController() {
     System.out.println("trying to make an led controller");
@@ -35,5 +38,11 @@ public class BlinkinLEDController extends SubsystemBase{
     if (m_controller == null) m_controller = new BlinkinLEDController();
     return m_controller;
   }
-     
+
+  public static CANStatus getCANStatus() {
+    CANStatus status = new CANStatus();
+    CANJNI.getCANStatus(status);
+    return status;
+  }
+
 }
