@@ -24,13 +24,13 @@ public class TurretSubsystem extends SubsystemBase {
     //setDefaultCommand(new MechStop(this));
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-   // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
-   System.out.println("TURRET ANGLE: " + getTurretAngle());
+  // @Override
+  // public void periodic() {
+  //   // This method will be called once per scheduler run
+  //  // turretMotor.setControl(dutyCycleOut.withOutput(TURRET_SPEED));
+  //  System.out.println("TURRET ANGLE: " + getTurretAngle());
     
-  }
+  // }
 
   public void MechFaster() {
     TURRET_SPEED = Math.min(1.0, TURRET_SPEED + 0.1);
@@ -60,7 +60,7 @@ public class TurretSubsystem extends SubsystemBase {
     else if (error < -180) error += 360;
     
     // Proportional control with a smaller deadband
-    double proportionalTerm = error * 0.02; // Adjust this multiplier
+    double proportionalTerm = error * 0.035; // Adjust this multiplier
     
     // Limit the speed
     double outputSpeed = Math.max(-speed, Math.min(speed, proportionalTerm));
