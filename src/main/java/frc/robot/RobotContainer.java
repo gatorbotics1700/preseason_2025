@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ServoControlCommand;
@@ -22,6 +23,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final Joystick m_joystick = new Joystick(0);
+  public static final CommandXboxController m_controller_two = new CommandXboxController(1);
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
@@ -32,12 +34,12 @@ public class RobotContainer {
     // m_drive.setDefaultCommand(new DrivewithJoysticks(m_drive, m_joystick.getRawAxis(0), m_joystick.getRawAxis(1)));
     
     // SendableRegistry.add(m_drive, "drive");
-    // configureButtonBindings();
+     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    JoystickButton slower = new JoystickButton(m_joystick, 1);
-    JoystickButton faster = new JoystickButton(m_joystick, 2);
+    m_controller_two.a().onTrue(new LimelightControlCommand(m_limelightsub, m_turretsub, 1));
+    m_controller_two.b().onTrue(new LimelightControlCommand(m_limelightsub, m_turretsub, 0));
 
 
     // slower.whileHeld(new SpinSlower(m_spinner));
