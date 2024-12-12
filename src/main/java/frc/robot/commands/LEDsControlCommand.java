@@ -10,15 +10,14 @@ public class LEDsControlCommand extends InstantCommand{
     private final BlinkinPattern blinkinPattern;
     
     public LEDsControlCommand(BlinkinLEDController blinkinLEDController, BlinkinPattern blinkinPattern)  {
-        this.blinkinLEDController = blinkinLEDController;
+        this.blinkinLEDController = blinkinLEDController.getInstance();
         this.blinkinPattern = blinkinPattern;
-        addRequirements(blinkinLEDController);
-        
+        addRequirements(blinkinLEDController.getInstance());
     }
 
     @Override
     public void execute() {
-        blinkinLEDController.setPattern(blinkinPattern);
+        blinkinLEDController.getInstance().setPattern(blinkinPattern);
         System.out.println("EXECUTE");
     }
 }

@@ -16,7 +16,7 @@ public class ServoControlCommand extends InstantCommand {
     public void execute() {
         servoSubsystem.setAngle(20, false);
        
-        System.out.println("EXECUTE");
+        // System.out.println("EXECUTE");
     }
 
 }

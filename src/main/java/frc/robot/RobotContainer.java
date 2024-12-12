@@ -27,7 +27,7 @@ public class RobotContainer {
   private static final TurretSubsystem m_turretsub = new TurretSubsystem();
   private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
   private static final ServoSubsystem m_servosub = new ServoSubsystem();
-  private static final BlinkinLEDController m_blinkinledcontroll = new BlinkinLEDController();
+  private static final BlinkinLEDController m_blinkinledcontrol = BlinkinLEDController.getInstance();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,7 +49,8 @@ public class RobotContainer {
   }
 
   public Command getTeleopColor() {
-    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.LIME);
+    System.out.println("calling teleopcolor");
+    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.LIME);
 
     // return new TurretControlCommand(m_turretsub, 0.05, 90);
     // andThen(new TurretControlCommand(m_turretsub, 0.05, 15)).
@@ -60,7 +61,7 @@ public class RobotContainer {
   }
 
   public Command getAutoColor(){
-    return new LEDsControlCommand(m_blinkinledcontroll, BlinkinPattern.RED_ORANGE);
+    return new LEDsControlCommand(m_blinkinledcontrol, BlinkinPattern.RED_ORANGE);
   }
 
   public Command getTeleopCommand1() {

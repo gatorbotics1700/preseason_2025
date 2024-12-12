@@ -23,7 +23,7 @@ public class TurretControlCommand extends InstantCommand {
             turretSubsystem.setTurretSpeed(-turretSpeed);
         }
         //turretSubsystem.turnToAngle(turretAngle);
-        System.out.println("EXECUTE");
+        // System.out.println("EXECUTE");
     }
 
     @Override

@@ -16,20 +16,22 @@ public class BlinkinLEDController extends SubsystemBase{
         }
   };
 
-  private BlinkinLEDController m_controller = null;
+  private static BlinkinLEDController m_controller = null;
   private Spark m_blinkin;
   private BlinkinPattern m_currentPattern;
 
   public BlinkinLEDController() {
+    System.out.println("trying to make an led controller");
     m_blinkin = new Spark(Constants.LED_PORT);
   }
 
   public void setPattern(BlinkinPattern pattern) {
     m_currentPattern = pattern;
+    System.out.println("lights should be working!!");
     m_blinkin.set(m_currentPattern.value);
   }
 
-  public BlinkinLEDController getInstance() {
+  public static BlinkinLEDController getInstance() {
     if (m_controller == null) m_controller = new BlinkinLEDController();
     return m_controller;
   }
