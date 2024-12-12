@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class Robot extends TimedRobot {
     private Command m_limelightCommand;
     private Command m_servoCommand;
+    private Command m_buttonCommand;
+
     private Command m_turretCommand;
     private TurretSubsystem m_turretSubsystem;
 
@@ -29,30 +31,33 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
 
-        //m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
+        // m_limelightCommand = m_robotContainer.getLimelightCommand();
 
-        // if (m_teleopCommand2 != null) {
-        //      m_teleopCommand2.schedule();
+        // if (m_limelightCommand != null) {
+        //      m_limelightCommand.schedule();
         // }
-        m_limelightCommand = m_robotContainer.getLimelightCommand();
 
-        if (m_limelightCommand != null) {
-             m_limelightCommand.schedule();
+        m_buttonCommand = m_robotContainer.getButtonCommand();
+
+        if (m_buttonCommand != null) {
+            m_buttonCommand.schedule();
         }
     }
 
     @Override
     public void teleopPeriodic() {
 
-        // m_teleopCommand2 = m_robotContainer.getTeleopCommand2();
-        // if (m_teleopCommand2 != null) {
-        //      m_teleopCommand2.schedule();
+
+        // m_limelightCommand = m_robotContainer.getLimelightCommand();
+
+        // if (m_limelightCommand != null) {
+        //      m_limelightCommand.schedule();
         // }
 
-        m_limelightCommand = m_robotContainer.getLimelightCommand();
+        m_buttonCommand = m_robotContainer.getButtonCommand();
 
-        if (m_limelightCommand != null) {
-             m_limelightCommand.schedule();
+        if (m_buttonCommand != null) {
+            m_buttonCommand.schedule();
         }
 
     }
