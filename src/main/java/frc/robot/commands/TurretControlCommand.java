@@ -39,15 +39,17 @@ public class TurretControlCommand extends InstantCommand {
 
     @Override
     public boolean isFinished() {
-        double currentAngle = turretSubsystem.getTurretAngle();
-        boolean isAtTarget = (currentAngle > 85) && (currentAngle < 95);
-        
-        if (isAtTarget) {
-            System.out.println("Target reached: " + currentAngle);
-            turretSubsystem.setTurretSpeed(0);
-            return true;
-        }
-        return false;
+    double currentAngle = turretSubsystem.getTurretAngle();
+    double tolerance = 2.0; // Tighter tolerance
+    
+    boolean isAtTarget = Math.abs(currentAngle - desiredAngle) <= tolerance;
+    
+    if (isAtTarget) {
+        System.out.println("Target reached: " + currentAngle);
+        turretSubsystem.setTurretSpeed(0);
+        return true;
     }
+    return false;
+}
 
 }

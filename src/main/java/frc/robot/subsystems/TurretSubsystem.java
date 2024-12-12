@@ -54,20 +54,22 @@ public class TurretSubsystem extends SubsystemBase {
     double error = desiredAngle - currentAngle;
     
     // Normalize the error to -180 to 180 degrees
-    if (error > 180) {
-      error -= 360;
-    } else if (error < -180) {
-      error += 360;
-    }
+    if (error > 180) error -= 360;
+    else if (error < -180) error += 360;
     
-    if (Math.abs(error) >= 5) {
-      // Set direction based on shortest path
-      double direction = Math.signum(error);
-      setTurretSpeed(speed * direction);
+    // Proportional control with a smaller deadband
+    double proportionalTerm = error * 0.02; // Adjust this multiplier
+    
+    // Limit the speed
+    double outputSpeed = Math.max(-speed, Math.min(speed, proportionalTerm));
+    
+    // Only move if error is significant
+    if (Math.abs(error) > 1) { // Tighter deadband
+        setTurretSpeed(outputSpeed);
     } else {
-      setTurretSpeed(0);
+        setTurretSpeed(0);
     }
-  }
+}
 
   public void setTurretSpeed(double speed) {
     DutyCycleOut dutyCycleOut = new DutyCycleOut(speed); 
