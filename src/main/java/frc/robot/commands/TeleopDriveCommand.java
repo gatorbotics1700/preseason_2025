@@ -6,31 +6,36 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class DriveCommand extends Command {
+public class TeleopDriveCommand extends Command {
     private final DrivetrainSubsystem drivetrain;
     private final DoubleSupplier translationXSupplier;
     private final DoubleSupplier translationYSupplier;
     private final DoubleSupplier rotationSupplier;
+    // private static final double DEADBAND = 0.1;
 
-    public DriveCommand(
-            DrivetrainSubsystem drivetrain,
-            DoubleSupplier translationXSupplier,
-            DoubleSupplier translationYSupplier,
-            DoubleSupplier rotationSupplier
-    ) {
+    public TeleopDriveCommand(DrivetrainSubsystem drivetrain, 
+                             DoubleSupplier translationXSupplier, 
+                             DoubleSupplier translationYSupplier, 
+                             DoubleSupplier rotationSupplier) {
         this.drivetrain = drivetrain;
         this.translationXSupplier = translationXSupplier;
         this.translationYSupplier = translationYSupplier;
         this.rotationSupplier = rotationSupplier;
-
         addRequirements(drivetrain);
+    }
+
+
+    @Override
+    public void initialize() {
+        System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
+        drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
     @Override
     public void execute() {
-        double translationXPercent = translationXSupplier.getAsDouble();
-        double translationYPercent = translationYSupplier.getAsDouble();
-        double rotationPercent = rotationSupplier.getAsDouble();
+        double translationXPercent = translationXSupplier.getAsDouble(); //x speed
+        double translationYPercent = translationYSupplier.getAsDouble(); //y speed
+        double rotationPercent = rotationSupplier.getAsDouble(); //rotation speed
 
         drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -44,7 +49,12 @@ public class DriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        // Stop the drivetrain
+        System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
-}
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+} 

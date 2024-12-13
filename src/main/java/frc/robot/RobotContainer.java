@@ -1,38 +1,64 @@
 package frc.robot;
 
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TestDriveCommand;
+import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-
     private final XboxController controller = new XboxController(0);
+    private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        drivetrain.register();
+        // Print initial joystick values
+        System.out.println("RobotContainer initializing");
 
-        drivetrain.setDefaultCommand(new DriveCommand(
-                drivetrain,
-                () -> -modifyAxis(controller.getRightY()), // Axes are flipped here on purpose
-                () -> -modifyAxis(controller.getRightX()),
-                () -> -modifyAxis(controller.getLeftX())
-        ));
-
-
+        // Zero gyroscope button binding
         new Trigger(controller::getBackButtonPressed)
-                .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
+                .onTrue(new RunCommand(drivetrain::zeroGyroscope));
 
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrain::setSlowDrive));
 
+        // Auto chooser setup
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
-    //instant command means that it runs one time rather then run command which runs continuosly
+    public Command getAutonomousCommand() {
+        try {
+            Command auto = autoChooser.getSelected();
+            System.out.println("Auto loaded successfully: " + autoChooser.getSelected().getName());
+            return auto;
+        } catch (Exception e) {
+            System.err.println("Failed to load auto path: " + e.getMessage());
+            e.printStackTrace();
+            return new TestDriveCommand(drivetrain);
+        }
+    }
 
-    public DrivetrainSubsystem getDrivetrain() {
+    public void setDefaultTeleopCommand(){
+        System.out.println("SETTING DEFAULT TELEOP COMMAND");
+        drivetrain.setDefaultCommand(
+            new TeleopDriveCommand(
+                drivetrain,
+                () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
+                () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
+                () -> -modifyAxis(controller.getRightX())    // Changed to raw values
+            )
+        );
+    }
+
+    public DrivetrainSubsystem getDrivetrain(){
         return drivetrain;
     }
 

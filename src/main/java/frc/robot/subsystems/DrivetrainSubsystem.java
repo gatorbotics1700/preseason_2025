@@ -1,6 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
@@ -34,6 +40,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     
     private final SwerveDrivePoseEstimator odometry;
+
+
+    private SwerveModuleState[] states; 
 
     private ChassisSpeeds chassisSpeeds;
     
@@ -105,7 +114,32 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 kinematics,
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+                new Pose2d(0, 0, new Rotation2d(Math.toRadians(90))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
+        );
+        states=kinematics.toSwerveModuleStates(chassisSpeeds);
+
+        AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetPose,
+            this::getRobotRelativeSpeeds,
+            this::driveRobotRelative,
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(5,0,0.05),
+                new PIDConstants(10,0,0.01),
+                MAX_VELOCITY_METERS_PER_SECOND,
+                0.449072,
+                new ReplanningConfig()
+            ),
+            () -> {
+
+                var alliance = DriverStation.getAlliance();
+                if(alliance.isPresent()){
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                    return false;
+            
+            }, 
+            this
         );
 
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
@@ -131,26 +165,94 @@ public class DrivetrainSubsystem extends SubsystemBase {
         System.out.println("you pressed the right button yay you");
     }
 
+    public Pose2d getPose() {
+        return odometry.getEstimatedPosition();
+    }
+
+    public void resetPose(Pose2d pose) {
+        odometry.resetPosition(new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())), getModulePositionArray(), pose); 
+    }
+
+    public SwerveModulePosition[] getModulePositionArray(){
+        return new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition()};
+    }
+    
     public Rotation2d getRotation() {
         return odometry.getEstimatedPosition().getRotation();
     }
 
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return kinematics.toChassisSpeeds(getModuleStates());
+    }
+
+    public SwerveModuleState[] getModuleStates(){
+        return states;
+    }
+
+
+
+    public void setStates(SwerveModuleState[] targetStates) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
+
+        states = targetStates;
+
+        // Calculate voltages (using a higher minimum voltage to ensure movement)
+        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+
+        System.out.println("Setting voltages - FL: " + fl_voltage + 
+                          " FR: " + fr_voltage +
+                          " BL: " + bl_voltage + 
+                          " BR: " + br_voltage);
+
+        System.out.println("pose: " + getPose());
+
+        // Set modules with calculated voltages
+        frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
+        frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
+        backLeftModule.set(bl_voltage, targetStates[2].angle.getRadians());
+        backRightModule.set(br_voltage, targetStates[3].angle.getRadians());
+    }
+
     public void drive(ChassisSpeeds chassisSpeeds) {
         this.chassisSpeeds = chassisSpeeds;
+        
+        // Convert chassis speeds to module states and apply them
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+        setStates(targetStates);
+    }
+
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+        System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
+                          " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
+                          " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
+                          
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
+        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+        
+        // Print target states before applying them
+        // System.out.println("Target states:");
+        // for (int i = 0; i < targetStates.length; i++) {
+        //     System.out.println("Module " + i + ": Speed=" + targetStates[i].speedMetersPerSecond +
+        //                      " Angle=" + targetStates[i].angle.getDegrees());
+        // }
+        
+        setStates(targetStates);
     }
 
     @Override
     public void periodic() {
         odometry.update(
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+            new SwerveModulePosition[]{ 
+                frontLeftModule.getPosition(), 
+                frontRightModule.getPosition(), 
+                backLeftModule.getPosition(), 
+                backRightModule.getPosition() 
+            }
         );
-
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-
-        frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-        frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-        backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-        backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
     }
 }
