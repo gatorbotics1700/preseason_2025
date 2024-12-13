@@ -2,10 +2,7 @@ package frc.robot;
 
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -31,8 +28,8 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrain::setSlowDrive));
 
-            //    SmartDashboard.putData(new PowerDistribution());
     }
+
     //instant command means that it runs one time rather then run command which runs continuosly
 
     public DrivetrainSubsystem getDrivetrain() {
@@ -52,7 +49,6 @@ public class RobotContainer {
     }
 
     private double modifyAxis(double value) {
-        // Deadband
         value = deadband(value, 0.05);
 
         // Square the axis
