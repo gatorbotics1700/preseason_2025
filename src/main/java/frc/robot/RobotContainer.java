@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ButtonCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ServoControlCommand;
 import frc.robot.commands.TurretControlCommand;
@@ -52,9 +51,6 @@ public class RobotContainer {
     return new LimelightControlCommand(m_limelightsub, m_turretsub, 1);
   }
 
-  public Command getButtonCommand() {
-    return new ButtonCommand(m_turretsub, m_limelightsub);
-  }
 
   public Command getServoCommand() {
     return new ServoControlCommand(m_servosub, 50);
