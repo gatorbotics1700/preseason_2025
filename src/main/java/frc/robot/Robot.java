@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.BlinkinLEDController;
 
 public class Robot extends TimedRobot {
     private Command m_limelightCommand;
@@ -16,11 +17,13 @@ public class Robot extends TimedRobot {
     private TurretSubsystem m_turretSubsystem;
 
     private RobotContainer m_robotContainer;
+    private BlinkinLEDController m_ledController;
 
     @Override
     public void robotInit() {
         // Initialize RobotContainer
         m_robotContainer = new RobotContainer();
+        m_ledController = new BlinkinLEDController(0);
     }
 
     @Override
@@ -42,6 +45,7 @@ public class Robot extends TimedRobot {
         if (m_buttonCommand != null) {
             m_buttonCommand.schedule();
         }
+        
     }
 
     @Override
@@ -72,7 +76,9 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {}
 
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+        m_ledController.turnOff();
+    }
   
     @Override
     public void disabledPeriodic() {}
@@ -84,5 +90,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+        m_ledController.setLEDColor(0.93);
+    }
 }
