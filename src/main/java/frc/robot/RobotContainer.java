@@ -19,10 +19,11 @@ public class RobotContainer {
 
         drivetrain.setDefaultCommand(new DriveCommand(
                 drivetrain,
-                () -> -modifyAxis(controller.getLeftY()), // Axes are flipped here on purpose
-                () -> -modifyAxis(controller.getLeftX()),
-                () -> -modifyAxis(controller.getRightX())
+                () -> -modifyAxis(controller.getRightY()), // Axes are flipped here on purpose
+                () -> -modifyAxis(controller.getRightX()),
+                () -> -modifyAxis(controller.getLeftX())
         ));
+
 
         new Trigger(controller::getBackButtonPressed)
                 .onTrue(new InstantCommand(drivetrain::zeroGyroscope));
@@ -30,7 +31,7 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrain::setSlowDrive));
 
-               SmartDashboard.putData(new PowerDistribution());
+            //    SmartDashboard.putData(new PowerDistribution());
     }
     //instant command means that it runs one time rather then run command which runs continuosly
 
