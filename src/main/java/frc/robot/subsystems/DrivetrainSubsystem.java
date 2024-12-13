@@ -109,7 +109,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         odometry = new SwerveDrivePoseEstimator(
                 kinematics,
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
-                // Rotation2d.fromDegrees(pigeon.getAngle()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(90))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
         );
@@ -121,7 +120,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             this::getRobotRelativeSpeeds,
             this::driveRobotRelative,
             new HolonomicPathFollowerConfig(
-                new PIDConstants(5,0,0.05), //try 0.1 after
+                new PIDConstants(5,0,0.05),
                 new PIDConstants(10,0,0.01),
                 MAX_VELOCITY_METERS_PER_SECOND,
                 0.449072,
@@ -139,33 +138,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
             this
         );
 
-    /*  RobotConfig config;
-      try{
-         config = RobotConfig.fromGUISettings();
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-
-      AutoBuilder.configure(
-         this::getPose,
-         this::resetPose,
-         this::getRobotRelativeSpeeds,
-         (speeds, feedforwards) -> driveRobotRelative(speeds),
-         new PPHolonomicDriveController(new PIDConstants(5, 0, 0), new PIDConstants(5, 0, 0), MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
-         config, 
-         () -> {
-            var alliance = DriverStation.getAlliance();
-            if(alliance.isPresent()){
-               return alliance.get() == DriverStation.Alliance.Red;
-            }
-            return false;
-
-         },
-         this
-      );
-*/
-
-
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
@@ -175,7 +147,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         odometry.resetPosition( //shouldn't be using this
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                // new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
         );
         System.out.println("you pressed the right button yay you");

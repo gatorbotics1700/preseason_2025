@@ -20,22 +20,6 @@ public class RobotContainer {
     public RobotContainer() {
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
-        // System.out.println("Initial joystick values:");
-        // System.out.println("LeftY: " + controller.getLeftY());
-        // System.out.println("LeftX: " + controller.getLeftX());
-        // System.out.println("RightX: " + controller.getRightX());
-
-        // Set up the default drive command
-        // drivetrain.setDefaultCommand(
-        //     new TeleopDriveCommand(
-        //         drivetrain,
-        //         () -> -modifyAxis(controller.getLeftY()),    // Changed to raw values
-        //         () -> -modifyAxis(controller.getLeftX()),     // Changed to raw values
-        //         () -> -modifyAxis(controller.getRightX())    // Changed to raw values
-        //     )
-        // );
-        
-        // System.out.println("Default command set");
 
         // Zero gyroscope button binding
         new Trigger(controller::getBackButtonPressed)
