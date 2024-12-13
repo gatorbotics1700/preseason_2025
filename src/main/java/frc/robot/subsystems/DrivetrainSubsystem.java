@@ -114,7 +114,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 kinematics,
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(90))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
+                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
 
