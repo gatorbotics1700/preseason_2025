@@ -240,6 +240,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //                      " Angle=" + targetStates[i].angle.getDegrees());
         // }
         
+        
         setStates(targetStates);
     }
 
@@ -254,5 +255,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+    }
+
+    public void driveToPose(Pose2d desiredPose) {
+        Pose2d currentPose = odometry.getEstimatedPosition();
+    
+        double xError = desiredPose.getX() - currentPose.getX();
+        double yError = desiredPose.getY() - currentPose.getY();
+    
+        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+    
+        double xSpeed = xError * 2.0; 
+        double ySpeed = yError * 2.0;
+        double rotationSpeed = rotationError * 1.0; 
+
+        drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
     }
 }
