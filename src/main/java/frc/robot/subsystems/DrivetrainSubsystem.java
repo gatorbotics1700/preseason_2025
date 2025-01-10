@@ -149,7 +149,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void setSlowDrive(){
         slowDrive = !slowDrive;
-        System.out.println("use of slow drive to not slow drive");
+      //  System.out.println("use of slow drive to not slow drive");
     }
 
     public boolean getSlowDrive(){
@@ -162,7 +162,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
         );
-        System.out.println("you pressed the right button yay you");
+      //  System.out.println("you pressed the right button yay you");
     }
 
     public Pose2d getPose() {
@@ -202,12 +202,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
         double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
 
-        System.out.println("Setting voltages - FL: " + fl_voltage + 
-                          " FR: " + fr_voltage +
-                          " BL: " + bl_voltage + 
-                          " BR: " + br_voltage);
+    //    System.out.println("Setting voltages - FL: " + fl_voltage + 
+                        //   " FR: " + fr_voltage +
+                        //   " BL: " + bl_voltage + 
+                        //   " BR: " + br_voltage);
 
-        System.out.println("pose: " + getPose());
+      //  System.out.println("pose: " + getPose());
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -226,9 +226,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-        System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
-                          " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
-                          " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
+      //  System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
+                        //   " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
+                        //   " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
                           
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
@@ -265,10 +265,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
-        double xSpeed = xError * 2.0; 
-        double ySpeed = yError * 2.0;
-        double rotationSpeed = rotationError * 1.0; 
+        double xSpeed = xError * 1.0; 
+        double ySpeed = yError * 1.0;
+        double rotationSpeed = rotationError * 0.2; 
 
-        drive(new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed));
+        drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
     }
 }

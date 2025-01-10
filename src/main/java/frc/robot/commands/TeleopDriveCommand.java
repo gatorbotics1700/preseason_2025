@@ -27,7 +27,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void initialize() {
-        System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
+    //    System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
@@ -49,7 +49,7 @@ public class TeleopDriveCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("TeleopDriveCommand ended");
+      //  System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
