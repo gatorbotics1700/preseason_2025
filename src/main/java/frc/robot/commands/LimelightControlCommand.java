@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -29,29 +30,37 @@ public class LimelightControlCommand extends Command {
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
-
+            double targetDistance = limelightSubsystem.getTargetArea();  // Assuming this represents distance to target
+            
             Pose2d currentPose = drivetrainSubsystem.getPose();
 
             Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
+            double xAdjustment = targetDistance * Math.tan(Math.toRadians(horizontalOffset));
+
+            Pose2d desiredPose = new Pose2d(
+                currentPose.getX() + xAdjustment,
+                currentPose.getY(),
+                desiredRotation
+            );
 
             drivetrainSubsystem.driveToPose(desiredPose);
 
             System.out.println("Driving to pose: " + desiredPose);
         } else {
-
             System.out.println("No valid target detected.");
         }
     }
 
     @Override
     public boolean isFinished() {
-        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0));
-        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
+        boolean isAligned = Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
+        System.out.println("Finished: " + isAligned);
+        return isAligned;
     }
 
     @Override
     public void end(boolean interrupted) {
-         }
+        System.out.println("Limelight alignment command ended. Interrupted: " + interrupted);
+    }
 }
