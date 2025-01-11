@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -8,10 +10,6 @@ public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final int pipeline;
-
-    // Proportional control constants
-    private static final double kPTranslation = 0.02;  // Adjust for X movement
-    private static final double kPRotation = 0.01;     // Adjust for rotation
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem, int pipeline) {
         this.limelightSubsystem = limelightSubsystem;
@@ -30,36 +28,30 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         if (limelightSubsystem.hasValidTarget()) {
-            // Get horizontal offset (tx) and target distance (optional)
             double horizontalOffset = limelightSubsystem.getHorizontalOffset();
 
-            // Calculate forward speed (X movement) based on horizontal offset
-            double forwardSpeed = horizontalOffset * kPTranslation;
+            Pose2d currentPose = drivetrainSubsystem.getPose();
 
-            // Calculate rotation speed based on horizontal offset
-            double rotationSpeed = horizontalOffset * kPRotation;
+            Rotation2d desiredRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(horizontalOffset));
 
-            // Drive the robot with calculated speeds
-            drivetrainSubsystem.arcadeDrive(forwardSpeed, rotationSpeed);
+            Pose2d desiredPose = new Pose2d(currentPose.getX(), currentPose.getY(), desiredRotation);
 
-            System.out.println("Driving with forward speed: " + forwardSpeed + ", rotation speed: " + rotationSpeed);
+            drivetrainSubsystem.driveToPose(desiredPose);
+
+            System.out.println("Driving to pose: " + desiredPose);
         } else {
-            drivetrainSubsystem.stop();
+
             System.out.println("No valid target detected.");
         }
     }
 
     @Override
     public boolean isFinished() {
-        // Finish when the horizontal offset is sufficiently small
-        boolean isAligned = Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
-        System.out.println("Finished: " + isAligned);
-        return isAligned;
+        System.out.println("Finished: " + (Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0));
+        return Math.abs(limelightSubsystem.getHorizontalOffset()) < 1.0;
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.stop();
-        System.out.println("Limelight alignment command ended. Interrupted: " + interrupted);
-    }
+         }
 }

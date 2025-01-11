@@ -271,6 +271,4 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
     }
-
-    
 }
