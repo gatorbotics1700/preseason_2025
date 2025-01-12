@@ -117,13 +117,13 @@ public final class Falcon500DriveControllerFactoryBuilder {
         public double getStateVelocity() {
             // Multiply to 10 to convert from m/100ms to m/s
             // return motor.getSelectedSensorVelocity() * sensorPositionCoefficient * 10.0;
-            return motor.getVelocity().getValue() * sensorPositionCoefficient;
+            return motor.getVelocity().getValueAsDouble() * sensorPositionCoefficient;
         }
 
         @Override
         public double getStateDistance() {
             // return motor.getSelectedSensorPosition() * sensorPositionCoefficient;
-            return motor.getPosition().getValue() * sensorPositionCoefficient;
+            return motor.getPosition().getValueAsDouble() * sensorPositionCoefficient;
         }
     }
 }

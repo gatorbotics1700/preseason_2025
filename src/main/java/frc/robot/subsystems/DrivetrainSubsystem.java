@@ -2,9 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.config.PIDConstants;
+//import com.pathplanner.lib.config.ReplanningConfig;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.DriveFeedforwards;
+
 import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -112,24 +115,25 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         odometry = new SwerveDrivePoseEstimator(
                 kinematics,
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
 
-        AutoBuilder.configureHolonomic(
+        AutoBuilder.configure(
             this::getPose,
             this::resetPose,
             this::getRobotRelativeSpeeds,
             this::driveRobotRelative,
-            new HolonomicPathFollowerConfig(
+            new PPHolonomicDriveController(
                 new PIDConstants(5,0,0.05),
                 new PIDConstants(10,0,0.01),
-                MAX_VELOCITY_METERS_PER_SECOND,
-                0.449072,
-                new ReplanningConfig()
+                //MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
+                0.449072
+
             ),
+            new RobotConfig(0, 0, null, 0), //TODO
             () -> {
 
                 var alliance = DriverStation.getAlliance();
@@ -158,7 +162,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void zeroGyroscope() {
         odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting angle instead of reseting position which is the whole point of reset position
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
         );
@@ -170,7 +174,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void resetPose(Pose2d pose) {
-        odometry.resetPosition(new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())), getModulePositionArray(), pose); 
+        odometry.resetPosition(new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())), getModulePositionArray(), pose); 
     }
 
     public SwerveModulePosition[] getModulePositionArray(){
@@ -225,7 +229,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setStates(targetStates);
     }
 
-    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds, DriveFeedforwards driveFeedforwards) {
       //  System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
                         //   " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
                         //   " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
@@ -247,7 +251,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValue())),
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
             new SwerveModulePosition[]{ 
                 frontLeftModule.getPosition(), 
                 frontRightModule.getPosition(), 
