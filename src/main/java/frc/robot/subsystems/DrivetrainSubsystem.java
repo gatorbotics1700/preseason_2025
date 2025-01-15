@@ -2,9 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 //import com.pathplanner.lib.config.ReplanningConfig;
 import com.pathplanner.lib.config.RobotConfig;
+import frc.com.swervedrivespecialties.swervelib.MkModuleConfiguration;
+
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
 
@@ -133,7 +136,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 0.449072
 
             ),
-            new RobotConfig(0, 0, null, 0), //TODO
+            new RobotConfig(0, 0, (ModuleConfig) MkModuleConfiguration.getDefaultSteerFalcon500(), 0), //TODO
             () -> {
 
                 var alliance = DriverStation.getAlliance();
