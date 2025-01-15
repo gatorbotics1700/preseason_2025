@@ -2,7 +2,6 @@ package frc.com.swervedrivespecialties.swervelib.ctre;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import edu.wpi.first.units.measure.Angle;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -29,7 +28,7 @@ public class CanCoderFactoryBuilder {
         return configuration -> {
             CANcoderConfiguration config = new CANcoderConfiguration()
                 .withMagnetSensor(new MagnetSensorConfigs()
-                    .withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
+                    .withAbsoluteSensorDiscontinuityPoint(1) //unsigned 0-1
                     .withSensorDirection(direction == Direction.CLOCKWISE ? SensorDirectionValue.Clockwise_Positive : SensorDirectionValue.CounterClockwise_Positive)
                     .withMagnetOffset(configuration.getOffset() / (2 * Math.PI)));
 

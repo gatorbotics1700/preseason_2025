@@ -211,7 +211,7 @@ public final class Falcon500SteerControllerFactoryBuilder {
 
         @Override
         public MotorController getSteerMotor() {
-            return this.motor;
+            return (MotorController) this.motor;
         }
 
         @Override

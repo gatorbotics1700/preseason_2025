@@ -1,6 +1,6 @@
 package frc.robot;
 
-import frc.robot.commands.TestDriveCommand;
+//import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -44,17 +44,17 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
-    public Command getAutonomousCommand() {
-        try {
-            Command auto = autoChooser.getSelected();
-            System.out.println("Auto loaded successfully: " + autoChooser.getSelected().getName());
-            return auto;
-        } catch (Exception e) {
-            System.err.println("Failed to load auto path: " + e.getMessage());
-            e.printStackTrace();
-            return new TestDriveCommand(drivetrain);
-        }
-    }
+    // public Command getAutonomousCommand() {
+    //     try {
+    //         Command auto = autoChooser.getSelected();
+    //         System.out.println("Auto loaded successfully: " + autoChooser.getSelected().getName());
+    //         return auto;
+    //     } catch (Exception e) {
+    //         System.err.println("Failed to load auto path: " + e.getMessage());
+    //         e.printStackTrace();
+    //         return new TestDriveCommand(drivetrain);
+    //     }
+    // }
 
     public void setDefaultTeleopCommand(){
         System.out.println("SETTING DEFAULT TELEOP COMMAND");
