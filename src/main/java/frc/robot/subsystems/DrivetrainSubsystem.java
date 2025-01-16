@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -123,7 +124,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
+        DCMotor krakenMotor = DCMotor.getKrakenX60(8);
 
+        ModuleConfig moduleConfig = new ModuleConfig(
+            0.0508, // wheel radius in meters (example: 3 inches converted to meters)
+            4.17,    // max drive velocity in meters per second
+            1.3,    // coefficient of friction
+            krakenMotor,  // DCMotor object
+            55.0,   // current limit in Amps
+            8       // number of motors (e.g., 1 for swerve module)
+);
         AutoBuilder.configure(
             this::getPose,
             this::resetPose,
@@ -136,7 +146,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 0.449072
 
             ),
-            new RobotConfig(13, 1, MkModuleConfiguration.getDefaultSteerFalcon500(), 1), //TODO
+            new RobotConfig(13, 1, moduleConfig, 1), //TODO
             () -> {
 
                 var alliance = DriverStation.getAlliance();
