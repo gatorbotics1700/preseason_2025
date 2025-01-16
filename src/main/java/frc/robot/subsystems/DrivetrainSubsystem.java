@@ -274,6 +274,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         );
     }
 
+    private double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
+    }
+    
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
     
@@ -282,9 +286,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
-        double xSpeed = xError * 1.0; 
-        double ySpeed = yError * 1.0;
-        double rotationSpeed = rotationError * 0.2; 
+        // double xSpeed = xError * 1.0; 
+        // double ySpeed = yError * 1.0;
+        // double rotationSpeed = rotationError * 0.1; 
+        double xSpeed = clamp(xError * 1.0, -1.0, 1.0); // Tune max speeds
+        double ySpeed = clamp(yError * 1.0, -1.0, 1.0);
+        double rotationSpeed = clamp(rotationError * 0.1, -0.5, 0.5); // Slower rotation speed
 
         drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
     }
