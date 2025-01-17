@@ -133,6 +133,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
             55.0,   // current limit in Amps
             8       // number of motors (e.g., 1 for swerve module)
 );
+        RobotConfig config;
+        try{
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            // Handle exception as needed???
+            e.printStackTrace();
+            config = new RobotConfig(18, 1.45, moduleConfig, 0.449072);
+        }
+
         AutoBuilder.configure(
             this::getPose,
             this::resetPose,
@@ -140,12 +149,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             this::driveRobotRelative,
             new PPHolonomicDriveController(
                 new PIDConstants(5,0,0.05),
-                new PIDConstants(10,0,0.01),
+                new PIDConstants(10,0,0.01)
                 //MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
-                0.449072
+                // 0.449072
 
             ),
-            new RobotConfig(13, 1, moduleConfig, 1), //TODO
+            config, // The robot configuration
+            // new RobotConfig(18, 1.45, moduleConfig, 0.449072),
             () -> {
 
                 var alliance = DriverStation.getAlliance();
