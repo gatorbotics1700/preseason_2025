@@ -46,4 +46,9 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
+
+    public static final double CORAL_INTAKING_SPEED = 0.5;
+    public static final double CORAL_OUTTAKING_SPEED = -0.5; 
+
+    public static final double CLIMBING_SPEED = 0.2; 
 }
