@@ -16,12 +16,15 @@ public class CoralShooterCommand extends Command {
         addRequirements(coralShooterSubsystem);
     }
 
+    @Override
+    public void initialize (){
+        startTime = System.currentTimeMillis();
+    }
 
 
     @Override
     public void execute() {
         //set speed to given value 
-        startTime = System.currentTimeMillis();
         coralShooterSubsystem.setSpeed(speed);
         if (speed > 0){
         System.out.println("INTAKING");

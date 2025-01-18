@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
@@ -17,7 +18,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     private static final double MAX_ANGLE = 90;
     
     public CoralShooterSubsystem(){
-        coralShooterMotor = new TalonFX(0);//TODO: enter in can id later
+        coralShooterMotor = new TalonFX(Constants.CORAL_MOTOR_CAN_ID);//TODO: enter in can id later
         beamBreakSensor = new DigitalInput(0); //TODO: replace with beambreak receiver 
         servo = new Servo(0); // TODO: Change PWM
         setAngle(0.0, false);
