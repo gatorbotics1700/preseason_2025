@@ -27,13 +27,15 @@ public class CoralShooterCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (speed > 0) { //in the case that positive is intaking
-            if (coralShooterSubsystem.isBeamBroken()) {
-                coralShooterSubsystem.setSpeed(0); 
-                return true;
-            }
-        }
-        else if (speed < 0 ) { //in the case that negative is shooting 
+        // // if (speed > 0) { //in the case that positive is intaking
+        //     if (coralShooterSubsystem.isBeamBroken()) {
+        //         coralShooterSubsystem.setSpeed(0); 
+        //         return true;
+            
+        // }
+        // else 
+        if (speed < 0 ) { //in the case that negative is shooting 
+            // maybe we should have it run for a certain amount of time then end
             //if game piece has left
                 coralShooterSubsystem.setSpeed(0); 
                 return true;
@@ -41,7 +43,7 @@ public class CoralShooterCommand extends Command {
         else {
             coralShooterSubsystem.setSpeed(0);
             return true;
-        } 
+        }
         return false; 
         
 

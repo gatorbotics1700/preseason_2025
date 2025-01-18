@@ -21,11 +21,11 @@ public class ClimbingCommand extends Command {
     @Override 
     public boolean isFinished() {
         //if hanging successfully--maybe using pigeon to determine position? 
-            climbingSubsystem.setSpeed(0);
-            return true;
-        else {
-            return false; 
-        } 
+            // climbingSubsystem.setSpeed(0);
+            return true; // commented out for testing shooter - should just stop command on start
+        // else {
+        //     return false; 
+        // } 
     }
 
 }
