@@ -1,18 +1,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.CoralShooterSubsystem;
 
 public class CoralShooterCommand extends Command {
     private CoralShooterSubsystem coralShooterSubsystem;
     private final double speed;  
+    private double startTime;
+    
 
     public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed) {
         this.coralShooterSubsystem = coralShooterSubsystem; 
         this.speed = speed;
         addRequirements(coralShooterSubsystem);
-        
-
     }
 
 
@@ -20,9 +21,17 @@ public class CoralShooterCommand extends Command {
     @Override
     public void execute() {
         //set speed to given value 
+        startTime = System.currentTimeMillis();
         coralShooterSubsystem.setSpeed(speed);
-        System.out.println("SPEED: " + speed);
-        
+        if (speed > 0){
+        System.out.println("INTAKING");
+    } else if (speed < 0){
+        System.out.println ("OUTTAKING");
+    }
+        System.out.println("SPEED: " + speed);    
+        if(speed < 0){ // if outtaking
+            //coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false);
+        } 
     }
 
     @Override
@@ -32,10 +41,11 @@ public class CoralShooterCommand extends Command {
         //         coralShooterSubsystem.setSpeed(0); 
         //         return true;
             
-        // }
-        // else  if (speed < 0 ) { //in the case that negative is shooting 
+        // } else
+        // if (speed < 0 ) { //in the case that negative is shooting 
         //     //if game piece has left
         //         coralShooterSubsystem.setSpeed(0); 
+        //         coralShooterSubsystem.setAngle(0, false);
         //         return true;
         // }
         // else {
@@ -48,10 +58,26 @@ public class CoralShooterCommand extends Command {
         immediately stop as soon as outtaking starts. We should either include a line to wait or just use a button for
         stopping it
          */
-            
-        if(speed == 0){
+            double timePassed = System.currentTimeMillis() - startTime;
+
+
+          System.out.println("Milliseconds passed: " +  timePassed);  
+        if(speed > 0){
+            if(System.currentTimeMillis() - startTime > 10000){
+                coralShooterSubsystem.setSpeed(0);
+                System.out.println ("Finished intaking");
+                return true;
+            } 
+        } else if(speed == 0){
             return true;
+        } else if(speed < 0){
+            if(System.currentTimeMillis() - startTime > 10000){
+                coralShooterSubsystem.setSpeed(0);
+                System.out.println("Finished outtaking");
+                return true;
+            } 
         }
+
         return false;
         
 
