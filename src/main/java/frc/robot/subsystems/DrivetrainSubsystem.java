@@ -120,18 +120,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 kinematics,
                 new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))) //TODO: fix, bandaid setting it to not be 0 for further testing 12/2/24
+                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
-        DCMotor krakenMotor = DCMotor.getKrakenX60(8);
+        DCMotor krakenMotor = DCMotor.getKrakenX60(1);//TODO: check if we change this number to 1 or keep
 
         ModuleConfig moduleConfig = new ModuleConfig(
             0.0508, // wheel radius in meters (example: 3 inches converted to meters)
             4.17,    // max drive velocity in meters per second
-            1.3,    // coefficient of friction
+            1.3,    // coefficient of friction TODO: ask patricia
             krakenMotor,  // DCMotor object
             55.0,   // current limit in Amps
-            8       // number of motors (e.g., 1 for swerve module)
+            1       // number of motors (e.g., 1 for swerve module)
 );
         RobotConfig config;
         try{
@@ -139,7 +139,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         } catch (Exception e) {
             // Handle exception as needed???
             e.printStackTrace();
-            config = new RobotConfig(18, 1.45, moduleConfig, 0.449072);
+            config = new RobotConfig(16, 1.075, moduleConfig, 0.508);
         }
 
         AutoBuilder.configure(
@@ -233,7 +233,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         //   " BL: " + bl_voltage + 
                         //   " BR: " + br_voltage);
 
-      //  System.out.println("pose: " + getPose());
+       System.out.println("pose: " + getPose());
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());

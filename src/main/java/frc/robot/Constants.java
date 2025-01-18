@@ -4,8 +4,9 @@ import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
 public class Constants {
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.2794;
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.2794;
+    //for a 25x25 drivetrain
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.508;
+    public static final double DRIVETRAIN_WHEELBASE_METERS = 0.508;
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
