@@ -33,18 +33,26 @@ public class CoralShooterCommand extends Command {
         //         return true;
             
         // }
-        // else 
-        if (speed < 0 ) { //in the case that negative is shooting 
-            // maybe we should have it run for a certain amount of time then end
-            //if game piece has left
-                coralShooterSubsystem.setSpeed(0); 
-                return true;
-        }
-        else {
-            coralShooterSubsystem.setSpeed(0);
+        // else  if (speed < 0 ) { //in the case that negative is shooting 
+        //     //if game piece has left
+        //         coralShooterSubsystem.setSpeed(0); 
+        //         return true;
+        // }
+        // else {
+        //     coralShooterSubsystem.setSpeed(0);
+        //     return true;
+        // }
+        // return false; 
+
+        /* NOTE: This is commented out to test using a start/stop button. For outtaking, this code looks like it would 
+        immediately stop as soon as outtaking starts. We should either include a line to wait or just use a button for
+        stopping it
+         */
+            
+        if(speed == 0){
             return true;
         }
-        return false; 
+        return false;
         
 
     }

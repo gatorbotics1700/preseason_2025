@@ -53,6 +53,10 @@ public class RobotContainer {
         // coral shooter outtaking
         new Trigger(controller_two::getYButtonPressed)
                 .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
+
+        // button to stop intaking and outtake
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
         
         // climbing mechanism 
         new Trigger(controller_two::getAButtonPressed)
