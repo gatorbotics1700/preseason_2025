@@ -26,14 +26,14 @@ public class CoralShooterCommand extends Command {
     public void execute() {
         //set speed to given value 
         coralShooterSubsystem.setSpeed(speed);
-        if (speed > 0){
-        System.out.println("INTAKING");
-    } else if (speed < 0){
-        System.out.println ("OUTTAKING");
-    }
+        if (speed > 0) {
+            System.out.println("INTAKING");
+        } else if (speed < 0) {
+            System.out.println ("OUTTAKING");
+        }
         System.out.println("SPEED: " + speed);    
-        if(speed < 0){ // if outtaking
-            //coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false);
+        if (speed < 0) { // if outtaking
+            coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false); // TODO: move angle to params and set speed to value passed in to command regardless of intaking/outtaking
         } 
     }
 
@@ -44,14 +44,12 @@ public class CoralShooterCommand extends Command {
         //         coralShooterSubsystem.setSpeed(0); 
         //         return true;
             
-        // } else
-        // if (speed < 0 ) { //in the case that negative is shooting 
-        //     //if game piece has left
+        // } else if (speed < 0 ) { //in the case that negative is shooting 
+        //     //if game piece has left - maybe we can use a second beambreak?
         //         coralShooterSubsystem.setSpeed(0); 
         //         coralShooterSubsystem.setAngle(0, false);
         //         return true;
-        // }
-        // else {
+        // } else {
         //     coralShooterSubsystem.setSpeed(0);
         //     return true;
         // }
@@ -61,20 +59,20 @@ public class CoralShooterCommand extends Command {
         immediately stop as soon as outtaking starts. We should either include a line to wait or just use a button for
         stopping it
          */
-            double timePassed = System.currentTimeMillis() - startTime;
-
-
-          System.out.println("Milliseconds passed: " +  timePassed);  
-        if(speed > 0){
+        
+        double timePassed = System.currentTimeMillis() - startTime;
+        System.out.println("Milliseconds passed: " +  timePassed);  
+        
+        if(speed > 0){ // if intaking
             if(System.currentTimeMillis() - startTime > 10000){
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
-            } 
+            }
         } else if(speed == 0){
             return true;
-        } else if(speed < 0){
-            if(System.currentTimeMillis() - startTime > 10000){
+        } else if(speed < 0){ // if outtaking
+            if(System.currentTimeMillis() - startTime > 5000){
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;
@@ -83,7 +81,6 @@ public class CoralShooterCommand extends Command {
 
         return false;
         
-
     }
 
 }
