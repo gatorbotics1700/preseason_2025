@@ -46,26 +46,30 @@ public class RobotContainer {
     //    new Trigger(controller::getBButtonPressed)
     //            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1));
 
+
         // coral shooter intaking
         new Trigger(controller_two::getXButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
         // coral shooter outtaking
         new Trigger(controller_two::getYButtonPressed)
-                .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
         // button to stop intaking and outtake
         new Trigger(controller_two::getBButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             //.onTrue(new ClimbingCommand(m_climbingSub, 0));
         
-        // climbing mechanism 
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
-        // reverse climbing
+        // climbing mechanism 
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+
+        // // reverse climbing
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        
+        
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();
         // SmartDashboard.putData("Auto Chooser", autoChooser);
