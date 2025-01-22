@@ -1,16 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.ModuleConfig;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import frc.com.swervedrivespecialties.swervelib.MkModuleConfiguration;
-
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.DriveFeedforwards;
-
-import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -24,7 +14,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -46,7 +35,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     
     private final SwerveDrivePoseEstimator odometry;
-
 
     private SwerveModuleState[] states; 
 
@@ -122,51 +110,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
+        
         states=kinematics.toSwerveModuleStates(chassisSpeeds);
-        DCMotor krakenMotor = DCMotor.getKrakenX60(1);//TODO: check if we change this number to 1 or keep
-
-        ModuleConfig moduleConfig = new ModuleConfig(
-            0.0508, // wheel radius in meters (example: 3 inches converted to meters)
-            4.17,    // max drive velocity in meters per second
-            1.3,    // coefficient of friction TODO: ask patricia
-            krakenMotor,  // DCMotor object
-            55.0,   // current limit in Amps
-            1       // number of motors (e.g., 1 for swerve module)
-);
-        RobotConfig config;
-        try{
-            config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
-            // Handle exception as needed???
-            e.printStackTrace();
-            config = new RobotConfig(16, 1.075, moduleConfig, 0.508);
-        }
-
-        AutoBuilder.configure(
-            this::getPose,
-            this::resetPose,
-            this::getRobotRelativeSpeeds,
-            this::driveRobotRelative,
-            new PPHolonomicDriveController(
-                new PIDConstants(5,0,0.05),
-                new PIDConstants(10,0,0.01)
-                //MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
-                // 0.449072
-
-            ),
-            config, // The robot configuration
-            // new RobotConfig(18, 1.45, moduleConfig, 0.449072),
-            () -> {
-
-                var alliance = DriverStation.getAlliance();
-                if(alliance.isPresent()){
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                    return false;
-            
-            }, 
-            this
-        );
 
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -195,27 +140,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return odometry.getEstimatedPosition();
     }
 
-    public void resetPose(Pose2d pose) {
-        odometry.resetPosition(new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())), getModulePositionArray(), pose); 
-    }
-
-    public SwerveModulePosition[] getModulePositionArray(){
-        return new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition()};
-    }
-    
     public Rotation2d getRotation() {
         return odometry.getEstimatedPosition().getRotation();
     }
-
-    public ChassisSpeeds getRobotRelativeSpeeds() {
-        return kinematics.toChassisSpeeds(getModuleStates());
-    }
-
-    public SwerveModuleState[] getModuleStates(){
-        return states;
-    }
-
-
 
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
@@ -251,25 +178,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setStates(targetStates);
     }
 
-    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-      //  System.out.println("Drive command received - vx: " + robotRelativeSpeeds.vxMetersPerSecond +
-                        //   " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
-                        //   " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
-                          
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
-        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
-        
-        // Print target states before applying them
-        // System.out.println("Target states:");
-        // for (int i = 0; i < targetStates.length; i++) {
-        //     System.out.println("Module " + i + ": Speed=" + targetStates[i].speedMetersPerSecond +
-        //                      " Angle=" + targetStates[i].angle.getDegrees());
-        // }
-        
-        
-        setStates(targetStates);
-    }
-
     @Override
     public void periodic() {
         odometry.update(
@@ -281,20 +189,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
-    }
-
-    public void driveToPose(Pose2d desiredPose) {
-        Pose2d currentPose = odometry.getEstimatedPosition();
-    
-        double xError = desiredPose.getX() - currentPose.getX();
-        double yError = desiredPose.getY() - currentPose.getY();
-    
-        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-    
-        double xSpeed = xError * 1.0; 
-        double ySpeed = yError * 1.0;
-        double rotationSpeed = rotationError * 0.2; 
-
-        drive(new ChassisSpeeds(xSpeed, ySpeed, -rotationSpeed));
     }
 }
