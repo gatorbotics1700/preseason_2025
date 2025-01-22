@@ -7,20 +7,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbingSubsystem extends SubsystemBase{
-    private final TalonFX leftClimbingMotor;
-    private final TalonFX rightClimbingMotor;
-    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+    //private final DutyCycleOut leftDutyCycleOut = new DutyCycleOut(0);
+    private final DutyCycleOut rightDutyCycleOut = new DutyCycleOut(0);
     
+    //private final TalonFX leftClimbingMotor;
+    private final TalonFX rightClimbingMotor;
 
     public ClimbingSubsystem() {
-        leftClimbingMotor = new TalonFX(Constants.LEFT_CLIMBING_MOTOR_CAN_ID); //TODO: replace that value
+        //leftClimbingMotor = new TalonFX(Constants.LEFT_CLIMBING_MOTOR_CAN_ID); //TODO: replace that value
         rightClimbingMotor = new TalonFX(Constants.RIGHT_CLIMBING_MOTOR_CAN_ID);
     }
 
     public void setSpeed(double speed) {
-        DutyCycleOut dutyCycleOut = new DutyCycleOut(speed);
-        leftClimbingMotor.setControl(dutyCycleOut.withOutput(speed));
-        rightClimbingMotor.setControl(dutyCycleOut.withOutput(-speed)); 
+        //leftClimbingMotor.setControl(leftDutyCycleOut.withOutput(speed));
+        rightClimbingMotor.setControl(rightDutyCycleOut.withOutput(-speed)); 
     }
     
 }
