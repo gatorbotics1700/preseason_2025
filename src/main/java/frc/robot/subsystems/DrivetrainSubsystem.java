@@ -49,7 +49,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
-        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID);
+        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
 
         kinematics = new SwerveDriveKinematics(
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -65,9 +65,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         .withSize(2, 4)
                         .withPosition(0, 0))
                 .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR)
-                .withSteerMotor(Constants.FRONT_LEFT_MODULE_STEER_MOTOR)
-                .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER)
+                .withDriveMotor(Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerMotor(Constants.FRONT_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
                 .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
                 .build();
 
@@ -76,9 +76,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         .withSize(2, 4)
                         .withPosition(2, 0))
                 .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR)
-                .withSteerMotor(Constants.FRONT_RIGHT_MODULE_STEER_MOTOR)
-                .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER)
+                .withDriveMotor(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerMotor(Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
                 .withSteerOffset(Constants.FRONT_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
@@ -87,9 +87,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         .withSize(2, 4)
                         .withPosition(4, 0))
                 .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.BACK_LEFT_MODULE_DRIVE_MOTOR)
-                .withSteerMotor(Constants.BACK_LEFT_MODULE_STEER_MOTOR)
-                .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER)
+                .withDriveMotor(Constants.BACK_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerMotor(Constants.BACK_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
                 .withSteerOffset(Constants.BACK_LEFT_MODULE_STEER_OFFSET)
                 .build();
 
@@ -98,9 +98,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         .withSize(2, 4)
                         .withPosition(6, 0))
                 .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR)
-                .withSteerMotor(Constants.BACK_RIGHT_MODULE_STEER_MOTOR)
-                .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER)
+                .withDriveMotor(Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerMotor(Constants.BACK_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
