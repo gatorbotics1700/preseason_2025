@@ -6,11 +6,17 @@ public class ClimbingCommand extends Command {
    
     private ClimbingSubsystem climbingSubsystem; 
     private final double speed;
+    private double startTime;
 
     public ClimbingCommand(ClimbingSubsystem climbingSubsystem, double speed) {
         this.climbingSubsystem = climbingSubsystem; 
         this.speed = speed; 
         addRequirements(climbingSubsystem); 
+    }
+
+    @Override
+    public void initialize (){
+        startTime = System.currentTimeMillis();
     }
     
     @Override
@@ -22,10 +28,31 @@ public class ClimbingCommand extends Command {
     public boolean isFinished() {
         //if hanging successfully--maybe using pigeon to determine position? 
             // climbingSubsystem.setSpeed(0);
-            return true; // commented out for testing shooter - should just stop command on start
+            //return true; // commented out for testing shooter - should just stop command on start
         // else {
         //     return false; 
         // } 
+
+        double timePassed = System.currentTimeMillis() - startTime;
+        System.out.println("Milliseconds passed: " +  timePassed);  
+        
+        if(speed > 0){ // if climbing
+            if(System.currentTimeMillis() - startTime > 8000){
+                climbingSubsystem.setSpeed(0);
+                System.out.println ("Finished climbing");
+                return true;
+            }
+        } else if(speed == 0){
+            return true;
+        } else if(speed < 0){ // if detaching / reverse climbing
+            if(System.currentTimeMillis() - startTime > 8000){
+                climbingSubsystem.setSpeed(0);
+                System.out.println("Finished detaching");
+                return true;
+            } 
+        }
+
+        return false;
     }
 
 }
