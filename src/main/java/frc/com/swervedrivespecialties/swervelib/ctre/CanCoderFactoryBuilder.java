@@ -35,7 +35,7 @@ public class CanCoderFactoryBuilder {
             CANcoder encoder = new CANcoder(configuration.getId(), configuration.getCanbus());
             CtreUtils.checkCtreError(encoder.getConfigurator().apply(config, 0.25), "Failed to configure CANCoder");
 
-            CtreUtils.checkCtreError(encoder.getPosition().setUpdateFrequency(1000.0 / periodMilliseconds, 0.25), "Failed to configure CANCoder update rate");
+            CtreUtils.checkCtreError(encoder.getPosition().setUpdateFrequency(250, 0.25), "Failed to configure CANCoder update rate"); //1000.0 / periodMilliseconds
 
             return new EncoderImplementation(encoder);
         };
