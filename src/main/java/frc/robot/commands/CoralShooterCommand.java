@@ -32,9 +32,9 @@ public class CoralShooterCommand extends Command {
             System.out.println ("OUTTAKING");
         }
         System.out.println("SPEED: " + speed);    
-        if (speed < 0) { // if outtaking
-            coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false); // TODO: move angle to params and set speed to value passed in to command regardless of intaking/outtaking
-        } 
+        // if (speed < 0) { // if outtaking
+        //     coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false); // TODO: move angle to params and set speed to value passed in to command regardless of intaking/outtaking
+        // } 
     }
 
     @Override
