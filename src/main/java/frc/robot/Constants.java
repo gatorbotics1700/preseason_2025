@@ -57,4 +57,8 @@ public class Constants {
     public static final int LEFT_CLIMBING_MOTOR_CAN_ID = 0;
     public static final int RIGHT_CLIMBING_MOTOR_CAN_ID = 20;
 
+    public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
+    public static final int ALGAE_CAN_ID = 16;
+    public static final int ALGAE_PIVOT_CAN_ID = 15;
+
 }
