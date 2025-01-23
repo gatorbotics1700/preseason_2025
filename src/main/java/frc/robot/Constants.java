@@ -23,6 +23,7 @@ public class Constants {
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
 
     // dory
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(59.414);

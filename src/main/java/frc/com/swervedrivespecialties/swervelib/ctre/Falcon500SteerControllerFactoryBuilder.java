@@ -162,14 +162,14 @@ public final class Falcon500SteerControllerFactoryBuilder {
             // Reduce CAN status frame rates
             CtreUtils.checkCtreError(
                     motor.getPosition().setUpdateFrequency(
-                            1000.0 / STATUS_FRAME_GENERAL_PERIOD_MS, // Hz
+                            150, // Hz //was 1000.0 / STATUS_FRAME_GENERAL_PERIOD_MS
                             CAN_TIMEOUT_SEC
                     ),
                     "Failed to configure Falcon status frame period"
             );
             CtreUtils.checkCtreError(
                     motor.getVelocity().setUpdateFrequency(
-                            1000.0 / STATUS_FRAME_GENERAL_PERIOD_MS, // Hz
+                            150, // Hz //was 1000.0 / STATUS_FRAME_GENERAL_PERIOD_MS
                             CAN_TIMEOUT_SEC
                     ),
                     "Failed to configure Falcon status frame period"
