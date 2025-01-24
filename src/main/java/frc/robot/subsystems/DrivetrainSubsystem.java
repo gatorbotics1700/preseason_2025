@@ -59,11 +59,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             private double xSpeed;
             private double ySpeed;
             private double rotationSpeed;
+            private boolean atDesiredPose;
         
             private boolean slowDrive;
         
             public DrivetrainSubsystem() {
                 slowDrive = false;
+                atDesiredPose = false;
         
                 shuffleboardTab = Shuffleboard.getTab("Drivetrain");
         
@@ -297,16 +299,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         Pose2d currentPose = odometry.getEstimatedPosition();
     
         xError = desiredPose.getX() - currentPose.getX();
-        yError = desiredPose.getY() - currentPose.getY();
-        rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        // yError = desiredPose.getY() - currentPose.getY();
+        // rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
-        System.out.println("xError: " + xError + ", yError: " + yError + ", rotationError: " + rotationError);
+     //   System.out.println("xError: " + xError + ", yError: " + yError + ", rotationError: " + rotationError);
     
         if (Math.abs(xError) < 0.05) xError = 0.0;
-        if (Math.abs(yError) < 0.05) yError = 0.0;
-        if (Math.abs(rotationError) < 2.0) rotationError = 0.0; 
+        // if (Math.abs(yError) < 0.05) yError = 0.0;
+        // if (Math.abs(rotationError) < 2.0) rotationError = 0.0; 
     
-        boolean atDesiredPose = (xError == 0.0 && yError == 0.0 && rotationError == 0.0);
+        atDesiredPose = (xError == 0.0);// && yError == 0.0 && rotationError == 0.0);
     
         if (atDesiredPose) { //stop
             setStates(new SwerveModuleState[] {
@@ -320,13 +322,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
         }
     
         xSpeed = xError * 0.7; 
-        ySpeed = yError * 0.7;
-        rotationSpeed = rotationError * 0.1;
+        // ySpeed = yError * 0.7;
+        // rotationSpeed = rotationError * 0.1;
     
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xSpeed,
-            ySpeed,
-            Math.toRadians(rotationSpeed),
+            0,
+            0,
+            // ySpeed,
+            // Math.toRadians(rotationSpeed),
             currentPose.getRotation()
         );
     
@@ -334,7 +338,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         setStates(moduleStates);
     
-        System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rotationSpeed: " + rotationSpeed);
+       // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rotationSpeed: " + rotationSpeed);
     }
+
+    
 
 }
