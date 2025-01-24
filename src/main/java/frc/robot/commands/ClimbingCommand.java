@@ -5,7 +5,9 @@ import frc.robot.subsystems.ClimbingSubsystem;
 public class ClimbingCommand extends Command {
    
     private ClimbingSubsystem climbingSubsystem; 
+    
     private final double speed;
+    
     private double startTime;
 
     public ClimbingCommand(ClimbingSubsystem climbingSubsystem, double speed) {
@@ -15,7 +17,7 @@ public class ClimbingCommand extends Command {
     }
 
     @Override
-    public void initialize (){
+    public void initialize() {
         startTime = System.currentTimeMillis();
     }
     

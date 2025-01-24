@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class AlgaeSubsystem extends SubsystemBase {
+    
     TalonFX algaeMotor;
     TalonFX algaePivot;
+    
     DutyCycleOut dutyCycleOut;
 
     public AlgaeSubsystem(){

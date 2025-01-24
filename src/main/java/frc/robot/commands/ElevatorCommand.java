@@ -7,6 +7,7 @@ public class ElevatorCommand extends Command {
 
     private ElevatorSubsystem elevatorSubsystem;
     private double position;
+    private double DEADBAND = 5000; // TODO: change this value
     
     public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double position){
         this.elevatorSubsystem = elevatorSubsystem;
@@ -21,8 +22,10 @@ public class ElevatorCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // TODO Auto-generated method stub
-        return super.isFinished();
+        if(Math.abs(elevatorSubsystem.getPosition() - position) < DEADBAND){
+            return true;
+        }
+        return false;
     }
 
 }

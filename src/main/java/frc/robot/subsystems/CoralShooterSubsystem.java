@@ -10,10 +10,14 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
+    
     public final TalonFX coralShooterMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+    
     //private final DigitalInput beamBreakSensor;
+    
     //private static Servo servo;
+    
     private static final double MIN_ANGLE = 0;
     private static final double MAX_ANGLE = 90;
     
