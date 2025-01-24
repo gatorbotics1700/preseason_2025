@@ -211,20 +211,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return pigeon.getYaw().getValueAsDouble(); //in degrees?
     }
 
-    // public void driveToPose(Pose2d desiredPose) {
-    //     Pose2d currentPose = odometry.getEstimatedPosition();
-    
-    //     xError = desiredPose.getX() - currentPose.getX();
-    //     yError = desiredPose.getY() - currentPose.getY();
-    //     rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-    //     System.out.println("xerror: "+xError + " yerror: "+yError + " rerror: " +rotationError);
-        
-    //     xSpeed = xError * 0.7;
-    //     ySpeed = yError * 0.7;
-    //     rotationSpeed = rotationError * 0.1;
-        
-    //     driving = true;
-    // }
 
     public void driveToPose(Pose2d desiredPose) {
         Pose2d currentPose = odometry.getEstimatedPosition();
