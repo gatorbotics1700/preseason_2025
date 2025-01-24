@@ -240,13 +240,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rotationSpeed = rotationError * 0.1;
     
         if (Math.abs(xError) < 0.05) xSpeed = 0.0;
-        if (Math.abs(yError) < 0.05) ySpeed = 0.0;
-        if (Math.abs(rotationError) < 2.0) rotationSpeed = 0.0; // Degrees deadband
+        // if (Math.abs(yError) < 0.05) ySpeed = 0.0;
+        // if (Math.abs(rotationError) < 2.0) rotationSpeed = 0.0; // Degrees deadband
     
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xSpeed,
-            ySpeed,
-            Math.toRadians(rotationSpeed), 
+            0,//ySpeed,
+            0,//Math.toRadians(rotationSpeed), 
             currentPose.getRotation() 
         );
     
