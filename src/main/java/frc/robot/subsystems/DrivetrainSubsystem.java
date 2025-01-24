@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.CANBus.CANBusStatus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
+
     private static final double MAX_VOLTAGE = 12.0;
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380 / 60 * SdsModuleConfigurations.MK4_L2.getDriveReduction() * SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
@@ -43,6 +46,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ShuffleboardTab shuffleboardTab;
 
     private boolean slowDrive;
+    private  static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+    public static double busUtil = CANivore.getStatus().TxFullCount;
+    public static boolean isFD = CANivore.isNetworkFD();
+    public static double transmitErrors = CANivore.getStatus().TEC;
+    public static double receiveErrors = CANivore.getStatus().REC;
+
 
     public DrivetrainSubsystem() {
         slowDrive = false;
