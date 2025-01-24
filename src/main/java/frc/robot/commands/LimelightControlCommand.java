@@ -27,9 +27,9 @@ public class LimelightControlCommand extends Command {
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
         System.out.println("Pipeline set to: " + pipeline);
+        currentPose = drivetrainSubsystem.getPose();
+        desiredPose = currentPose; 
     }
-
-
     @Override
     public void execute() {
         System.out.println("currentpose: " + drivetrainSubsystem.getPose());
@@ -63,26 +63,31 @@ public class LimelightControlCommand extends Command {
     }
 
     private boolean updateDesiredPose() { // returns true if the desired pose has changed
-        currentPose = drivetrainSubsystem.getPose();
-        Pose2d oldDesiredPose = desiredPose;
+        currentPose = drivetrainSubsystem.getPose(); 
 
-        double deltaX = oldDesiredPose.getX() - limelightSubsystem.fieldXDistanceToTag();
-
-        if (Math.abs(deltaX) > DEADBAND_DISTANCE) {
-            desiredPose = new Pose2d(
-                    currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(),
-                    currentPose.getY(), // + limelightSubsystem.fieldYDistanceToTag(),
-                    currentPose.getRotation()); //.plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
-            return true; 
-        }
-
-        return false;
+        if (limelightSubsystem.hasValidTarget()) {
+            double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();
+            double targetY = currentPose.getY(); 
+            Pose2d newDesiredPose = new Pose2d(targetX, targetY, currentPose.getRotation());
     
+            if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) <= DEADBAND_DISTANCE &&
+                Math.abs(newDesiredPose.getY() - desiredPose.getY()) <= DEADBAND_DISTANCE) {
+                desiredPose = newDesiredPose; 
+                return true; 
+            }
+            desiredPose = newDesiredPose;
+            return true;
+        }
+        
+        return false; // No valid target or no update required
     }
 
     private boolean atDesiredPose(Pose2d current, Pose2d desired) {
-        return Math.abs(current.getX() - desired.getX()) < DEADBAND_DISTANCE;
-                //&& Math.abs(current.getY() - desired.getY()) < DEADBAND_DISTANCE;
+        return Math.abs(current.getX() - desired.getX()) < DEADBAND_DISTANCE; //&&
+             //  Math.abs(current.getY() - desired.getY()) < DEADBAND_DISTANCE &&
+            //    Math.abs(current.getRotation().getDegrees() - desired.getRotation().getDegrees()) < 2; 
     }
+
+
 
 }
