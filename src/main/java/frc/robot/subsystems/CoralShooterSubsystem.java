@@ -10,15 +10,20 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
-    public final TalonFX coralShooterMotor;
-    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
+    public final TalonFX highCoralMotor;
+    //public final TalonFX lowCoralMotor;
+
+    private final DutyCycleOut highDutyCycleOut = new DutyCycleOut(0);
+    //private final DutyCycleOut lowDutyCycleOut = new DutyCycleOut(0);
+
     //private final DigitalInput beamBreakSensor;
     //private static Servo servo;
-    private static final double MIN_ANGLE = 0;
-    private static final double MAX_ANGLE = 90;
+    //private static final double MIN_ANGLE = 0;
+    //private static final double MAX_ANGLE = 90;
     
     public CoralShooterSubsystem(){
-        coralShooterMotor = new TalonFX(Constants.CORAL_MOTOR_CAN_ID);//TODO: enter in can id later
+        highCoralMotor = new TalonFX(Constants.HIGH_CORAL_MOTOR_CAN_ID);//TODO: enter in can id later
+        //lowCoralMotor = new TalonFX(Constants.LOW_CORAL_MOTOR_CAN_ID);
         //beamBreakSensor = new DigitalInput(0); //TODO: replace with beambreak receiver 
         //servo = new Servo(Constants.SERVO_PWM_PORT);
         //setAngle(0.0, false);
@@ -30,8 +35,8 @@ public class CoralShooterSubsystem extends SubsystemBase{
     }
 
     public void setSpeed(double speed){
-        DutyCycleOut dutyCycleOut = new DutyCycleOut(speed);
-        coralShooterMotor.setControl(dutyCycleOut.withOutput(speed));
+        highCoralMotor.setControl(highDutyCycleOut.withOutput(speed));
+        //lowCoralMotor.setControl(lowDutyCycleOut.withOutput(speed));
     }
 
     // public boolean isBeamBroken() {

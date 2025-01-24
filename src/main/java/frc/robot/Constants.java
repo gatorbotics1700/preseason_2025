@@ -47,7 +47,8 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
 
-    public static final int CORAL_MOTOR_CAN_ID = 30;
+    public static final int HIGH_CORAL_MOTOR_CAN_ID = 30;
+    public static final int LOW_CORAL_MOTOR_CAN_ID = 29;
     public static final double CORAL_INTAKING_SPEED = 0.05;
     public static final double CORAL_OUTTAKING_SPEED = -0.75; 
     public static final int SERVO_PWM_PORT = 0;
