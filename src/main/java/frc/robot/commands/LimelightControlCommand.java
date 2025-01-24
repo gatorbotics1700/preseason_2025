@@ -5,23 +5,27 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class LimelightControlCommand extends Command {
-    private static final double DEADBAND_DISTANCE = 0.05;  // meters
+    private static final double DEADBAND_DISTANCE = 0.05; // meters
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
+    private final XboxController controller;
     private final int pipeline;
     private Pose2d desiredPose;
     private Pose2d currentPose;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
-            int pipeline) {
+            int pipeline, XboxController controller) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pipeline = pipeline;
+        this.controller = controller;
 
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
+
 
     @Override
     public void initialize() {
@@ -55,11 +59,25 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        boolean finished = atDesiredPose(currentPose, desiredPose);
-        if (finished) {
-            System.out.println("Finished: " + finished);
+        // Check if the robot is at the desired pose
+        boolean atPose = atDesiredPose(currentPose, desiredPose);
+        
+        // Check if either stick on the Xbox controller is moved
+        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.05 ||
+                                Math.abs(controller.getLeftY()) > 0.05 ||
+                                Math.abs(controller.getRightX()) > 0.05 ||
+                                Math.abs(controller.getRightY()) > 0.05;
+
+        if (atPose) {
+            System.out.println("At desired pose: " + desiredPose);
+            return true;
         }
-        return finished;
+        if (joystickMoved) {
+            System.out.println("Joystick moved, ending command.");
+            return true;
+        }
+
+        return false;
     }
 
     private boolean updateDesiredPose() { // returns true if the desired pose has changed
