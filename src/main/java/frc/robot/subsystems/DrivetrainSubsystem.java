@@ -33,170 +33,197 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
 
-    private final Pigeon2 pigeon;
-
-    private final SwerveDriveKinematics kinematics;
-    
-    private final SwerveDrivePoseEstimator odometry;
-
-    private SwerveModuleState[] states; 
-
-    private ChassisSpeeds chassisSpeeds;
-    
-    private ShuffleboardTab shuffleboardTab;
-
-    private boolean slowDrive;
-    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
-    public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
-    public static boolean isFD = CANivore.isNetworkFD();
-    public static double transmitErrors = CANivore.getStatus().TEC;
-    public static double receiveErrors = CANivore.getStatus().REC;
-
-
-    public DrivetrainSubsystem() {
-        slowDrive = false;
-
-        shuffleboardTab = Shuffleboard.getTab("Drivetrain");
-
-        pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
-
-        kinematics = new SwerveDriveKinematics(
-            new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
-            new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
-    );
-
-        chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
-
-        frontLeftModule = new MkSwerveModuleBuilder()
-                .withLayout(shuffleboardTab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(0, 0))
-                .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerMotor(Constants.FRONT_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
-                .build();
-
-        frontRightModule = new MkSwerveModuleBuilder()
-                .withLayout(shuffleboardTab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(2, 0))
-                .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerMotor(Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.FRONT_RIGHT_MODULE_STEER_OFFSET)
-                .build();
-
-        backLeftModule = new MkSwerveModuleBuilder()
-                .withLayout(shuffleboardTab.getLayout("Back Left Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(4, 0))
-                .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.BACK_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerMotor(Constants.BACK_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.BACK_LEFT_MODULE_STEER_OFFSET)
-                .build();
-
-        backRightModule = new MkSwerveModuleBuilder()
-                .withLayout(shuffleboardTab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                        .withSize(2, 4)
-                        .withPosition(6, 0))
-                .withGearRatio(Constants.MODULE_CONFIGURATION)
-                .withDriveMotor(Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerMotor(Constants.BACK_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
-                .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
-                .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
-                .build();
-
-        odometry = new SwerveDrivePoseEstimator(
-                kinematics,
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
-        );
+    private static Pigeon2 pigeon;
         
-        states=kinematics.toSwerveModuleStates(chassisSpeeds);
-
-        shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
-        shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
-        shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
-    }
-
-    public void setSlowDrive(){
-        slowDrive = !slowDrive;
-      //  System.out.println("use of slow drive to not slow drive");
-    }
-
-    public boolean getSlowDrive(){
-        return slowDrive;
-    }
-
-    public void zeroGyroscope() {
-        odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting angle instead of reseting position which is the whole point of reset position
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
-        );
-      //  System.out.println("you pressed the right button yay you");
-    }
-
-    public Pose2d getPose() {
-        return odometry.getEstimatedPosition();
-    }
-
-    public Rotation2d getRotation() {
-        return odometry.getEstimatedPosition().getRotation();
-    }
-
-    public void setStates(SwerveModuleState[] targetStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
-
-        states = targetStates;
-
-        // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-
-    //    System.out.println("Setting voltages - FL: " + fl_voltage + 
-                        //   " FR: " + fr_voltage +
-                        //   " BL: " + bl_voltage + 
-                        //   " BR: " + br_voltage);
-
-       System.out.println("pose: " + getPose());
-
-        // Set modules with calculated voltages
-        frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
-        frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
-        backLeftModule.set(bl_voltage, targetStates[2].angle.getRadians());
-        backRightModule.set(br_voltage, targetStates[3].angle.getRadians());
-    }
-
-    public void drive(ChassisSpeeds chassisSpeeds) {
-        this.chassisSpeeds = chassisSpeeds;
+            private final SwerveDriveKinematics kinematics;
+            
+            private final SwerveDrivePoseEstimator odometry;
         
-        // Convert chassis speeds to module states and apply them
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
-        SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
-        setStates(targetStates);
+            private SwerveModuleState[] states; 
+        
+            private ChassisSpeeds chassisSpeeds;
+            
+            private ShuffleboardTab shuffleboardTab;
+            private double xError;
+            private double yError;
+            private double rotationError;
+            private double xSpeed;
+            private double ySpeed;
+            private double rotationSpeed;
+            private boolean driving;
+        
+            private boolean slowDrive;
+            private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+            public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
+            public static boolean isFD = CANivore.isNetworkFD();
+            public static double transmitErrors = CANivore.getStatus().TEC;
+            public static double receiveErrors = CANivore.getStatus().REC;
+        
+        
+            public DrivetrainSubsystem() {
+                slowDrive = false;
+        
+                shuffleboardTab = Shuffleboard.getTab("Drivetrain");
+        
+                pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
+    
+            kinematics = new SwerveDriveKinematics(
+                new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+                new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
+        );
+    
+            chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
+    
+            frontLeftModule = new MkSwerveModuleBuilder()
+                    .withLayout(shuffleboardTab.getLayout("Front Left Module", BuiltInLayouts.kList)
+                            .withSize(2, 4)
+                            .withPosition(0, 0))
+                    .withGearRatio(Constants.MODULE_CONFIGURATION)
+                    .withDriveMotor(Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerMotor(Constants.FRONT_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerEncoderPort(Constants.FRONT_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
+                    .withSteerOffset(Constants.FRONT_LEFT_MODULE_STEER_OFFSET)
+                    .build();
+    
+            frontRightModule = new MkSwerveModuleBuilder()
+                    .withLayout(shuffleboardTab.getLayout("Front Right Module", BuiltInLayouts.kList)
+                            .withSize(2, 4)
+                            .withPosition(2, 0))
+                    .withGearRatio(Constants.MODULE_CONFIGURATION)
+                    .withDriveMotor(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerMotor(Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerEncoderPort(Constants.FRONT_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
+                    .withSteerOffset(Constants.FRONT_RIGHT_MODULE_STEER_OFFSET)
+                    .build();
+    
+            backLeftModule = new MkSwerveModuleBuilder()
+                    .withLayout(shuffleboardTab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                            .withSize(2, 4)
+                            .withPosition(4, 0))
+                    .withGearRatio(Constants.MODULE_CONFIGURATION)
+                    .withDriveMotor(Constants.BACK_LEFT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerMotor(Constants.BACK_LEFT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerEncoderPort(Constants.BACK_LEFT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
+                    .withSteerOffset(Constants.BACK_LEFT_MODULE_STEER_OFFSET)
+                    .build();
+    
+            backRightModule = new MkSwerveModuleBuilder()
+                    .withLayout(shuffleboardTab.getLayout("Back Right Module", BuiltInLayouts.kList)
+                            .withSize(2, 4)
+                            .withPosition(6, 0))
+                    .withGearRatio(Constants.MODULE_CONFIGURATION)
+                    .withDriveMotor(Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerMotor(Constants.BACK_RIGHT_MODULE_STEER_MOTOR, Constants.CANIVORE_BUS_NAME)
+                    .withSteerEncoderPort(Constants.BACK_RIGHT_MODULE_STEER_ENCODER, Constants.CANIVORE_BUS_NAME)
+                    .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
+                    .build();
+    
+            odometry = new SwerveDrivePoseEstimator(
+                    kinematics,
+                    new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                    new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+                    new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+            );
+            
+            states=kinematics.toSwerveModuleStates(chassisSpeeds);
+    
+            shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
+            shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
+            shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
+        }
+    
+        public void setSlowDrive(){
+            slowDrive = !slowDrive;
+          //  System.out.println("use of slow drive to not slow drive");
+        }
+    
+        public boolean getSlowDrive(){
+            return slowDrive;
+        }
+    
+        public void zeroGyroscope() {
+            odometry.resetPosition( // this line shouldn't work but it should - essentially we are only reseting angle instead of reseting position which is the whole point of reset position
+                    new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                    new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+                    new Pose2d(odometry.getEstimatedPosition().getX(), odometry.getEstimatedPosition().getY(), Rotation2d.fromDegrees(0.0))
+            );
+          //  System.out.println("you pressed the right button yay you");
+        }
+    
+        public Pose2d getPose() {
+            return odometry.getEstimatedPosition();
+        }
+    
+        public Rotation2d getRotation() {
+            return odometry.getEstimatedPosition().getRotation();
+        }
+    
+        public void setStates(SwerveModuleState[] targetStates) {
+            SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
+    
+            states = targetStates;
+    
+            // Calculate voltages (using a higher minimum voltage to ensure movement)
+            double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+            double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+            double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+            double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+    
+        //    System.out.println("Setting voltages - FL: " + fl_voltage + 
+                            //   " FR: " + fr_voltage +
+                            //   " BL: " + bl_voltage + 
+                            //   " BR: " + br_voltage);
+    
+           System.out.println("pose: " + getPose());
+    
+            // Set modules with calculated voltages
+            frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
+            frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
+            backLeftModule.set(bl_voltage, targetStates[2].angle.getRadians());
+            backRightModule.set(br_voltage, targetStates[3].angle.getRadians());
+        }
+    
+        public void drive(ChassisSpeeds chassisSpeeds) {
+            this.chassisSpeeds = chassisSpeeds;
+            
+            // Convert chassis speeds to module states and apply them
+            ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+            SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
+            setStates(targetStates);
+        }
+    
+        @Override
+        public void periodic() {
+            odometry.update(
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                new SwerveModulePosition[]{ 
+                    frontLeftModule.getPosition(), 
+                    frontRightModule.getPosition(), 
+                    backLeftModule.getPosition(), 
+                    backRightModule.getPosition() 
+                }
+            );
+        }
+    
+        public static double getRobotAngle(){
+            return pigeon.getYaw().getValueAsDouble(); //in degrees?
     }
 
-    @Override
-    public void periodic() {
-        odometry.update(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[]{ 
-                frontLeftModule.getPosition(), 
-                frontRightModule.getPosition(), 
-                backLeftModule.getPosition(), 
-                backRightModule.getPosition() 
-            }
-        );
+    public void driveToPose(Pose2d desiredPose) {
+        Pose2d currentPose = odometry.getEstimatedPosition();
+    
+        xError = desiredPose.getX() - currentPose.getX();
+        yError = desiredPose.getY() - currentPose.getY();
+        rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        System.out.println("xerror: "+xError + " yerror: "+yError + " rerror: " +rotationError);
+        
+        xSpeed = xError * 0.7;
+        ySpeed = yError * 0.7;
+        rotationSpeed = rotationError * 0.1;
+        
+        driving = true;
     }
+
 }
