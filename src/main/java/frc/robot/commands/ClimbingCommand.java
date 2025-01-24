@@ -22,6 +22,11 @@ public class ClimbingCommand extends Command {
     @Override
     public void execute() {
         climbingSubsystem.setSpeed(speed);
+        if (speed < 0) {
+            System.out.println("CLIMBING");
+        } else if (speed > 0) {
+            System.out.println("REVERSE CLIMBING");
+        }
     }
 
     @Override 
@@ -37,7 +42,7 @@ public class ClimbingCommand extends Command {
         System.out.println("Milliseconds passed: " +  timePassed);  
         
         if(speed > 0){ // if climbing
-            if(System.currentTimeMillis() - startTime > 3000){
+            if(System.currentTimeMillis() - startTime > 10000){
                 climbingSubsystem.setSpeed(0);
                 System.out.println ("Finished climbing");
                 return true;
@@ -45,7 +50,7 @@ public class ClimbingCommand extends Command {
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if detaching / reverse climbing
-            if(System.currentTimeMillis() - startTime > 3000){
+            if(System.currentTimeMillis() - startTime > 10000){
                 climbingSubsystem.setSpeed(0);
                 System.out.println("Finished detaching");
                 return true;
