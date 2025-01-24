@@ -46,8 +46,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ShuffleboardTab shuffleboardTab;
 
     private boolean slowDrive;
-    private  static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
-    public static double busUtil = CANivore.getStatus().TxFullCount;
+    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+    public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
     public static boolean isFD = CANivore.isNetworkFD();
     public static double transmitErrors = CANivore.getStatus().TEC;
     public static double receiveErrors = CANivore.getStatus().REC;
