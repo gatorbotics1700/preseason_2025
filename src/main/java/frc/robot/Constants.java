@@ -47,4 +47,6 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
+
+    public static final double LOOPTIME_SECONDS = 0.02;
 }

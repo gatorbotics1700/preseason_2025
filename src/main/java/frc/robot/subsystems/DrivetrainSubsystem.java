@@ -39,8 +39,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     private final SwerveDrivePoseEstimator odometry;
 
-    private SwerveModuleState[] states; 
-
     private ChassisSpeeds chassisSpeeds;
     
     private ShuffleboardTab shuffleboardTab;
@@ -48,7 +46,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private boolean slowDrive;
     private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
     public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
-    public static boolean isFD = CANivore.isNetworkFD();
+    public static boolean isFD = CANivore.isNetworkFD(); //checks if we're running CAN FD protocol
     public static double transmitErrors = CANivore.getStatus().TEC;
     public static double receiveErrors = CANivore.getStatus().REC;
 
@@ -65,7 +63,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
             new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
             new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
-    );
+        );
 
         chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -120,8 +118,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
         );
         
-        states=kinematics.toSwerveModuleStates(chassisSpeeds);
-
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
@@ -156,13 +152,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
 
-        states = targetStates;
-
         // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fl_voltage = (targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double fr_voltage = (targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double bl_voltage = (targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double br_voltage = (targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
 
     //    System.out.println("Setting voltages - FL: " + fl_voltage + 
                         //   " FR: " + fr_voltage +
@@ -182,7 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.chassisSpeeds = chassisSpeeds;
         
         // Convert chassis speeds to module states and apply them
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, Constants.LOOPTIME_SECONDS);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setStates(targetStates);
     }
