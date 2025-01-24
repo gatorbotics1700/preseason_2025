@@ -235,19 +235,32 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         System.out.println("xError: " + xError + ", yError: " + yError + ", rotationError: " + rotationError);
     
+        if (Math.abs(xError) < 0.05) xError = 0.0;
+        if (Math.abs(yError) < 0.05) yError = 0.0;
+        if (Math.abs(rotationError) < 2.0) rotationError = 0.0; 
+    
+        boolean atDesiredPose = (xError == 0.0 && yError == 0.0 && rotationError == 0.0);
+    
+        if (atDesiredPose) { //stop
+            setStates(new SwerveModuleState[] {
+                new SwerveModuleState(0.0, new Rotation2d()),
+                new SwerveModuleState(0.0, new Rotation2d()),
+                new SwerveModuleState(0.0, new Rotation2d()),
+                new SwerveModuleState(0.0, new Rotation2d())
+            });
+            System.out.println("At desired pose, stopping.");
+            return;
+        }
+    
         xSpeed = xError * 0.7; 
         ySpeed = yError * 0.7;
         rotationSpeed = rotationError * 0.1;
     
-        if (Math.abs(xError) < 0.05) xSpeed = 0.0;
-        // if (Math.abs(yError) < 0.05) ySpeed = 0.0;
-        // if (Math.abs(rotationError) < 2.0) rotationSpeed = 0.0; // Degrees deadband
-    
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xSpeed,
-            0,//ySpeed,
-            0,//Math.toRadians(rotationSpeed), 
-            currentPose.getRotation() 
+            ySpeed,
+            Math.toRadians(rotationSpeed),
+            currentPose.getRotation()
         );
     
         SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
