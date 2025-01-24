@@ -20,5 +20,4 @@ public class AlgaeSubsystem extends SubsystemBase {
     public void setSpeed(double speed){
         algaeMotor.setControl(dutyCycleOut.withOutput(speed));
     }
-
 }

@@ -7,6 +7,7 @@ public class ElevatorCommand extends Command {
 
     private ElevatorSubsystem elevatorSubsystem;
     private double position;
+    
     public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double position){
         this.elevatorSubsystem = elevatorSubsystem;
         this.position = position;

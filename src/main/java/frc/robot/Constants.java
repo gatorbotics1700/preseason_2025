@@ -47,6 +47,9 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
 
+    
+    public static final double TICKS_FOR_REV = 2048;
+    
     public static final int CORAL_MOTOR_CAN_ID = 30;
     public static final double CORAL_INTAKING_SPEED = 0.05;
     public static final double CORAL_OUTTAKING_SPEED = -0.75; 
@@ -57,8 +60,13 @@ public class Constants {
     public static final int LEFT_CLIMBING_MOTOR_CAN_ID = 0;
     public static final int RIGHT_CLIMBING_MOTOR_CAN_ID = 20;
 
+    //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
+    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.28;
+    public static final double ELEVATOR_GEAR_RATIO = 25.0;
+    public static final double ELEVATOR_TICKS_PER_INCH = TICKS_FOR_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
+
     public static final int ALGAE_CAN_ID = 16;
-    public static final int ALGAE_PIVOT_CAN_ID = 15;
+    public static final int ALGAE_PIVOT_CAN_ID= 15;
 
 }
