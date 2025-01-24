@@ -89,8 +89,8 @@ public class LimelightControlCommand extends Command {
            // Rotation2d targetRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
             Pose2d newDesiredPose = new Pose2d(targetX, targetY, currentPose.getRotation());
     
-            if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) <= DEADBAND_DISTANCE &&
-                Math.abs(newDesiredPose.getY() - desiredPose.getY()) <= DEADBAND_DISTANCE) {
+            if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) <= DEADBAND_DISTANCE){ //&&
+             //   Math.abs(newDesiredPose.getY() - desiredPose.getY()) <= DEADBAND_DISTANCE) {
                 desiredPose = newDesiredPose; 
                 return true; 
             }
