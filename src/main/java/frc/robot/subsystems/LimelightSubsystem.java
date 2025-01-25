@@ -9,7 +9,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final double LIMELIGHT_HEIGHT = 0.37; // in meters
-    private final double APRILTAG_HEIGHT = 0.675; //also in meters
+    private final double APRILTAG_HEIGHT = 0.628; //also in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");

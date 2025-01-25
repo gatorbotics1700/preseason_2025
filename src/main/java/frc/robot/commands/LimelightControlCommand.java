@@ -74,7 +74,7 @@ public class LimelightControlCommand extends Command {
     private boolean updateDesiredPose() { // returns true if the desired pose has changed
         currentPose = drivetrainSubsystem.getPose(); 
 
-        if (limelightSubsystem.hasValidTarget()) {
+        if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 8  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 2  && pipeline ==0))) {
             double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag() - 0.7874/2;
             double targetY = currentPose.getY(); 
            // Rotation2d targetRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
