@@ -38,7 +38,7 @@ public class LimelightControlCommand extends Command {
     public void execute() {
         System.out.println("currentpose: " + drivetrainSubsystem.getPose());
 
-        if (limelightSubsystem.hasValidTarget()) {
+        if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 8  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 2  && pipeline ==0))) { //makes sure we are looking at the correct id
             if(updateDesiredPose()){
                 drivetrainSubsystem.driveToPose(desiredPose);
             }
