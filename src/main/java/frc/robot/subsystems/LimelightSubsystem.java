@@ -8,8 +8,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double LIMELIGHT_HEIGHT = 0.37; // in meters
-    private final double APRILTAG_HEIGHT = 0.628; //also in meters
+    private final double LIMELIGHT_HEIGHT = 0.36195; // in meters
+    private final double APRILTAG_HEIGHT = 0.62865; //also in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -56,10 +56,10 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double distanceToTag() {
-        double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()));
-        // System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
-        // System.out.println("TY: "+getVerticalOffsetAngle());
-        // System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle())));
+        double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()+7));
+        System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
+        System.out.println("TY: "+getVerticalOffsetAngle());
+        System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle()+7)));
        return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
 
     }
