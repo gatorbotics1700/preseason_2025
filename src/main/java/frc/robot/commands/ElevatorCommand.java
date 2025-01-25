@@ -6,23 +6,23 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorCommand extends Command {
 
     private ElevatorSubsystem elevatorSubsystem;
-    private double position;
+    private double height; // in inches
     private double DEADBAND = 5000; // TODO: change this value
     
-    public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double position){
+    public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double height){
         this.elevatorSubsystem = elevatorSubsystem;
-        this.position = position;
+        this.height = height;
         addRequirements(elevatorSubsystem);
     }
     
     @Override 
     public void execute(){
-        elevatorSubsystem.setPosition(position);
+        elevatorSubsystem.setPosition(elevatorSubsystem.determineInchesToTicks(height));
     }
 
     @Override
     public boolean isFinished() {
-        if(Math.abs(elevatorSubsystem.getPosition() - position) < DEADBAND){
+        if(Math.abs(elevatorSubsystem.getPosition() - height) < DEADBAND){
             return true;
         }
         return false;

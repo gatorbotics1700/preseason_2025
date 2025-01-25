@@ -14,7 +14,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static PositionVoltage positionVoltage = new PositionVoltage(0);
     
     private static final double DEADBAND = 5000;//in ticks TODO: test and change
-    
+
+    private static final double kP = 0.0; // TODO: change this value
+    private static final double kI = 0.0; // TODO: change this value
+    private static final double kD = 0.0; // TODO: change this value
+    private static final int kIzone = 0; // TODO: change this value
+    private static final double kPeakOutput = 0.0; // TODO: change this value
+
     public ElevatorSubsystem(){
         elevatorMotor = new TalonFX(Constants.ELEVATOR_CAN_ID);
     }
@@ -31,7 +37,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         return elevatorMotor.getPosition().getValueAsDouble();
     }
 
-    private double determineTicks(double desiredInches){
+    public double determineInchesToTicks(double desiredInches){
         return desiredInches * Constants.ELEVATOR_TICKS_PER_INCH;
     }
 

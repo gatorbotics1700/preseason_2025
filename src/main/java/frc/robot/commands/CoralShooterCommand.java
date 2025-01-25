@@ -19,6 +19,7 @@ public class CoralShooterCommand extends Command {
     @Override
     public void initialize (){
         startTime = System.currentTimeMillis();
+        //coralShooterSubsystem.setAngle(0.0, false);
     }
 
 

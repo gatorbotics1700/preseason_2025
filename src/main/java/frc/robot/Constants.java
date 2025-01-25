@@ -61,8 +61,8 @@ public class Constants {
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
-    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.28;
-    public static final double ELEVATOR_GEAR_RATIO = 25.0;
+    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
+    public static final double ELEVATOR_GEAR_RATIO = 36.0;
     public static final double ELEVATOR_TICKS_PER_INCH = TICKS_FOR_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
 
     public static final int ALGAE_CAN_ID = 16;
