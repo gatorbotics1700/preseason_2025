@@ -28,9 +28,9 @@ public class RobotContainer {
 
         //pipeline buttons
         new Trigger(controller::getAButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 0, controller)); // id 2
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 0, controller)); // id 8
         new Trigger(controller::getBButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1, controller)); // id 8    
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1, controller)); // id 2 
     }
 
 
