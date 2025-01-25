@@ -57,5 +57,4 @@ public class Constants {
     public static final double CLIMBING_SPEED = -0.1; 
     public static final int LEFT_CLIMBING_MOTOR_CAN_ID = 0;
     public static final int RIGHT_CLIMBING_MOTOR_CAN_ID = 20;
-
 }
