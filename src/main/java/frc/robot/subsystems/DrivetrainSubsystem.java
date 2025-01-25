@@ -326,7 +326,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
     
-        xSpeed = xError * 0.7; 
+        xSpeed = xError * 0.2; 
         // ySpeed = yError * 0.7;
         // rotationSpeed = rotationError * 0.1;
     
