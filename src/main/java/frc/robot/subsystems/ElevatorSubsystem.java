@@ -4,8 +4,14 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+//import com.revrobotics.ColorMatch;
+//import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 
 public class ElevatorSubsystem extends SubsystemBase {
     
@@ -15,6 +21,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     
     private static final double DEADBAND = 5000;//in ticks TODO: test and change
 
+    private final DigitalInput colorSensor;
+
     private static final double kP = 0.0; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0; // TODO: change this value
@@ -23,6 +31,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem(){
         elevatorMotor = new TalonFX(Constants.ELEVATOR_CAN_ID);
+        colorSensor = new DigitalInput(0);
     }
 
     public void setPosition(double desiredTicks){
@@ -39,6 +48,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double determineInchesToTicks(double desiredInches){
         return desiredInches * Constants.ELEVATOR_TICKS_PER_INCH;
+    }
+
+    public boolean isColorSensed(){
+        return colorSensor.get();
     }
 
 

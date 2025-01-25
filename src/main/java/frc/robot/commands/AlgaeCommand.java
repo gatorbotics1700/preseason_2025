@@ -1,52 +1,52 @@
-package frc.robot.commands;
+// package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaeSubsystem;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.subsystems.AlgaeSubsystem;
 
-public class AlgaeCommand extends Command {
+// public class AlgaeCommand extends Command {
     
-    private AlgaeSubsystem algaeSubsystem;
+//     private AlgaeSubsystem algaeSubsystem;
     
-    private final double speed;
+//     private final double speed;
     
-    private double startTime;
+//     private double startTime;
 
-    public AlgaeCommand(AlgaeSubsystem algaeSubsystem, double speed){
-        this.algaeSubsystem = algaeSubsystem;
-        this.speed = speed;
-        addRequirements(algaeSubsystem);
-    }
+//     public AlgaeCommand(AlgaeSubsystem algaeSubsystem, double speed){
+//         this.algaeSubsystem = algaeSubsystem;
+//         this.speed = speed;
+//         addRequirements(algaeSubsystem);
+//     }
 
-    @Override
-    public void initialize(){
-        startTime = System.currentTimeMillis();
-    }
+//     @Override
+//     public void initialize(){
+//         startTime = System.currentTimeMillis();
+//     }
     
-    @Override
-    public void execute(){
-        algaeSubsystem.setSpeed(speed);
-    }
+//     @Override
+//     public void execute(){
+//         algaeSubsystem.setSpeed(speed);
+//     }
 
-    @Override
-    public boolean isFinished(){
-        double timePassed = System.currentTimeMillis() - startTime;
-        System.out.println ("Milliseconds passed: " + timePassed);
+//     @Override
+//     public boolean isFinished(){
+//         double timePassed = System.currentTimeMillis() - startTime;
+//         System.out.println ("Milliseconds passed: " + timePassed);
 
-        if(speed > 0){ // if intaking
-            if(System.currentTimeMillis() - startTime > 5000){
-                algaeSubsystem.setSpeed(0);
-                System.out.println ("Finished intaking");
-                return true;
-            }
-        } else if(speed == 0){
-            return true;
-        } else if(speed < 0){ // if outtaking
-            if(System.currentTimeMillis() - startTime > 5000){
-                algaeSubsystem.setSpeed(0);
-                System.out.println("Finished outtaking");
-                return true;
-            } 
-        }
-        return false;
-    }
-}
+//         if(speed > 0){ // if intaking
+//             if(System.currentTimeMillis() - startTime > 5000){
+//                 algaeSubsystem.setSpeed(0);
+//                 System.out.println ("Finished intaking");
+//                 return true;
+//             }
+//         } else if(speed == 0){
+//             return true;
+//         } else if(speed < 0){ // if outtaking
+//             if(System.currentTimeMillis() - startTime > 5000){
+//                 algaeSubsystem.setSpeed(0);
+//                 System.out.println("Finished outtaking");
+//                 return true;
+//             } 
+//         }
+//         return false;
+//     }
+// }

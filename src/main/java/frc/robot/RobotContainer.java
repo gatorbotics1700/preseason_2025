@@ -4,7 +4,7 @@ package frc.robot;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.ClimbingCommand;
-import frc.robot.commands.CoralShooterCommand;
+//import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -55,17 +55,17 @@ public class RobotContainer {
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
-        // button to stop intake & outtake or climbing
+        //button to stop intake & outtake or climbing
         new Trigger(controller_two::getBButtonPressed)
             //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
-            .onTrue(new ClimbingCommand(m_climbingSub, 0));
+            .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
         
         // climbing mechanism 
         new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); //intakr
 
         // reverse climbing
-        new Trigger(controller_two::getXButtonPressed)
+        new Trigger(controller_two::getXButtonPressed) //outake
             .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         
