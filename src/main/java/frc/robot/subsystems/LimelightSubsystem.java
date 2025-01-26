@@ -8,8 +8,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double LIMELIGHT_HEIGHT = 0.36195; // in meters
-    private final double APRILTAG_HEIGHT = 0.62865; //also in meters
+    private final double LIMELIGHT_HEIGHT = 0.355; // in meters
+    private final double APRILTAG_HEIGHT =0.629; //also in meters
+   // private final double DELTA_H = 0.1834156609;
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -32,7 +33,10 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double getVerticalOffsetAngle() {
-        return limelightTable.getEntry("ty").getDouble(0.0);
+        double ty = limelightTable.getEntry("ty").getDouble(0.0);
+        double calibratedAngle = (ty*1.02454) - 1.73401;
+        System.out.println("TY: "+ ty + " calibratedAngle: " + calibratedAngle);
+        return calibratedAngle;
     }
 
     public double getTargetArea() {
@@ -56,12 +60,14 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double distanceToTag() {
-        double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()+7));
-        System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
-        System.out.println("TY: "+getVerticalOffsetAngle());
-        System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle()+7)));
-       return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
-
+    //     double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()));
+    //     System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
+    //    // System.out.println("TY: "+getVerticalOffsetAngle());
+    //     System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle())));
+    //    return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
+        double TZ = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[2]; //returns Z offset to apriltag, but in the camera relative coordinate system
+        double TY = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[1]; //see above but it's y
+        return Math.sqrt((TZ*TZ)+(TY*TY)); //distance from camera to apriltag as the crow flies
     }
 
     public double fieldYDistanceToTag(){
@@ -71,12 +77,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
         double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.getRobotAngle())-getHorizontalOffsetAngle()));
         //if the direction we are driving in is negative, flip the variable d so d reflects this
-        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360>180){
+        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360<180){
 	        d=-d;
         }
 
         return d;
     }
+
 
     public double fieldXDistanceToTag(){
         System.out.println("distance to tag: " + distanceToTag());
@@ -85,7 +92,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
         double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.getRobotAngle())-getHorizontalOffsetAngle()));
         //if the direction we are driving in is negative, flip the variable d so d reflects this
-        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360>180){
+        if((DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle())%360>90 && DrivetrainSubsystem.getRobotAngle()+getHorizontalOffsetAngle()%360<270){
 	        d=-d;
         }
         return d;

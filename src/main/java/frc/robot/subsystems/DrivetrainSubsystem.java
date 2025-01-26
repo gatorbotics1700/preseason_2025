@@ -245,7 +245,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         //   " BL: " + bl_voltage + 
                         //   " BR: " + br_voltage);
 
-       System.out.println("pose: " + getPose());
+     //  System.out.println("pose: " + getPose());
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -293,28 +293,32 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+
     }
 
     public void driveToPose(Pose2d desiredPose) {
+        //System.out.println("driving to pose: " + desiredPose);
         Pose2d currentPose = odometry.getEstimatedPosition();
     
         xError = desiredPose.getX() - currentPose.getX();
-        // yError = desiredPose.getY() - currentPose.getY();
+        yError = desiredPose.getY() - currentPose.getY();
+        System.out.println("xError: " + xError + " yError: " + yError);
         // rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
     
      //   System.out.println("xError: " + xError + ", yError: " + yError + ", rotationError: " + rotationError);
     
      if (Math.abs(xError) < 0.1) { // Stop if within deadband
         xError = 0.0;
-        atDesiredPose = true;
-        System.out.println("AT DEADBAND SHOULD STOP******");
-    } else {
-        atDesiredPose = false;
-    }
-        // if (Math.abs(yError) < 0.05) yError = 0.0;
-        // if (Math.abs(rotationError) < 2.0) rotationError = 0.0; 
+        System.out.println("AT X DEADBAND");
+    } 
     
-        atDesiredPose = (xError == 0.0);// && yError == 0.0 && rotationError == 0.0);
+    if (Math.abs(yError) < 0.1){
+        yError = 0.0;
+        System.out.println("AT Y DEADBAND");
+    }
+    // if (Math.abs(rotationError) < 2.0) rotationError = 0.0; 
+    
+        atDesiredPose = (xError == 0.0) && (yError == 0.0);// && rotationError == 0.0);
     
         if (atDesiredPose) { //stop
             setStates(new SwerveModuleState[] {
@@ -327,13 +331,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
     
-        xSpeed = 0;//xError * 0.4; 
-        // ySpeed = yError * 0.7;
+        xSpeed = xError * 0.7; 
+        ySpeed = yError * 0.7;
         // rotationSpeed = rotationError * 0.1;
     
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xSpeed,
-            0,
+            ySpeed,
             0,
             // ySpeed,
             // Math.toRadians(rotationSpeed),
