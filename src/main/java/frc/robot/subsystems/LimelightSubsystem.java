@@ -77,9 +77,9 @@ public class LimelightSubsystem extends SubsystemBase {
 
         double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;
         //if the direction we are driving in is negative, flip the variable d so d reflects this
-        if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>180){
-	        d=-d;
-        }
+        // if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>180){
+	    //     d=-d;
+        // }
 
         return d;
     }
@@ -90,10 +90,18 @@ public class LimelightSubsystem extends SubsystemBase {
         System.out.println("ROBOT ROTATION: " + DrivetrainSubsystem.robotRotation);
 
         double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;//- 0.7874/2;
-        //if the direction we are driving in is negative, flip the variable d so d reflects this
-        if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>90 && DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle()%360<270){
-	        d=-d;
+        if(Math.signum(d) == -1){
+            d += 0.2921;
+        }else{
+            d -= 0.2921;
         }
+        //if the direction we are driving in is negative, flip the variable d so d reflects this
+        // if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>90 && DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle()%360<270){
+	    //     d=-d;
+        //     System.out.println("apriltag direction angle thing " + (DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360);
+        //     System.out.println("flipping dx!");
+        // }
+        System.out.println("dx " + d);
         return d;
     }
 
