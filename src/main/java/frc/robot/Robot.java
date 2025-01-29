@@ -11,11 +11,10 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         container = new RobotContainer();
-        // SmartDashboard.putData(CommandScheduler.getInstance());
-        // SmartDashboard.putBoolean("Is FD?", DrivetrainSubsystem.isFD);
-        // SmartDashboard.putNumber("Bus Utilization", DrivetrainSubsystem.busUtil);
-        // SmartDashboard.putNumber("Transmit errors", DrivetrainSubsystem.transmitErrors);
-        // SmartDashboard.putNumber("Receive errors", DrivetrainSubsystem.receiveErrors);
+        SmartDashboard.putData(CommandScheduler.getInstance());
+        //SmartDashboard.putBoolean("Is FD?", DrivetrainSubsystem.isFD);
+        
+
     }
 
     @Override

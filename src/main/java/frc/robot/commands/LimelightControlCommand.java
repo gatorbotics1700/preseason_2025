@@ -82,7 +82,7 @@ public class LimelightControlCommand extends Command {
         currentPose = drivetrainSubsystem.getPose();
 
         if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 2  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 8  && pipeline ==0))) {
-            double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag() - 0.7874/2;
+            double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag()  - 0.7874/2;
             System.out.println("dy: " + limelightSubsystem.fieldYDistanceToTag());
             double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag()  ;//-0.7874; 
            // Rotation2d targetRotation = currentPose.getRotation().plus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));

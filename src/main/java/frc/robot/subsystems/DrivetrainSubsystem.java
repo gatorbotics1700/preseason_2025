@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
@@ -28,6 +29,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -62,6 +64,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
             private boolean atDesiredPose;
         
             private boolean slowDrive;
+            private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+            public static double busUtil;
+            public static double transmitErrors;
+            public static double receiveErrors;
+            public static double robotRotation;
         
             public DrivetrainSubsystem() {
                 slowDrive = false;
@@ -293,6 +300,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+        updateShuffleboardVariables();
 
     }
 
@@ -349,6 +357,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setStates(moduleStates);
     
        // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ", rotationSpeed: " + rotationSpeed);
+    }
+    private void updateShuffleboardVariables(){
+        busUtil = CANivore.getStatus().BusUtilization*100;
+        transmitErrors = CANivore.getStatus().TEC;
+        receiveErrors = CANivore.getStatus().REC;
+        robotRotation = odometry.getEstimatedPosition().getRotation().getDegrees();
+        SmartDashboard.putNumber("Bus Utilization", DrivetrainSubsystem.busUtil);
+        SmartDashboard.putNumber("Transmit errors", DrivetrainSubsystem.transmitErrors);
+        SmartDashboard.putNumber("Receive errors", DrivetrainSubsystem.receiveErrors);
+        SmartDashboard.putNumber("Robot Angle", DrivetrainSubsystem.robotRotation);
+        
     }
 
     
