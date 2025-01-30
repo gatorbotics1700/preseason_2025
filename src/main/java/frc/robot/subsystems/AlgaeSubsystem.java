@@ -9,20 +9,16 @@ import frc.robot.Constants;
 public class AlgaeSubsystem extends SubsystemBase {
     
     TalonFX algaeMotor;
-    TalonFX algaeHinge;
     
-    DutyCycleOut mainDutyCycleOut;
-    DutyCycleOut hingeDutyCycleOut;
+    DutyCycleOut dutyCycleOut;
 
     public AlgaeSubsystem(){
         algaeMotor = new TalonFX(Constants.ALGAE_CAN_ID);
-        algaeHinge = new TalonFX(Constants.ALGAE_PIVOT_CAN_ID);
 
-        mainDutyCycleOut = new DutyCycleOut(0);
-        hingeDutyCycleOut = new DutyCycleOut(0);
+        dutyCycleOut = new DutyCycleOut(0);
     }
 
     public void setSpeed(double speed){
-        algaeMotor.setControl(mainDutyCycleOut.withOutput(speed));
+        algaeMotor.setControl(dutyCycleOut.withOutput(speed));
     }
 }
