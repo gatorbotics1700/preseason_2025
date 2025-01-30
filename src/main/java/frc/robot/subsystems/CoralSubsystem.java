@@ -12,7 +12,6 @@ import frc.robot.Constants;
 public class CoralSubsystem extends SubsystemBase {
     // This is the subsystem for the NEW coral intake/outtake mechanism
     private final SparkMax coralMotor;
-    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     public CoralSubsystem() {
         coralMotor = new SparkMax(Constants.CORAL_CAN_ID, MotorType.kBrushless);
