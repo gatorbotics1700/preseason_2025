@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -14,8 +15,7 @@ public class CoralSubsystem extends SubsystemBase {
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     public CoralSubsystem() {
-    
-        coralMotor = new SparkMax();
+        coralMotor = new SparkMax(Constants.CORAL_CAN_ID, MotorType.kBrushless);
     }
 
     @Override
@@ -23,8 +23,7 @@ public class CoralSubsystem extends SubsystemBase {
 
     }
 
-    
     public void setSpeed(double speed){
-        coralMotor.setControl(dutyCycleOut.withOutput(speed));
+        coralMotor.set(speed);
     }
 }
