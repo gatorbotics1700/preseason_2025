@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.1686475409836055,
-        "y": 6.915944672131148
+        "x": 5.294676426478794,
+        "y": 4.9813480922154
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 5.027
       },
       "prevControl": {
-        "x": 6.296594262295082,
-        "y": 5.917149590163934
+        "x": 7.6229854038783476,
+        "y": 7.560157121930802
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": "Blue Folder",
+  "folder": "Blue Start to Reef",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
