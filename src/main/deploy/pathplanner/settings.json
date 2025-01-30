@@ -3,7 +3,10 @@
   "robotLength": 0.838,
   "holonomicMode": true,
   "pathFolders": [
+    "Blue Coral Station to Reef",
+    "Blue Reef to Coral Station",
     "Blue Start to Reef",
+    "Red Coral Station to Reef",
     "Red Reef to Coral Station",
     "Red Start to Reef"
   ],
