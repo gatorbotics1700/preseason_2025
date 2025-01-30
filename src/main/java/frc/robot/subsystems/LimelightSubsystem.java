@@ -3,14 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-//import edu.wpi.first.math.*;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double LIMELIGHT_HEIGHT = 0.355; // in meters
-    private final double APRILTAG_HEIGHT =0.629; //also in meters
-   // private final double DELTA_H = 0.1834156609;
+    private final double X_OFFSET = 0.2921; //distance from front of robot to limelight in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -65,27 +62,13 @@ public class LimelightSubsystem extends SubsystemBase {
     
 
     public double distanceToTag() {
-    //     double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()));
-    //     System.out.println("v distance: " + (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT));
-    //    // System.out.println("TY: "+getVerticalOffsetAngle());
-    //     System.out.println("tan: "+ Math.tan(Math.toRadians(getVerticalOffsetAngle())));
-    //    return d;//(0.33/*APRILTAG_HEIGHT-LIMELIGHT_HEIGHT*/)/0.31/*Math.tan(getVerticalOffset())*/; //returns 2D distance to apriltag (so like distance from base of robot to the point on the floor directly below the apriltag) - Elise
         double TZ = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[2]; //returns Z offset to apriltag, but in the camera relative coordinate system
         double TY = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[1]; //see above but it's y
         return Math.sqrt((TZ*TZ)+(TY*TY)); //distance from camera to apriltag as the crow flies
     }
 
     public double fieldYDistanceToTag(){
-        // System.out.println("distance to tag: " + distanceToTag());
-        // System.out.println("ROBOT ANGLE: " + DrivetrainSubsystem.getRobotAngle());
-        // System.out.println("Robot Angle: " + (DrivetrainSubsystem.getRobotAngle()));
-
         double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;
-        //if the direction we are driving in is negative, flip the variable d so d reflects this
-        // if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>180){
-	    //     d=-d;
-        // }
-
         return d;
     }
 
@@ -96,21 +79,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
         double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;//- 0.7874/2;
         if(Math.signum(d) == -1){
-            d += 0.2921;
+            d += X_OFFSET;
         }else{
-            d -= 0.2921;
+            d -= X_OFFSET;
         }
-        //if the direction we are driving in is negative, flip the variable d so d reflects this
-        // if((DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360>90 && DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle()%360<270){
-	    //     d=-d;
-        //     System.out.println("apriltag direction angle thing " + (DrivetrainSubsystem.robotRotation+getHorizontalOffsetAngle())%360);
-        //     System.out.println("flipping dx!");
-        // }
         System.out.println("dx " + d);
         return d;
     }
-
-    //public double 
 
     @Override
     public void periodic() {

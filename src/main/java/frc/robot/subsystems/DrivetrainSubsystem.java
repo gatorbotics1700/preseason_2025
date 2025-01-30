@@ -17,6 +17,7 @@ import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -64,6 +65,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double ySpeed;
     private double rotationSpeed;
     private boolean atDesiredPose;
+
+    private final double DISTANCE_DEADBAND = 0.05;
+    private final double ROTATION_DEADBAND = 2.0;
 
     private GenericEntry rotationErrorEntry = Shuffleboard.getTab("Vision Testing").add("rotation error", 0).getEntry();
 
@@ -244,10 +248,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return states;
     }
 
-    public void resetDriveToPose() {
-        System.out.println("*************RESETTING DRIVE TO POSE");
-    }
-
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
 
@@ -283,22 +283,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
-        // System.out.println("Drive command received - vx: " +
-        // robotRelativeSpeeds.vxMetersPerSecond +
-        // " vy: " + robotRelativeSpeeds.vyMetersPerSecond +
-        // " omega: " + robotRelativeSpeeds.omegaRadiansPerSecond);
-
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
-
-        // Print target states before applying them
-        // System.out.println("Target states:");
-        // for (int i = 0; i < targetStates.length; i++) {
-        // System.out.println("Module " + i + ": Speed=" +
-        // targetStates[i].speedMetersPerSecond +
-        // " Angle=" + targetStates[i].angle.getDegrees());
-        // }
-
         setStates(targetStates);
     }
 
@@ -313,44 +299,39 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         backRightModule.getPosition()
                 });
         updateShuffleboardVariables();
-
     }
 
     public void driveToPose(Pose2d desiredPose) {
-        // System.out.println("driving to pose: " + desiredPose);
         Pose2d currentPose = odometry.getEstimatedPosition();
 
         xError = desiredPose.getX() - currentPose.getX();
         yError = desiredPose.getY() - currentPose.getY();
-        // System.out.println("xError: " + xError + " yError: " + yError);
-       // if (!atDesiredRotation) {
-            System.out.println("targetRotation: " + desiredPose.getRotation().getDegrees());
+        System.out.println("targetRotation: " + desiredPose.getRotation().getDegrees());
         rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-        if (rotationError>180){
-            rotationError-=360;
-        }
-        //}
 
-        // SmartDashboard.putNumber("xErr", xError);
+        // if (rotationError > 180){
+        // rotationError -= 360;
+        // } else if (rotationError < -180){
+        // rotationError += 360;
+        // }
 
-        // System.out.println("xError: " + xError + ", yError: " + yError + ",
-        // rotationError: " + rotationError);
+        rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
-        if (Math.abs(xError) < 0.05) { // Stop if within deadband
+        if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
             xError = 0.0;
             System.out.println("AT X DEADBAND");
         }
 
-        if (Math.abs(yError) < 0.05) {
+        if (Math.abs(yError) < DISTANCE_DEADBAND) {
             yError = 0.0;
             System.out.println("AT Y DEADBAND");
         }
-        if (Math.abs(rotationError) < 2.0) {
+        if (Math.abs(rotationError) < ROTATION_DEADBAND) {
             rotationError = 0.0;
             System.out.println("AT ROTATION DEADBAND");
         }
 
-        atDesiredPose = (xError == 0.0) && yError == 0.0 && rotationError == 0.0;
+        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
 
         if (atDesiredPose) { // stop
             setStates(new SwerveModuleState[] {
@@ -360,39 +341,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
                     new SwerveModuleState(0.0, new Rotation2d())
             });
             System.out.println("At desired pose, stopping.");
-            //atDesiredRotation = false;
             return;
         }
 
-        if(xError!=0.0){
-            xSpeed = Math.max(Math.abs(xError * 0.7), 0.1)*Math.signum(xError);
-        } else {
-            xSpeed=0.0;
-        }
-        if(yError!=0.0){
-            ySpeed = Math.max(Math.abs(yError * 0.7), 0.1)*Math.signum(yError);
-        } else {
-            ySpeed=0.0;
-        }
-        if(rotationError!=0.0){
-            rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.05)*Math.signum(rotationError);
-        } else {
-            rotationSpeed=0.0;
-        }
-        
+        xSpeed = Math.max(Math.abs(xError * 0.7), 0.1) * Math.signum(xError);
+        ySpeed = Math.max(Math.abs(yError * 0.7), 0.1) * Math.signum(yError);
+        rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.05) * Math.signum(rotationError);
 
-        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                xSpeed,
-                ySpeed,
-                rotationSpeed,
-                currentPose.getRotation());
-
-        SwerveModuleState[] moduleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
-
-        setStates(moduleStates);
-
-        // System.out.println("xSpeed: " + xSpeed + ", ySpeed: " + ySpeed + ",
-        // rotationSpeed: " + rotationSpeed);
+        drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
 
     private void updateShuffleboardVariables() {

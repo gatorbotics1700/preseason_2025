@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightControlCommand extends Command {
-    private static final double DEADBAND_DISTANCE = 0.05; // meters
     private final LimelightSubsystem limelightSubsystem;
     private final DrivetrainSubsystem drivetrainSubsystem;
     private final XboxController controller;
@@ -27,91 +26,56 @@ public class LimelightControlCommand extends Command {
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
 
-
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-        //System.out.println("Pipeline set to: " + pipeline);
-        currentPose = drivetrainSubsystem.getPose();
-        desiredPose = currentPose;
-        drivetrainSubsystem.resetDriveToPose(); 
     }
+
     @Override
     public void execute() {
-      //  System.out.println("currentpose: " + drivetrainSubsystem.getPose());
-    //  System.out.println("Distance to tag: " + limelightSubsystem.distanceToTag());
-    //  System.out.println("DX: " + limelightSubsystem.fieldXDistanceToTag());
-     // System.out.println("DY: " + limelightSubsystem.fieldYDistanceToTag());
-       updateDesiredPose();
-        if(desiredPose != null){
-            //if(updateDesiredPose()){
-                drivetrainSubsystem.driveToPose(desiredPose);
-           // }
+        if (desiredPose != null) {
+            drivetrainSubsystem.driveToPose(desiredPose);
         }
-        
 
-        if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 2  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 8  && pipeline ==0))) { //makes sure we are looking at the correct id
-           
-         //   drivetrainSubsystem.driveToPose(desiredPose);//new Pose2d(desiredPose.getX(), desiredPose.getY(), currentPose.getRotation()));
-            
+        if (limelightSubsystem.hasValidTarget() && comparePipelineAndTarget()) { // makes sure we are looking at the
+                                                                                 // correct id
+            updateDesiredPose();
         } else {
             System.out.println("\tNo valid target detected.");
-            // if(desiredPose!=null){
-            //     drivetrainSubsystem.driveToPose(desiredPose);
-            //  }
         }
-
-       
-
-        // System.out.println("*******************"+limelightSubsystem.distanceToTag());
-      //  System.out.println("\tdx " + limelightSubsystem.fieldXDistanceToTag());
-
     }
 
     @Override
     public boolean isFinished() {
-        // Check if the robot is at the desired pose
-
-        
         // Check if either stick on the Xbox controller is moved
         boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.05 ||
-                                Math.abs(controller.getLeftY()) > 0.05 ||
-                                Math.abs(controller.getRightX()) > 0.05 ||
-                                Math.abs(controller.getRightY()) > 0.05;
+                Math.abs(controller.getLeftY()) > 0.05 ||
+                Math.abs(controller.getRightX()) > 0.05 ||
+                Math.abs(controller.getRightY()) > 0.05;
         if (joystickMoved) {
             System.out.println("Joystick moved, ending command.");
             return true;
         }
+        return false;
+        // TODO: allow mech commands to end this as well
+    }
 
+    private void updateDesiredPose() { //TODO: consider using poses instead of individual components
+        currentPose = drivetrainSubsystem.getPose();
+        double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();
+        double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();
+        Rotation2d targetRotation = (currentPose.getRotation()
+                .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw())));
+        desiredPose = new Pose2d(targetX, targetY, targetRotation);
+        System.out.println("targetRotation" + targetRotation);
+    }
+
+    private boolean comparePipelineAndTarget() {
+        if (pipeline == 0) {
+            return limelightSubsystem.getTargetID() == 8;
+        } else if (pipeline == 1) {
+            return limelightSubsystem.getTargetID() == 2;
+        }
         return false;
     }
-
-    
-    private void updateDesiredPose() { // returns true if the desired pose has changed
-        currentPose = drivetrainSubsystem.getPose();
-
-        if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 2  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 8  && pipeline ==0))) {
-            double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();//0.7874/2;
-           // System.out.println("dy: " + limelightSubsystem.fieldYDistanceToTag());
-            double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();//-0.7874; 
-            Rotation2d targetRotation = (currentPose.getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw())));
-            desiredPose = new Pose2d(targetX, targetY, targetRotation);
-            System.out.println("targetRotation" + targetRotation);
-    
-            // if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) >= DEADBAND_DISTANCE &&
-            //     Math.abs(newDesiredPose.getY() - desiredPose.getY()) >= DEADBAND_DISTANCE &&
-            //     Math.abs(newDesiredPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees()) >= 2) {//2 IS THE ANGLE DEADBAND
-            //     desiredPose = newDesiredPose; 
-            //     //return true; 
-            // }
-            // desiredPose = newDesiredPose;
-            //return true;
-        }
-        
-        //return false; // No valid target or no update required
-    }
-
-
-
-
 }
