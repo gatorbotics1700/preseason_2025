@@ -67,6 +67,7 @@ public class Constants {
 
     public static final int ALGAE_CAN_ID = 16;
     public static final int ALGAE_PIVOT_CAN_ID= 15;
+    public static final int ALGAE_LIMIT_SWITCH_PORT = 0; // TODO: change
 
     public static final int CORAL_CAN_ID = 12;
     public static final int CORAL_PIVOT_CAN_ID = 11;

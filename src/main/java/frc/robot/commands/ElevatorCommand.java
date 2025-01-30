@@ -26,8 +26,10 @@ public class ElevatorCommand extends Command {
     public boolean isFinished() {
         double error = desiredTicks - elevatorSubsystem.getPosition();
         if(Math.abs(error) < DEADBAND){
+            elevatorSubsystem.setSpeed(0);
             return true;
         }
+        elevatorSubsystem.setPosition(desiredTicks);
         return false;
     }
 }
