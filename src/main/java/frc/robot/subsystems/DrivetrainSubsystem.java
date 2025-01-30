@@ -326,6 +326,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
        // if (!atDesiredRotation) {
             System.out.println("targetRotation: " + desiredPose.getRotation().getDegrees());
         rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        if (rotationError>180){
+            rotationError-=360;
+        }
         //}
 
         // SmartDashboard.putNumber("xErr", xError);
@@ -361,9 +364,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        xSpeed = xError * 0.7;
-        ySpeed = yError * 0.7;
-        rotationSpeed = rotationError * 0.02;
+        if(xError!=0.0){
+            xSpeed = Math.max(Math.abs(xError * 0.7), 0.1)*Math.signum(xError);
+        } else {
+            xSpeed=0.0;
+        }
+        if(yError!=0.0){
+            ySpeed = Math.max(Math.abs(yError * 0.7), 0.1)*Math.signum(yError);
+        } else {
+            ySpeed=0.0;
+        }
+        if(rotationError!=0.0){
+            rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.05)*Math.signum(rotationError);
+        } else {
+            rotationSpeed=0.0;
+        }
+        
 
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 xSpeed,

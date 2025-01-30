@@ -94,17 +94,17 @@ public class LimelightControlCommand extends Command {
             double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();//0.7874/2;
            // System.out.println("dy: " + limelightSubsystem.fieldYDistanceToTag());
             double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();//-0.7874; 
-            Rotation2d targetRotation = currentPose.getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw()));
-            Pose2d newDesiredPose = new Pose2d(targetX, targetY, targetRotation);
+            Rotation2d targetRotation = (currentPose.getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw())));
+            desiredPose = new Pose2d(targetX, targetY, targetRotation);
             System.out.println("targetRotation" + targetRotation);
     
-            if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) >= DEADBAND_DISTANCE &&
-                Math.abs(newDesiredPose.getY() - desiredPose.getY()) >= DEADBAND_DISTANCE &&
-                Math.abs(newDesiredPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees()) >= 2) {//2 IS THE ANGLE DEADBAND
-                desiredPose = newDesiredPose; 
-                //return true; 
-            }
-            desiredPose = newDesiredPose;
+            // if (Math.abs(newDesiredPose.getX() - desiredPose.getX()) >= DEADBAND_DISTANCE &&
+            //     Math.abs(newDesiredPose.getY() - desiredPose.getY()) >= DEADBAND_DISTANCE &&
+            //     Math.abs(newDesiredPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees()) >= 2) {//2 IS THE ANGLE DEADBAND
+            //     desiredPose = newDesiredPose; 
+            //     //return true; 
+            // }
+            // desiredPose = newDesiredPose;
             //return true;
         }
         
