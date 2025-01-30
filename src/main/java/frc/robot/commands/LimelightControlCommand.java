@@ -42,20 +42,23 @@ public class LimelightControlCommand extends Command {
     //  System.out.println("Distance to tag: " + limelightSubsystem.distanceToTag());
     //  System.out.println("DX: " + limelightSubsystem.fieldXDistanceToTag());
      // System.out.println("DY: " + limelightSubsystem.fieldYDistanceToTag());
-
+       updateDesiredPose();
+        if(desiredPose != null){
+            //if(updateDesiredPose()){
+                drivetrainSubsystem.driveToPose(desiredPose);
+           // }
+        }
+        
 
         if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 2  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 8  && pipeline ==0))) { //makes sure we are looking at the correct id
-            if(updateDesiredPose()){
-                //drivetrainSubsystem.driveToPose(desiredPose);
-                //System.out.println("updated desired pose: " + desiredPose);
-            }
-            drivetrainSubsystem.driveToPose(new Pose2d(desiredPose.getX(), desiredPose.getY(), currentPose.getRotation()));
+           
+         //   drivetrainSubsystem.driveToPose(desiredPose);//new Pose2d(desiredPose.getX(), desiredPose.getY(), currentPose.getRotation()));
             
         } else {
             System.out.println("\tNo valid target detected.");
-            if(desiredPose!=null){
-                drivetrainSubsystem.driveToPose(desiredPose);
-             }
+            // if(desiredPose!=null){
+            //     drivetrainSubsystem.driveToPose(desiredPose);
+            //  }
         }
 
        
@@ -84,14 +87,14 @@ public class LimelightControlCommand extends Command {
     }
 
     
-    private boolean updateDesiredPose() { // returns true if the desired pose has changed
+    private void updateDesiredPose() { // returns true if the desired pose has changed
         currentPose = drivetrainSubsystem.getPose();
 
         if (limelightSubsystem.hasValidTarget() && ((limelightSubsystem.getTargetID() == 2  && pipeline ==1)|| (limelightSubsystem.getTargetID() == 8  && pipeline ==0))) {
             double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();//0.7874/2;
            // System.out.println("dy: " + limelightSubsystem.fieldYDistanceToTag());
             double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();//-0.7874; 
-            Rotation2d targetRotation = currentPose.getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
+            Rotation2d targetRotation = currentPose.getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw()));
             Pose2d newDesiredPose = new Pose2d(targetX, targetY, targetRotation);
             System.out.println("targetRotation" + targetRotation);
     
@@ -99,13 +102,13 @@ public class LimelightControlCommand extends Command {
                 Math.abs(newDesiredPose.getY() - desiredPose.getY()) >= DEADBAND_DISTANCE &&
                 Math.abs(newDesiredPose.getRotation().getDegrees() - desiredPose.getRotation().getDegrees()) >= 2) {//2 IS THE ANGLE DEADBAND
                 desiredPose = newDesiredPose; 
-                return true; 
+                //return true; 
             }
             desiredPose = newDesiredPose;
-            return true;
+            //return true;
         }
         
-        return false; // No valid target or no update required
+        //return false; // No valid target or no update required
     }
 
 

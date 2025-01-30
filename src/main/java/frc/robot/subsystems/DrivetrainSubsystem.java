@@ -333,12 +333,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // System.out.println("xError: " + xError + ", yError: " + yError + ",
         // rotationError: " + rotationError);
 
-        if (Math.abs(xError) < 0.1) { // Stop if within deadband
+        if (Math.abs(xError) < 0.05) { // Stop if within deadband
             xError = 0.0;
             System.out.println("AT X DEADBAND");
         }
 
-        if (Math.abs(yError) < 0.1) {
+        if (Math.abs(yError) < 0.05) {
             yError = 0.0;
             System.out.println("AT Y DEADBAND");
         }
@@ -363,12 +363,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         xSpeed = xError * 0.7;
         ySpeed = yError * 0.7;
-        rotationSpeed = rotationError * 0.1;
+        rotationSpeed = rotationError * 0.02;
 
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 xSpeed,
                 ySpeed,
-                // ySpeed,
                 rotationSpeed,
                 currentPose.getRotation());
 

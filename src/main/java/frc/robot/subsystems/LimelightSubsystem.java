@@ -55,9 +55,14 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tid").getDouble(0.0);
     }
 
+    public double getTagYaw() {
+        return limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[4]; //returns yaw of april tag relative to camera
+    }
     public void setPipeline(int pipelineID) {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
     }
+
+    
 
     public double distanceToTag() {
     //     double d = (APRILTAG_HEIGHT-LIMELIGHT_HEIGHT)/Math.tan(Math.toRadians(getVerticalOffsetAngle()));
