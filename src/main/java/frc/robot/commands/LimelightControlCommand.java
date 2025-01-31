@@ -14,6 +14,7 @@ public class LimelightControlCommand extends Command {
     private final XboxController controller;
     private final int pipeline;
     private Pose2d desiredPose;
+    private Rotation2d pointingToAngle;
     private Pose2d currentPose;
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
@@ -34,7 +35,8 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         if (desiredPose != null) {
-            drivetrainSubsystem.driveToPose(desiredPose);
+            drivetrainSubsystem.driveToPose(desiredPose, pointingToAngle);
+           // drivetrainSubsystem.driveToPose(desiredPose);  
         }
 
         if (limelightSubsystem.hasValidTarget() && comparePipelineAndTarget()) { // makes sure we are looking at the
@@ -60,12 +62,14 @@ public class LimelightControlCommand extends Command {
         // TODO: allow mech commands to end this as well
     }
 
-    private void updateDesiredPose() { //TODO: consider using poses instead of individual components
+    private void updateDesiredPose() { // TODO: consider using poses instead of individual components
         currentPose = drivetrainSubsystem.getPose();
         double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();
         double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();
         Rotation2d targetRotation = (currentPose.getRotation()
                 .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw())));
+        pointingToAngle = (currentPose.getRotation()
+                .minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
         desiredPose = new Pose2d(targetX, targetY, targetRotation);
         System.out.println("targetRotation" + targetRotation);
     }

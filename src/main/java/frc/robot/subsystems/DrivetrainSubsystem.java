@@ -65,6 +65,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double ySpeed;
     private double rotationSpeed;
     private boolean atDesiredPose;
+    private Pose2d currentPose;
 
     private final double DISTANCE_DEADBAND = 0.05;
     private final double ROTATION_DEADBAND = 2.0;
@@ -302,19 +303,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void driveToPose(Pose2d desiredPose) {
-        Pose2d currentPose = odometry.getEstimatedPosition();
-
+        currentPose = odometry.getEstimatedPosition();
         xError = desiredPose.getX() - currentPose.getX();
         yError = desiredPose.getY() - currentPose.getY();
         System.out.println("targetRotation: " + desiredPose.getRotation().getDegrees());
         rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-
-        // if (rotationError > 180){
-        // rotationError -= 360;
-        // } else if (rotationError < -180){
-        // rotationError += 360;
-        // }
-
         rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
         if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
@@ -344,12 +337,24 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        xSpeed = Math.max(Math.abs(xError * 0.7), 0.1) * Math.signum(xError);
-        ySpeed = Math.max(Math.abs(yError * 0.7), 0.1) * Math.signum(yError);
-        rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.05) * Math.signum(rotationError);
+        xSpeed = Math.max(Math.abs(xError * 0.7), 0.15) * Math.signum(xError);
+        ySpeed = Math.max(Math.abs(yError * 0.7), 0.15) * Math.signum(yError);
+        rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.25) * Math.signum(rotationError);
 
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
+
+    public void driveToPose(Pose2d desiredPose, Rotation2d pointingToAngle) {
+        currentPose = odometry.getEstimatedPosition();
+        xError = desiredPose.getX() - currentPose.getX();
+        yError = desiredPose.getY() - currentPose.getY();
+        if(Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2){
+            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToAngle);
+            System.out.println("POINTING TO ANGLE");
+        }
+        driveToPose(desiredPose);
+    }
+
 
     private void updateShuffleboardVariables() {
         busUtil = CANivore.getStatus().BusUtilization * 100;
