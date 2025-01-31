@@ -341,13 +341,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
         currentPose = odometry.getEstimatedPosition();
         xError = desiredPose.getX() - currentPose.getX();
         yError = desiredPose.getY() - currentPose.getY();
-        if(Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2){
+        if (Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2) {
             desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToAngle);
             System.out.println("POINTING TO ANGLE");
         }
         driveToPose(desiredPose);
     }
-
 
     private void updateShuffleboardVariables() {
         busUtil = CANivore.getStatus().BusUtilization * 100;
