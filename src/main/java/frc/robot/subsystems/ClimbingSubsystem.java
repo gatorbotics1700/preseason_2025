@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,6 +17,7 @@ public class ClimbingSubsystem extends SubsystemBase{
     public ClimbingSubsystem() {
         //leftClimbingMotor = new TalonFX(Constants.LEFT_CLIMBING_MOTOR_CAN_ID); //TODO: replace that value
         rightClimbingMotor = new TalonFX(Constants.RIGHT_CLIMBING_MOTOR_CAN_ID);
+        rightClimbingMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public void setSpeed(double speed) {
