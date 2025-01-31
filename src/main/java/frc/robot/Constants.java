@@ -66,9 +66,13 @@ public class Constants {
     public static final double ELEVATOR_TICKS_PER_INCH = TICKS_FOR_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
 
     public static final int ALGAE_CAN_ID = 16;
-    public static final int ALGAE_PIVOT_CAN_ID= 15;
+    public static final int ALGAE_PIVOT_CAN_ID = 15;
+    public static final int ALGAE_PIVOT_TICKS_PER_DEGREE = 2048/360; //TODO: get (PPR*encoder factor*gear ratio)/360
     public static final int ALGAE_LIMIT_SWITCH_PORT = 0; // TODO: change
 
     public static final int CORAL_CAN_ID = 12;
     public static final int CORAL_PIVOT_CAN_ID = 11;
-}
+    public static final int CORAL_PIVOT_TICKS_PER_DEGREE = 2048/360; //TODO: get (PPR*encoder factor*gear ratio)/360
+    public static final int CORAL_LIMIT_SWITCH_PORT = 13;
+
+}   

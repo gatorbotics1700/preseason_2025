@@ -4,6 +4,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,17 +12,19 @@ public class CoralPivotSubsystem extends SubsystemBase {
     private final TalonFX coralPivotMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private final PIDController coralPivotPIDController;
+    private final DigitalInput coralLimitSwitch;
 
     private static final double kP = 0.0; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0; // TODO: change this value
 
-    private static final double DEADBAND = 5000; //in ticks TODO: test and change
+    private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
 
  
     public CoralPivotSubsystem () {
         coralPivotMotor = new TalonFX(Constants.CORAL_PIVOT_CAN_ID);
         coralPivotPIDController = new PIDController(kP, kI, kD);
+        coralLimitSwitch = new DigitalInput(Constants.CORAL_LIMIT_SWITCH_PORT);
     }
 
     @Override
@@ -47,5 +50,13 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
     public double getPosition(){
         return coralPivotMotor.getPosition().getValueAsDouble();
+    }
+
+    public boolean getCoralLimitSwitch() {
+        return coralLimitSwitch.get();
+    }
+    
+    public double degreesToTicks(double desiredAngle) {
+        return desiredAngle * Constants.CORAL_PIVOT_TICKS_PER_DEGREE;
     }
 }

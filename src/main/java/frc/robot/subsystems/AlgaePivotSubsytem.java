@@ -19,7 +19,7 @@ public class AlgaePivotSubsytem extends SubsystemBase {
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0; // TODO: change this value
 
-    private static final double DEADBAND = 5000; //in ticks TODO: test and change
+    private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
 
 
     public AlgaePivotSubsytem(){
@@ -38,6 +38,10 @@ public class AlgaePivotSubsytem extends SubsystemBase {
         } else {
             algaePivotMotor.set(0);
         }
+    }
+
+    public double degreesToTicks(double desiredAngle) {
+        return desiredAngle * Constants.ALGAE_PIVOT_TICKS_PER_DEGREE;
     }
 
     public void setSpeed(int speed) {
