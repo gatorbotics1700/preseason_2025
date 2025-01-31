@@ -260,13 +260,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
         double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
 
-        // System.out.println("Setting voltages - FL: " + fl_voltage +
-        // " FR: " + fr_voltage +
-        // " BL: " + bl_voltage +
-        // " BR: " + br_voltage);
-
-        // System.out.println("pose: " + getPose());
-
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
         frontRightModule.set(fr_voltage, targetStates[1].angle.getRadians());
