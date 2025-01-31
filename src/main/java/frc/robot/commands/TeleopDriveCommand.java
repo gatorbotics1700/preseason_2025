@@ -13,10 +13,10 @@ public class TeleopDriveCommand extends Command {
     private final DoubleSupplier rotationSupplier;
     // private static final double DEADBAND = 0.1;
 
-    public TeleopDriveCommand(DrivetrainSubsystem drivetrain, 
-                             DoubleSupplier translationXSupplier, 
-                             DoubleSupplier translationYSupplier, 
-                             DoubleSupplier rotationSupplier) {
+    public TeleopDriveCommand(DrivetrainSubsystem drivetrain,
+            DoubleSupplier translationXSupplier,
+            DoubleSupplier translationYSupplier,
+            DoubleSupplier rotationSupplier) {
         this.drivetrain = drivetrain;
         this.translationXSupplier = translationXSupplier;
         this.translationYSupplier = translationYSupplier;
@@ -24,32 +24,29 @@ public class TeleopDriveCommand extends Command {
         addRequirements(drivetrain);
     }
 
-
     @Override
     public void initialize() {
-    //    System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
+        // System.out.println("TeleopDriveCommand initialized - stopping drivetrain");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
     @Override
     public void execute() {
-        double translationXPercent = translationXSupplier.getAsDouble(); //x speed
-        double translationYPercent = translationYSupplier.getAsDouble(); //y speed
-        double rotationPercent = rotationSupplier.getAsDouble(); //rotation speed
+        double translationXPercent = translationXSupplier.getAsDouble(); // x speed
+        double translationYPercent = translationYSupplier.getAsDouble(); // y speed
+        double rotationPercent = rotationSupplier.getAsDouble(); // rotation speed
 
         drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         translationXPercent * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                         translationYPercent * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
                         rotationPercent * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-                        drivetrain.getRotation()
-                )
-        );
+                        drivetrain.getRotation()));
     }
 
     @Override
     public void end(boolean interrupted) {
-      //  System.out.println("TeleopDriveCommand ended");
+        // System.out.println("TeleopDriveCommand ended");
         drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 
@@ -57,4 +54,4 @@ public class TeleopDriveCommand extends Command {
     public boolean isFinished() {
         return false;
     }
-} 
+}

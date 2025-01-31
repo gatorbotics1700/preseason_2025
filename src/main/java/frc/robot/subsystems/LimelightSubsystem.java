@@ -7,7 +7,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double X_OFFSET = 0.2921; //distance from front of robot to limelight in meters
+    private final double X_OFFSET = 0.2921; // distance from front of robot to limelight in meters
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -25,15 +25,13 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
+    //angle between center of camera and center of apriltag (degrees) -- doesn't account for apriltag angle
     public double getHorizontalOffsetAngle() {
         return limelightTable.getEntry("tx").getDouble(0.0);
     }
 
-    public double getVerticalOffsetAngle() {
-        double ty = limelightTable.getEntry("ty").getDouble(0.0);
-        double calibratedAngle = (ty*1.02454) - 1.73401;
-        System.out.println("TY: "+ ty + " calibratedAngle: " + calibratedAngle);
-        return calibratedAngle;
+    public double getVerticalOffsetAngle() { //we don't trust this method for distance calculations -- don't use for that
+        return limelightTable.getEntry("ty").getDouble(0.0);
     }
 
     public double getTargetArea() {
@@ -52,43 +50,40 @@ public class LimelightSubsystem extends SubsystemBase {
         return limelightTable.getEntry("tid").getDouble(0.0);
     }
 
+    //camera relative angle of apriltag (degrees)
     public double getTagYaw() {
-        return limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[4]; //returns yaw of april tag relative to camera
+        //returns yaw of april tag relative to camera
+        return limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6])[4];
     }
+
     public void setPipeline(int pipelineID) {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
     }
 
-    
-
     public double distanceToTag() {
-        double TZ = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[2]; //returns Z offset to apriltag, but in the camera relative coordinate system
-        double TY = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double [0])[1]; //see above but it's y
-        return Math.sqrt((TZ*TZ)+(TY*TY)); //distance from camera to apriltag as the crow flies
+        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        // returns Z offset to apriltag, but in the camera relative coordinate system
+        double TZ = targetPose[2]; 
+        // see above but it's y
+        double TY = targetPose[1];
+        return Math.sqrt((TZ * TZ) + (TY * TY)); // distance from camera to apriltag as the crow flies
     }
 
-    public double fieldYDistanceToTag(){
-        double d = distanceToTag()*Math.sin(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;
+    public double fieldYDistanceToTag(double robotRotation) { // TODO add some sort of offset so that it lines up the way we want
+        double d = distanceToTag()
+                * Math.sin(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         return d;
     }
 
-
-    public double fieldXDistanceToTag(){
-        System.out.println("distance to tag: " + distanceToTag());
-        System.out.println("ROBOT ROTATION: " + DrivetrainSubsystem.robotRotation);
-
-        double d = distanceToTag()*Math.cos(Math.toRadians((DrivetrainSubsystem.robotRotation)-getHorizontalOffsetAngle())) ;//- 0.7874/2;
-        if(Math.signum(d) == -1){
-            d += X_OFFSET;
-        }else{
-            d -= X_OFFSET;
-        }
-        System.out.println("dx " + d);
+    public double fieldXDistanceToTag(double robotRotation) { 
+        double d = distanceToTag()
+                * Math.cos(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
+        d -= (X_OFFSET*Math.signum(d));
         return d;
     }
 
     @Override
     public void periodic() {
-        
+
     }
 }
