@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightControlCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
@@ -14,8 +13,8 @@ public class LimelightControlCommand extends Command {
     private final XboxController controller;
     private final int pipeline;
     private Pose2d desiredPose;
-    private Rotation2d pointingToAngle;
     private Pose2d currentPose;
+    private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
             int pipeline, XboxController controller) {
@@ -34,16 +33,15 @@ public class LimelightControlCommand extends Command {
 
     @Override
     public void execute() {
-        if (desiredPose != null) {
-            drivetrainSubsystem.driveToPose(desiredPose, pointingToAngle);
-            // drivetrainSubsystem.driveToPose(desiredPose);
-        }
-
-        if (limelightSubsystem.hasValidTarget() && comparePipelineAndTarget()) { // makes sure we are looking at the
-                                                                                 // correct id
+        // makes sure we are looking at the correct id
+        if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             updateDesiredPose();
         } else {
             System.out.println("\tNo valid target detected.");
+        }
+
+        if (desiredPose != null) {
+            drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
         }
     }
 
@@ -64,17 +62,17 @@ public class LimelightControlCommand extends Command {
 
     private void updateDesiredPose() { // TODO: consider using poses instead of individual components
         currentPose = drivetrainSubsystem.getPose();
-        double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag();
-        double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag();
+        double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
+        double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
         Rotation2d targetRotation = (currentPose.getRotation()
-                .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw())));
-        pointingToAngle = (currentPose.getRotation()
+                .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw()))); //this is the parallel to tag angle
+        pointingToTagAngle = (currentPose.getRotation()
                 .minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
         desiredPose = new Pose2d(targetX, targetY, targetRotation);
         System.out.println("targetRotation" + targetRotation);
     }
 
-    private boolean comparePipelineAndTarget() {
+    private boolean targetMatchesPipeline() {
         if (pipeline == 0) {
             return limelightSubsystem.getTargetID() == 8;
         } else if (pipeline == 1) {

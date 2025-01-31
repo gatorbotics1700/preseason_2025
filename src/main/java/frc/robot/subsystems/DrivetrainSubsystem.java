@@ -6,13 +6,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-import frc.com.swervedrivespecialties.swervelib.MkModuleConfiguration;
-
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.DriveFeedforwards;
-
 import edu.wpi.first.wpilibj.DriverStation;
-
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
@@ -58,31 +53,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private ChassisSpeeds chassisSpeeds;
 
     private ShuffleboardTab shuffleboardTab;
-    private double xError;
-    private double yError;
-    private double rotationError;
-    private double xSpeed;
-    private double ySpeed;
-    private double rotationSpeed;
-    private boolean atDesiredPose;
-    private Pose2d currentPose;
-
+    private final double TRANSLATION_kP = 0.7;
+    private final double ROTATION_kP = 0.02;
+    private final double TRANSLATION_MIN_SPEED = 0.15;
+    private final double ROTATION_MIN_SPEED = 0.25;
     private final double DISTANCE_DEADBAND = 0.05;
     private final double ROTATION_DEADBAND = 2.0;
-
-    private GenericEntry rotationErrorEntry = Shuffleboard.getTab("Vision Testing").add("rotation error", 0).getEntry();
+    private double robotRotation;
 
     private boolean slowDrive;
-    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
-    public static double busUtil;
-    public static double transmitErrors;
-    public static double receiveErrors;
-    public static double robotRotation;
+   
 
     public DrivetrainSubsystem() {
         slowDrive = false;
-        atDesiredPose = false;
-
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
         pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
@@ -241,6 +224,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return odometry.getEstimatedPosition().getRotation();
     }
 
+    public double getRobotRotationDegrees(){
+        return odometry.getEstimatedPosition().getRotation().getDegrees();
+    }
+
     public ChassisSpeeds getRobotRelativeSpeeds() {
         return kinematics.toChassisSpeeds(getModuleStates());
     }
@@ -296,11 +283,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void driveToPose(Pose2d desiredPose) {
-        currentPose = odometry.getEstimatedPosition();
-        xError = desiredPose.getX() - currentPose.getX();
-        yError = desiredPose.getY() - currentPose.getY();
-        System.out.println("targetRotation: " + desiredPose.getRotation().getDegrees());
-        rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double xError = desiredPose.getX() - currentPose.getX();
+        double yError = desiredPose.getY() - currentPose.getY();
+        double rotationError = desiredPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
         rotationError = MathUtil.inputModulus(rotationError, -180, 180); // sets the value between -180 and 180
 
         if (Math.abs(xError) < DISTANCE_DEADBAND) { // Stop if within deadband
@@ -312,12 +298,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             yError = 0.0;
             System.out.println("AT Y DEADBAND");
         }
+        
         if (Math.abs(rotationError) < ROTATION_DEADBAND) {
             rotationError = 0.0;
             System.out.println("AT ROTATION DEADBAND");
         }
 
-        atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
+        boolean atDesiredPose = xError == 0.0 && yError == 0.0 && rotationError == 0.0;
 
         if (atDesiredPose) { // stop
             setStates(new SwerveModuleState[] {
@@ -330,34 +317,34 @@ public class DrivetrainSubsystem extends SubsystemBase {
             return;
         }
 
-        xSpeed = Math.max(Math.abs(xError * 0.7), 0.15) * Math.signum(xError);
-        ySpeed = Math.max(Math.abs(yError * 0.7), 0.15) * Math.signum(yError);
-        rotationSpeed = Math.max(Math.abs(rotationError * 0.02), 0.25) * Math.signum(rotationError);
+        double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
+        double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
+        double rotationSpeed = Math.max(Math.abs(rotationError * ROTATION_kP), ROTATION_MIN_SPEED) * Math.signum(rotationError);
 
         drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, currentPose.getRotation()));
     }
 
-    public void driveToPose(Pose2d desiredPose, Rotation2d pointingToAngle) {
-        currentPose = odometry.getEstimatedPosition();
-        xError = desiredPose.getX() - currentPose.getX();
-        yError = desiredPose.getY() - currentPose.getY();
+    //starts out pointing at apriltag, then turns to be parallel with the tag once it's close enough
+    public void driveToPoseWithInitialAngle(Pose2d desiredPose, Rotation2d pointingToTagAngle) { 
+        Pose2d currentPose = odometry.getEstimatedPosition();
+        double xError = desiredPose.getX() - currentPose.getX();
+        double yError = desiredPose.getY() - currentPose.getY();
         if (Math.abs(xError) > 0.2 && Math.abs(yError) > 0.2) {
-            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToAngle);
+            desiredPose = new Pose2d(desiredPose.getX(), desiredPose.getY(), pointingToTagAngle);
             System.out.println("POINTING TO ANGLE");
         }
         driveToPose(desiredPose);
     }
 
     private void updateShuffleboardVariables() {
-        busUtil = CANivore.getStatus().BusUtilization * 100;
-        transmitErrors = CANivore.getStatus().TEC;
-        receiveErrors = CANivore.getStatus().REC;
-        robotRotation = odometry.getEstimatedPosition().getRotation().getDegrees();
-        SmartDashboard.putNumber("Bus Utilization", DrivetrainSubsystem.busUtil);
-        SmartDashboard.putNumber("Transmit errors", DrivetrainSubsystem.transmitErrors);
-        SmartDashboard.putNumber("Receive errors", DrivetrainSubsystem.receiveErrors);
-        SmartDashboard.putNumber("Robot Angle", DrivetrainSubsystem.robotRotation);
-        rotationErrorEntry.setDouble(rotationError);
+        CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+        double busUtil = CANivore.getStatus().BusUtilization * 100;
+        double transmitErrors = CANivore.getStatus().TEC;
+        double receiveErrors = CANivore.getStatus().REC;
+        SmartDashboard.putNumber("Bus Utilization", busUtil);
+        SmartDashboard.putNumber("Transmit errors", transmitErrors);
+        SmartDashboard.putNumber("Receive errors", receiveErrors);
+        SmartDashboard.putNumber("Robot Angle", getRobotRotationDegrees());
 
     }
 
