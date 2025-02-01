@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -13,6 +14,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", 0.089, 0.324, 0.375, 0.0, 0.0, 0.0);
     }
 
     public void turnOnLED() {

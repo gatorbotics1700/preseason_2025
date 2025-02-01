@@ -42,11 +42,11 @@ public class TeleopDriveCommand extends Command {
         double rotationPercent = rotationSupplier.getAsDouble(); //rotation speed
         
         //vision stuff
-        if (limelightSubsystem.hasValidTarget()) { 
-            drivetrain.updateOdometryWithVision(limelightSubsystem.getPositionFromTag());
-        } else {
-            System.out.println("\tCan't see an april tag");
-        }
+        // if (limelightSubsystem.hasValidTarget()) { 
+        //     drivetrain.updateOdometryWithVision(limelightSubsystem.getPositionFromTag());
+        // } else {
+        //     System.out.println("\tCan't see an april tag");
+        // }
 
         drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(

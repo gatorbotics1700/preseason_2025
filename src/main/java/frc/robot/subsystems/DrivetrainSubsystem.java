@@ -8,6 +8,8 @@ import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -200,6 +202,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
             }
         );
         
+        boolean doRejectUpdate = false;
+
+        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
+            doRejectUpdate = true;
+        }
+        if(mt2.tagCount == 0){
+            doRejectUpdate = true;
+        }
+        if(!doRejectUpdate){
+            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+            odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+        }
 
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
