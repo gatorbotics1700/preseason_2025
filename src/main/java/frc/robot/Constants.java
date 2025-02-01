@@ -46,16 +46,10 @@ public class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 4;
-<<<<<<< HEAD
-
-    public static final int HIGH_CORAL_MOTOR_CAN_ID = 30;
-    public static final int LOW_CORAL_MOTOR_CAN_ID = 29;
-=======
     
     public static final double TICKS_FOR_REV = 2048;
     
     public static final int CORAL_MOTOR_CAN_ID = 30;
->>>>>>> mechPlanB
     public static final double CORAL_INTAKING_SPEED = 0.05;
     public static final double CORAL_OUTTAKING_SPEED = -0.75; 
     public static final int SERVO_PWM_PORT = 0;
@@ -64,9 +58,6 @@ public class Constants {
     public static final double CLIMBING_SPEED = -0.1; 
     public static final int LEFT_CLIMBING_MOTOR_CAN_ID = 0;
     public static final int RIGHT_CLIMBING_MOTOR_CAN_ID = 20;
-<<<<<<< HEAD
-}
-=======
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
@@ -88,4 +79,3 @@ public class Constants {
      * degrees to ticks conversion: ticks per rev * gear ratio / 360
      */
 }   
->>>>>>> mechPlanB
