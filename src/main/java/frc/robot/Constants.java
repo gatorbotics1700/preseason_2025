@@ -67,12 +67,15 @@ public class Constants {
 
     public static final int ALGAE_CAN_ID = 16;
     public static final int ALGAE_PIVOT_CAN_ID = 15;
-    public static final int ALGAE_PIVOT_TICKS_PER_DEGREE = 2048 * 5 / 360; //TODO: find ticks per rev for neos and replace 2048
+    public static final int ALGAE_PIVOT_TICKS_PER_DEGREE = 42 * 5 / 360; //TODO: find ticks per rev for neos and replace 2048
     public static final int ALGAE_LIMIT_SWITCH_PORT = 0; // TODO: change
 
     public static final int CORAL_CAN_ID = 12;
     public static final int CORAL_PIVOT_CAN_ID = 11;
-    public static final int CORAL_PIVOT_TICKS_PER_DEGREE = 2048 * 10 / 360; // 2048 ticks per revolution for TalonFX, 10:1 gear ratio
+    public static final int CORAL_PIVOT_TICKS_PER_DEGREE = 42 * 10 / 360; // 2048 ticks per revolution for TalonFX, 10:1 gear ratio
     public static final int CORAL_LIMIT_SWITCH_PORT = 13;
 
+    /* other information
+     * degrees to ticks conversion: ticks per rev * gear ratio / 360
+     */
 }   

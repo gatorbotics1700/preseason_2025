@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -34,7 +35,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double speed){
-        coralPivotMotor.setControl(dutyCycleOut.withOutput(speed));
+        coralPivotMotor.set(speed);
     }
 
     public void setPosition(double desiredTicks){
@@ -42,15 +43,15 @@ public class CoralPivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = coralPivotPIDController.calculate(currentTicks, desiredTicks);
-            coralPivotMotor.setControl(dutyCycleOut.withOutput(output));
+            coralPivotMotor.set(output);
             //elevatorMotor.setControl(positionVoltage.withPosition(desiredTicks));
         }else{
-            coralPivotMotor.setControl(dutyCycleOut.withOutput(0));
+            coralPivotMotor.set(0);
         }
     }
 
     public double getPosition(){
-        return coralPivotMotor.getPosition().getValueAsDouble();
+        return coralPivotMotor.getEncoder().getPosition();
     }
 
     public boolean getCoralLimitSwitch() {
