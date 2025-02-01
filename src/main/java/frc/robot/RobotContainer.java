@@ -4,9 +4,8 @@ package frc.robot;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.ClimbingCommand;
-import frc.robot.commands.CoralShooterCommand;
+//import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
-import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
@@ -25,7 +24,6 @@ public class RobotContainer {
     private final XboxController controller_two = new XboxController(1);
     // private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
-    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
 
 
@@ -55,17 +53,17 @@ public class RobotContainer {
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
-        // button to stop intake & outtake or climbing
+        //button to stop intake & outtake or climbing
         new Trigger(controller_two::getBButtonPressed)
             //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
-            .onTrue(new ClimbingCommand(m_climbingSub, 0));
+            .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
         
         // climbing mechanism 
         new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); //intakr
 
         // reverse climbing
-        new Trigger(controller_two::getXButtonPressed)
+        new Trigger(controller_two::getXButtonPressed) //outake
             .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         

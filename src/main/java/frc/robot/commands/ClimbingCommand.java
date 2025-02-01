@@ -5,7 +5,9 @@ import frc.robot.subsystems.ClimbingSubsystem;
 public class ClimbingCommand extends Command {
    
     private ClimbingSubsystem climbingSubsystem; 
+    
     private final double speed;
+    
     private double startTime;
 
     public ClimbingCommand(ClimbingSubsystem climbingSubsystem, double speed) {
@@ -15,8 +17,9 @@ public class ClimbingCommand extends Command {
     }
 
     @Override
-    public void initialize (){
+    public void initialize() {
         startTime = System.currentTimeMillis();
+        System.out.println("CLIMBINING COMMAND");
     }
     
     @Override
@@ -42,7 +45,11 @@ public class ClimbingCommand extends Command {
         System.out.println("Milliseconds passed: " +  timePassed);  
         
         if(speed > 0){ // if climbing
+<<<<<<< HEAD
             if(System.currentTimeMillis() - startTime > 20000){
+=======
+            if(System.currentTimeMillis() - startTime > 5000){
+>>>>>>> mechPlanB
                 climbingSubsystem.setSpeed(0);
                 System.out.println ("Finished climbing");
                 return true;
@@ -50,7 +57,11 @@ public class ClimbingCommand extends Command {
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if detaching / reverse climbing
+<<<<<<< HEAD
             if(System.currentTimeMillis() - startTime > 20000){
+=======
+            if(System.currentTimeMillis() - startTime > 5000){
+>>>>>>> mechPlanB
                 climbingSubsystem.setSpeed(0);
                 System.out.println("Finished detaching");
                 return true;
