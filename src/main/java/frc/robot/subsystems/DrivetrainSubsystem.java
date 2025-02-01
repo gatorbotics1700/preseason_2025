@@ -50,6 +50,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public static double transmitErrors = CANivore.getStatus().TEC;
     public static double receiveErrors = CANivore.getStatus().REC;
 
+    private static final Translation2d PIGEON_OFFSET = new Translation2d(
+        0.041275,  // Example: 10cm forward
+    -0.066675  // Example: 5cm to the left
+    );
+
 
     public DrivetrainSubsystem() {
         slowDrive = false;
@@ -57,6 +62,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         shuffleboardTab = Shuffleboard.getTab("Drivetrain");
 
         pigeon = new Pigeon2(Constants.DRIVETRAIN_PIGEON_ID, Constants.CANIVORE_BUS_NAME);
+
+        
 
         kinematics = new SwerveDriveKinematics(
             new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
@@ -111,12 +118,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
-        odometry = new SwerveDrivePoseEstimator(
-                kinematics,
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
-        );
+                odometry = new SwerveDrivePoseEstimator(
+                    kinematics,
+                    new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                    new SwerveModulePosition[]{ 
+                        frontLeftModule.getPosition(), 
+                        frontRightModule.getPosition(), 
+                        backLeftModule.getPosition(), 
+                        backRightModule.getPosition() 
+                    },
+                    new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
+                    edu.wpi.first.math.VecBuilder.fill(0.1, 0.1, 0.1), // x, y, theta in meters and radians
+                    edu.wpi.first.math.VecBuilder.fill(0.9, 0.9, 0.9)  // x, y, theta in meters and radians
+            );
         
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -173,9 +187,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
+        // Transform chassis speeds to account for Pigeon offset
+        if (!PIGEON_OFFSET.equals(new Translation2d(0.0, 0.0))) {
+            // Only transform if there's actually an offset
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
+                chassisSpeeds.omegaRadiansPerSecond,
+                getRotation()
+            );
+            
+            // Adjust for rotational component due to IMU offset
+            double vx = chassisSpeeds.vxMetersPerSecond - 
+                       (chassisSpeeds.omegaRadiansPerSecond * PIGEON_OFFSET.getY());
+            double vy = chassisSpeeds.vyMetersPerSecond + 
+                       (chassisSpeeds.omegaRadiansPerSecond * PIGEON_OFFSET.getX());
+            
+            chassisSpeeds = new ChassisSpeeds(vx, vy, chassisSpeeds.omegaRadiansPerSecond);
+        }
+
         this.chassisSpeeds = chassisSpeeds;
         
-        // Convert chassis speeds to module states and apply them
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, Constants.LOOPTIME_SECONDS);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setStates(targetStates);
