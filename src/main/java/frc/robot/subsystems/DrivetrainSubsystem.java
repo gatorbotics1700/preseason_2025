@@ -38,8 +38,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     
     private final SwerveDrivePoseEstimator odometry;
-    private static final double IMU_OFFSET_X = 0.111125; // Forward offset (meters)
-private static final double IMU_OFFSET_Y = -0.136525; // Rightward offset (meters)
+    private static final double IMU_OFFSET_X = 0.041275; // Forward offset (meters)
+private static final double IMU_OFFSET_Y = -0.066675; // Rightward offset (meters)
 
     private ChassisSpeeds chassisSpeeds;
     
