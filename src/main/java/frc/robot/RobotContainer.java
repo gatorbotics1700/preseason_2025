@@ -2,13 +2,15 @@ package frc.robot;
 
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
+import frc.robot.subsystems.LimelightSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+    private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+
     private final XboxController controller = new XboxController(0);
 
 
@@ -30,7 +32,7 @@ public class RobotContainer {
         System.out.println("SETTING DEFAULT TELEOP COMMAND");
         drivetrain.setDefaultCommand(
             new TeleopDriveCommand(
-                drivetrain,
+                drivetrain, limelightSubsystem,
                 () -> -modifyAxis(controller.getRightY()),    // Changed to raw values
                 () -> -modifyAxis(controller.getRightX()),     // Changed to raw values
                 () -> -modifyAxis(controller.getLeftX())    // Changed to raw values
