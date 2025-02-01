@@ -11,19 +11,20 @@ public class Constants {
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
     // hulk
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
-    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(216.299);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(200.303);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(128.584);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(13.623);
+    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
+    public static final String CANIVORE_BUS_NAME = "TRex";
 
     // nemo
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
-    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
-    public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
+    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    // public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
 
     // dory
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(59.414);
