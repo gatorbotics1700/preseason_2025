@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class CoralPivotSubsystem extends SubsystemBase {
-    private final TalonFX coralPivotMotor;
+    private final SparkMax coralPivotMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private final PIDController coralPivotPIDController;
     private final DigitalInput coralLimitSwitch;
@@ -22,7 +23,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
  
     public CoralPivotSubsystem () {
-        coralPivotMotor = new TalonFX(Constants.CORAL_PIVOT_CAN_ID);
+        coralPivotMotor = new SparkMax(Constants.CORAL_PIVOT_CAN_ID, MotorType.kBrushless);
         coralPivotPIDController = new PIDController(kP, kI, kD);
         coralLimitSwitch = new DigitalInput(Constants.CORAL_LIMIT_SWITCH_PORT);
     }
