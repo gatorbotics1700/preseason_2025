@@ -189,26 +189,38 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        // Update odometry while accounting for the pigeon offset
-        odometry.update(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[]{
-                frontLeftModule.getPosition(),
-                frontRightModule.getPosition(),
-                backLeftModule.getPosition(),
-                backRightModule.getPosition()
-            }
-        );
+public void periodic() {
+    // Update odometry with the raw pose estimate
+    odometry.update(
+        new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+        new SwerveModulePosition[]{
+            frontLeftModule.getPosition(),
+            frontRightModule.getPosition(),
+            backLeftModule.getPosition(),
+            backRightModule.getPosition()
+        }
+    );
 
-        // Apply offset to the estimated pose
-        Pose2d adjustedPose = new Pose2d(
-            odometry.getEstimatedPosition().getX() - OFFSET_X,
-            odometry.getEstimatedPosition().getY() - OFFSET_Y,
-            odometry.getEstimatedPosition().getRotation()
-        );
+    // Adjust the estimated pose by subtracting the Pigeon offset
+    Pose2d adjustedPose = new Pose2d(
+        odometry.getEstimatedPosition().getX() - OFFSET_X,
+        odometry.getEstimatedPosition().getY() - OFFSET_Y,
+        odometry.getEstimatedPosition().getRotation()
+    );
 
-        // Log updated pose
-        System.out.println("Adjusted Pose: " + adjustedPose);
-    }
+    // Apply the adjusted pose to the odometry
+    odometry.resetPosition(
+        adjustedPose.getRotation(),
+        new SwerveModulePosition[]{
+            frontLeftModule.getPosition(),
+            frontRightModule.getPosition(),
+            backLeftModule.getPosition(),
+            backRightModule.getPosition()
+        },
+        adjustedPose
+    );
+
+    // Log the adjusted pose
+    System.out.println("Adjusted Pose: " + adjustedPose);
+}
 }
