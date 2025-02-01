@@ -194,35 +194,24 @@ private static final double IMU_OFFSET_Y = -0.066675; // Rightward offset (meter
     }
 
     @Override
-    public void periodic() {
-        // Get current IMU rotation
-        Rotation2d currentRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
-    
-        // Compute the IMU offset in the rotated frame
-        Translation2d imuOffset = new Translation2d(IMU_OFFSET_X, IMU_OFFSET_Y).rotateBy(currentRotation);
-    
-        // Get the estimated robot pose from odometry
-        Pose2d rawPose = odometry.getEstimatedPosition();
-    
-        // Apply the IMU offset correction
-        Pose2d correctedPose = new Pose2d(
-            rawPose.getX() - imuOffset.getX(),
-            rawPose.getY() - imuOffset.getY(),
-            rawPose.getRotation() // Keep the rotation unchanged
-        );
-    
-        // Update odometry without resetting
-        odometry.update(
-            currentRotation,
-            new SwerveModulePosition[]{
-                frontLeftModule.getPosition(), 
-                frontRightModule.getPosition(), 
-                backLeftModule.getPosition(), 
-                backRightModule.getPosition()
-            }
-        );
-    
-        // Debugging information
-        System.out.println("Pose X: " + correctedPose.getX() + " | Pose Y: " + correctedPose.getY());
-    }
+public void periodic() {
+    // Get the current rotation from the IMU
+    Rotation2d currentRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+
+    // Adjust swerve module positions based on IMU offset
+    SwerveModulePosition[] modulePositions = new SwerveModulePosition[]{
+        frontLeftModule.getPosition(),
+        frontRightModule.getPosition(),
+        backLeftModule.getPosition(),
+        backRightModule.getPosition()
+    };
+
+    // Update odometry using correct sensor readings
+    odometry.update(currentRotation, modulePositions);
+
+    // Debugging information
+    Pose2d estimatedPose = odometry.getEstimatedPosition();
+    System.out.println("Pose X: " + estimatedPose.getX() + " | Pose Y: " + estimatedPose.getY());
+}
+
 }
