@@ -34,8 +34,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule backRightModule;
 
     private final Pigeon2 pigeon;
-    private static final double OFFSET_X = 0.041275; 
-    private static final double OFFSET_Y = -0.066675;
 
     private final SwerveDriveKinematics kinematics;
     
@@ -113,17 +111,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
-                odometry = new SwerveDrivePoseEstimator(
-                    kinematics,
-                    new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                    new SwerveModulePosition[]{
-                            frontLeftModule.getPosition(),
-                            frontRightModule.getPosition(),
-                            backLeftModule.getPosition(),
-                            backRightModule.getPosition()
-                    },
-                    new Pose2d(-OFFSET_X, -OFFSET_Y, new Rotation2d(Math.toRadians(0))) // Adjusted initial pose
-            );
+        odometry = new SwerveDrivePoseEstimator(
+                kinematics,
+                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
+                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+        );
         
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -189,38 +182,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     @Override
-public void periodic() {
-    // Update odometry with the raw pose estimate
-    odometry.update(
-        new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-        new SwerveModulePosition[]{
-            frontLeftModule.getPosition(),
-            frontRightModule.getPosition(),
-            backLeftModule.getPosition(),
-            backRightModule.getPosition()
-        }
-    );
-
-    // Adjust the estimated pose by subtracting the Pigeon offset
-    Pose2d adjustedPose = new Pose2d(
-        odometry.getEstimatedPosition().getX() - OFFSET_X,
-        odometry.getEstimatedPosition().getY() - OFFSET_Y,
-        odometry.getEstimatedPosition().getRotation()
-    );
-
-    // Apply the adjusted pose to the odometry
-    odometry.resetPosition(
-        adjustedPose.getRotation(),
-        new SwerveModulePosition[]{
-            frontLeftModule.getPosition(),
-            frontRightModule.getPosition(),
-            backLeftModule.getPosition(),
-            backRightModule.getPosition()
-        },
-        adjustedPose
-    );
-
-    // Log the adjusted pose
-    System.out.println("Adjusted Pose: " + adjustedPose);
-}
+    public void periodic() {
+        odometry.update(
+            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+            new SwerveModulePosition[]{ 
+                frontLeftModule.getPosition(), 
+                frontRightModule.getPosition(), 
+                backLeftModule.getPosition(), 
+                backRightModule.getPosition() 
+            }
+        );
+    }
 }
