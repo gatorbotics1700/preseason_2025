@@ -39,6 +39,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     private final SwerveDrivePoseEstimator odometry;
 
+    private static final double IMU_OFFSET_X = 0.111125; // Forward (meters)
+    private static final double IMU_OFFSET_Y = -0.136525; // Rightward (meters)
+
     private ChassisSpeeds chassisSpeeds;
     
     private ShuffleboardTab shuffleboardTab;
@@ -111,12 +114,26 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
+                
+        Rotation2d initialRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+
+        Translation2d imuOffset = new Translation2d(IMU_OFFSET_X, IMU_OFFSET_Y).rotateBy(initialRotation);
+        Pose2d initialPose = new Pose2d(-imuOffset.getX(), -imuOffset.getY(), initialRotation);
+
         odometry = new SwerveDrivePoseEstimator(
-                kinematics,
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
+            kinematics,
+            initialRotation,
+            new SwerveModulePosition[]{
+                frontLeftModule.getPosition(), 
+                frontRightModule.getPosition(), 
+                backLeftModule.getPosition(), 
+                backRightModule.getPosition() 
+            },
+            initialPose
         );
+                
+
+        
         
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -181,16 +198,41 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setStates(targetStates);
     }
 
+    // @Override
+    // public void periodic() {
+    //     odometry.update(
+    //         new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
+    //         new SwerveModulePosition[]{ 
+    //             frontLeftModule.getPosition(), 
+    //             frontRightModule.getPosition(), 
+    //             backLeftModule.getPosition(), 
+    //             backRightModule.getPosition() 
+    //         }
+    //     );
+    // }
+
     @Override
     public void periodic() {
-        odometry.update(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[]{ 
-                frontLeftModule.getPosition(), 
-                frontRightModule.getPosition(), 
-                backLeftModule.getPosition(), 
-                backRightModule.getPosition() 
-            }
-        );
-    }
+    Rotation2d currentRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+
+    Translation2d imuOffset = new Translation2d(IMU_OFFSET_X, IMU_OFFSET_Y).rotateBy(currentRotation);
+
+    Pose2d rawPose = odometry.getEstimatedPosition();
+    Pose2d correctedPose = new Pose2d(
+        rawPose.getX() - imuOffset.getX(),
+        rawPose.getY() - imuOffset.getY(),
+        rawPose.getRotation()
+    );
+
+    odometry.resetPosition(
+        currentRotation,
+        new SwerveModulePosition[]{
+            frontLeftModule.getPosition(), 
+            frontRightModule.getPosition(), 
+            backLeftModule.getPosition(), 
+            backRightModule.getPosition()
+        },
+        correctedPose
+    );
+}
 }
