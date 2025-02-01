@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -55,6 +57,16 @@ public class LimelightSubsystem extends SubsystemBase {
         //returns yaw of april tag relative to camera
         return limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6])[4];
     }
+
+    public Pose2d getPositionFromTag(){
+        double tx = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0];
+        double ty = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[1];
+        double yaw = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[4];
+        Pose2d newPose = new Pose2d(tx,ty, new Rotation2d(Math.toRadians(yaw)));
+        return newPose;
+
+
+    } 
 
     public void setPipeline(int pipelineID) {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
