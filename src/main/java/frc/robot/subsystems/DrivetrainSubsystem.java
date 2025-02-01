@@ -38,6 +38,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
     
     private final SwerveDrivePoseEstimator odometry;
+    private static final double IMU_OFFSET_X = 0.111125; // Forward offset (meters)
+private static final double IMU_OFFSET_Y = -0.136525; // Rightward offset (meters)
 
     private ChassisSpeeds chassisSpeeds;
     
@@ -111,12 +113,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 .withSteerOffset(Constants.BACK_RIGHT_MODULE_STEER_OFFSET)
                 .build();
 
-        odometry = new SwerveDrivePoseEstimator(
-                kinematics,
-                new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-                new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
-                new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)))
-        );
+
+
+                Rotation2d imuRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+
+                // Create the odometry object WITHOUT modifying rotation
+                odometry = new SwerveDrivePoseEstimator(
+                    kinematics,
+                    imuRotation, // Use IMU's raw heading
+                    new SwerveModulePosition[]{
+                        frontLeftModule.getPosition(),
+                        frontRightModule.getPosition(),
+                        backLeftModule.getPosition(),
+                        backRightModule.getPosition()
+                    },
+                    new Pose2d(0, 0, imuRotation) // Start at (0,0) with correct rotation
+                );
         
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
@@ -183,14 +195,34 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // Get current IMU rotation
+        Rotation2d currentRotation = Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+    
+        // Compute the IMU offset in the rotated frame
+        Translation2d imuOffset = new Translation2d(IMU_OFFSET_X, IMU_OFFSET_Y).rotateBy(currentRotation);
+    
+        // Get the estimated robot pose from odometry
+        Pose2d rawPose = odometry.getEstimatedPosition();
+    
+        // Apply the IMU offset correction
+        Pose2d correctedPose = new Pose2d(
+            rawPose.getX() - imuOffset.getX(),
+            rawPose.getY() - imuOffset.getY(),
+            rawPose.getRotation() // Keep the rotation unchanged
+        );
+    
+        // Update odometry without resetting
         odometry.update(
-            new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),
-            new SwerveModulePosition[]{ 
+            currentRotation,
+            new SwerveModulePosition[]{
                 frontLeftModule.getPosition(), 
                 frontRightModule.getPosition(), 
                 backLeftModule.getPosition(), 
-                backRightModule.getPosition() 
+                backRightModule.getPosition()
             }
         );
+    
+        // Debugging information
+        System.out.println("Pose X: " + correctedPose.getX() + " | Pose Y: " + correctedPose.getY());
     }
 }
