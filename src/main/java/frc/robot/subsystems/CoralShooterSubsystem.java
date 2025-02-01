@@ -22,7 +22,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     //private static final double MAX_ANGLE = 90;
     
     public CoralShooterSubsystem(){
-        highCoralMotor = new TalonFX(Constants.CORAL_MOTOR_CAN_ID);//TODO: enter in can id later
+        highCoralMotor = new TalonFX(Constants.CORAL_SHOOTER_CAN_ID);//TODO: enter in can id later
         //lowCoralMotor = new TalonFX(Constants.LOW_CORAL_MOTOR_CAN_ID);
         //beamBreakSensor = new DigitalInput(0); //TODO: replace with beambreak receiver 
         //servo = new Servo(Constants.SERVO_PWM_PORT);

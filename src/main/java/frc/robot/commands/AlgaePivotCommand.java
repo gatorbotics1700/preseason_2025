@@ -29,7 +29,7 @@ public class AlgaePivotCommand extends Command {
             algaePivotSubsystem.setSpeed(0);
             return true;
         }
-        algaePivotSubsystem.setPosition(desiredTicks);
+        // algaePivotSubsystem.setPosition(desiredTicks);
         return false;
     }
 }

@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.util.Color;
 public class ElevatorSubsystem extends SubsystemBase {
     public TalonFX elevatorMotor;
     private static DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
-    private static PositionVoltage positionVoltage = new PositionVoltage(0);
+    //private static PositionVoltage positionVoltage = new PositionVoltage(0);
     
     private final DigitalInput colorSensor;
 

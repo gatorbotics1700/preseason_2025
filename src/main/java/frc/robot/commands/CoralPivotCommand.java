@@ -29,7 +29,7 @@ public class CoralPivotCommand extends Command{
             coralPivotSubsystem.setSpeed(0);
             return true;
         }
-        coralPivotSubsystem.setPosition(desiredTicks);
+        // coralPivotSubsystem.setPosition(desiredTicks);
         return false;
     }
 }

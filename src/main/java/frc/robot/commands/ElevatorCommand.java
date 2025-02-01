@@ -29,7 +29,7 @@ public class ElevatorCommand extends Command {
             elevatorSubsystem.setSpeed(0);
             return true;
         }
-        elevatorSubsystem.setPosition(desiredTicks);
+        //elevatorSubsystem.setPosition(desiredTicks);
         return false;
     }
 }
