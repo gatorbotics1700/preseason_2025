@@ -59,13 +59,14 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public Pose2d getPositionFromTag(){
-        double tx = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0];
-        double ty = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[1];
-        double yaw = limelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[4];
+        System.out.println("**************" + limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[1]).length);
+        double tx = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6])[0];
+        // tx -= 0.105;
+        double ty = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6])[1];
+        // ty -= 0.3175;
+        double yaw = limelightTable.getEntry("botpose_wpiblue").getDoubleArray(new double[6])[4];
         Pose2d newPose = new Pose2d(tx,ty, new Rotation2d(Math.toRadians(yaw)));
         return newPose;
-
-
     } 
 
     public void setPipeline(int pipelineID) {
