@@ -13,7 +13,6 @@ public class RobotContainer {
 
     private final XboxController controller = new XboxController(0);
 
-
     public RobotContainer() {
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
