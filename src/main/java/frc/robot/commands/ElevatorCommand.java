@@ -30,6 +30,10 @@ public class ElevatorCommand extends Command {
             return true;
         }
         //elevatorSubsystem.setPosition(desiredTicks);
+        if(elevatorSubsystem.atTopLimitSwitch() || elevatorSubsystem.atBottomLimitSwitch()){
+            return true;
+        }
+
         return false;
     }
 }

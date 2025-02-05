@@ -65,6 +65,8 @@ public class Constants {
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
     public static final double ELEVATOR_GEAR_RATIO = 36.0;
     public static final double ELEVATOR_TICKS_PER_INCH = KRAKEN_TICKS_FOR_REV*ELEVATOR_GEAR_RATIO/ELEVATOR_SPROCKET_DIAMETER/Math.PI;
+    public static final int TOP_LIMIT_SWITCH_PORT = 0;
+    public static final int BOTTOM_LIMIT_SWITCH_PORT = 9;
 
     public static final int ALGAE_CAN_ID = 16;
     public static final int ALGAE_PIVOT_CAN_ID = 15;

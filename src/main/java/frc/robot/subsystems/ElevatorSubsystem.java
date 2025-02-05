@@ -20,6 +20,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     //private static PositionVoltage positionVoltage = new PositionVoltage(0);
     
     private final DigitalInput colorSensor;
+    private final DigitalInput topLimitSwitch;
+    private final DigitalInput bottomLimitSwitch;
 
     private final PIDController elevatorPIDController;
 
@@ -34,6 +36,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor = new TalonFX(Constants.ELEVATOR_CAN_ID);
         colorSensor = new DigitalInput(0);
         elevatorPIDController = new PIDController(kP, kI, kD);
+        topLimitSwitch = new DigitalInput(Constants.TOP_LIMIT_SWITCH_PORT);
+        bottomLimitSwitch = new DigitalInput(Constants.BOTTOM_LIMIT_SWITCH_PORT);
     }
 
     public void setPosition(double desiredTicks){
@@ -62,5 +66,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public boolean isColorSensed(){
         return colorSensor.get();
+    }
+
+    public boolean atTopLimitSwitch(){
+        return topLimitSwitch.get();
+    }
+
+    public boolean atBottomLimitSwitch(){
+        return bottomLimitSwitch.get();
     }
 }
