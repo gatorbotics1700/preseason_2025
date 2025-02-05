@@ -1,10 +1,14 @@
 {
-  "robotWidth": 0.762,
-  "robotLength": 0.762,
+  "robotWidth": 0.8382,
+  "robotLength": 0.838,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Folder",
-    "Red Folder"
+    "Blue Coral Station to Reef",
+    "Blue Reef to Coral Station",
+    "Blue Start to Reef",
+    "Red Coral Station to Reef",
+    "Red Reef to Coral Station",
+    "Red Start to Reef"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
