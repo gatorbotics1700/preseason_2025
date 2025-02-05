@@ -2,17 +2,24 @@ package frc.robot;
 
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.commands.TestDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
     private final XboxController controller = new XboxController(0);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
-
+    private final SendableChooser<Command> autoChooser;
 
 
     public RobotContainer() {
@@ -31,6 +38,20 @@ public class RobotContainer {
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 0, controller)); // id 8
         new Trigger(controller::getBButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 2 
+    autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+    }
+
+    public Command getAutonomousCommand() {
+        try {
+            Command auto = autoChooser.getSelected();
+            System.out.println("Auto loaded successfully: " + autoChooser.getSelected().getName());
+            return auto;
+        } catch (Exception e) {
+            System.err.println("Failed to load auto path: " + e.getMessage());
+            e.printStackTrace();
+            return new TestDriveCommand(drivetrainSubsystem);
+        }
     }
 
 
