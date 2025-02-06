@@ -24,13 +24,17 @@ public class ElevatorCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        //TODO: make it so it can still run when leaving a limit switch
-        if(elevatorSubsystem.atTopLimitSwitch() || elevatorSubsystem.atBottomLimitSwitch()){
+        if(elevatorSubsystem.atTopLimitSwitch() && elevatorSubsystem.desiredTicks > elevatorSubsystem.getPosition()){
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        double error = desiredTicks - elevatorSubsystem.getPosition();
+        if(elevatorSubsystem.atBottomLimitSwitch() && elevatorSubsystem.desiredTicks < elevatorSubsystem.getPosition()){
+            elevatorSubsystem.setSpeed(0);
+            return true;
+        }
+
+        double error = desiredTicks - elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV;
         if(Math.abs(error) < DEADBAND){
             elevatorSubsystem.setSpeed(0);
             return true;
