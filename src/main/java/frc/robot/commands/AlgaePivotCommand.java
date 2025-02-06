@@ -24,12 +24,11 @@ public class AlgaePivotCommand extends Command {
 
     @Override
     public boolean isFinished(){
-        double error = desiredTicks - algaePivotSubsystem.getPosition();
+        double error = desiredTicks - algaePivotSubsystem.getPosition(); //TODO: convert getPosition() to ticks
         if(Math.abs(error) < DEADBAND){
             algaePivotSubsystem.setSpeed(0);
             return true;
         }
-        // algaePivotSubsystem.setPosition(desiredTicks);
         return false;
     }
 }

@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class AlgaePivotSubsytem extends SubsystemBase {
-    private final SparkMax algaePivotMotor;
+    //TODO: write periodic to show getPosition() on Smart Dashboard
+    private final SparkMax motor;
 
-    private final PIDController algaePIDController;
+    private final PIDController pidController;
 
-    private DigitalInput algaeLimitSwitch;
+    private DigitalInput limitSwitch;
 
     private static final double kP = 0.0; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
@@ -23,20 +24,20 @@ public class AlgaePivotSubsytem extends SubsystemBase {
 
 
     public AlgaePivotSubsytem(){
-        algaePivotMotor = new SparkMax(Constants.ALGAE_PIVOT_CAN_ID, MotorType.kBrushless);
-        algaePIDController = new PIDController(kP, kI, kD);
-        algaeLimitSwitch = new DigitalInput(Constants.ALGAE_LIMIT_SWITCH_PORT);
+        motor = new SparkMax(Constants.ALGAE_PIVOT_CAN_ID, MotorType.kBrushless);
+        pidController = new PIDController(kP, kI, kD);
+        limitSwitch = new DigitalInput(Constants.ALGAE_LIMIT_SWITCH_PORT);
     }
 
     public void setPosition(double desiredTicks) {
         double currentTicks = getPosition();
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
-            double output = algaePIDController.calculate(currentTicks, desiredTicks);
-            algaePivotMotor.set(output);
+            double output = pidController.calculate(currentTicks, desiredTicks);
+            motor.set(output);
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
-            algaePivotMotor.set(0);
+            motor.set(0);
         }
     }
 
@@ -45,15 +46,15 @@ public class AlgaePivotSubsytem extends SubsystemBase {
     }
 
     public void setSpeed(int speed) {
-        algaePivotMotor.set(speed);
+        motor.set(speed);
     }
 
     public double getPosition() {
-        return algaePivotMotor.getEncoder().getPosition();
+        return motor.getEncoder().getPosition();
     }
 
-    public boolean getAlgaeLimitSwitch() {
-        return algaeLimitSwitch.get();
+    public boolean getLimitSwitch() {
+        return limitSwitch.get();
     }
 
 }
