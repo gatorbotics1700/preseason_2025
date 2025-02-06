@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 public class ElevatorCommand extends Command {
@@ -24,17 +25,17 @@ public class ElevatorCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if(elevatorSubsystem.atTopLimitSwitch() && elevatorSubsystem.desiredTicks > elevatorSubsystem.getPosition()){
+        if(elevatorSubsystem.atTopLimitSwitch() && desiredTicks > elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV){
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        if(elevatorSubsystem.atBottomLimitSwitch() && elevatorSubsystem.desiredTicks < elevatorSubsystem.getPosition()){
+        if(elevatorSubsystem.atBottomLimitSwitch() && desiredTicks < elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV){
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        double error = desiredTicks - elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV;
+        double error = desiredTicks - elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV; //getPosition() is in rotations so rotations * ticks per rev should give position in ticks
         if(Math.abs(error) < DEADBAND){
             elevatorSubsystem.setSpeed(0);
             return true;
