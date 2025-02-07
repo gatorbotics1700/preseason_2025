@@ -9,7 +9,7 @@ public class ElevatorCommand extends Command {
     private ElevatorSubsystem elevatorSubsystem;
     private double height; // in inches
     double desiredTicks;
-    private double DEADBAND = 5000; // TODO: change this value
+    private double DEADBAND = 1 * Constants.ELEVATOR_TICKS_PER_INCH; // 1 inch in ticks; TODO: change this value
     
     public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double height){
         this.elevatorSubsystem = elevatorSubsystem;
@@ -21,28 +21,30 @@ public class ElevatorCommand extends Command {
     @Override 
     public void execute(){
         elevatorSubsystem.setPosition(desiredTicks);
+        System.out.println("top limit switch: " + elevatorSubsystem.atTopLimitSwitch());
+        System.out.println("bottom limit switch: " + elevatorSubsystem.atBottomLimitSwitch());
     }
 
     @Override
     public boolean isFinished() {
-        if(elevatorSubsystem.atTopLimitSwitch() && desiredTicks > elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV){
+        double currentTicks = elevatorSubsystem.getCurrentTicks(); 
+        System.out.println("CURRENT HEIGHT: " + (currentTicks / Constants.ELEVATOR_TICKS_PER_INCH) + " inches");
+        
+        if(elevatorSubsystem.atTopLimitSwitch() && desiredTicks > currentTicks){
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        if(elevatorSubsystem.atBottomLimitSwitch() && desiredTicks < elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV){
+        if(elevatorSubsystem.atBottomLimitSwitch() && desiredTicks < currentTicks){ 
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        double error = desiredTicks - elevatorSubsystem.getPosition() * Constants.NEO_TICKS_PER_REV; //getPosition() is in rotations so rotations * ticks per rev should give position in ticks
+        double error = desiredTicks - currentTicks; 
         if(Math.abs(error) < DEADBAND){
             elevatorSubsystem.setSpeed(0);
             return true;
         }
-        //elevatorSubsystem.setPosition(desiredTicks);
-
-        
 
         return false;
     }

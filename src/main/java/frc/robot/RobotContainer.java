@@ -3,10 +3,16 @@ package frc.robot;
 // import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.commands.AlgaePivotCommand;
 import frc.robot.commands.ClimbingCommand;
+import frc.robot.commands.CoralPivotCommand;
+import frc.robot.commands.ElevatorCommand;
+import frc.robot.subsystems.AlgaePivotSubsystem;
 //import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
+import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -25,6 +31,9 @@ public class RobotContainer {
     // private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
+    private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
+    private static final CoralPivotSubsystem m_coralPivotSub = new CoralPivotSubsystem();
+    private static final AlgaePivotSubsystem m_algaePivotSub = new AlgaePivotSubsystem();
 
 
     public RobotContainer() {
@@ -54,17 +63,28 @@ public class RobotContainer {
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
         //button to stop intake & outtake or climbing
-        new Trigger(controller_two::getBButtonPressed)
+        //new Trigger(controller_two::getBButtonPressed)
             //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
-            .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
+            // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
+        
+        // elevator button
+        new Trigger(controller_two::getBButtonPressed)  
+            .onTrue(new ElevatorCommand(m_elevatorSub, 12));
+
+        // coral pivot propped up
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new CoralPivotCommand(m_coralPivotSub, 30));
+
+        new Trigger(controller_two::getYButtonPressed)
+            .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
         
         // climbing mechanism 
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); //intakr
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); //intakr
 
         // reverse climbing
-        new Trigger(controller_two::getXButtonPressed) //outake
-            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        // new Trigger(controller_two::getXButtonPressed) //outake
+        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();

@@ -5,10 +5,11 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class AlgaePivotSubsytem extends SubsystemBase {
+public class AlgaePivotSubsystem extends SubsystemBase {
     //TODO: write periodic to show getPosition() on Smart Dashboard
     private final SparkMax motor;
 
@@ -16,21 +17,25 @@ public class AlgaePivotSubsytem extends SubsystemBase {
 
     private DigitalInput limitSwitch;
 
-    private static final double kP = 0.0; // TODO: change this value
+    private static final double kP = 0.001; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0; // TODO: change this value
 
     private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
 
 
-    public AlgaePivotSubsytem(){
+    public AlgaePivotSubsystem(){
         motor = new SparkMax(Constants.ALGAE_PIVOT_CAN_ID, MotorType.kBrushless);
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.ALGAE_LIMIT_SWITCH_PORT);
     }
 
+    public void init(){
+        setPosition(0);
+    }
+
     public void setPosition(double desiredTicks) {
-        double currentTicks = getPosition();
+        double currentTicks = getCurrentTicks();
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
@@ -49,12 +54,11 @@ public class AlgaePivotSubsytem extends SubsystemBase {
         motor.set(speed);
     }
 
-    public double getPosition() {
-        return motor.getEncoder().getPosition();
+    public double getCurrentTicks() {
+        return motor.getEncoder().getPosition() * Constants.NEO_TICKS_PER_REV;
     }
 
     public boolean getLimitSwitch() {
         return limitSwitch.get();
     }
-
 }

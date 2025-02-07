@@ -10,13 +10,13 @@ import frc.robot.Constants;
 
 public class AlgaeSubsystem extends SubsystemBase {
     
-    private final SparkMax algaeMotor;
+    private final SparkMax motor;
 
     public AlgaeSubsystem(){
-        algaeMotor = new SparkMax(Constants.ALGAE_CAN_ID, MotorType.kBrushless);
+        motor = new SparkMax(Constants.ALGAE_CAN_ID, MotorType.kBrushless);
     }
 
     public void setSpeed(double speed){
-        algaeMotor.set(speed);
+        motor.set(speed);
     }
 }
