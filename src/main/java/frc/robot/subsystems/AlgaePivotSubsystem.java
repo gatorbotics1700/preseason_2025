@@ -17,7 +17,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
     private DigitalInput limitSwitch;
 
-    private static final double kP = 0.001; // TODO: change this value
+    private static final double kP = 0.005; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0; // TODO: change this value
 

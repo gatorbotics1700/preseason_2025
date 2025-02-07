@@ -67,16 +67,19 @@ public class RobotContainer {
             //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
         
-        // elevator button
+       // elevator button
         new Trigger(controller_two::getBButtonPressed)  
-            .onTrue(new ElevatorCommand(m_elevatorSub, 12));
+            .onTrue(new ElevatorCommand(m_elevatorSub, 30));
 
-        // coral pivot propped up
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new CoralPivotCommand(m_coralPivotSub, 30));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 0));
+        
+            // coral pivot propped up
+       // new Trigger(controller_two::getXButtonPressed)
+           // .onTrue(new CoralPivotCommand(m_coralPivotSub, 30));
 
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
         
         // climbing mechanism 
         // new Trigger(controller_two::getAButtonPressed)
