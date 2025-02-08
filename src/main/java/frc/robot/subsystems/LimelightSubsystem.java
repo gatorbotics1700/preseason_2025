@@ -14,7 +14,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", 0.089, 0.324, 0.375, 0.0, 0.0, 0.0);
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", 0.093, -0.325, 0.353, 3.0, 1.0, 0.0);
     }
 
     public void turnOnLED() {

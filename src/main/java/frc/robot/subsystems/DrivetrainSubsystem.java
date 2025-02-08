@@ -169,11 +169,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 config, // The robot configuration
                 // new RobotConfig(18, 1.45, moduleConfig, 0.449072),
                 () -> {
-
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
+                    //I believe this section mirrors our paths if we're on red, but we don't want to do that bc we have two sets of paths... commenting this out fixed our issue of hurtling across the field
+                    // var alliance = DriverStation.getAlliance();
+                    // if (alliance.isPresent()) {
+                    //     return alliance.get() == DriverStation.Alliance.Red;
+                    // }
                     return false;
 
                 },
