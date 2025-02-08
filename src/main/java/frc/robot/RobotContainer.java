@@ -71,16 +71,16 @@ public class RobotContainer {
         //      .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
         // //coral outtaking
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
 
         //coral stop
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new CoralCommand(m_coralSubsystem, 0));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new CoralCommand(m_coralSubsystem, 0));
 
         // //coral intaking
-        new Trigger(controller_two::getXButtonPressed)
-        .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
+        // new Trigger(controller_two::getXButtonPressed)
+        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
 
         // //coral stop
         // new Trigger(controller_two::getBButtonPressed)
@@ -91,12 +91,12 @@ public class RobotContainer {
 // .onTrue(new AlgaeCommand(m_algaeSub, -0.5));
 
 // //algae intaking
-// new Trigger(controller_two::getXButtonPressed)
-// .onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_INTAKING_SPEED));
+new Trigger(controller_two::getXButtonPressed)
+.onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
 
 // //algae stop
-// new Trigger(controller_two::getBButtonPressed)
-// .onTrue(new AlgaeCommand(m_algaeSub, 0));
+new Trigger(controller_two::getYButtonPressed)
+.onTrue(new AlgaeCommand(m_algaeSub, 0));
 
         //button to stop intake & outtake or climbing
         //new Trigger(controller_two::getBButtonPressed)
@@ -108,10 +108,10 @@ public class RobotContainer {
         //      .onTrue(new ElevatorCommand(m_elevatorSub, 0));
 
 
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 4));
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 27));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 0));
 
         // TODO figure out how to use joystick to control elevator - see 2023 code also requires using speed in ElevatorCommand
         
