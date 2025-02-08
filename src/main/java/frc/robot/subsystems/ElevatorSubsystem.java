@@ -60,7 +60,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double getCurrentTicks(){ //getPosition() is in rotations so rotations * ticks per rev should give position in ticks
-        return motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV;
+        return (motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV);
     }
 
     public double determineInchesToTicks(double desiredInches){
