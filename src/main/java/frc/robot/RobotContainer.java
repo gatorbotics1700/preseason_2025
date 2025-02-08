@@ -35,7 +35,7 @@ public class RobotContainer {
 
         //pipeline buttons
         new Trigger(controller::getAButtonPressed)
-            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 0, controller)); // id 8
+            .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 0, controller)); // id 10
         new Trigger(controller::getBButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 2 
     autoChooser = AutoBuilder.buildAutoChooser();

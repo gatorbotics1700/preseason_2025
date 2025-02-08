@@ -74,7 +74,7 @@ public class LimelightControlCommand extends Command {
 
     private boolean targetMatchesPipeline() {
         if (pipeline == 0) {
-            return limelightSubsystem.getTargetID() == 8;
+            return limelightSubsystem.getTargetID() == 10;
         } else if (pipeline == 1) {
             return limelightSubsystem.getTargetID() == 2;
         }
