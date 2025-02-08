@@ -9,7 +9,7 @@ public class CoralCommand extends Command {
     // This is the command for the new coral intake/outtake
 
     public CoralCommand(CoralSubsystem coralSubsystem, double speed) {
-        this.coralSubsystem = new CoralSubsystem();
+        this.coralSubsystem = coralSubsystem;
         this.speed = speed;
         addRequirements(coralSubsystem);
     }
@@ -22,6 +22,7 @@ public class CoralCommand extends Command {
     @Override
     public void execute(){
         coralSubsystem.setSpeed(speed);
+        System.out.println("CORAL SPEED " + speed);
     }
 
    @Override

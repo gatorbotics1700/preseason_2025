@@ -33,7 +33,7 @@ public class CoralPivotSubsystem extends SubsystemBase {
     }
 
     public void init(){
-        setPosition(0);
+        //setPosition(0);
     }
 
     @Override

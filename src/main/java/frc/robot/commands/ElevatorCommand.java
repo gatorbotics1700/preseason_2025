@@ -9,7 +9,7 @@ public class ElevatorCommand extends Command {
     private ElevatorSubsystem elevatorSubsystem;
     private double height; // in inches
     double desiredTicks;
-    private double DEADBAND = 2 * Constants.ELEVATOR_TICKS_PER_INCH; // 1 inch in ticks; TODO: change this value
+    private double DEADBAND = 1 * Constants.ELEVATOR_TICKS_PER_INCH; // 1 inch in ticks; TODO: change this value
     
     public ElevatorCommand(ElevatorSubsystem elevatorSubsystem, double height){
         this.elevatorSubsystem = elevatorSubsystem;
