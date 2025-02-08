@@ -4,10 +4,12 @@ package frc.robot;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.AlgaePivotCommand;
+import frc.robot.commands.AlgaeCommand;
 import frc.robot.commands.ClimbingCommand;
 import frc.robot.commands.CoralPivotCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.subsystems.AlgaePivotSubsystem;
+import frc.robot.subsystems.AlgaeSubsystem;
 //import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralPivotSubsystem;
@@ -38,6 +40,8 @@ public class RobotContainer {
     private static final CoralPivotSubsystem m_coralPivotSub = new CoralPivotSubsystem();
     private static final AlgaePivotSubsystem m_algaePivotSub = new AlgaePivotSubsystem();
     private static final CoralSubsystem m_coralSubsystem = new CoralSubsystem();
+    private static final AlgaeSubsystem m_algaeSub = new AlgaeSubsystem();
+
 
 
     public RobotContainer() {
@@ -66,9 +70,29 @@ public class RobotContainer {
         // new Trigger(controller_two::getYButtonPressed)
         //      .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_OUTTAKING_SPEED));
 
-        //coral outtaking
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
+        // //coral outtaking
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
+
+        // //coral intaking
+        // new Trigger(controller_two::getXButtonPressed)
+        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
+
+        // //coral stop
+        // new Trigger(controller_two::getBButtonPressed)
+        // .onTrue(new CoralCommand(m_coralSubsystem, 0));
+
+//algae outtaking
+new Trigger(controller_two::getYButtonPressed)
+.onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_OUTTAKING_SPEED));
+
+//algae intaking
+new Trigger(controller_two::getXButtonPressed)
+.onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_INTAKING_SPEED));
+
+//algae stop
+new Trigger(controller_two::getBButtonPressed)
+.onTrue(new AlgaeCommand(m_algaeSub, 0));
 
         //button to stop intake & outtake or climbing
         //new Trigger(controller_two::getBButtonPressed)
@@ -76,11 +100,11 @@ public class RobotContainer {
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
         
        // elevator button
-        new Trigger(controller_two::getBButtonPressed)  
-            .onTrue(new ElevatorCommand(m_elevatorSub, 36));
+         new Trigger(controller_two::getAButtonPressed)  
+             .onTrue(new ElevatorCommand(m_elevatorSub, 10));
 
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 0));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0));
 
         // TODO figure out how to use joystick to control elevator - see 2023 code also requires using speed in ElevatorCommand
         
