@@ -31,7 +31,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
-    private static final double DEADBAND = 1 * Constants.ELEVATOR_TICKS_PER_INCH; // 1 inch in ticks; TODO: test and change
+    private static final double DEADBAND = 0.5 * Constants.ELEVATOR_TICKS_PER_INCH; // 1 inch in ticks; TODO: test and change
 
 
     public ElevatorSubsystem(){

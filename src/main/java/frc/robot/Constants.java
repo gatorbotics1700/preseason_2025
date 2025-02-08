@@ -24,10 +24,10 @@ public class Constants {
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
 
     // dory
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(59.414);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(194.941 + 180);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.207);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(242.574);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
