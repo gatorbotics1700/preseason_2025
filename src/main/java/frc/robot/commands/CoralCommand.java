@@ -21,8 +21,13 @@ public class CoralCommand extends Command {
 
     @Override
     public void execute(){
-        coralSubsystem.setSpeed(speed);
-        System.out.println("CORAL SPEED " + speed);
+        //coralSubsystem.setSpeed(speed);
+        //System.out.println("CORAL SPEED " + speed);
+        if(coralSubsystem.isBeamBroken()){
+            System.out.println("Beam is broken");
+        } else {
+            System.out.println("Beam is not broken");
+        }
     }
 
    @Override

@@ -54,7 +54,6 @@ public class Constants {
     public static final int CORAL_SHOOTER_CAN_ID = 30;
     public static final double CORAL_INTAKING_SPEED = -0.2;
     public static final double CORAL_OUTTAKING_SPEED = 0.5; 
-    public static final int SERVO_PWM_PORT = 7;
     public static final double SERVO_ANGLE = 45.0;
 
     public static final double CLIMBING_SPEED = -0.1; 
