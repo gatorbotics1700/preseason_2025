@@ -54,12 +54,10 @@ public class Constants {
     public static final int CORAL_SHOOTER_CAN_ID = 30;
     public static final double CORAL_INTAKING_SPEED = -0.2;
     public static final double CORAL_OUTTAKING_SPEED = 0.1; 
-    public static final int SERVO_PWM_PORT = 7;
     public static final double SERVO_ANGLE = 45.0;
 
-    public static final double CLIMBING_SPEED = -0.1; 
-    public static final int LEFT_CLIMBING_MOTOR_CAN_ID = 0;
-    public static final int RIGHT_CLIMBING_MOTOR_CAN_ID = 20;
+    public static final double CLIMBING_SPEED = -0.15; 
+    public static final int CLIMBING_MOTOR_CAN_ID = 0;
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID

@@ -79,8 +79,8 @@ public class RobotContainer {
             .onTrue(new CoralCommand(m_coralSubsystem, 0));
 
         // //coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
+        new Trigger(controller_two::getXButtonPressed)
+        .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
 
         // //coral stop
         // new Trigger(controller_two::getBButtonPressed)
