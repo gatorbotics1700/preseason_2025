@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -11,11 +14,10 @@ import frc.robot.Constants;
 
 public class AlgaePivotSubsystem extends SubsystemBase {
     //TODO: write periodic to show getPosition() on Smart Dashboard
-    private final SparkMax motor;
-
+    private final TalonFX motor;
+    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private final PIDController pidController;
-
-    private DigitalInput limitSwitch;
+    private final DigitalInput limitSwitch;
 
     private static final double kP = 0.005; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
@@ -25,7 +27,7 @@ public class AlgaePivotSubsystem extends SubsystemBase {
 
 
     public AlgaePivotSubsystem(){
-        motor = new SparkMax(Constants.ALGAE_PIVOT_CAN_ID, MotorType.kBrushless);
+        motor = new TalonFX(Constants.ALGAE_PIVOT_CAN_ID);
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.ALGAE_LIMIT_SWITCH_PORT);
     }
@@ -39,10 +41,10 @@ public class AlgaePivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
-            motor.set(output);
+            motor.setControl(dutyCycleOut.withOutput(output));
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
-            motor.set(0);
+            motor.setControl(dutyCycleOut.withOutput(0));
         }
     }
 
@@ -51,11 +53,11 @@ public class AlgaePivotSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(int speed) {
-        motor.set(speed);
+        motor.setControl(dutyCycleOut.withOutput(speed));
     }
 
     public double getCurrentTicks() {
-        return motor.getEncoder().getPosition() * Constants.NEO_TICKS_PER_REV;
+        return motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV;
     }
 
     public boolean getLimitSwitch() {

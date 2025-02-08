@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class CoralPivotSubsystem extends SubsystemBase {
-    private final SparkMax motor;
+    private final TalonFX motor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private final PIDController pidController;
     private final DigitalInput limitSwitch;
@@ -25,22 +26,23 @@ public class CoralPivotSubsystem extends SubsystemBase {
 
  
     public CoralPivotSubsystem () {
-        motor = new SparkMax(Constants.CORAL_PIVOT_CAN_ID, MotorType.kBrushless);
+        motor = new TalonFX(Constants.CORAL_PIVOT_CAN_ID);
+        motor.setNeutralMode(NeutralModeValue.Brake);
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.CORAL_LIMIT_SWITCH_PORT);
     }
 
     public void init(){
-
+        setPosition(0);
     }
 
     @Override
     public void periodic(){
-        setPosition(0);
+
     }
 
     public void setSpeed(double speed){
-        motor.set(speed);
+        motor.setControl(dutyCycleOut.withOutput(speed));
     }
 
     public void setPosition(double desiredTicks){
@@ -48,15 +50,15 @@ public class CoralPivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
-            motor.set(output);
+            motor.setControl(dutyCycleOut.withOutput(output));
             //elevatorMotor.setControl(positionVoltage.withPosition(desiredTicks));
         }else{
-            motor.set(0);
+            motor.setControl(dutyCycleOut.withOutput(0));
         }
     }
 
     public double getCurrentTicks(){
-        return motor.getEncoder().getPosition() * Constants.NEO_TICKS_PER_REV;
+        return motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV;
     }
 
     public boolean getLimitSwitch() {

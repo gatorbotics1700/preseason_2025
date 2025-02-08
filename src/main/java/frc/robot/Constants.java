@@ -64,19 +64,19 @@ public class Constants {
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
-    public static final double ELEVATOR_GEAR_RATIO = 15.0;
+    public static final double ELEVATOR_GEAR_RATIO = 81.0;
     public static final double ELEVATOR_TICKS_PER_INCH = (KRAKEN_TICKS_PER_REV * ELEVATOR_GEAR_RATIO) / ELEVATOR_SPROCKET_DIAMETER / Math.PI;
     public static final int TOP_LIMIT_SWITCH_PORT = 9;
     public static final int BOTTOM_LIMIT_SWITCH_PORT = 0;
 
     public static final int ALGAE_CAN_ID = 16;
     public static final int ALGAE_PIVOT_CAN_ID = 15;
-    public static final double ALGAE_PIVOT_TICKS_PER_DEGREE = NEO_TICKS_PER_REV * 5 / 360; //42 ticks per revolution for NeoMotor, 5:1 gear ratio
+    public static final double ALGAE_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 5 / 360; //42 ticks per revolution for NeoMotor, 5:1 gear ratio TODO: check values for Kraken motors instead
     public static final int ALGAE_LIMIT_SWITCH_PORT = 5; // TODO: change
 
     public static final int CORAL_CAN_ID = 12;
     public static final int CORAL_PIVOT_CAN_ID = 11;
-    public static final double CORAL_PIVOT_TICKS_PER_DEGREE = NEO_TICKS_PER_REV * 10 / 360; // 42 ticks per revolution for NeoMotor, 10:1 gear ratio
+    public static final double CORAL_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 10 / 360; // 42 ticks per revolution for NeoMotor, 10:1 gear ratio TODO: check values for Kraken motors instead
     public static final int CORAL_LIMIT_SWITCH_PORT = 13;
 
 
