@@ -24,10 +24,10 @@ public class Constants {
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
 
     // dory
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(59.414);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(194.941 + 180);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(7.207);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(242.574);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
@@ -54,7 +54,6 @@ public class Constants {
     public static final int CORAL_SHOOTER_CAN_ID = 30;
     public static final double CORAL_INTAKING_SPEED = -0.2;
     public static final double CORAL_OUTTAKING_SPEED = 0.5; 
-    public static final int SERVO_PWM_PORT = 7;
     public static final double SERVO_ANGLE = 45.0;
 
     public static final double CLIMBING_SPEED = -0.15; 

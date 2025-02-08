@@ -75,8 +75,8 @@ public class RobotContainer {
         //     .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
 
         // //coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
+        new Trigger(controller_two::getXButtonPressed)
+        .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
 
         // //coral stop
         // new Trigger(controller_two::getBButtonPressed)
@@ -84,12 +84,12 @@ public class RobotContainer {
 
 //algae outtaking
 new Trigger(controller_two::getYButtonPressed)
-.onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_OUTTAKING_SPEED));
+.onTrue(new AlgaeCommand(m_algaeSub, -0.5));
 
 //algae intaking
-new Trigger(controller_two::getXButtonPressed)
-.onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_INTAKING_SPEED));
-
+// new Trigger(controller_two::getXButtonPressed)
+// .onTrue(new AlgaeCommand(m_algaeSub, -Constants.CORAL_INTAKING_SPEED));
+// 
 //algae stop
 new Trigger(controller_two::getBButtonPressed)
 .onTrue(new AlgaeCommand(m_algaeSub, 0));
@@ -101,7 +101,7 @@ new Trigger(controller_two::getBButtonPressed)
         
        // elevator button
          new Trigger(controller_two::getAButtonPressed)  
-             .onTrue(new ElevatorCommand(m_elevatorSub, 10));
+             .onTrue(new ElevatorCommand(m_elevatorSub, 20));
 
         // new Trigger(controller_two::getAButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 0));
