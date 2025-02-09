@@ -273,7 +273,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println("Pose:"+getPose());
         updateShuffleboardVariables();
         odometry.update(
             new Rotation2d(Math.toRadians(pigeon.getYaw().getValueAsDouble())),

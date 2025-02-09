@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Score Trough"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "red NW 2 to NE coral station"

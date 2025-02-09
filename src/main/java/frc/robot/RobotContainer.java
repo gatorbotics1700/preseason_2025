@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.commands.LimelightControlCommand;
+import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.TestDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
@@ -21,8 +23,11 @@ public class RobotContainer {
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private final SendableChooser<Command> autoChooser;
 
-
     public RobotContainer() {
+        NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1));
+        NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2));
+        NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3));
+        NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4));
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
 
