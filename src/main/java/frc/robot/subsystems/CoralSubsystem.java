@@ -17,7 +17,7 @@ public class CoralSubsystem extends SubsystemBase {
 
     public CoralSubsystem() {
         motor = new SparkMax(Constants.CORAL_CAN_ID, MotorType.kBrushless);
-        beamBreakSensor = new DigitalInput(7); //TODO: replace with beambreak receiver
+        beamBreakSensor = new DigitalInput(3); //TODO: replace with beambreak receiver
     }
 
     @Override

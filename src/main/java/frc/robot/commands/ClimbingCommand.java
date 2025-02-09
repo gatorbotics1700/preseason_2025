@@ -10,6 +10,7 @@ public class ClimbingCommand extends Command {
     
     private double startTime;
 
+    
     public ClimbingCommand(ClimbingSubsystem climbingSubsystem, double speed) {
         this.climbingSubsystem = climbingSubsystem; 
         this.speed = speed; 
