@@ -10,10 +10,10 @@ import frc.robot.commands.CoralPivotCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.subsystems.AlgaePivotSubsystem;
 import frc.robot.subsystems.AlgaeSubsystem;
-//import frc.robot.commands.CoralShooterCommand;
+import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralPivotSubsystem;
-// import frc.robot.subsystems.CoralShooterSubsystem;
+import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -41,6 +41,7 @@ public class RobotContainer {
     private static final AlgaePivotSubsystem m_algaePivotSub = new AlgaePivotSubsystem();
     private static final CoralSubsystem m_coralSubsystem = new CoralSubsystem();
     private static final AlgaeSubsystem m_algaeSub = new AlgaeSubsystem();
+    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
 
 
@@ -86,29 +87,35 @@ public class RobotContainer {
             // .onTrue(new AlgaeCommand(m_algaeSub, -0.5));
 
         // algae intaking
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
+        // new Trigger(controller_two::getXButtonPressed)
+        //     .onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
 
         //algae stop
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new AlgaeCommand(m_algaeSub, 0));
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new AlgaeCommand(m_algaeSub, 0));
 
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
         // 
 
+        // coral shooter intaking
+        new Trigger(controller_two :: getYButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
 
-        //button to stop intake & outtake or climbing
-        //new Trigger(controller_two::getBButtonPressed)
-            //.onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
+        // coral shooter outtaking
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
+
+        // button to stop intake & outtake or climbing
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
 
-
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 27, 0));
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 27, 0));
         
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // TODO figure out how to use joystick to control elevator 
         // new Trigger(controller_two::getRightStickButton)
