@@ -34,6 +34,9 @@ public class LimelightControlCommand extends Command {
     @Override
     public void execute() {
         // makes sure we are looking at the correct id
+        // System.out.println("pipeline: " + pipeline);
+        // System.out.println("valid target: " + limelightSubsystem.hasValidTarget());
+        // System.out.println("matching: " + targetMatchesPipeline());
         if (limelightSubsystem.hasValidTarget() && targetMatchesPipeline()) { 
             updateDesiredPose();
         } else {

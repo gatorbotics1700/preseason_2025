@@ -43,9 +43,9 @@ public class RobotContainer {
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 6,19
         new Trigger(controller::getBButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 2, controller)); // id 7,18,10,21
-        new Trigger(controller::getBButtonPressed)
+        new Trigger(controller::getXButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller)); // id 8,17
-        new Trigger(controller::getBButtonPressed)
+        new Trigger(controller::getYButtonPressed)
             .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22
 
     autoChooser = AutoBuilder.buildAutoChooser();
