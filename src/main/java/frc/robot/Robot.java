@@ -1,5 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -13,6 +17,12 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer container;
     private ShuffleboardTab visionTesting;
+
+    public Robot() {
+        CameraServer.startAutomaticCapture();
+        CvSink cvSink = CameraServer.getVideo();
+        CvSource outputStream = new CvSource ("Blur", PixelFormat.kMJPEG, 640, 480, 30);
+    }
 
     @Override
     public void robotInit() {

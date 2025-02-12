@@ -73,11 +73,26 @@ public class LimelightControlCommand extends Command {
     }
 
     private boolean targetMatchesPipeline() {
-        if (pipeline == 0) {
-            return limelightSubsystem.getTargetID() == 10;
-        } else if (pipeline == 1) {
-            return limelightSubsystem.getTargetID() == 2;
+        if (pipeline == 1) {
+            return limelightSubsystem.getTargetID() == 6 || limelightSubsystem.getTargetID() == 19;
+        } else if (pipeline == 2) {
+            return limelightSubsystem.getTargetID() == 7 || limelightSubsystem.getTargetID() == 10 ||limelightSubsystem.getTargetID() == 18 || limelightSubsystem.getTargetID() == 21; 
+        } else if (pipeline == 3){
+            return limelightSubsystem.getTargetID() == 8 || limelightSubsystem.getTargetID() == 17; 
+        } else if (pipeline == 4){ 
+            return limelightSubsystem.getTargetID() == 9 || limelightSubsystem.getTargetID() == 12;
+        } else if (pipeline == 5){ 
+            return limelightSubsystem.getTargetID() == 11 || limelightSubsystem.getTargetID() == 20;
+        } else if (pipeline == 6){ 
+            return limelightSubsystem.getTargetID() == 3 || limelightSubsystem.getTargetID() == 16;
+        } else if (pipeline == 7){ 
+            return limelightSubsystem.getTargetID() == 1 || limelightSubsystem.getTargetID() == 2 || limelightSubsystem.getTargetID() == 12 || limelightSubsystem.getTargetID() == 13;
+        }  else if (pipeline == 8){ 
+            return limelightSubsystem.getTargetID() == 4 || limelightSubsystem.getTargetID() == 14;
+        } else if (pipeline == 9){ 
+            return limelightSubsystem.getTargetID() == 5 || limelightSubsystem.getTargetID() == 15;
+        } else{
+            return false;
         }
-        return false;
     }
 }
