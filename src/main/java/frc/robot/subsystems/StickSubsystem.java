@@ -8,12 +8,12 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class AlgaeSubsystem extends SubsystemBase {
+public class StickSubsystem extends SubsystemBase {
     
     private final SparkMax motor;
 
-    public AlgaeSubsystem(){
-        motor = new SparkMax(Constants.ALGAE_CAN_ID, MotorType.kBrushless);
+    public StickSubsystem(){
+        motor = new SparkMax(Constants.STICK_CAN_ID, MotorType.kBrushless);
     }
 
     public void setSpeed(double speed){

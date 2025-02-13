@@ -3,22 +3,20 @@ package frc.robot;
 // import frc.robot.commands.TestDriveCommand;
 import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.TeleopDriveCommand;
-import frc.robot.commands.AlgaePivotCommand;
-import frc.robot.commands.AlgaeCommand;
+import frc.robot.commands.StickPivotCommand;
+import frc.robot.commands.StickCommand;
 import frc.robot.commands.ClimbingCommand;
-import frc.robot.commands.CoralPivotCommand;
 import frc.robot.commands.ElevatorCommand;
-import frc.robot.subsystems.AlgaePivotSubsystem;
-import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.StickPivotSubsystem;
+import frc.robot.subsystems.StickSubsystem;
 import frc.robot.commands.CoralShooterCommand;
 import frc.robot.subsystems.ClimbingSubsystem;
-import frc.robot.subsystems.CoralPivotSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.commands.CoralCommand;
+
+
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -37,10 +35,8 @@ public class RobotContainer {
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
     private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
-    private static final CoralPivotSubsystem m_coralPivotSub = new CoralPivotSubsystem();
-    private static final AlgaePivotSubsystem m_algaePivotSub = new AlgaePivotSubsystem();
-    private static final CoralSubsystem m_coralSubsystem = new CoralSubsystem();
-    private static final AlgaeSubsystem m_algaeSub = new AlgaeSubsystem();
+    private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
+    private static final StickSubsystem m_stickSub = new StickSubsystem();
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
 
@@ -82,20 +78,20 @@ public class RobotContainer {
     //        .onTrue(new CoralPivotCommand(m_coralPivotSub, 30));
 
     
-        // algae outtaking
+        // coral outtaking
         // new Trigger(controller_two::getYButtonPressed)
-            // .onTrue(new AlgaeCommand(m_algaeSub, -0.5));
+            // .onTrue(new StickCommand(m_stickSub, -0.5));
 
-        // algae intaking
+        // coral intaking
         // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new AlgaeCommand(m_algaeSub, Constants.CORAL_INTAKING_SPEED));
+        //     .onTrue(new StickCommand(m_stickSub, Constants.CORAL_INTAKING_SPEED));
 
         //algae stop
         // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new AlgaeCommand(m_algaeSub, 0));
+        //     .onTrue(new StickCommand(m_stickSub, 0));
 
         // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new AlgaePivotCommand(m_algaePivotSub, 30));
+        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
         // 
 
         // coral shooter intaking

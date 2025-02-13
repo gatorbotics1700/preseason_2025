@@ -1,17 +1,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.StickSubsystem;
 
-public class AlgaeCommand extends Command {
+public class StickCommand extends Command {
     
-    private AlgaeSubsystem algaeSubsystem;
+    private StickSubsystem algaeSubsystem;
     
     private final double speed;
     
     private double startTime;
 
-    public AlgaeCommand(AlgaeSubsystem algaeSubsystem, double speed){
+    public StickCommand(StickSubsystem algaeSubsystem, double speed){
         this.algaeSubsystem = algaeSubsystem;
         this.speed = speed;
         addRequirements(algaeSubsystem);
