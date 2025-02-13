@@ -6,18 +6,17 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final double X_OFFSET = 0.2921; // distance from front of robot to limelight in meters
-    private static final double LIMELIGHT_FORWARD_OFFSET = 0.13335;
-    private static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
-    private static final double LIMELIGHT_UP_OFFSET = 0.314325;
+    
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", LIMELIGHT_FORWARD_OFFSET , LIMELIGHT_SIDE_OFFSET, LIMELIGHT_UP_OFFSET, 0.0, 0.0, 0.0);
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", Constants.LIMELIGHT_FORWARD_OFFSET , Constants.LIMELIGHT_SIDE_OFFSET, Constants.LIMELIGHT_UP_OFFSET, 0.0, 0.0, 0.0);
     }
 
     public void turnOnLED() {
