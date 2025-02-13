@@ -124,11 +124,11 @@ public class RobotContainer {
         // new Trigger(controller_two::getXButtonPressed) //outake
         //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
-        new Trigger(controller_two::getRightBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0.2));
+        // new Trigger(controller_two::getRightBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0.2));
 
-        new Trigger(controller_two::getLeftBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0,-0.2));
+        // new Trigger(controller_two::getLeftBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0,-0.2));
 
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();
