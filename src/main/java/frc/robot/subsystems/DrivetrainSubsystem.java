@@ -59,7 +59,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final double ROTATION_kP = 0.02;
     private final double TRANSLATION_MIN_SPEED = 0.15;
     private final double ROTATION_MIN_SPEED = 0.25;
-    private final double DISTANCE_DEADBAND = 0.01;
+    private final double DISTANCE_DEADBAND = 0.05;
     private final double ROTATION_DEADBAND = 2.0;
     private double robotRotation;
 
