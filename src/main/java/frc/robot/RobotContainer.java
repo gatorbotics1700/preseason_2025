@@ -99,7 +99,7 @@ public class RobotContainer {
         // 
 
         // coral shooter intaking
-        new Trigger(controller_two :: getYButtonPressed)
+        new Trigger(controller_two::getYButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
 
         // coral shooter outtaking
@@ -117,9 +117,7 @@ public class RobotContainer {
         // new Trigger(controller_two::getAButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
-        // TODO figure out how to use joystick to control elevator 
-        // new Trigger(controller_two::getRightStickButton)
-        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0.1));
+        // TODO figure out how to use joystick to control elevator
 
 
         // climbing mechanism 
@@ -130,6 +128,11 @@ public class RobotContainer {
         // new Trigger(controller_two::getXButtonPressed) //outake
         //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
+        new Trigger(controller_two::getRightBumperPressed)
+            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0.2));
+
+        new Trigger(controller_two::getLeftBumperPressed)
+            .whileTrue(new ElevatorCommand(m_elevatorSub, 0,-0.2));
 
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();
