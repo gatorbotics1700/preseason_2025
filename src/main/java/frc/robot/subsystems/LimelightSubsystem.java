@@ -11,10 +11,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
     private final double X_OFFSET = 0.2921; // distance from front of robot to limelight in meters
+    private static final double LIMELIGHT_FORWARD_OFFSET = 0.13335;
+    private static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
+    private static final double LIMELIGHT_UP_OFFSET = 0.314325;
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-        LimelightHelpers.setCameraPose_RobotSpace("limelight", 0.13335, -0.30559, 0.314325, 0.0, 0.0, 0.0);
+        LimelightHelpers.setCameraPose_RobotSpace("limelight", LIMELIGHT_FORWARD_OFFSET , LIMELIGHT_SIDE_OFFSET, LIMELIGHT_UP_OFFSET, 0.0, 0.0, 0.0);
     }
 
     public void turnOnLED() {
@@ -91,9 +94,15 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double fieldXDistanceToTag(double robotRotation) { 
+        double limelightToCenterDist = Math.sqrt(LIMELIGHT_SIDE_OFFSET*LIMELIGHT_SIDE_OFFSET + LIMELIGHT_FORWARD_OFFSET*LIMELIGHT_FORWARD_OFFSET);
+        double limelightToCenterAngle = Math.atan(LIMELIGHT_SIDE_OFFSET/LIMELIGHT_FORWARD_OFFSET);
+        double fieldRelativeOffsetAngle = limelightToCenterAngle - Math.toRadians(robotRotation);
+        double xOffset = Math.cos(fieldRelativeOffsetAngle)*limelightToCenterDist;
         double d = distanceToTag()
                 * Math.cos(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
-        d -= (X_OFFSET*Math.signum(d));
+        // double xOffset =
+        //d -= (X_OFFSET*Math.signum(d));
+        d += xOffset;
         return d;
     }
 

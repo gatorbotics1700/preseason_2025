@@ -21,7 +21,7 @@ public class Robot extends TimedRobot {
     public Robot() {
         CameraServer.startAutomaticCapture();
         CvSink cvSink = CameraServer.getVideo();
-        CvSource outputStream = new CvSource ("Blur", PixelFormat.kMJPEG, 640, 480, 30);
+        CvSource outputStream = new CvSource ("Blur", PixelFormat.kMJPEG, 640, 480, 90);
     }
 
     @Override

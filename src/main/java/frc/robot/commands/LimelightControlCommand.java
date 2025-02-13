@@ -51,10 +51,10 @@ public class LimelightControlCommand extends Command {
     @Override
     public boolean isFinished() {
         // Check if either stick on the Xbox controller is moved
-        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.05 ||
-                Math.abs(controller.getLeftY()) > 0.05 ||
-                Math.abs(controller.getRightX()) > 0.05 ||
-                Math.abs(controller.getRightY()) > 0.05;
+        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.1 ||
+                Math.abs(controller.getLeftY()) > 0.1 ||
+                Math.abs(controller.getRightX()) > 0.1 ||
+                Math.abs(controller.getRightY()) > 0.1;
         if (joystickMoved) {
             System.out.println("Joystick moved, ending command.");
             return true;
@@ -67,6 +67,7 @@ public class LimelightControlCommand extends Command {
         currentPose = drivetrainSubsystem.getPose();
         double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
         double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
+        System.out.println("targetX: "+ targetX + ", targetY: " + targetY);
         Rotation2d targetRotation = (currentPose.getRotation()
                 .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw()))); //this is the parallel to tag angle
         pointingToTagAngle = (currentPose.getRotation()
