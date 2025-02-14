@@ -1,31 +1,15 @@
 package frc.com.swervedrivespecialties.swervelib.ctre;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix6.StatusCode;
-
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 
 public final class CtreUtils {
-    private CtreUtils() {
-    }
+    private CtreUtils() {}
 
-    public static boolean checkCtreError(StatusCode errorCode, String message) {
-        if (errorCode != StatusCode.OK) {
-            DriverStation.reportError(String.format("%s: %s", message, errorCode.toString()), false);
-            if (errorCode == StatusCode.RxTimeout || errorCode == StatusCode.CanMessageStale){
-                return true;
-            }
+    public static void checkCtreError(StatusCode code, String message) {
+        if (RobotBase.isReal() && code != StatusCode.OK) {
+            DriverStation.reportError(String.format("%s: %s", message, code.toString()), false);
         }
-        return false;
-    }
-
-    public static boolean checkCtreError(ErrorCode errorCode, String message) {
-        if (errorCode != ErrorCode.OK) {
-            DriverStation.reportError(String.format("%s: %s", message, errorCode.toString()), false);
-            if (errorCode == ErrorCode.CAN_MSG_NOT_FOUND || errorCode == ErrorCode.CAN_MSG_STALE){
-                return true;
-            }
-        }
-        return false;
     }
 }
