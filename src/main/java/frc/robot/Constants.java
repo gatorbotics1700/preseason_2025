@@ -39,9 +39,12 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.3222625;
-    public static final double LIMELIGHT_SIDE_OFFSET = -0.1524;
-    public static final double LIMELIGHT_UP_OFFSET = 0.56356;
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
+    public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
+    public static final double LIMELIGHT_UP_OFFSET = 0.200025;
+    public static final double LIMELIGHT_YAW_OFFSET = 2.0;
+    public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
+    public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
