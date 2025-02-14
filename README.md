@@ -1,6 +1,3 @@
-This is the branch to merge new changes into aka the working branch
-
-
 # democat's swerve-lib
 A fork of Swerve Drive Specialties's swerve library, updated for 2023 and 2024 code bases. It fixes several bugs and adds convenience features.
 ## Installation
