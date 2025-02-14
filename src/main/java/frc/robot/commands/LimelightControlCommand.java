@@ -57,6 +57,7 @@ public class LimelightControlCommand extends Command {
                 Math.abs(controller.getRightY()) > 0.1;
         if (joystickMoved) {
             System.out.println("Joystick moved, ending command.");
+            // TODO nullify the pose
             return true;
         }
         return false;
