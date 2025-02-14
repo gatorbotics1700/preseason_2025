@@ -94,41 +94,41 @@ public class RobotContainer {
         //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
         // 
 
-        // coral shooter intaking
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
+        // // coral shooter intaking
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
 
-        // coral shooter outtaking
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
+        // // coral shooter outtaking
+        // new Trigger(controller_two::getXButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
 
-        // button to stop intake & outtake or climbing
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
+        // // button to stop intake & outtake or climbing
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
 
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 27, 0));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 36, 0));
         
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // TODO figure out how to use joystick to control elevator
 
 
         // climbing mechanism 
         // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); //intakr
+        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
 
         // reverse climbing
         // new Trigger(controller_two::getXButtonPressed) //outake
         //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         new Trigger(controller_two::getRightBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0.2)); // replace the height with the MAXIMUM height of the elevator
+            .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
 
         new Trigger(controller_two::getLeftBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, -0.2));
+            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // Auto chooser setup
         // autoChooser = AutoBuilder.buildAutoChooser();

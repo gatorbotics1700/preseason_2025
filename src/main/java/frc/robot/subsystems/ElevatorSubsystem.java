@@ -27,7 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final PIDController elevatorPIDController;
 
     // TODO: test and change these values
-    private static final double kP = 0.0005;
+    private static final double kP = 0.00005;
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
