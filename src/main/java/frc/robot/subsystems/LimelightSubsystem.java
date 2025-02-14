@@ -111,7 +111,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double fieldYDistanceToTag(double robotRotation) { // TODO add some sort of offset so that it lines up the way we want
-        double d = (distanceToTag() - X_OFFSET)
+        double d = (distanceToTag())
                 * Math.sin(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         return d;
     }
