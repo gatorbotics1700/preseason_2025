@@ -127,6 +127,9 @@ public class LimelightSubsystem extends SubsystemBase {
                 * Math.cos(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         double fieldXOffset = Math.abs(Math.cos(Math.toRadians(robotRotation))*X_OFFSET);
         d -= Math.signum(d) * fieldXOffset;
+        double centerXOffset = Math.sqrt(X_OFFSET*X_OFFSET + Constants.LIMELIGHT_SIDE_OFFSET*Constants.LIMELIGHT_SIDE_OFFSET) * Math.cos(Math.abs(robotRotation - Math.atan(Constants.LIMELIGHT_SIDE_OFFSET/X_OFFSET)));
+        d -= Math.signum(d) * centerXOffset;
+
         // double xOffset =
       //  d -= (X_OFFSET*Math.signum(d));
       //  d += xOffset;

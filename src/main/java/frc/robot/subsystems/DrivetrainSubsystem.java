@@ -284,7 +284,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             }
         );
         
-        /*boolean doRejectUpdate = false;
+        boolean doRejectUpdate = false;
 
         LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
@@ -297,7 +297,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         if(!doRejectUpdate){
             odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
             odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-        }*/
+        }
 
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
