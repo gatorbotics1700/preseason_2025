@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double X_OFFSET = 0.2921; // distance from front of robot to limelight in meters
+    private final double X_OFFSET = 0.27; // distance from front of robot to limelight in meters
     
 
     public LimelightSubsystem() {
@@ -81,10 +81,10 @@ public class LimelightSubsystem extends SubsystemBase {
         double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
         // returns Z offset to apriltag, but in the camera relative coordinate system
         double TZ = targetPose[2]; 
-       // TZ += LIMELIGHT_FORWARD_OFFSET;
+        TZ -= X_OFFSET;
         // see above but it's y
         double TY = targetPose[1];
-        //TY += LIMELIGHT_SIDE_OFFSET;
+        TY += Constants.LIMELIGHT_SIDE_OFFSET;
         return Math.sqrt((TZ * TZ) + (TY * TY)); // distance from camera to apriltag as the crow flies
     }
 
@@ -102,7 +102,7 @@ public class LimelightSubsystem extends SubsystemBase {
         double d = distanceToTag()
                 * Math.cos(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         // double xOffset =
-        d -= (X_OFFSET*Math.signum(d));
+      //  d -= (X_OFFSET*Math.signum(d));
       //  d += xOffset;
         return d;
     }
