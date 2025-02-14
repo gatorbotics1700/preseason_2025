@@ -77,19 +77,41 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
     }
 
-    public double distanceToTag() {
-        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+    private double getTZ(){
         // returns Z offset to apriltag, but in the camera relative coordinate system
+        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
         double TZ = targetPose[2]; 
-        TZ -= X_OFFSET;
+        System.out.println("TZ: " + TZ);
+        //offset this so it's from the edge of the bumper and not the limelight
+       // TZ -= Math.signum(TZ)*X_OFFSET;
+        System.out.println("xoffset: " + X_OFFSET);
+        
+        return TZ;
+    }
+    
+    private double getTY(){
+        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
         // see above but it's y
         double TY = targetPose[1];
-        TY += Constants.LIMELIGHT_SIDE_OFFSET;
+        System.out.println("TY: " + TY);
+        //offset so its from center of edge of bumper
+        //TY -= Constants.LIMELIGHT_SIDE_OFFSET;
+       
+        return TY;
+    }
+
+    public double distanceToTag() {
+        double TZ = getTZ();
+        System.out.println("TZ with offset: " + TZ);
+        double TY = getTY();
+        System.out.println("TY with offset: " + TY);
+        
+        System.out.println("DISTANCE TO TAG: "+  Math.sqrt((TZ * TZ) + (TY * TY)));
         return Math.sqrt((TZ * TZ) + (TY * TY)); // distance from camera to apriltag as the crow flies
     }
 
     public double fieldYDistanceToTag(double robotRotation) { // TODO add some sort of offset so that it lines up the way we want
-        double d = distanceToTag()
+        double d = (distanceToTag() - X_OFFSET)
                 * Math.sin(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         return d;
     }
@@ -99,7 +121,7 @@ public class LimelightSubsystem extends SubsystemBase {
         // double limelightToCenterAngle = Math.atan(LIMELIGHT_SIDE_OFFSET/LIMELIGHT_FORWARD_OFFSET);
         // double fieldRelativeOffsetAngle = limelightToCenterAngle - Math.toRadians(robotRotation);
         // double xOffset = Math.cos(fieldRelativeOffsetAngle)*limelightToCenterDist;
-        double d = distanceToTag()
+        double d = (distanceToTag() - X_OFFSET)
                 * Math.cos(Math.toRadians((robotRotation) - getHorizontalOffsetAngle()));
         // double xOffset =
       //  d -= (X_OFFSET*Math.signum(d));

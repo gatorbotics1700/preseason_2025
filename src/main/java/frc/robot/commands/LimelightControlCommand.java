@@ -69,13 +69,13 @@ public class LimelightControlCommand extends Command {
         currentPose = drivetrainSubsystem.getPose();
         double targetX = currentPose.getX() + limelightSubsystem.fieldXDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
         double targetY = currentPose.getY() + limelightSubsystem.fieldYDistanceToTag(drivetrainSubsystem.getRobotRotationDegrees());
-        System.out.println("targetX: "+ targetX + ", targetY: " + targetY);
+    //    System.out.println("targetX: "+ targetX + ", targetY: " + targetY);
         Rotation2d targetRotation = (currentPose.getRotation()
                 .minus(Rotation2d.fromDegrees(limelightSubsystem.getTagYaw()))); //this is the parallel to tag angle
         pointingToTagAngle = (currentPose.getRotation()
                 .minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
         desiredPose = new Pose2d(targetX, targetY, targetRotation);
-        System.out.println("targetRotation" + targetRotation);
+        //System.out.println("targetRotation" + targetRotation);
     }
 
     private boolean targetMatchesPipeline() {
