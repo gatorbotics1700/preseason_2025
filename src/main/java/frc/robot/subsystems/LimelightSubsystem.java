@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
@@ -72,6 +73,36 @@ public class LimelightSubsystem extends SubsystemBase {
         Pose2d newPose = new Pose2d(tx,ty, new Rotation2d(Math.toRadians(yaw)));
         return newPose;
     } 
+    
+
+    /**
+     * Calculates a target pose for the robot based on AprilTag detection from the Limelight.
+     * Uses vision data to determine the relative position and orientation to an AprilTag,
+     * then transforms this into field coordinates for robot positioning.
+     *
+     * @param currentPose The current Pose2d of the robot in field coordinates
+     * @return A Pose2d representing the target position and rotation in field coordinates,
+     *         calculated using the detected AprilTag's position and the robot's current pose.
+     *         The returned pose includes:
+     *         - X/Y coordinates offset from current position based on tag distance
+     *         - Rotation aligned parallel to the detected tag
+     *         Returns null if no AprilTag is detected or vision data is invalid.
+     */
+    public Pose2d aprilTagPose(Pose2d currentPose) {
+        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        double TZ = targetPose[2];
+        TZ -= X_OFFSET; 
+        double TY = targetPose[1];
+        TY += Constants.LIMELIGHT_SIDE_OFFSET; //TODO: check sign on this
+        double yaw = targetPose[4];
+        return convertToFieldSpace(new Pose2d(TZ, TY, new Rotation2d(Math.toRadians(yaw))), currentPose);
+    }
+
+    Pose2d convertToFieldSpace(Pose2d cameraSpacePose, Pose2d robotPose) {
+        Transform2d transform = new Transform2d(cameraSpacePose.getTranslation(), cameraSpacePose.getRotation()); //defines a transform
+        Pose2d fieldPose = robotPose.transformBy(transform); //applies the transform to the pose
+        return fieldPose;
+    }
 
     public void setPipeline(int pipelineID) {
         limelightTable.getEntry("pipeline").setNumber(pipelineID); // Set the pipeline ID
