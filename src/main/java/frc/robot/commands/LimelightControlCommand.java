@@ -30,11 +30,8 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-<<<<<<< HEAD
-=======
         Timer.delay(0.2); //added a
         System.out.println("Pipeline set to: " + pipeline);
->>>>>>> mech
     }
 
     @Override
