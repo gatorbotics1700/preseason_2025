@@ -44,7 +44,9 @@ public class LimelightControlCommand extends Command {
         }
 
         if (desiredPose != null) {
-            drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+            // drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+            drivetrainSubsystem.driveToPose(desiredPose);
+
         }
     }
 
@@ -76,7 +78,7 @@ public class LimelightControlCommand extends Command {
     //             .minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
     //     desiredPose = new Pose2d(targetX, targetY, targetRotation);
     //     //System.out.println("targetRotation" + targetRotation);
-        desiredPose = limelightSubsystem.aprilTagPose(drivetrainSubsystem.getPose());
+        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose());
     }
 
     private boolean targetMatchesPipeline() {

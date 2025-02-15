@@ -80,7 +80,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * Uses vision data to determine the relative position and orientation to an AprilTag,
      * then transforms this into field coordinates for robot positioning.
      *
-     * @param currentPose The current Pose2d of the robot in field coordinates
+     * @param robotPoseInFieldSpace The current Pose2d of the robot in field coordinates
      * @return A Pose2d representing the target position and rotation in field coordinates,
      *         calculated using the detected AprilTag's position and the robot's current pose.
      *         The returned pose includes:
@@ -88,19 +88,35 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPose(Pose2d currentPose) {
-        double[] targetPose = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
-        double TZ = targetPose[2];
-        TZ -= X_OFFSET; 
-        double TY = targetPose[1];
-        TY += Constants.LIMELIGHT_SIDE_OFFSET; //TODO: check sign on this
-        double yaw = targetPose[4];
-        return convertToFieldSpace(new Pose2d(TZ, TY, new Rotation2d(Math.toRadians(yaw))), currentPose);
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace) {
+        // distance to the camera from the tag (in camera's coordinate space)
+        double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+        double xOffsetToFrontOfRobot = aprilTagPoseInRobotSpace.getX() - X_OFFSET;
+        Pose2d finalRobotSpacePose = new Pose2d(xOffsetToFrontOfRobot, aprilTagPoseInRobotSpace.getY(), aprilTagPoseInRobotSpace.getRotation());
+        return convertToFieldSpace(finalRobotSpacePose, robotPoseInFieldSpace);
     }
 
-    Pose2d convertToFieldSpace(Pose2d cameraSpacePose, Pose2d robotPose) {
-        Transform2d transform = new Transform2d(cameraSpacePose.getTranslation(), cameraSpacePose.getRotation()); //defines a transform
-        Pose2d fieldPose = robotPose.transformBy(transform); //applies the transform to the pose
+    Pose2d arrayToPose(double[] array){
+        // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
+        return new Pose2d(array[2], array[0], new Rotation2d(Math.toRadians(-array[4])));
+    }
+
+    Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){
+        double offsetX = poseInCameraSpace.getX() + Constants.LIMELIGHT_FORWARD_OFFSET;
+        double offsetY = -poseInCameraSpace.getY() - Constants.LIMELIGHT_SIDE_OFFSET;
+        Rotation2d yaw = poseInCameraSpace.getRotation();
+        return new Pose2d(offsetX, offsetY, yaw);
+    }
+
+    //
+    Pose2d convertToFieldSpace(Pose2d targetPoseInRobotSpace, Pose2d robotPoseInFieldSpace) {
+        System.out.println("Robot field space rotation: " + robotPoseInFieldSpace.getRotation());
+        Transform2d transform = new Transform2d(targetPoseInRobotSpace.getTranslation(), targetPoseInRobotSpace.getRotation()); //defines a transform
+        System.out.println("target camera space rotation: " + targetPoseInRobotSpace.getRotation());
+        Pose2d fieldPose = robotPoseInFieldSpace.transformBy(transform); //applies the transform to the pose
+        System.out.println("Robot field space transformed rotation: " + fieldPose.getRotation());
         return fieldPose;
     }
 

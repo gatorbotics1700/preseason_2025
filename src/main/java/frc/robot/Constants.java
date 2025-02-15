@@ -28,7 +28,7 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.13335;
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.13335; //limelight x offset from center of robot
     public static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
     public static final double LIMELIGHT_UP_OFFSET = 0.314325;
     public static final double LIMELIGHT_YAW_OFFSET = 0.0;
