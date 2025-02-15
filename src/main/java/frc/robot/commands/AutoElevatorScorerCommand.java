@@ -22,25 +22,25 @@ public class AutoElevatorScorerCommand extends Command{
     public void execute(){
         if(level == 1){
             new ElevatorCommand(elevatorSubsystem, Constants.ELEVATOR_LEVEL_ONE, 0); 
-            new StickCommand(stickSubsystem, 0.2); 
+            new StickCommand(stickSubsystem, Constants.STICK_SPEED); 
             new StickPivotCommand(stickPivotSubsystem,  Constants.STICK_PIVOT_SHOOTING_ANGLE); 
             System.out.println("level 1!");
             
         } else if(level == 2){
             new ElevatorCommand(elevatorSubsystem, Constants.ELEVATOR_LEVEL_TWO, 0); 
-            new StickCommand(stickSubsystem, 0.2); 
+            new StickCommand(stickSubsystem, Constants.STICK_SPEED); 
             new StickPivotCommand(stickPivotSubsystem,  Constants.STICK_PIVOT_SHOOTING_ANGLE); 
             System.out.println("level 2!");
 
         } else if(level == 3){
             new ElevatorCommand(elevatorSubsystem, Constants.ELEVATOR_LEVEL_THREE, 0); 
-            new StickCommand(stickSubsystem, 0.2); 
+            new StickCommand(stickSubsystem, Constants.STICK_SPEED); 
             new StickPivotCommand(stickPivotSubsystem,  Constants.STICK_PIVOT_SHOOTING_ANGLE); 
             System.out.println("level 3!");
 
         } else if(level == 4){
             new ElevatorCommand(elevatorSubsystem, Constants.ELEVATOR_LEVEL_FOUR, 0); 
-            new StickCommand(stickSubsystem, 0.2); 
+            new StickCommand(stickSubsystem, Constants.STICK_SPEED); 
             new StickPivotCommand(stickPivotSubsystem,  Constants.STICK_PIVOT_SHOOTING_ANGLE); 
             System.out.println("level 4!");
         }

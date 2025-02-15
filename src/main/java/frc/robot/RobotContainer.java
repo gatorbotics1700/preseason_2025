@@ -44,10 +44,12 @@ public class RobotContainer {
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2, m_elevatorSub));
-        NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub));
-        NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub));
+        NamedCommands.registerCommand("Score Trough", ScoreCommands.elevatorShooter(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        NamedCommands.registerCommand("Score L2", ScoreCommands.elevatorShooter(2, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        NamedCommands.registerCommand("Score L3", ScoreCommands.elevatorShooter(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        NamedCommands.registerCommand("Score L4", ScoreCommands.elevatorShooter(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.coralShooter(m_coralShooterSub));
+
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
 

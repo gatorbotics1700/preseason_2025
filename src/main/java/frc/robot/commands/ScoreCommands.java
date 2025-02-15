@@ -16,9 +16,9 @@ public class ScoreCommands{
         return autoElevatorScorerCommand;
     }
 
-    public static Command coralShooter(int level, CoralShooterSubsystem m_coralShooterSub){
+    public static Command coralShooter(CoralShooterSubsystem m_coralShooterSub){
             System.out.println("shooting!");
-            CoralShooterCommand coralShooterCommand = new CoralShooterCommand(m_coralShooterSub,  0.2);
+            CoralShooterCommand coralShooterCommand = new CoralShooterCommand(m_coralShooterSub,  Constants.CORAL_OUTTAKING_SPEED);
             return coralShooterCommand; //TODO: Change speed
     }
 }
