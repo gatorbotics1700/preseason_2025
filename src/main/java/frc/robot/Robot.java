@@ -3,6 +3,10 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+<<<<<<< HEAD
+=======
+import edu.wpi.first.cscore.UsbCamera;
+>>>>>>> mech
 import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -11,18 +15,30 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+<<<<<<< HEAD
 import frc.robot.subsystems.DrivetrainSubsystem;
+=======
+import edu.wpi.first.cscore.MjpegServer;
+
+>>>>>>> mech
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer container;
+<<<<<<< HEAD
     private ShuffleboardTab visionTesting;
 
+=======
+    
+>>>>>>> mech
     public Robot() {
         CameraServer.startAutomaticCapture();
         CvSink cvSink = CameraServer.getVideo();
         CvSource outputStream = new CvSource ("Blur", PixelFormat.kMJPEG, 640, 480, 90);
+<<<<<<< HEAD
 
+=======
+>>>>>>> mech
     }
 
     @Override
@@ -48,11 +64,19 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.schedule();
         }
 
-    }
+    }   
 
     @Override
     public void teleopInit() {
+<<<<<<< HEAD
         container.setDefaultTeleopCommand();
+=======
+        // This makes sure that the autonomous stops running when teleop starts
+        // if (m_autonomousCommand != null) {
+        //     m_autonomousCommand.cancel();
+        // }
+        // container.setDefaultTeleopCommand();
+>>>>>>> mech
     }
 
     @Override
