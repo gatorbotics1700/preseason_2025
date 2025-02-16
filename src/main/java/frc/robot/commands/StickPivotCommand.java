@@ -22,6 +22,7 @@ public class StickPivotCommand extends Command {
     public void execute(){
         stickPivotSubsystem.setPosition(desiredTicks);
         System.out.println("CURRENT ANGLE: " + (stickPivotSubsystem.getCurrentTicks() / Constants.STICK_PIVOT_TICKS_PER_DEGREE) + " degrees");
+        System.out.println("DESIRED ANGLE: " + desiredTicks / Constants.STICK_PIVOT_TICKS_PER_DEGREE);
     }
 
     @Override

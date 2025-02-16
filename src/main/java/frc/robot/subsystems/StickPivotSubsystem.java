@@ -28,6 +28,7 @@ public class StickPivotSubsystem extends SubsystemBase {
 
     public StickPivotSubsystem(){
         motor = new TalonFX(Constants.STICK_PIVOT_CAN_ID);
+        motor.setNeutralMode(NeutralModeValue.Brake); //TODO: make sure brake mode works
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.STICK_LIMIT_SWITCH_PORT);
     }
@@ -41,7 +42,8 @@ public class StickPivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
-            motor.setControl(dutyCycleOut.withOutput(output));
+            System.out.println("OUTPUT: " + output/10);
+            motor.setControl(dutyCycleOut.withOutput(output/10));
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
             motor.setControl(dutyCycleOut.withOutput(0));
