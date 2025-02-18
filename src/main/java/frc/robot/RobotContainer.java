@@ -107,11 +107,11 @@ public class RobotContainer {
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
 
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 36, 0));
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 30, 0));
         
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        new Trigger(controller_two::getYButtonPressed)
+            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // TODO figure out how to use joystick to control elevator
 
@@ -131,13 +131,13 @@ public class RobotContainer {
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // stick pivot go to 45 deg
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new StickPivotCommand(m_stickPivotSub, 45)); //TODO: figure out angles
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 20)); //TODO: figure out angles
         
 
-        //stick pivot go back down
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new StickPivotCommand(m_stickPivotSub, 0)); //TODO: figure out angles
+        // //stick pivot go back down
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 0)); //TODO: figure out angles
 
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new StickCommand(m_stickSub, 0.5));

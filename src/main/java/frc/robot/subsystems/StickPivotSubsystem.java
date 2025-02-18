@@ -21,7 +21,7 @@ public class StickPivotSubsystem extends SubsystemBase {
 
     private static final double kP = 0.005; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
-    private static final double kD = 0.0; // TODO: change this value
+    private static final double kD = 0.0001; // TODO: change this value
 
     private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
 
@@ -51,6 +51,7 @@ public class StickPivotSubsystem extends SubsystemBase {
     }
 
     public double degreesToTicks(double desiredAngle) {
+        // System.out.println("*******" + desiredAngle + " degrees to ticks: " + desiredAngle * Constants.STICK_PIVOT_TICKS_PER_DEGREE);
         return desiredAngle * Constants.STICK_PIVOT_TICKS_PER_DEGREE;
     }
 
