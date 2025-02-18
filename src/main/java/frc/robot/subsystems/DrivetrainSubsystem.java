@@ -295,7 +295,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             doRejectUpdate = true;
         }
         if(!doRejectUpdate){
-            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 30));
             odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
         }
 
