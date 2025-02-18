@@ -67,7 +67,7 @@ public class CoralShooterCommand extends Command {
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if outtaking
-            if(System.currentTimeMillis() - startTime > 5000){
+            if(System.currentTimeMillis() - startTime > 2500){
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;
