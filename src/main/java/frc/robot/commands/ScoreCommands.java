@@ -48,8 +48,8 @@ public class ScoreCommands{
     public static Command LevelFour(ElevatorSubsystem elevatorSubsystem, StickSubsystem stickSubsystem, StickPivotSubsystem stickPivotSubsystem){
         System.out.println("level 4!");
         return new ElevatorCommand(elevatorSubsystem, Constants.ELEVATOR_LEVEL_FOUR, 0)
-        .alongWith(new StickPivotCommand(stickPivotSubsystem, Constants.STICK_PIVOT_SHOOTING_ANGLE)
-        .andThen(new StickCommand(stickSubsystem, Constants.STICK_SPEED)));
+        // .alongWith(new StickPivotCommand(stickPivotSubsystem, Constants.STICK_PIVOT_SHOOTING_ANGLE)
+        .andThen(new StickCommand(stickSubsystem, Constants.STICK_SPEED));
     }
 
 
