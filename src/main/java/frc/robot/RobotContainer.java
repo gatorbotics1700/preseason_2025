@@ -18,8 +18,6 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 
-
-
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,6 +47,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
         NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
         NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
+        NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
@@ -60,8 +59,8 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-        new Trigger(controller::getAButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.6));
+        // new Trigger(controller::getAButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.6));
 
         //pipeline buttons
         // new Trigger(controller::getAButtonPressed)
@@ -81,6 +80,8 @@ public class RobotContainer {
         new Trigger(controller_two::getLeftBumperPressed)
             .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
+        new Trigger(controller::getAButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
     autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);

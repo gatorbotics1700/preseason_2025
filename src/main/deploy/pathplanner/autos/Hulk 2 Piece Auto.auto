@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hulk red mid to w 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Coral Shooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hulk red W 1 to NE to coral station"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Coral Shooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Hulk red NE coral station to W 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Coral Shooter"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

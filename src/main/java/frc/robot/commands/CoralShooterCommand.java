@@ -58,9 +58,12 @@ public class CoralShooterCommand extends Command {
         System.out.println("Milliseconds passed: " +  timePassed);  
         
         if(speed > 0){ // if intaking
-            if(System.currentTimeMillis() - startTime > 10000){
+            if(System.currentTimeMillis() - startTime > 5000){
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
+                return true;
+            }else if(coralShooterSubsystem.getMotor2StatorCurrent()>coralShooterSubsystem.INTAKING_CURRENT_LIMIT){
+                coralShooterSubsystem.setSpeed(0);
                 return true;
             }
         } else if(speed == 0){
