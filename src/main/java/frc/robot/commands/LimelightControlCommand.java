@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -30,8 +29,6 @@ public class LimelightControlCommand extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setPipeline(pipeline);
-        Timer.delay(0.2); //added a
-        System.out.println("Pipeline set to: " + pipeline);
     }
 
     @Override
@@ -47,7 +44,9 @@ public class LimelightControlCommand extends Command {
         }
 
         if (desiredPose != null) {
-            drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+            // drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
+            drivetrainSubsystem.driveToPose(desiredPose);
+
         }
     }
 
@@ -79,7 +78,7 @@ public class LimelightControlCommand extends Command {
     //             .minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())));
     //     desiredPose = new Pose2d(targetX, targetY, targetRotation);
     //     //System.out.println("targetRotation" + targetRotation);
-        desiredPose = limelightSubsystem.aprilTagPose(drivetrainSubsystem.getPose());
+        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose());
     }
 
     private boolean targetMatchesPipeline() {
