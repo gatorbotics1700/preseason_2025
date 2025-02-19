@@ -78,7 +78,7 @@ public class Constants {
     // for the old coral shooter mechanism
     public static final int CORAL_SHOOTER_CAN_ID = 30;
     public static final double CORAL_INTAKING_SPEED = 0.25;
-    public static final double CORAL_OUTTAKING_SPEED = -0.75; 
+    public static final double CORAL_OUTTAKING_SPEED = -0.74; 
     public static final double SERVO_ANGLE = 45.0;
 
     public static final double CLIMBING_SPEED = -0.15; 

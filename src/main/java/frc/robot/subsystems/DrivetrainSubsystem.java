@@ -160,7 +160,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 this::getRobotRelativeSpeeds,
                 this::driveRobotRelative,
                 new PPHolonomicDriveController(
-                        new PIDConstants(5, 0, 0.05),
+                        new PIDConstants(5, 0, 0.06),
                         new PIDConstants(10, 0, 0.01)
                 // MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
                 // 0.449072
