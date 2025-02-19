@@ -12,8 +12,8 @@ public class LimelightSubsystemTest {
     @Test
     public void testConvertToFieldSpaceAtOrigin() {
         final Pose2d robotPose = new Pose2d(0, 0, new Rotation2d(0));
-        final Pose2d cameraSpacePose = new Pose2d(2, 1, new Rotation2d(Math.PI/4));
-        final Pose2d result = limelight.convertToFieldSpace(cameraSpacePose, robotPose);
+        final double[] cameraSpacePose = {0,0,0,0,0,0};
+        final Pose2d result = limelight.aprilTagPoseInFieldSpace(robotPose, cameraSpacePose);
         
         assertAll("Robot at origin, facing positive X",
             () -> assertEquals(2.0, result.getX(), 0.01, "X coordinate should match"),

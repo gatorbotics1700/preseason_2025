@@ -99,6 +99,18 @@ public class LimelightSubsystem extends SubsystemBase {
         return convertToFieldSpace(finalRobotSpacePose, robotPoseInFieldSpace);
     }
 
+    //version to be used in the test file so that we can feed it fake apriltag data
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace,  double[] aprilTagArrayInCameraSpace) {
+        // distance to the camera from the tag (in camera's coordinate space)
+        //double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
+        aprilTagArrayInCameraSpace[2] -= X_OFFSET;
+        Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+      //  double xOffsetToFrontOfRobot = aprilTagPoseInRobotSpace.getX() - X_OFFSET;
+        Pose2d finalRobotSpacePose = new Pose2d(aprilTagPoseInRobotSpace.getX()/*xOffsetToFrontOfRobot*/, aprilTagPoseInRobotSpace.getY(), aprilTagPoseInRobotSpace.getRotation());
+        return convertToFieldSpace(finalRobotSpacePose, robotPoseInFieldSpace);
+    }
+
     Pose2d arrayToPose(double[] array){
         // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
         return new Pose2d(array[2], array[0], new Rotation2d(Math.toRadians(-array[4])));
