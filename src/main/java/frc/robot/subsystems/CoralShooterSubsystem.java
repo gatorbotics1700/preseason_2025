@@ -27,7 +27,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("motor two current",  motor2.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("motor two current",  motor.getStatorCurrent().getValueAsDouble());
     }
 
     public void setSpeed(double speed){
@@ -38,6 +38,10 @@ public class CoralShooterSubsystem extends SubsystemBase{
 
     public double getMotor2StatorCurrent(){
         return motor2.getStatorCurrent().getValueAsDouble();
+    }
+
+    public double getMotorStatorCurrent(){
+        return motor.getStatorCurrent().getValueAsDouble();
     }
 
     // public boolean isBeamBroken() {

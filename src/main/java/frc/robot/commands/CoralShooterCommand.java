@@ -5,6 +5,7 @@ public class CoralShooterCommand extends Command {
     private CoralShooterSubsystem coralShooterSubsystem;
     private final double speed;  
     private double startTime;
+    private boolean shootingCurrentPeaked; 
     
     public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed) {
         this.coralShooterSubsystem = coralShooterSubsystem; 
@@ -73,7 +74,14 @@ public class CoralShooterCommand extends Command {
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;
-            } 
+            }else if(coralShooterSubsystem.getMotorStatorCurrent()>3.8){
+                shootingCurrentPeaked = true;
+                System.out.println("SHOOTING CURRENT PEAKED" + shootingCurrentPeaked);
+            }else if(shootingCurrentPeaked && coralShooterSubsystem.getMotorStatorCurrent()<2.5){
+                coralShooterSubsystem.setSpeed(0);
+                shootingCurrentPeaked = false;
+                return true;
+            }
         }
         return false;
     }
