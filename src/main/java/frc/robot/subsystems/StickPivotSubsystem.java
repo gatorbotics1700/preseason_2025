@@ -23,7 +23,7 @@ public class StickPivotSubsystem extends SubsystemBase {
     private static final double kI = 0.0; // TODO: change this value
     private static final double kD = 0.0001; // TODO: change this value
 
-    private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
+    private final double DEADBAND = degreesToTicks(3); //in ticks TODO: test and change
 
 
     public StickPivotSubsystem(){
@@ -42,8 +42,8 @@ public class StickPivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
-            System.out.println("OUTPUT: " + output/10);
-            motor.setControl(dutyCycleOut.withOutput(output/10));
+            System.out.println("OUTPUT: " + output/20);
+            motor.setControl(dutyCycleOut.withOutput(output/20));
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
             motor.setControl(dutyCycleOut.withOutput(0));

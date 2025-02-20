@@ -14,7 +14,7 @@ public class StickPivotCommand extends Command {
         this.stickPivotSubsystem = stickPivotSubsystem;
         this.angle = angle;
         desiredTicks = stickPivotSubsystem.degreesToTicks(angle);
-        DEADBAND = stickPivotSubsystem.degreesToTicks(5);
+        DEADBAND = stickPivotSubsystem.degreesToTicks(3);
         addRequirements(stickPivotSubsystem);
     }
 
