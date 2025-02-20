@@ -122,7 +122,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){
         double offsetX = poseInCameraSpace.getX() + Constants.LIMELIGHT_FORWARD_OFFSET;
-        double offsetY = -(poseInCameraSpace.getY() - Constants.LIMELIGHT_SIDE_OFFSET);
+        double offsetY = (poseInCameraSpace.getY() - Constants.LIMELIGHT_SIDE_OFFSET);
         Rotation2d yaw = poseInCameraSpace.getRotation();
         System.out.println(offsetX + ", " + offsetY + ", " + yaw);
         return new Pose2d(offsetX, offsetY, yaw);
