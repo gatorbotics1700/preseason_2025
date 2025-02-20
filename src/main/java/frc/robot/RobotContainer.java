@@ -59,8 +59,8 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-        new Trigger(controller::getAButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.74));
+        // new Trigger(controller::getAButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.74));
 
         //pipeline buttons
         // new Trigger(controller::getAButtonPressed)
@@ -80,8 +80,8 @@ public class RobotContainer {
         new Trigger(controller_two::getLeftBumperPressed)
             .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
-        new Trigger(controller::getBButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+        // new Trigger(controller::getBButtonPressed)
+        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
     autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);

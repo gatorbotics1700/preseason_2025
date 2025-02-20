@@ -14,7 +14,7 @@ public class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
-    // hulk
+    //hulk
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
@@ -43,19 +43,20 @@ public class Constants {
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
 
     // dory
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
-    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
-    // public static final String CANIVORE_BUS_NAME = "";
-    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
-    // public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
-    // public static final double LIMELIGHT_UP_OFFSET = 0.200025;
-    // public static final double LIMELIGHT_YAW_OFFSET = 2.0;
-    // public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
-    // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
-
+    /* 
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
+    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    public static final String CANIVORE_BUS_NAME = "";
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
+    public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
+    public static final double LIMELIGHT_UP_OFFSET = 0.200025;
+    public static final double LIMELIGHT_YAW_OFFSET = 2.0;
+    public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
+    public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+*/
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 2;
@@ -98,7 +99,7 @@ public class Constants {
 
     public static final int STICK_CAN_ID = 16;
     public static final int STICK_PIVOT_CAN_ID = 32;
-    public static final double STICK_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 5 / 360; //42 ticks per revolution for NeoMotor, 5:1 gear ratio TODO: check values for Kraken motors instead
+    public static final double STICK_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 75 / 360; //42 ticks per revolution for NeoMotor, 5:1 gear ratio TODO: check values for Kraken motors instead
     public static final int STICK_LIMIT_SWITCH_PORT = 5; // TODO: change
     public static final double STICK_PIVOT_SHOOTING_ANGLE = 30.0; //TODO: fill in
     public static final double STICK_SPEED = 0.2;
