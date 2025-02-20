@@ -7,7 +7,6 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import frc.com.swervedrivespecialties.swervelib.SwerveModule;
@@ -24,7 +23,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -162,18 +160,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 new PPHolonomicDriveController(
                         new PIDConstants(5, 0, 0.05),
                         new PIDConstants(10, 0, 0.01)
-                // MAX_VELOCITY_METERS_PER_SECOND, -> WHAT IS THIS ???
-                // 0.449072
-
                 ),
                 config, // The robot configuration
-                // new RobotConfig(18, 1.45, moduleConfig, 0.449072),
                 () -> {
-                    //I believe this section mirrors our paths if we're on red, but we don't want to do that bc we have two sets of paths... commenting this out fixed our issue of hurtling across the field
-                    // var alliance = DriverStation.getAlliance();
-                    // if (alliance.isPresent()) {
-                    //     return alliance.get() == DriverStation.Alliance.Red;
-                    // }
                     return false;
 
                 },
@@ -295,7 +284,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
             doRejectUpdate = true;
         }
         if(!doRejectUpdate){
-            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 999999));
+            //this line sets the amount the pigeon odometry can be off by in each axis before vision odometry takes over. we trust the pigeon for heading, hence the reaaaaally big number
+            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 999999)); 
             odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
         }
 
@@ -367,7 +357,5 @@ public class DrivetrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Transmit errors", transmitErrors);
         SmartDashboard.putNumber("Receive errors", receiveErrors);
         SmartDashboard.putNumber("Robot Angle", getRobotRotationDegrees());
-
     }
-
 }
