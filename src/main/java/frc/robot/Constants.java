@@ -34,6 +34,7 @@ public class Constants {
     public static final double LIMELIGHT_YAW_OFFSET = 0.0;
     public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
     public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
     // dory
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
