@@ -107,22 +107,22 @@ public class RobotContainer {
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
             // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
 
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 30, 0));
+        // new Trigger(controller_two::getXButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 30, 0));
         
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // TODO figure out how to use joystick to control elevator
 
 
         // climbing mechanism 
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
         // reverse climbing
-        // new Trigger(controller_two::getXButtonPressed) //outake
-        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        new Trigger(controller_two::getXButtonPressed) //outake
+            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         // new Trigger(controller_two::getRightBumperPressed)
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
@@ -174,9 +174,9 @@ public class RobotContainer {
     //    );
     // }
 
-    public DrivetrainSubsystem getDrivetrain(){
-        return drivetrain;
-   }
+//     public DrivetrainSubsystem getDrivetrain(){
+//         return drivetrain;
+//    }
 
     private double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
@@ -196,9 +196,9 @@ public class RobotContainer {
         // Square the axis
         value = Math.copySign(value * value, value);
 
-       if(drivetrain.getSlowDrive()){
-           return (0.5 * value);
-        }
+    //    if(drivetrain.getSlowDrive()){
+    //        return (0.5 * value);
+    //     }
 
         return value;
     }

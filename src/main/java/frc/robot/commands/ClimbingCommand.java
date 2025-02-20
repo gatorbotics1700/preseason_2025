@@ -20,16 +20,16 @@ public class ClimbingCommand extends Command {
     @Override
     public void initialize() {
         startTime = System.currentTimeMillis();
-        System.out.println("CLIMBINING COMMAND");
+        System.out.println("CLIMBING COMMAND");
     }
     
     @Override
     public void execute() {
         climbingSubsystem.setSpeed(speed);
-        if (speed < 0) {
-            System.out.println("CLIMBING");
-        } else if (speed > 0) {
+        if (speed > 0) {
             System.out.println("REVERSE CLIMBING");
+        } else if (speed < 0) {
+            System.out.println("CLIMBING");
         }
     }
 
@@ -45,18 +45,18 @@ public class ClimbingCommand extends Command {
         double timePassed = System.currentTimeMillis() - startTime;
         System.out.println("Milliseconds passed: " +  timePassed);  
         
-        if(speed > 0){ // if climbing
-            if(System.currentTimeMillis() - startTime > 20000){
+        if(speed > 0){ // if detatching / reverse climbing
+            if(System.currentTimeMillis() - startTime > 11500){
                 climbingSubsystem.setSpeed(0);
-                System.out.println ("Finished climbing");
+                System.out.println ("Finished detaching");
                 return true;
             }
         } else if(speed == 0){
             return true;
-        } else if(speed < 0){ // if detaching / reverse climbing
-            if(System.currentTimeMillis() - startTime > 20000){
+        } else if(speed < 0){ // if climbing
+            if(System.currentTimeMillis() - startTime > 12000){
                 climbingSubsystem.setSpeed(0);
-                System.out.println("Finished detaching");
+                System.out.println("Finished climbing");
                 return true;
             } 
         }
