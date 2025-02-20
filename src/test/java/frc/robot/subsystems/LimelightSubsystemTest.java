@@ -64,11 +64,11 @@ public class LimelightSubsystemTest {
     @Test
     public void testConvertToField1() {
         final Pose2d robotPoseInFieldSpace = new Pose2d(0, 0, new Rotation2d(Math.toRadians(0)));
-        final Pose2d aprilTagBotSpace = new Pose2d(2,0,new Rotation2d(0)); //array in field relative axis labels would be y, z, x, something, -yaw, something
-        final Pose2d result = limelight.convertToFieldSpace(robotPoseInFieldSpace, aprilTagBotSpace);
+        final double[] aprilTagCameraSpace = {0.31,0,1.87,0,0,0}; //array in field relative axis labels would be y, z, x, something, -yaw, something
+        final Pose2d result = limelight.aprilTagPoseInFieldSpace(robotPoseInFieldSpace, aprilTagCameraSpace);
         
         assertAll("Robot at origin, facing positive X",
-            () -> assertEquals(2, result.getX(), 0.1, "X coordinate should match"),
+            () -> assertEquals(2-0.3937, result.getX(), 0.1, "X coordinate should match"),
             () -> assertEquals(0, result.getY(), 0.1, "Y coordinate should match"),
             () -> assertEquals(0, result.getRotation().getRadians(), 0.01, "Rotation should match")
         );
@@ -77,11 +77,11 @@ public class LimelightSubsystemTest {
     @Test
     public void testConvertToField2() {
         final Pose2d robotPoseInFieldSpace = new Pose2d(0, 0, new Rotation2d(Math.toRadians(45)));
-        final Pose2d aprilTagBotSpace = new Pose2d(1.41, -1.41,new Rotation2d(Math.toRadians(-45))); //array in field relative axis labels would be y, z, x, something, -yaw, something
-        final Pose2d result = limelight.convertToFieldSpace(robotPoseInFieldSpace, aprilTagBotSpace);
+        final double[] aprilTagCameraSpace = {-1.11,0,1.28,0,45,0}; //array in field relative axis labels would be y, z, x, something, -yaw, something
+        final Pose2d result = limelight.aprilTagPoseInFieldSpace(robotPoseInFieldSpace, aprilTagCameraSpace);
         
         assertAll("Robot at origin, facing positive X",
-            () -> assertEquals(2, result.getX(), 0.1, "X coordinate should match"),
+            () -> assertEquals(2-0.3937, result.getX(), 0.1, "X coordinate should match"),
             () -> assertEquals(0, result.getY(), 0.1, "Y coordinate should match"),
             () -> assertEquals(0, result.getRotation().getRadians(), 0.01, "Rotation should match")
         );

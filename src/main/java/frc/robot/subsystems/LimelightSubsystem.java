@@ -92,13 +92,13 @@ public class LimelightSubsystem extends SubsystemBase {
     public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace) {
         // distance to the camera from the tag (in camera's coordinate space)
         double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
-        aprilTagArrayInCameraSpace[2] -= X_OFFSET;
         Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
         Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
       //  double xOffsetToFrontOfRobot = aprilTagPoseInRobotSpace.getX() - X_OFFSET;
-      return new Pose2d(aprilTagPoseInRobotSpace.getX()/*xOffsetToFrontOfRobot*/, aprilTagPoseInRobotSpace.getY(), aprilTagPoseInRobotSpace.getRotation());
-        // Pose2d finalRobotSpacePose = new Pose2d(aprilTagPoseInRobotSpace.getX()/*xOffsetToFrontOfRobot*/, aprilTagPoseInRobotSpace.getY(), aprilTagPoseInRobotSpace.getRotation());
-        // return convertToFieldSpace(finalRobotSpacePose, robotPoseInFieldSpace);
+       // Pose2d finalRobotSpacePose = new Pose2d(aprilTagPoseInRobotSpace.getX()/*xOffsetToFrontOfRobot*/, aprilTagPoseInRobotSpace.getY(), aprilTagPoseInRobotSpace.getRotation());
+        Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
+        Pose2d aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
+        return aprilTagPoseOffsetFrontCenter;
     }
 
     //version to be used in the test file so that we can feed it fake apriltag data
