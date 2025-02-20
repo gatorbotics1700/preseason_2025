@@ -122,7 +122,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){
         double offsetX = poseInCameraSpace.getX() + Constants.LIMELIGHT_FORWARD_OFFSET;
-        double offsetY = poseInCameraSpace.getY() - Constants.LIMELIGHT_SIDE_OFFSET;
+        double offsetY = -(poseInCameraSpace.getY() - Constants.LIMELIGHT_SIDE_OFFSET);
         Rotation2d yaw = poseInCameraSpace.getRotation();
         System.out.println(offsetX + ", " + offsetY + ", " + yaw);
         return new Pose2d(offsetX, offsetY, yaw);
@@ -130,12 +130,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
     //
     Pose2d convertToFieldSpace(Pose2d targetPoseInRobotSpace, Pose2d robotPoseInFieldSpace) {
-        Transform2d transform = new Transform2d(robotPoseInFieldSpace.getTranslation(), robotPoseInFieldSpace.getRotation()); //defines a transform
-        System.out.println("transform: " + transform);
-        Pose2d fieldPose = targetPoseInRobotSpace.transformBy(transform); //applies the transform to the pose
-        // Transform2d transform = new Transform2d(targetPoseInRobotSpace.getTranslation(), targetPoseInRobotSpace.getRotation()); //defines a transform
+        // Transform2d transform = new Transform2d(robotPoseInFieldSpace.getTranslation(), robotPoseInFieldSpace.getRotation()); //defines a transform
         // System.out.println("transform: " + transform);
-        // Pose2d fieldPose = robotPoseInFieldSpace.transformBy(transform); //applies the transform to the pose
+        // Pose2d fieldPose = targetPoseInRobotSpace.transformBy(transform); //applies the transform to the pose
+        Transform2d transform = new Transform2d(targetPoseInRobotSpace.getTranslation(), targetPoseInRobotSpace.getRotation()); //defines a transform
+        System.out.println("transform: " + transform);
+        Pose2d fieldPose = robotPoseInFieldSpace.transformBy(transform); //applies the transform to the pose
+      //  Pose2d result = new Pose2d(fieldPose.getY(), fieldPose.getX(), fieldPose.getRotation());
         System.out.println("Robot field space transformed pose" + fieldPose);
         return fieldPose;
        

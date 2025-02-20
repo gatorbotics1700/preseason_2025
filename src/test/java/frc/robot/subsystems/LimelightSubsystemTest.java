@@ -78,6 +78,8 @@ public class LimelightSubsystemTest {
     public void testConvertToField2() {
         final Pose2d robotPoseInFieldSpace = new Pose2d(0, 0, new Rotation2d(Math.toRadians(45)));
         final double[] aprilTagCameraSpace = {-1.11,0,1.28,0,45,0}; //array in field relative axis labels would be y, z, x, something, -yaw, something
+        final Pose2d botPose = limelight.convertCameraSpaceToRobotSpace(limelight.arrayToPose(aprilTagCameraSpace));
+        final Pose2d result1 = limelight.convertToFieldSpace(robotPoseInFieldSpace, botPose);
         final Pose2d result = limelight.aprilTagPoseInFieldSpace(robotPoseInFieldSpace, aprilTagCameraSpace);
         
         assertAll("Robot at origin, facing positive X",
@@ -89,13 +91,13 @@ public class LimelightSubsystemTest {
 
     @Test
     public void testConvertToField3() {
-        final Pose2d robotPoseInFieldSpace = new Pose2d(0, 0, new Rotation2d(Math.toRadians(70)));
-        final Pose2d aprilTagBotSpace = new Pose2d(2.56, -1.20, new Rotation2d(Math.toRadians(-70))); //array in field relative axis labels would be y, z, x, something, -yaw, something
-        final Pose2d result = limelight.convertToFieldSpace(robotPoseInFieldSpace, aprilTagBotSpace);
+        final Pose2d robotPoseInFieldSpace = new Pose2d(0, 0, new Rotation2d(Math.toRadians(45)));
+        final Pose2d aprilTagBotSpace = new Pose2d(1.41335, -1.41559, new Rotation2d(Math.toRadians(-45))); //array in field relative axis labels would be y, z, x, something, -yaw, something
+        final Pose2d result = limelight.convertToFieldSpace(aprilTagBotSpace, robotPoseInFieldSpace );
         
         assertAll("Robot at origin, facing positive X",
             () -> assertEquals(2, result.getX(), 0.1, "X coordinate should match"),
-            () -> assertEquals(2, result.getY(), 0.1, "Y coordinate should match"),
+            () -> assertEquals(0, result.getY(), 0.1, "Y coordinate should match"),
             () -> assertEquals(0, result.getRotation().getRadians(), 0.01, "Rotation should match")
         );
     }
@@ -103,9 +105,10 @@ public class LimelightSubsystemTest {
     @Test
     public void testConvertToFieldWithOffset4() {
         final Pose2d robotPoseInFieldSpace = new Pose2d(2, 4, new Rotation2d(Math.toRadians(-100)));
+        final double[] cameraSpace = {-0.33, 0, 2.01, 0, -10, 0};
         final Pose2d aprilTagBotSpace = new Pose2d(2.14, -0.64, new Rotation2d(Math.toRadians(10))); //array in field relative axis labels would be y, z, x, something, -yaw, something
-        final Pose2d fieldSpace = limelight.convertToFieldSpace(robotPoseInFieldSpace, aprilTagBotSpace);
-        final Pose2d result = limelight.offsetToFrontCenter(fieldSpace);
+        final Pose2d fieldSpace = limelight.convertToFieldSpace(aprilTagBotSpace, robotPoseInFieldSpace);
+        final Pose2d result = limelight.aprilTagPoseInFieldSpace(robotPoseInFieldSpace, cameraSpace);
         
         assertAll("Robot at origin, facing positive X",
             () -> assertEquals(1, result.getX(), 0.1, "X coordinate should match"),
