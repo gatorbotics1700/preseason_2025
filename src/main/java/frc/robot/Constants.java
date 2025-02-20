@@ -56,8 +56,8 @@ public class Constants {
     public static final double CORAL_OUTTAKING_SPEED = 0.1; 
     public static final double SERVO_ANGLE = 45.0;
 
-    public static final double CLIMBING_SPEED = 0.25; 
-    public static final int CLIMBING_MOTOR_CAN_ID = 38;
+    public static final double CLIMBING_SPEED = -0.15; 
+    public static final int CLIMBING_MOTOR_CAN_ID = 0;
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
@@ -68,8 +68,8 @@ public class Constants {
     public static final int BOTTOM_LIMIT_SWITCH_PORT = 0;
 
     public static final int STICK_CAN_ID = 16;
-    public static final int STICK_PIVOT_CAN_ID = 32;
-    public static final double STICK_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 5 / 360; //42 ticks per revolution for NeoMotor, 5:1 gear ratio TODO: check values for Kraken motors instead
+    public static final int STICK_PIVOT_CAN_ID = 15;
+    public static final double STICK_PIVOT_TICKS_PER_DEGREE = KRAKEN_TICKS_PER_REV * 75 / 360; //42 ticks per revolution for NeoMotor, 75:1 gear ratio TODO: check values for Kraken motors instead
     public static final int STICK_LIMIT_SWITCH_PORT = 5; // TODO: change
 
     /* other information

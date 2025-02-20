@@ -116,13 +116,13 @@ public class RobotContainer {
         // TODO figure out how to use joystick to control elevator
 
 
-        // climbing mechanism 
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+        // // climbing mechanism 
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
-        // reverse climbing
-        new Trigger(controller_two::getXButtonPressed) //outake
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        // // reverse climbing
+        // new Trigger(controller_two::getXButtonPressed) //outake
+        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
         // new Trigger(controller_two::getRightBumperPressed)
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
@@ -131,13 +131,13 @@ public class RobotContainer {
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
         // stick pivot go to 45 deg
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 20)); //TODO: figure out angles
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new StickPivotCommand(m_stickPivotSub, 20)); //TODO: figure out angles
         
 
         // //stick pivot go back down
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 0)); //TODO: figure out angles
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new StickPivotCommand(m_stickPivotSub, 0)); //TODO: figure out angles
 
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new StickCommand(m_stickSub, 0.5));
