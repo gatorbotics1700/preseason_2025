@@ -12,12 +12,7 @@ import frc.com.swervedrivespecialties.swervelib.AbsoluteEncoderFactory;
 
 public class CanCoderFactoryBuilder {
     private Direction direction = Direction.COUNTER_CLOCKWISE;
-    private int periodMilliseconds = 10;
-
-    public CanCoderFactoryBuilder withReadingUpdatePeriod(int periodMilliseconds) {
-        this.periodMilliseconds = periodMilliseconds;
-        return this;
-    }
+    private double buildTimeoutSeconds = 0.25;
 
     public CanCoderFactoryBuilder withDirection(Direction direction) {
         this.direction = direction;
@@ -33,7 +28,7 @@ public class CanCoderFactoryBuilder {
                     .withMagnetOffset(configuration.getOffset() / (2 * Math.PI)));
 
             CANcoder encoder = new CANcoder(configuration.getId(), configuration.getCanbus());
-            CtreUtils.checkCtreError(encoder.getConfigurator().apply(config, 0.25), "Failed to configure CANCoder");
+            CtreUtils.checkCtreError(encoder.getConfigurator().apply(config, buildTimeoutSeconds), "Failed to configure CANCoder");
 
             CtreUtils.checkCtreError(encoder.getPosition().setUpdateFrequency(150, 0.25), "Failed to configure CANCoder update rate"); //was 1000.0 / periodMilliseconds
 

@@ -19,9 +19,6 @@ import java.util.function.Function;
 
 public final class Falcon500SteerControllerFactoryBuilder {
     private static final double CAN_TIMEOUT_SEC = 0.25;
-    private static final int STATUS_FRAME_GENERAL_PERIOD_MS = 250;
-
-    // private static final double TICKS_PER_ROTATION = 2048.0;
 
     // PID configuration
     private double proportionalConstant = Double.NaN;

@@ -22,7 +22,6 @@ public class MkSwerveModuleBuilder {
                         configuration.getSteerMMkS())
                 .withCurrentLimit(configuration.getSteerCurrentLimit())
                 .build(new CanCoderFactoryBuilder()
-                        .withReadingUpdatePeriod(100)
                         .build());
     }
 

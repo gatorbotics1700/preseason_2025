@@ -62,7 +62,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double robotRotation;
 
     private boolean slowDrive;
-   
+    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+    public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
+    public static boolean isFD = CANivore.isNetworkFD(); //checks if we're running CAN FD protocol
+    public static double transmitErrors = CANivore.getStatus().TEC;
+    public static double receiveErrors = CANivore.getStatus().REC;
+
 
     public DrivetrainSubsystem() {
         slowDrive = false;
@@ -171,6 +176,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
+
     }
 
     public void setSlowDrive() {
@@ -230,13 +236,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
 
-        states = targetStates;
-
         // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fl_voltage = (targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double fr_voltage = (targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double bl_voltage = (targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double br_voltage = (targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -249,7 +253,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.chassisSpeeds = chassisSpeeds;
 
         // Convert chassis speeds to module states and apply them
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, Constants.LOOPTIME_SECONDS);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setStates(targetStates);
     }
