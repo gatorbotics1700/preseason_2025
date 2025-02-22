@@ -105,6 +105,7 @@ public class LimelightSubsystem extends SubsystemBase {
         Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
         Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
         Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
+        System.out.println(robotSpacePose);
         return robotSpacePose;
     }
 
