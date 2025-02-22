@@ -9,6 +9,18 @@
           "data": {
             "pathName": "red mid to nw 2"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Score Trough"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "red NW 2 to NE coral station"
+          }
         }
       ]
     }
