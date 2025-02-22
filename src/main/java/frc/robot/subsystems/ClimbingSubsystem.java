@@ -18,7 +18,7 @@ public class ClimbingSubsystem extends SubsystemBase{
     }
 
     public void setSpeed(double speed) {
-        motor.setControl(dutyCycleOut.withOutput(-speed)); 
+        motor.setControl(dutyCycleOut.withOutput(speed)); 
     }
     
 }

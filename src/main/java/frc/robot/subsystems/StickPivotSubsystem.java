@@ -21,13 +21,14 @@ public class StickPivotSubsystem extends SubsystemBase {
 
     private static final double kP = 0.005; // TODO: change this value
     private static final double kI = 0.0; // TODO: change this value
-    private static final double kD = 0.0; // TODO: change this value
+    private static final double kD = 0.0001; // TODO: change this value
 
-    private final double DEADBAND = degreesToTicks(5); //in ticks TODO: test and change
+    private final double DEADBAND = degreesToTicks(3); //in ticks TODO: test and change
 
 
     public StickPivotSubsystem(){
         motor = new TalonFX(Constants.STICK_PIVOT_CAN_ID);
+        motor.setNeutralMode(NeutralModeValue.Brake); //TODO: make sure brake mode works
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.STICK_LIMIT_SWITCH_PORT);
     }
@@ -41,7 +42,8 @@ public class StickPivotSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = pidController.calculate(currentTicks, desiredTicks);
-            motor.setControl(dutyCycleOut.withOutput(output));
+            System.out.println("OUTPUT: " + output/100);
+            motor.setControl(dutyCycleOut.withOutput(output/100));
             //algaePivotMotor.setControl(positionVoltage.withPosition(desiredTicks));
         } else {
             motor.setControl(dutyCycleOut.withOutput(0));
@@ -49,6 +51,7 @@ public class StickPivotSubsystem extends SubsystemBase {
     }
 
     public double degreesToTicks(double desiredAngle) {
+        // System.out.println("*******" + desiredAngle + " degrees to ticks: " + desiredAngle * Constants.STICK_PIVOT_TICKS_PER_DEGREE);
         return desiredAngle * Constants.STICK_PIVOT_TICKS_PER_DEGREE;
     }
 
