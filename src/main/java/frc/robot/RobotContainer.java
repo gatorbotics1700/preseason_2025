@@ -124,6 +124,15 @@ public class RobotContainer {
         // new Trigger(controller_two::getXButtonPressed) //outake
         //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
+        
+        //TODO: test these triggers instead of the other ones so that the climbing only occurs while the button is pressed -- may have to change other logic for isFinished
+            new Trigger(controller_two::getAButtonPressed)
+            .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+
+        new Trigger(controller_two::getXButtonPressed)
+            .whileTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+
+
         // new Trigger(controller_two::getRightBumperPressed)
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
 
