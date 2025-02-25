@@ -11,10 +11,10 @@ public class StickCommand extends Command {
     
     private double startTime;
 
-    public StickCommand(StickSubsystem algaeSubsystem, double speed){
-        this.algaeSubsystem = algaeSubsystem;
+    public StickCommand(StickSubsystem stickSubsystem, double speed){
+        this.algaeSubsystem = stickSubsystem;
         this.speed = speed;
-        addRequirements(algaeSubsystem);
+        addRequirements(stickSubsystem);
     }
 
     @Override

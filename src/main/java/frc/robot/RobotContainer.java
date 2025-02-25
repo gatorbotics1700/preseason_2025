@@ -80,6 +80,11 @@ public class RobotContainer {
         new Trigger(controller_two::getLeftBumperPressed)
             .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
+        new Trigger(controller_two::getXButtonPressed)
+            .whileTrue(new StickCommand(m_stickSub, 0));
+        new Trigger(controller_two::getYButtonPressed)
+            .whileTrue(new StickCommand(m_stickSub, 0.1));
+            
         // new Trigger(controller::getBButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1));
