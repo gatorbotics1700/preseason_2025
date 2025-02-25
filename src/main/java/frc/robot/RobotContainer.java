@@ -39,15 +39,15 @@ public class RobotContainer {
     private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
     private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
     private static final StickSubsystem m_stickSub = new StickSubsystem();
-    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
+    // private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
     public RobotContainer() {
         NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
         NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2, m_elevatorSub, m_stickSub, m_stickPivotSub));
         NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
         NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
-        NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+        // NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
+        // NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
         // Print initial joystick values
         System.out.println("RobotContainer initializing");
@@ -72,7 +72,7 @@ public class RobotContainer {
         // new Trigger(controller::getYButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22 Y
         new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 36, 0));
+            .onTrue(new ElevatorCommand(m_elevatorSub, 24, 0));
         new Trigger(controller_two::getAButtonPressed)
             .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         new Trigger(controller_two::getRightBumperPressed)

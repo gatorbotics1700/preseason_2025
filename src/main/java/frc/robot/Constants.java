@@ -15,18 +15,18 @@ public class Constants {
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
     //hulk
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(38.75976562499); //227.548
-    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
-    public static final String CANIVORE_BUS_NAME = "";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.3429;
-    public static final double LIMELIGHT_SIDE_OFFSET = 0.0;
-    public static final double LIMELIGHT_UP_OFFSET = 0.269875;
-    public static final double LIMELIGHT_YAW_OFFSET = 0.0;
-    public static final double LIMELIGHT_PITCH_OFFSET = -2.0;
-    public static final double LIMELIGHT_ROLL_OFFSET = -1.0;
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(38.75976562499); //227.548
+    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4_L2;
+    // public static final String CANIVORE_BUS_NAME = "";
+    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.3429;
+    // public static final double LIMELIGHT_SIDE_OFFSET = 0.0;
+    // public static final double LIMELIGHT_UP_OFFSET = 0.269875;
+    // public static final double LIMELIGHT_YAW_OFFSET = 0.0;
+    // public static final double LIMELIGHT_PITCH_OFFSET = -2.0;
+    // public static final double LIMELIGHT_ROLL_OFFSET = -1.0;
 
     //nemo
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
@@ -43,7 +43,7 @@ public class Constants {
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
 
     // dory
-    /* 
+     
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
@@ -56,7 +56,7 @@ public class Constants {
     public static final double LIMELIGHT_YAW_OFFSET = 2.0;
     public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
     public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
-*/
+
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 2;
@@ -83,7 +83,7 @@ public class Constants {
     public static final double SERVO_ANGLE = 45.0;
 
     public static final double CLIMBING_SPEED = -0.15; 
-    public static final int CLIMBING_MOTOR_CAN_ID = 0;
+    public static final int CLIMBING_MOTOR_CAN_ID = 34;
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID

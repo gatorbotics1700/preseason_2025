@@ -13,6 +13,7 @@ import frc.robot.Constants;
 //import com.revrobotics.ColorMatch;
 //import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ElevatorSubsystem extends SubsystemBase {
@@ -41,6 +42,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorPIDController = new PIDController(kP, kI, kD);
         topLimitSwitch = new DigitalInput(Constants.TOP_LIMIT_SWITCH_PORT);
         bottomLimitSwitch = new DigitalInput(Constants.BOTTOM_LIMIT_SWITCH_PORT);
+    }
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putBoolean("top limit switch", topLimitSwitch.get());
+        SmartDashboard.putBoolean("bottom limit switch", bottomLimitSwitch.get());
     }
 
     public void setPosition(double desiredTicks){
