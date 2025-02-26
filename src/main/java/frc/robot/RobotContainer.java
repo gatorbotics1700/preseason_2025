@@ -1,7 +1,7 @@
 package frc.robot;
 
 // import frc.robot.commands.TestDriveCommand;
-import frc.robot.commands.LimelightControlCommand;
+// import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.TestDriveCommand;
@@ -16,7 +16,7 @@ import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
+// import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -34,7 +34,7 @@ public class RobotContainer {
 
     private final XboxController controller_two = new XboxController(1);
     private final SendableChooser<Command> autoChooser;
-    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
+    // private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
     private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
     private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
@@ -71,20 +71,21 @@ public class RobotContainer {
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller)); // id 8,17 X
         // new Trigger(controller::getYButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22 Y
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 24, 0));
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-        new Trigger(controller_two::getRightBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
-        new Trigger(controller_two::getLeftBumperPressed)
-            .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 24, 0));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
+        // new Trigger(controller_two::getRightBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
+        // new Trigger(controller_two::getLeftBumperPressed)
+        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
         new Trigger(controller_two::getXButtonPressed)
-            .whileTrue(new StickCommand(m_stickSub, 0));
+            .onTrue(new StickCommand(m_stickSub, 0));
         new Trigger(controller_two::getYButtonPressed)
-            .whileTrue(new StickCommand(m_stickSub, 0.1));
-            
+            .onTrue(new StickCommand(m_stickSub, 0.1));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new StickCommand(m_stickSub,-0.1));
         // new Trigger(controller::getBButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1));

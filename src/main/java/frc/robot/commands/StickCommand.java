@@ -5,14 +5,14 @@ import frc.robot.subsystems.StickSubsystem;
 
 public class StickCommand extends Command {
     
-    private StickSubsystem algaeSubsystem;
+    private StickSubsystem stickSubsystem;
     
     private final double speed;
     
     private double startTime;
 
     public StickCommand(StickSubsystem stickSubsystem, double speed){
-        this.algaeSubsystem = stickSubsystem;
+        this.stickSubsystem = stickSubsystem;
         this.speed = speed;
         addRequirements(stickSubsystem);
     }
@@ -24,7 +24,8 @@ public class StickCommand extends Command {
     
     @Override
     public void execute(){
-        algaeSubsystem.setSpeed(speed);
+        System.out.println("minion speed: " + speed);
+        stickSubsystem.setSpeed(speed);
     }
 
     @Override
@@ -33,16 +34,16 @@ public class StickCommand extends Command {
         System.out.println ("Milliseconds passed: " + timePassed);
 
         if(speed > 0){ // if intaking
-            if(System.currentTimeMillis() - startTime > 5000){
-                algaeSubsystem.setSpeed(0);
+            if(System.currentTimeMillis() - startTime > 10000){
+                stickSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
             }
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if outtaking
-            if(System.currentTimeMillis() - startTime > 5000){
-                algaeSubsystem.setSpeed(0);
+            if(System.currentTimeMillis() - startTime > 10000){
+                stickSubsystem.setSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;
             } 
