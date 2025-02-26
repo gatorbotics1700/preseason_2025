@@ -23,33 +23,34 @@ public class Constants {
     // public static final String CANIVORE_BUS_NAME = "";
 
     //nemo
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
-    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
-    public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.13335; //limelight x offset from center of robot
-    public static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
-    public static final double LIMELIGHT_UP_OFFSET = 0.314325;
-    public static final double LIMELIGHT_YAW_OFFSET = 0.0;
-    public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
-    public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
-    public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
+    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    // public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
+    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.13335; //limelight x offset from center of robot
+    // public static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
+    // public static final double LIMELIGHT_UP_OFFSET = 0.314325;
+    // public static final double LIMELIGHT_YAW_OFFSET = 0.0;
+    // public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
+    // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    // public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
     // dory
-    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
-    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
-    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
-    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
-    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
-    // public static final String CANIVORE_BUS_NAME = "";
-    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
-    // public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
-    // public static final double LIMELIGHT_UP_OFFSET = 0.200025;
-    // public static final double LIMELIGHT_YAW_OFFSET = 2.0;
-    // public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
-    // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
+    public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    public static final String CANIVORE_BUS_NAME = "";
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.26035;
+    public static final double LIMELIGHT_SIDE_OFFSET = -0.00635;
+    public static final double LIMELIGHT_UP_OFFSET = 1.143;
+    public static final double LIMELIGHT_YAW_OFFSET = -4.0;
+    public static final double LIMELIGHT_PITCH_OFFSET = -32.0;
+    public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    public static final double CENTER_TO_BUMPER_OFFSET = 0.4572; 
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
