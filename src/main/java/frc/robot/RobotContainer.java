@@ -1,7 +1,7 @@
 package frc.robot;
 
 // import frc.robot.commands.TestDriveCommand;
-// import frc.robot.commands.LimelightControlCommand;
+import frc.robot.commands.LimelightControlCommand;
 import frc.robot.commands.ScoreCommands;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.commands.TestDriveCommand;
@@ -16,7 +16,7 @@ import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.CoralShooterSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-// import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -34,7 +34,7 @@ public class RobotContainer {
 
     private final XboxController controller_two = new XboxController(1);
     private final SendableChooser<Command> autoChooser;
-    // private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
+    private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
     private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
     private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
