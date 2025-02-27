@@ -36,14 +36,18 @@ public class ElevatorCommand extends Command {
     public boolean isFinished() {
         double currentTicks = elevatorSubsystem.getCurrentTicks(); 
         System.out.println("CURRENT HEIGHT: " + (currentTicks / Constants.ELEVATOR_TICKS_PER_INCH) + " inches");
-        
-        if(!elevatorSubsystem.atTopLimitSwitch() && desiredTicks > currentTicks){
+        if(elevatorSubsystem.getMotorStatorCurrent()>1000){ // TODO: set current limit value
+            System.out.println("ELEVATOR CURRENT PEAKED");
+            elevatorSubsystem.setSpeed(0);
+            return true;
+        }
+        if(elevatorSubsystem.atTopLimitSwitch() && desiredTicks > currentTicks){
             System.out.println("TOP LIMIT SWITCH TRIGGERED - STOPPING");
             elevatorSubsystem.setSpeed(0);
             return true;
         }
 
-        if(!elevatorSubsystem.atBottomLimitSwitch() && desiredTicks < currentTicks){ 
+        if(elevatorSubsystem.atBottomLimitSwitch() && desiredTicks < currentTicks){ 
             System.out.println("BOTTOM LIMIT SWITCH TRIGGERED - STOPPING");
             elevatorSubsystem.setSpeed(0);
             return true;

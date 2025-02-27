@@ -36,8 +36,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
     public ElevatorSubsystem(){
-        motor = new TalonFX(Constants.ELEVATOR_CAN_ID);
+        motor = new TalonFX(Constants.ELEVATOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
         motor.setNeutralMode(NeutralModeValue.Brake);
+        
         // colorSensor = new DigitalInput(0);
         elevatorPIDController = new PIDController(kP, kI, kD);
         topLimitSwitch = new DigitalInput(Constants.TOP_LIMIT_SWITCH_PORT);
@@ -48,6 +49,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic(){
         SmartDashboard.putBoolean("top limit switch", topLimitSwitch.get());
         SmartDashboard.putBoolean("bottom limit switch", bottomLimitSwitch.get());
+        SmartDashboard.putNumber("elevator current", getMotorStatorCurrent());
     }
 
     public void setPosition(double desiredTicks){
@@ -55,7 +57,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         double error = desiredTicks - currentTicks;
         if(Math.abs(error) > DEADBAND){
             double output = elevatorPIDController.calculate(currentTicks, desiredTicks);
-            motor.setControl(dutyCycleOut.withOutput(output));
+            System.out.println("ELEVATOR CURRENT PEAKED");
+            motor.setControl(dutyCycleOut.withOutput(Constants.ELEVATOR_INVERT * output));
             //elevatorMotor.setControl(positionVoltage.withPosition(desiredTicks));
         }else{
             motor.setControl(dutyCycleOut.withOutput(0));
@@ -63,7 +66,11 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double speed){
-        motor.setControl(dutyCycleOut.withOutput(0));
+        if(getMotorStatorCurrent()>1000){ // TODO: set current limit value
+            System.out.println("ELEVATOR CURRENT PEAKED");
+            speed = 0;
+        }
+        motor.setControl(dutyCycleOut.withOutput(speed));
     }
 
     public double getCurrentTicks(){ //getPosition() is in rotations so rotations * ticks per rev should give position in ticks
@@ -77,6 +84,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     // public boolean isColorSensed(){
     //     return colorSensor.get();
     // }
+    public double getMotorStatorCurrent(){
+        return motor.getStatorCurrent().getValueAsDouble();
+    }
 
     public boolean atTopLimitSwitch(){
         return topLimitSwitch.get();

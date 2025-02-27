@@ -43,19 +43,35 @@ public class Constants {
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
 
     // dory
-     
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
+    // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
+    // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(149.23828125);
+    // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(333.10546875);
+    // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
+    // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
+    // public static final String CANIVORE_BUS_NAME = "";
+    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
+    // public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
+    // public static final double LIMELIGHT_UP_OFFSET = 0.200025;
+    // public static final double LIMELIGHT_YAW_OFFSET = 2.0;
+    // public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
+    // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    // public static final double ELEVATOR_INVERT = 1.0; // 1.0 means the elevator is NOT inverted
+
+
+    //comp bot
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
-    public static final String CANIVORE_BUS_NAME = "";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
-    public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
-    public static final double LIMELIGHT_UP_OFFSET = 0.200025;
-    public static final double LIMELIGHT_YAW_OFFSET = 2.0;
-    public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
+    public static final String CANIVORE_BUS_NAME = "TRex";
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.0;
+    public static final double LIMELIGHT_SIDE_OFFSET = -0.0;
+    public static final double LIMELIGHT_UP_OFFSET = 0.0;
+    public static final double LIMELIGHT_YAW_OFFSET = 0.0;
+    public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
     public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    public static final double ELEVATOR_INVERT = -1.0; // -1 means that the motor is inverted
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
@@ -86,9 +102,9 @@ public class Constants {
     public static final int CLIMBING_MOTOR_CAN_ID = 34;
 
     //TODO: find the real values of ALL of these constants
-    public static final int ELEVATOR_CAN_ID = 17; //TODO: get actual CAN ID
+    public static final int ELEVATOR_CAN_ID = 17;
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
-    public static final double ELEVATOR_GEAR_RATIO = 81.0;
+    public static final double ELEVATOR_GEAR_RATIO = 125.0;
     public static final double ELEVATOR_TICKS_PER_INCH = ((KRAKEN_TICKS_PER_REV * ELEVATOR_GEAR_RATIO) / ELEVATOR_SPROCKET_DIAMETER / Math.PI)/2;
     public static final double ELEVATOR_LEVEL_ONE = 0.0; //TODO: fill in
     public static final double ELEVATOR_LEVEL_TWO = 0.0; //TODO: fill in
