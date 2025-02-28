@@ -101,7 +101,8 @@ public class LimelightSubsystem extends SubsystemBase {
         return new Pose2d(array[2], -array[0], new Rotation2d(Math.toRadians(-array[4])));
     }
 
-    public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ //TODO: rewrite this as a transform (it works like this when the camera is parallel to the drivetrain, but as soon as the yaws are different it won't)
+    public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ 
+        //TODO: explain the order of this and why the camera pose from robot center is being transformed by the pose in camera space
         Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
         Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
         Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
