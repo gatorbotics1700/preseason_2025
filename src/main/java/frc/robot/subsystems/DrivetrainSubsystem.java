@@ -284,20 +284,20 @@ public class DrivetrainSubsystem extends SubsystemBase {
             }
         );
         
-        boolean doRejectUpdate = false;
+        // boolean doRejectUpdate = false;
 
-        LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
-            doRejectUpdate = true;
-        }
-        if(mt2.tagCount == 0){
-            doRejectUpdate = true;
-        }
-        if(!doRejectUpdate){
-            odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 30));
-            odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-        }
+        // LimelightHelpers.SetRobotOrientation("limelight", odometry.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        // LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        // if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble()) > 720){
+        //     doRejectUpdate = true;
+        // }
+        // if(mt2.tagCount == 0){
+        //     doRejectUpdate = true;
+        // }
+        // if(!doRejectUpdate){
+        //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 30));
+        //     odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+        // }
 
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());

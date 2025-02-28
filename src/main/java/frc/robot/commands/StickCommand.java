@@ -24,7 +24,6 @@ public class StickCommand extends Command {
     
     @Override
     public void execute(){
-        System.out.println("minion speed: " + speed);
         stickSubsystem.setSpeed(speed);
     }
 
@@ -34,7 +33,7 @@ public class StickCommand extends Command {
         System.out.println ("Milliseconds passed: " + timePassed);
 
         if(speed > 0){ // if intaking
-            if(System.currentTimeMillis() - startTime > 10000){
+            if(System.currentTimeMillis() - startTime > 5000){
                 stickSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
@@ -42,7 +41,7 @@ public class StickCommand extends Command {
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if outtaking
-            if(System.currentTimeMillis() - startTime > 10000){
+            if(System.currentTimeMillis() - startTime > 5000){
                 stickSubsystem.setSpeed(0);
                 System.out.println("Finished outtaking");
                 return true;

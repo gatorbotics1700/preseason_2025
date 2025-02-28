@@ -46,7 +46,7 @@ public class ClimbingCommand extends Command {
         System.out.println("Milliseconds passed: " +  timePassed);  
         
         if(speed > 0){ // if detatching / reverse climbing
-            if(System.currentTimeMillis() - startTime > 11500){
+            if(System.currentTimeMillis() - startTime > 20000){
                 climbingSubsystem.setSpeed(0);
                 System.out.println ("Finished detaching");
                 return true;
@@ -54,7 +54,7 @@ public class ClimbingCommand extends Command {
         } else if(speed == 0){
             return true;
         } else if(speed < 0){ // if climbing
-            if(System.currentTimeMillis() - startTime > 12000){
+            if(System.currentTimeMillis() - startTime > 20000){
                 climbingSubsystem.setSpeed(0);
                 System.out.println("Finished climbing");
                 return true;

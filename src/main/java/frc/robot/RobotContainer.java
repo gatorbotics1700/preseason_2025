@@ -80,12 +80,15 @@ public class RobotContainer {
         // new Trigger(controller_two::getLeftBumperPressed)
         //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
         
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new StickCommand(m_stickSub, 0));
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new StickCommand(m_stickSub, 0.1));
-        new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new StickCommand(m_stickSub,-0.1));
+        // new Trigger(controller_two::getXButtonPressed)
+        //     .onTrue(new StickCommand(m_stickSub, 0));
+        
+        // new Trigger(controller_two::getYButtonPressed)
+        //     .onTrue(new StickCommand(m_stickSub, 0.2));
+        
+        // // intaking
+        // new Trigger(controller_two::getBButtonPressed)
+        //     .onTrue(new StickCommand(m_stickSub,-0.2));
         // new Trigger(controller::getBButtonPressed)
         //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1));
@@ -148,15 +151,17 @@ public class RobotContainer {
         // TODO figure out how to use joystick to control elevator
 
 
-        // // climbing mechanism 
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+        // climbing mechanism 
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
-        // // reverse climbing
-        // new Trigger(controller_two::getXButtonPressed) //outake
-        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        // reverse climbing
+        new Trigger(controller_two::getBButtonPressed)//outake
+            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
-        
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new ClimbingCommand(m_climbingSub, 0));
+            
         //TODO: test these triggers instead of the other ones so that the climbing only occurs while the button is pressed -- may have to change other logic for isFinished
         //     new Trigger(controller_two::getAButtonPressed)
         //     .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
