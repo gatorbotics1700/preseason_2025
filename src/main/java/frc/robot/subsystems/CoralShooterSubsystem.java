@@ -21,7 +21,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
-        motor = new TalonFX(Constants.CORAL_SHOOTER_CAN_ID);//TODO: enter in can id later
+        motor = new TalonFX(Constants.CORAL_SHOOTER_CAN_ID, Constants.CANIVORE_BUS_NAME);//TODO: enter in can id later
         motor2 = new TalonFX(34);
     }
 

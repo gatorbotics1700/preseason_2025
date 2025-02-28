@@ -14,7 +14,7 @@ public class StickSubsystem extends SubsystemBase {
     private final TalonFXS motor;
 
     public StickSubsystem(){
-        motor = new TalonFXS(Constants.STICK_CAN_ID);
+        motor = new TalonFXS(Constants.STICK_CAN_ID, Constants.CANIVORE_BUS_NAME);
         TalonFXSConfiguration toConfigure = new TalonFXSConfiguration();
         toConfigure.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         toConfigure.ExternalFeedback.ExternalFeedbackSensorSource = ExternalFeedbackSensorSourceValue.Quadrature;

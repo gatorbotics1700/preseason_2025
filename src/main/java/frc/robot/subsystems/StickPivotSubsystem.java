@@ -27,7 +27,7 @@ public class StickPivotSubsystem extends SubsystemBase {
 
 
     public StickPivotSubsystem(){
-        motor = new TalonFX(Constants.STICK_PIVOT_CAN_ID);
+        motor = new TalonFX(Constants.STICK_PIVOT_CAN_ID, Constants.CANIVORE_BUS_NAME);
         motor.setNeutralMode(NeutralModeValue.Brake); //TODO: make sure brake mode works
         pidController = new PIDController(kP, kI, kD);
         limitSwitch = new DigitalInput(Constants.STICK_LIMIT_SWITCH_PORT);
