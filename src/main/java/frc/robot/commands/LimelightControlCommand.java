@@ -13,14 +13,16 @@ public class LimelightControlCommand extends Command {
     private final XboxController controller;
     private final int pipeline;
     private Pose2d desiredPose;
+    private boolean isLeftPost;
     private Rotation2d pointingToTagAngle; //field relative angle to point the robot at the apriltag
 
     public LimelightControlCommand(LimelightSubsystem limelightSubsystem, DrivetrainSubsystem drivetrainSubsystem,
-            int pipeline, XboxController controller) {
+            int pipeline, XboxController controller, boolean isLeftPost) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivetrainSubsystem = drivetrainSubsystem;
         this.pipeline = pipeline;
         this.controller = controller;
+        this.isLeftPost = isLeftPost;
 
         addRequirements(limelightSubsystem, drivetrainSubsystem);
     }
@@ -63,7 +65,7 @@ public class LimelightControlCommand extends Command {
     }
 
     private void updateDesiredPose() { 
-        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose());
+        desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), isLeftPost);
         //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
         pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
     }

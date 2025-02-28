@@ -77,7 +77,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace) {
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, boolean isLeftPost) {
         // distance to the camera from the tag (in camera's coordinate space)
         double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
        
@@ -85,11 +85,23 @@ public class LimelightSubsystem extends SubsystemBase {
             return null;
         }
 
-        Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
-        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
-        Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
-        Pose2d aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
-        return aprilTagPoseOffsetFrontCenter;
+        Pose2d aprilTagPoseInCameraSpace;
+        Pose2d aprilTagPoseInRobotSpace;
+        Pose2d aprilTagPoseFieldSpace;
+        Pose2d aprilTagPoseOffsetFrontCenter;
+
+        if(isLeftPost) { //TODO: everything inside needs to be adjusted for robot scoring on left post
+            aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+            aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+            aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
+            aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
+        } else{  //TODO: everything inside needs to be adjusted for robot scoring on right post
+            aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+            aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+            aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
+            aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
+        }
+         return aprilTagPoseOffsetFrontCenter;
     }
 
     public Pose2d arrayToPose(double[] array){
