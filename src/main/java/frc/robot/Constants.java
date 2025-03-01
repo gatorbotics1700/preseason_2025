@@ -33,7 +33,7 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
-    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, -0.325, 0.197, new Rotation3d(Math.toDegrees(10.0), Math.toDegrees(-23.0), Math.toDegrees(-46.0)));
+    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, -0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
     // public static final double LIMELIGHT_FORWARD_OFFSET = 0.172; //limelight x offset from center of robot
     // public static final double LIMELIGHT_SIDE_OFFSET = -0.325;
     // public static final double LIMELIGHT_UP_OFFSET = 0.197;
