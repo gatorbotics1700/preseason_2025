@@ -41,6 +41,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveModule frontRightModule;
     private final SwerveModule backLeftModule;
     private final SwerveModule backRightModule;
+    
 
     private static Pigeon2 pigeon;
 
@@ -334,6 +335,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             System.out.println("At desired pose, stopping.");
             return;
         }
+        System.out.println("ROTATION ERROR: " + rotationError);
 
         double xSpeed = Math.max(Math.abs(xError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(xError);
         double ySpeed = Math.max(Math.abs(yError * TRANSLATION_kP), TRANSLATION_MIN_SPEED) * Math.signum(yError);
