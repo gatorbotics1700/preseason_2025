@@ -110,7 +110,7 @@ public class LimelightSubsystem extends SubsystemBase {
         //positive TX is to the right, equivalent to the y axis on the pigeon but flipped (so when we convert to a pose we flip this to match the axes on the pigeon)
         //positive TZ is straight forward, equivalent to the x axis on the pigeon
         //positive YAW is clockwise, so we flip it when we convert to pose so that it matches all of our other rotational components
-        return new Pose3d(array[2], -array[0], -array[1], new Rotation3d(Math.toRadians(-array[3]), Math.toRadians(-array[5]), Math.toRadians(-array[4]))); // there's no way the angles on this are right and frankly we might not even need the tag pose to be a pose3d???
+        return new Pose3d(array[2], -array[0], -array[1], new Rotation3d(Math.toRadians(array[5]), Math.toRadians(-array[3]), Math.toRadians(-array[4]))); // there's no way the angles on this are right and frankly we might not even need the tag pose to be a pose3d???
     }
 
     public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace){ 
