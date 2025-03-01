@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -39,8 +42,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         motor = new TalonFX(Constants.ELEVATOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
         motor.setNeutralMode(NeutralModeValue.Brake);
         
+        // motor.getConfigurator().apply(new TalonFXConfiguration()
+        //     .withMotorOutput(new MotorOutputConfigs()
+        //         .withInverted(InvertedValue.Clockwise_Positive))); // TODO: test if this works by deleting ELEVATOR_MOTOR_INVERT
+
         // colorSensor = new DigitalInput(0);
+
         elevatorPIDController = new PIDController(kP, kI, kD);
+
         topLimitSwitch = new DigitalInput(Constants.TOP_LIMIT_SWITCH_PORT);
         bottomLimitSwitch = new DigitalInput(Constants.BOTTOM_LIMIT_SWITCH_PORT);
     }
