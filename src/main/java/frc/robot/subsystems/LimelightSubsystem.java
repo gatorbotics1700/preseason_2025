@@ -5,6 +5,7 @@ import frc.robot.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
@@ -12,8 +13,6 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double X_OFFSET = 0.27; // distance from front of robot to limelight in meters
-    
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -77,30 +76,18 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, boolean isLeftPost) {
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset) {
         // distance to the camera from the tag (in camera's coordinate space)
         double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
        
         if(aprilTagArrayInCameraSpace == null){ // idk if this is really necessary but better safe than sorry?
             return null;
         }
-
-        Pose2d aprilTagPoseInCameraSpace;
-        Pose2d aprilTagPoseInRobotSpace;
-        Pose2d aprilTagPoseFieldSpace;
-        Pose2d aprilTagPoseOffsetFrontCenter;
-
-        if(isLeftPost) { //TODO: everything inside needs to be adjusted for robot scoring on left post
-            aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
-            aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
-            aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
-            aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
-        } else{  //TODO: everything inside needs to be adjusted for robot scoring on right post
-            aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
-            aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
-            aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
-            aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
-        }
+        
+        Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+        Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
+        Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
+        Pose2d aprilTagPoseOffsetFrontCenter = offsetToLineUpPoint(aprilTagPoseFieldSpace, lineUpOffset);
          return aprilTagPoseOffsetFrontCenter;
     }
 
@@ -131,6 +118,12 @@ public class LimelightSubsystem extends SubsystemBase {
     //offsets a pose so that the front center of the robot will be at that point rather than the center
     Pose2d offsetToFrontCenter (Pose2d targetPoseInFieldSpace){ 
         Transform2d transform = new Transform2d(-Constants.CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //could change numbers here if we wanted to offset to a different part of the robot
+        Pose2d result = targetPoseInFieldSpace.transformBy(transform);
+        return result; 
+    }
+
+    Pose2d offsetToLineUpPoint (Pose2d targetPoseInFieldSpace, Pose2d lineUpPointRobotSpace){ 
+        Transform2d transform = new Transform2d(new Translation2d(-lineUpPointRobotSpace.getX(), -lineUpPointRobotSpace.getY()), lineUpPointRobotSpace.getRotation()); //we flip x and y because logically we want to move the center of the robot back by the offset in order to align the point with the apriltag (because we can only drive to a pose by giving it a target pose for the center)
         Pose2d result = targetPoseInFieldSpace.transformBy(transform);
         return result; 
     }
