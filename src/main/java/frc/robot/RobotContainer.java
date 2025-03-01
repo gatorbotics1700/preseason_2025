@@ -35,17 +35,18 @@ public class RobotContainer {
     private final XboxController controller_two = new XboxController(1);
     private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
-    private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
-    private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
-    private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
-    private static final StickSubsystem m_stickSub = new StickSubsystem();
-    // private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
+    // private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
+    // private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
+    // private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
+    // private static final StickSubsystem m_stickSub = new StickSubsystem();
+    private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
 
     public RobotContainer() {
-        NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
-        NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        // NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        // NamedCommands.registerCommand("Score L2", ScoreCommands.Level(2, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        // NamedCommands.registerCommand("Score L3", ScoreCommands.Level(3, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        // NamedCommands.registerCommand("Score L4", ScoreCommands.Level(4, m_elevatorSub, m_stickSub, m_stickPivotSub));
+        
         // NamedCommands.registerCommand("Score Coral Shooter", ScoreCommands.Shoot(m_coralShooterSub));
         // NamedCommands.registerCommand("Intake Coral Shooter", new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
@@ -129,13 +130,13 @@ public class RobotContainer {
         //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
         // 
 
-        // // coral shooter intaking
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
+        // coral shooter intaking
+        new Trigger(controller_two::getYButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
 
-        // // coral shooter outtaking
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
+        // coral shooter outtaking
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
 
         // // button to stop intake & outtake or climbing
         // new Trigger(controller_two::getBButtonPressed)
@@ -152,15 +153,15 @@ public class RobotContainer {
 
 
         // climbing mechanism 
-        new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+        // new Trigger(controller_two::getAButtonPressed)
+        //     .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
-        // reverse climbing
-        new Trigger(controller_two::getBButtonPressed)//outake
-            .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
+        // // reverse climbing
+        // new Trigger(controller_two::getBButtonPressed)//outake
+        //     .onTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED)); // TODO: figure out if this value needs to be different
         
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new ClimbingCommand(m_climbingSub, 0));
+        // new Trigger(controller_two::getXButtonPressed)
+        //     .onTrue(new ClimbingCommand(m_climbingSub, 0));
             
         //TODO: test these triggers instead of the other ones so that the climbing only occurs while the button is pressed -- may have to change other logic for isFinished
         //     new Trigger(controller_two::getAButtonPressed)
