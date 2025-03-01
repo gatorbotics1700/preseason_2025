@@ -95,6 +95,7 @@ public class LimelightSubsystem extends SubsystemBase {
          return aprilTagPoseOffsetFrontCenter;
     }
 
+    //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)
     public Pose2d arrayToPose2d(double[] array){
         // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
         //the apriltag returns the camera relative pose as an array {TX, TY, TZ, PITCH, YAW, ROLL}

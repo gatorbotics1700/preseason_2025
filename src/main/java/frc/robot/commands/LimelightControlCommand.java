@@ -51,7 +51,7 @@ public class LimelightControlCommand extends Command {
     @Override
     public boolean isFinished() {
         // Check if either stick on the Xbox controller is moved
-        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.1 ||
+        boolean joystickMoved = Math.abs(controller.getLeftX()) > 0.2 ||
                 Math.abs(controller.getLeftY()) > 0.2 ||
                 Math.abs(controller.getRightX()) > 0.2 ||
                 Math.abs(controller.getRightY()) > 0.2;
@@ -68,7 +68,7 @@ public class LimelightControlCommand extends Command {
     private void updateDesiredPose() { 
         desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset);
         //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
-        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())); 
+        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle()));
     }
 
     private boolean targetMatchesPipeline() {

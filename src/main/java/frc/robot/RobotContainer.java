@@ -23,7 +23,6 @@ public class RobotContainer {
     private final XboxController controller = new XboxController(0);
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
     private final SendableChooser<Command> autoChooser;
-    private final boolean isLeftPost = true; //DONT CHANGE HERE
     private final GenericHID buttonBoard = new GenericHID(3);
     
 
