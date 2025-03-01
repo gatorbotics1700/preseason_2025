@@ -54,7 +54,7 @@ public class ScoreCommands{
 
     public static Command Shoot(CoralShooterSubsystem m_coralShooterSub){
             System.out.println("shooting!");
-            CoralShooterCommand coralShooterCommand = new CoralShooterCommand(m_coralShooterSub,  Constants.SHOOTER_OUTTAKING_SPEED);
+            CoralShooterCommand coralShooterCommand = new CoralShooterCommand(m_coralShooterSub,  Constants.CORAL_SHOOTING_SPEED);
             return coralShooterCommand; //TODO: Change speed
     }
 }

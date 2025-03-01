@@ -92,20 +92,20 @@ public class Constants {
     public static final double KRAKEN_TICKS_PER_REV = 2048; //same for falcons
     public static final double NEO_TICKS_PER_REV = 42;
     
-    // for the old coral shooter mechanism
+    // CORAL SHOOTER MECHANISM
     public static final int SHOOTER_MOTOR_CAN_ID = 30;
     public static final int SHOOTER_MOTOR2_CAN_ID = 34;
-    public static final double SHOOTER_INTAKING_SPEED = 0.25;
-    public static final double SHOOTER_OUTTAKING_SPEED = -0.74; 
-    //public static final double SERVO_ANGLE = 45.0;
-    public static final double SHOOTER_INTAKING_CURRENT_LIMIT = 20;
-    public static final double SHOOTER_OUTTAKING_MAX_CURRENT = 3.8;
-    public static final double SHOOTER_OUTTAKING_MIN_CURRENT = 2.5;
+    public static final double CORAL_INTAKING_SPEED = 0.25;
+    public static final double CORAL_SHOOTING_SPEED = -0.74; 
+    public static final double CORAL_INTAKING_CURRENT_LIMIT = 20;
+    public static final double CORAL_SHOOTING_MAX_CURRENT = 3.8;
+    public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
 
+    // CLIMBING MECHANISM
     public static final double CLIMBING_SPEED = -0.2; 
     public static final int CLIMBING_MOTOR_CAN_ID = 34;
 
-    //TODO: find the real values of ALL of these constants
+    // ELEVATOR MECHANISM
     public static final int ELEVATOR_CAN_ID = 17;
     public static final double ELEVATOR_SPROCKET_DIAMETER = 1.22; // inches
     public static final double ELEVATOR_GEAR_RATIO = 125.0;
@@ -117,6 +117,7 @@ public class Constants {
     public static final int TOP_LIMIT_SWITCH_PORT = 9;
     public static final int BOTTOM_LIMIT_SWITCH_PORT = 0;
 
+    // STICK AND STICK PIVOT MECHANISM
     public static final int STICK_CAN_ID = 16;
     public static final int STICK_PIVOT_CAN_ID = 32;
     public static final int STICK_PIVOT_GEAR_RATIO = 75;

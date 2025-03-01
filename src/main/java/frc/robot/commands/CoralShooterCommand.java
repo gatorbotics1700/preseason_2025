@@ -30,9 +30,6 @@ public class CoralShooterCommand extends Command {
             System.out.println ("OUTTAKING");
         }
         System.out.println("SPEED: " + speed);    
-        // if (speed < 0) { // if outtaking
-        //     coralShooterSubsystem.setAngle(Constants.SERVO_ANGLE, false); // TODO: move angle to params and set speed to value passed in to command regardless of intaking/outtaking
-        // } 
     }
     @Override
     public boolean isFinished() {
@@ -64,22 +61,23 @@ public class CoralShooterCommand extends Command {
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
-            } else if(coralShooterSubsystem.getMotor2StatorCurrent() > Constants.SHOOTER_INTAKING_CURRENT_LIMIT){ // checks current limit of bottom motor to prevent stalling
+            } else if(coralShooterSubsystem.getMotor2StatorCurrent() > Constants.CORAL_INTAKING_CURRENT_LIMIT){ // checks current limit of bottom motor to prevent stalling
                 coralShooterSubsystem.setSpeed(0); // stops motor when we fully intake - might be helpful to also add a sensor to intake
+                System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getMotor2StatorCurrent());
                 return true;
             }
         } else if(speed == 0){ // if stopped, end command
             System.out.println("SPEED: 0, STOPPING");
             return true;
-        } else if(speed < 0){ // if outtaking
-            if(timePassed > 2500){
+        } else if(speed < 0){ // if shooting
+            if(timePassed > 1500){
                 coralShooterSubsystem.setSpeed(0);
-                System.out.println("Finished outtaking");
+                System.out.println("Finished shooting");
                 return true;
-            } else if(coralShooterSubsystem.getMotorStatorCurrent() > Constants.SHOOTER_OUTTAKING_MAX_CURRENT){ 
+            } else if(coralShooterSubsystem.getMotorStatorCurrent() > Constants.CORAL_SHOOTING_MAX_CURRENT){ 
                 shootingCurrentPeaked = true; // notifies us that the coral in the shooter, still outtaking
                 System.out.println("SHOOTING CURRENT PEAKED: " + coralShooterSubsystem.getMotorStatorCurrent());
-            } else if(shootingCurrentPeaked && coralShooterSubsystem.getMotorStatorCurrent() < Constants.SHOOTER_OUTTAKING_MIN_CURRENT){ // if the coral has left the shooter
+            } else if(shootingCurrentPeaked && coralShooterSubsystem.getMotorStatorCurrent() < Constants.CORAL_SHOOTING_MIN_CURRENT){ // if the coral has left the shooter
                 coralShooterSubsystem.setSpeed(0); // stop because we have finished outtaking
                 shootingCurrentPeaked = false;
                 return true;

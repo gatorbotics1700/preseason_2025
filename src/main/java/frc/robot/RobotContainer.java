@@ -87,17 +87,16 @@ public class RobotContainer {
         // 
 
         // coral shooter intaking
-        new Trigger(controller_two::getYButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
+        new Trigger(controller_two::getAButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.3));
 
         // coral shooter outtaking
-        new Trigger(controller_two::getXButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
+        new Trigger(controller_two::getBButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_SHOOTING_SPEED));
 
-        // // button to stop intake & outtake or climbing
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
-            // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
+        // coral shooter stop
+        new Trigger(controller_two::getXButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
 
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 16, 0));
