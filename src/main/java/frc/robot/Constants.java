@@ -93,10 +93,14 @@ public class Constants {
     public static final double NEO_TICKS_PER_REV = 42;
     
     // for the old coral shooter mechanism
-    public static final int CORAL_SHOOTER_CAN_ID = 30;
-    public static final double CORAL_INTAKING_SPEED = 0.25;
-    public static final double CORAL_OUTTAKING_SPEED = -0.74; 
-    public static final double SERVO_ANGLE = 45.0;
+    public static final int SHOOTER_MOTOR_CAN_ID = 30;
+    public static final int SHOOTER_MOTOR2_CAN_ID = 34;
+    public static final double SHOOTER_INTAKING_SPEED = 0.25;
+    public static final double SHOOTER_OUTTAKING_SPEED = -0.74; 
+    //public static final double SERVO_ANGLE = 45.0;
+    public static final double SHOOTER_INTAKING_CURRENT_LIMIT = 20;
+    public static final double SHOOTER_OUTTAKING_MAX_CURRENT = 3.8;
+    public static final double SHOOTER_OUTTAKING_MIN_CURRENT = 2.5;
 
     public static final double CLIMBING_SPEED = -0.2; 
     public static final int CLIMBING_MOTOR_CAN_ID = 34;

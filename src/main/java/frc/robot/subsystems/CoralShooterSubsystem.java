@@ -13,16 +13,15 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
-    public final TalonFX motor;
-    public final TalonFX motor2;
+    public final TalonFX motor; // top motor
+    public final TalonFX motor2; // bottom motor
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
-    public static final double INTAKING_CURRENT_LIMIT = 20;
 
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
-        motor = new TalonFX(Constants.CORAL_SHOOTER_CAN_ID, Constants.CANIVORE_BUS_NAME);//TODO: enter in can id later
-        motor2 = new TalonFX(34);
+        motor = new TalonFX(Constants.SHOOTER_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        motor2 = new TalonFX(Constants.SHOOTER_MOTOR2_CAN_ID, Constants.CANIVORE_BUS_NAME);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public void setSpeed(double speed){
         motor.setControl(dutyCycleOut.withOutput(speed));
         motor2.setControl(dutyCycleOut.withOutput(speed));
-       // System.out.println("motor stator current: " + motor.getStatorCurrent() + "motor2 stator current: " + motor2.getStatorCurrent());
+       // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
     }
 
     public double getMotor2StatorCurrent(){
