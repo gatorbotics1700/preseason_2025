@@ -24,4 +24,8 @@ public class StickSubsystem extends SubsystemBase {
     public void setSpeed(double speed){
         motor.set(speed);
     }
+
+    public double getMotorStatorCurrent(){
+        return motor.getStatorCurrent().getValueAsDouble();
+    }
 }

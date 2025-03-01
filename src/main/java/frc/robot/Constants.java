@@ -120,6 +120,7 @@ public class Constants {
     public static final int STICK_LIMIT_SWITCH_PORT = 5; // TODO: change
     public static final double STICK_PIVOT_SHOOTING_ANGLE = 30.0; //TODO: fill in
     public static final double STICK_SPEED = 0.2;
+    public static final double STICK_INTAKE_CURRENT_LIMIT = 100.0;
 
     /* other information
      * degrees to ticks conversion: ticks per rev * gear ratio / 360

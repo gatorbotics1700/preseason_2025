@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.StickSubsystem;
 
 public class StickCommand extends Command {
@@ -36,6 +37,10 @@ public class StickCommand extends Command {
             if(System.currentTimeMillis() - startTime > 5000){
                 stickSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
+                return true;
+            } else if (stickSubsystem.getMotorStatorCurrent() > Constants.STICK_INTAKE_CURRENT_LIMIT){
+                stickSubsystem.setSpeed(0);
+                System.out.println("CURRENT LIMIT SURPASSED");
                 return true;
             }
         } else if(speed == 0){
