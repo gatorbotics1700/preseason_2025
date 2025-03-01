@@ -53,12 +53,15 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void setPosition(double desiredTicks){
-        double currentTicks = getCurrentTicks(); 
+        double currentTicks = getCurrentTicks(); // in case the motor's positive and negative is reversed due to invert
+        System.out.println("CURRENT INCHES: " + currentTicks / Constants.ELEVATOR_TICKS_PER_INCH);
         double error = desiredTicks - currentTicks;
+        System.out.println("ERROR: " + error / Constants.ELEVATOR_TICKS_PER_INCH);
         if(Math.abs(error) > DEADBAND){
-            double output = elevatorPIDController.calculate(currentTicks, desiredTicks);
+            double output = Constants.ELEVATOR_INVERT * elevatorPIDController.calculate(currentTicks, desiredTicks);
             System.out.println("ELEVATOR CURRENT PEAKED");
-            motor.setControl(dutyCycleOut.withOutput(Constants.ELEVATOR_INVERT * output));
+            System.out.println("CALCULATED OUTPUT: " + output);
+            motor.setControl(dutyCycleOut.withOutput(output/100));
             //elevatorMotor.setControl(positionVoltage.withPosition(desiredTicks));
         }else{
             motor.setControl(dutyCycleOut.withOutput(0));
@@ -74,7 +77,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double getCurrentTicks(){ //getPosition() is in rotations so rotations * ticks per rev should give position in ticks
-        return (motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV);
+        return Constants.ELEVATOR_INVERT * (motor.getPosition().getValueAsDouble() * Constants.KRAKEN_TICKS_PER_REV);
     }
 
     public double determineInchesToTicks(double desiredInches){

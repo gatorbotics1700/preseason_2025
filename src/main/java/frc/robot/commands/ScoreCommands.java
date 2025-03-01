@@ -52,7 +52,6 @@ public class ScoreCommands{
         .andThen(new StickCommand(stickSubsystem, Constants.STICK_SPEED)));
     }
 
-
     public static Command Shoot(CoralShooterSubsystem m_coralShooterSub){
             System.out.println("shooting!");
             CoralShooterCommand coralShooterCommand = new CoralShooterCommand(m_coralShooterSub,  Constants.CORAL_OUTTAKING_SPEED);

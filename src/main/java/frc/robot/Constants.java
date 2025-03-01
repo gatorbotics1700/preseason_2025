@@ -98,12 +98,12 @@ public class Constants {
     public static final double CORAL_OUTTAKING_SPEED = -0.74; 
     public static final double SERVO_ANGLE = 45.0;
 
-    public static final double CLIMBING_SPEED = -0.15; 
+    public static final double CLIMBING_SPEED = -0.2; 
     public static final int CLIMBING_MOTOR_CAN_ID = 34;
 
     //TODO: find the real values of ALL of these constants
     public static final int ELEVATOR_CAN_ID = 17;
-    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.762; // inches
+    public static final double ELEVATOR_SPROCKET_DIAMETER = 1.22; // inches
     public static final double ELEVATOR_GEAR_RATIO = 125.0;
     public static final double ELEVATOR_TICKS_PER_INCH = ((KRAKEN_TICKS_PER_REV * ELEVATOR_GEAR_RATIO) / ELEVATOR_SPROCKET_DIAMETER / Math.PI)/2;
     public static final double ELEVATOR_LEVEL_ONE = 0.0;
