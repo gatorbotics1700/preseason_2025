@@ -137,10 +137,15 @@ public class LimelightSubsystem extends SubsystemBase {
             robotSpacePose3d.getY(),
             new Rotation2d(robotSpacePose3d.getRotation().getZ())
         );
-        
-        System.out.println(robotSpacePose);
-        return robotSpacePose;
     }
+        
+//     public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ 
+//         //TODO: explain the order of this and why the camera pose from robot center is being transformed by the pose in camera space
+//         Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
+//         Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
+//         Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
+//         return robotSpacePose;
+//     }
 
     
     Pose2d convertToFieldSpace(Pose2d targetPoseInRobotSpace, Pose2d robotPoseInFieldSpace) {
