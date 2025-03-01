@@ -105,6 +105,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return new Pose2d(array[2], -array[0], new Rotation2d(Math.toRadians(-array[4])));
     }
 
+    //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)
     public Pose3d arrayToPose3d(double[] array){
         // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
         //the apriltag returns the camera relative pose as an array {TX, TY, TZ, PITCH, YAW, ROLL}
