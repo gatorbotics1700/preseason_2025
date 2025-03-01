@@ -26,6 +26,7 @@ public class StickCommand extends Command {
     @Override
     public void execute(){
         stickSubsystem.setSpeed(speed);
+        System.out.println("STICK CURRENT: " + stickSubsystem.getMotorStatorCurrent());
     }
 
     @Override

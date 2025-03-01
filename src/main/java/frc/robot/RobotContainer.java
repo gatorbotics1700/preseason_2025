@@ -59,9 +59,6 @@ public class RobotContainer {
         new Trigger(controller::getRightBumperPressed)
                 .onTrue(new InstantCommand(drivetrainSubsystem::setSlowDrive));
 
-        // new Trigger(controller::getAButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.74));
-
         //pipeline buttons
         // new Trigger(controller::getAButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 1, controller)); // id 6,19 A
@@ -71,87 +68,19 @@ public class RobotContainer {
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 3, controller)); // id 8,17 X
         // new Trigger(controller::getYButtonPressed)
         //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrainSubsystem, 4, controller)); // id 9,22 Y
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 24, 0));
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-        // new Trigger(controller_two::getRightBumperPressed)
-        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
-        // new Trigger(controller_two::getLeftBumperPressed)
-        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-        
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0));
-        
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0.2));
-        
-        // // intaking
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub,-0.2));
-        // new Trigger(controller::getBButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
-        //     .onTrue(new LimelightControlCommand(m_limelightsub, drivetrain, 1));
-
-
-        /* MECHANISMS BUTTONS */
-
-        // //coral outtaking
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_OUTTAKING_SPEED));
-
-        //coral stop
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new CoralCommand(m_coralSubsystem, 0));
-
-        // //coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        // .onTrue(new CoralCommand(m_coralSubsystem, Constants.CORAL_INTAKING_SPEED));
-
-        // coral pivot propped up
-    //    new Trigger(controller_two::getXButtonPressed)
-    //        .onTrue(new CoralPivotCommand(m_coralPivotSub, 30));
-
     
-        // coral outtaking
-        // new Trigger(controller_two::getYButtonPressed)
-            // .onTrue(new StickCommand(m_stickSub, -0.5));
-
-        // coral intaking
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, Constants.CORAL_INTAKING_SPEED));
-
-        //algae stop
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0));
-
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 30));
-        // 
-
-        // // coral shooter intaking
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.1));
-
-        // // coral shooter outtaking
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.73));
-
-        // // button to stop intake & outtake or climbing
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
-            // .onTrue(new ClimbingCommand(m_climbingSub, 0)); //off
+        /* ELEVATOR */ 
 
         // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new ElevatorCommand(m_elevatorSub, 30, 0));
+        //     .onTrue(new ElevatorCommand(m_elevatorSub, 16, 0));
         
         // new Trigger(controller_two::getYButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
 
-        // TODO figure out how to use joystick to control elevator
-
-
-        // climbing mechanism 
+        
+        /* CLIMBING - could consider changing these to whileTrue so climbing occurs only while button is pressed */
+        
+        // climbing
         new Trigger(controller_two::getAButtonPressed)
             .onTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
 
@@ -161,35 +90,6 @@ public class RobotContainer {
         
         new Trigger(controller_two::getXButtonPressed)
             .onTrue(new ClimbingCommand(m_climbingSub, 0));
-            
-        //TODO: test these triggers instead of the other ones so that the climbing only occurs while the button is pressed -- may have to change other logic for isFinished
-        //     new Trigger(controller_two::getAButtonPressed)
-        //     .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
-
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .whileTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
-
-
-        // new Trigger(controller_two::getRightBumperPressed)
-        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 45, 0)); // replace the height with the MAXIMUM height of the elevator
-
-        // new Trigger(controller_two::getLeftBumperPressed)
-        //     .whileTrue(new ElevatorCommand(m_elevatorSub, 0, 0));
-
-        // stick pivot go to 45 deg
-        // new Trigger(controller_two::getAButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 20)); //TODO: figure out angles
-        
-
-        // // //stick pivot go back down
-        // new Trigger(controller_two::getBButtonPressed)
-        //     .onTrue(new StickPivotCommand(m_stickPivotSub, 0)); //TODO: figure out angles
-
-        // new Trigger(controller_two::getXButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0.5));
-        
-        // new Trigger(controller_two::getYButtonPressed)
-        //     .onTrue(new StickCommand(m_stickSub, 0));
 
     autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);

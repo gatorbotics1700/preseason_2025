@@ -6,13 +6,11 @@ import frc.robot.subsystems.StickPivotSubsystem;
 
 public class StickPivotCommand extends Command {
     private StickPivotSubsystem stickPivotSubsystem;
-    private double angle;
     private double desiredTicks;
     private final double DEADBAND;
 
     public StickPivotCommand(StickPivotSubsystem stickPivotSubsystem, double angle){
         this.stickPivotSubsystem = stickPivotSubsystem;
-        this.angle = angle;
         desiredTicks = stickPivotSubsystem.degreesToTicks(angle);
         DEADBAND = stickPivotSubsystem.degreesToTicks(3);
         addRequirements(stickPivotSubsystem);

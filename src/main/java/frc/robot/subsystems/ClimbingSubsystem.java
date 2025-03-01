@@ -15,7 +15,6 @@ public class ClimbingSubsystem extends SubsystemBase{
     public ClimbingSubsystem() {
         motor = new TalonFX(Constants.CLIMBING_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
         motor.setNeutralMode(NeutralModeValue.Brake);
-
     }
 
     public void setSpeed(double speed) {
