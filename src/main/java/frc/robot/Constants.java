@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.com.swervedrivespecialties.swervelib.MechanicalConfiguration;
 import frc.com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 
@@ -29,13 +31,15 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
-    public static final double LIMELIGHT_FORWARD_OFFSET = 0.13335; //limelight x offset from center of robot
-    public static final double LIMELIGHT_SIDE_OFFSET = -0.30559;
-    public static final double LIMELIGHT_UP_OFFSET = 0.314325;
-    public static final double LIMELIGHT_YAW_OFFSET = 0.0;
-    public static final double LIMELIGHT_PITCH_OFFSET = 0.0;
-    public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    public static final double LIMELIGHT_FORWARD_OFFSET = 0.172; //limelight x offset from center of robot
+    public static final double LIMELIGHT_SIDE_OFFSET = -0.325;
+    public static final double LIMELIGHT_UP_OFFSET = 0.197;
+    public static final double LIMELIGHT_YAW_OFFSET = -40; //make sure you REALLY have this right...
+    public static final double LIMELIGHT_PITCH_OFFSET = -22.0;
+    public static final double LIMELIGHT_ROLL_OFFSET = 4.0;
     public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
+
+    public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
 
     // dory
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(98.173828125);
@@ -44,12 +48,18 @@ public class Constants {
     // public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(102.8320312500);
     // public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     // public static final String CANIVORE_BUS_NAME = "";
-    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.36195;
-    // public static final double LIMELIGHT_SIDE_OFFSET = -0.2413;
-    // public static final double LIMELIGHT_UP_OFFSET = 0.200025;
-    // public static final double LIMELIGHT_YAW_OFFSET = 2.0;
-    // public static final double LIMELIGHT_PITCH_OFFSET = 28.0;
+    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.26035;
+    // public static final double LIMELIGHT_SIDE_OFFSET = -0.00635;
+    // public static final double LIMELIGHT_UP_OFFSET = 1.143;
+    // public static final double LIMELIGHT_YAW_OFFSET = -4.0;
+    // public static final double LIMELIGHT_PITCH_OFFSET = -32.0;
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
+    // public static final double CENTER_TO_BUMPER_OFFSET = 0.4572; 
+
+    // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
+    // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
+    // public static final Pose2d LEFT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET,0, new Rotation2d(0)); //TODO: measure y value
+    // public static final Pose2d RIGHT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET, LEFT_POST_LINE_UP_OFFSET.getY() - 0.3302 , new Rotation2d(0)); //0.3302 is the distance between posts!
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 

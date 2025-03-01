@@ -3,8 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants;
@@ -12,8 +17,6 @@ import frc.robot.Constants;
 public class LimelightSubsystem extends SubsystemBase {
 
     private final NetworkTable limelightTable;
-    private final double X_OFFSET = 0.27; // distance from front of robot to limelight in meters
-    
 
     public LimelightSubsystem() {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -77,22 +80,23 @@ public class LimelightSubsystem extends SubsystemBase {
      *         - Rotation aligned parallel to the detected tag
      *         Returns null if no AprilTag is detected or vision data is invalid.
      */
-    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace) {
+    public Pose2d aprilTagPoseInFieldSpace(Pose2d robotPoseInFieldSpace, Pose2d lineUpOffset) {
         // distance to the camera from the tag (in camera's coordinate space)
         double[] aprilTagArrayInCameraSpace = limelightTable.getEntry("targetpose_cameraspace").getDoubleArray(new double[6]);
        
         if(aprilTagArrayInCameraSpace == null){ // idk if this is really necessary but better safe than sorry?
             return null;
         }
-
-        Pose2d aprilTagPoseInCameraSpace = arrayToPose(aprilTagArrayInCameraSpace);
+        
+        Pose3d aprilTagPoseInCameraSpace = arrayToPose3d(aprilTagArrayInCameraSpace);
         Pose2d aprilTagPoseInRobotSpace = convertCameraSpaceToRobotSpace(aprilTagPoseInCameraSpace);
         Pose2d aprilTagPoseFieldSpace = convertToFieldSpace(aprilTagPoseInRobotSpace, robotPoseInFieldSpace);
-        Pose2d aprilTagPoseOffsetFrontCenter = offsetToFrontCenter(aprilTagPoseFieldSpace);
-        return aprilTagPoseOffsetFrontCenter;
+        Pose2d aprilTagPoseOffsetFrontCenter = offsetToLineUpPoint(aprilTagPoseFieldSpace, lineUpOffset);
+         return aprilTagPoseOffsetFrontCenter;
     }
 
-    public Pose2d arrayToPose(double[] array){
+    //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)
+    public Pose2d arrayToPose2d(double[] array){
         // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
         //the apriltag returns the camera relative pose as an array {TX, TY, TZ, PITCH, YAW, ROLL}
         //positive TX is to the right, equivalent to the y axis on the pigeon but flipped (so when we convert to a pose we flip this to match the axes on the pigeon)
@@ -101,14 +105,50 @@ public class LimelightSubsystem extends SubsystemBase {
         return new Pose2d(array[2], -array[0], new Rotation2d(Math.toRadians(-array[4])));
     }
 
-    public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ 
-        //TODO: explain the order of this and why the camera pose from robot center is being transformed by the pose in camera space
-        Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
-        Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
-        Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
-        System.out.println(robotSpacePose);
+    //converts targetpose_cameraspace array into FRC coordinates. for a diagram of the coordinate system search for "targetpose_cameraspace coordinate system vs robot/pigeon coordinate system" in #progthoughts (2025 slack)
+    public Pose3d arrayToPose3d(double[] array){
+        // I HATE THIS IT'S EVIL AAAAAAAAA - Patricia
+        //the apriltag returns the camera relative pose as an array {TX, TY, TZ, PITCH, YAW, ROLL}
+        //positive TX is to the right, equivalent to the y axis on the pigeon but flipped (so when we convert to a pose we flip this to match the axes on the pigeon)
+        //positive TZ is straight forward, equivalent to the x axis on the pigeon
+        //positive YAW is clockwise, so we flip it when we convert to pose so that it matches all of our other rotational components
+        return new Pose3d(array[2], -array[0], -array[1], new Rotation3d(Math.toRadians(array[5]), Math.toRadians(-array[3]), Math.toRadians(-array[4]))); // there's no way the angles on this are right and frankly we might not even need the tag pose to be a pose3d???
+    }
+
+    public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace){ 
+        // Create the 3D pose of camera relative to robot center
+        Pose3d cameraPoseFromRobotCenter = new Pose3d(
+            Constants.LIMELIGHT_FORWARD_OFFSET,
+            -Constants.LIMELIGHT_SIDE_OFFSET,
+            Constants.LIMELIGHT_UP_OFFSET,
+            new Rotation3d(
+                Math.toRadians(Constants.LIMELIGHT_ROLL_OFFSET),
+                Math.toRadians(Constants.LIMELIGHT_PITCH_OFFSET),
+                Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)
+            )
+        );
+        
+        // Transform the camera pose by the input pose
+        Transform3d transform = new Transform3d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
+        Pose3d robotSpacePose3d = cameraPoseFromRobotCenter.transformBy(transform);
+        
+        // Project to 2D by taking x/y components and yaw
+        Pose2d robotSpacePose = new Pose2d(
+            robotSpacePose3d.getX(),
+            robotSpacePose3d.getY(),
+            new Rotation2d(robotSpacePose3d.getRotation().getZ())
+        );
+
         return robotSpacePose;
     }
+        
+//     public Pose2d convertCameraSpaceToRobotSpace(Pose2d poseInCameraSpace){ 
+//         //TODO: explain the order of this and why the camera pose from robot center is being transformed by the pose in camera space
+//         Transform2d transform = new Transform2d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
+//         Pose2d cameraPoseFromRobotCenter = new Pose2d(Constants.LIMELIGHT_FORWARD_OFFSET, -Constants.LIMELIGHT_SIDE_OFFSET, new Rotation2d(Math.toRadians(Constants.LIMELIGHT_YAW_OFFSET)));
+//         Pose2d robotSpacePose = cameraPoseFromRobotCenter.transformBy(transform);
+//         return robotSpacePose;
+//     }
 
     
     Pose2d convertToFieldSpace(Pose2d targetPoseInRobotSpace, Pose2d robotPoseInFieldSpace) {
@@ -120,6 +160,12 @@ public class LimelightSubsystem extends SubsystemBase {
     //offsets a pose so that the front center of the robot will be at that point rather than the center
     Pose2d offsetToFrontCenter (Pose2d targetPoseInFieldSpace){ 
         Transform2d transform = new Transform2d(-Constants.CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //could change numbers here if we wanted to offset to a different part of the robot
+        Pose2d result = targetPoseInFieldSpace.transformBy(transform);
+        return result; 
+    }
+
+    Pose2d offsetToLineUpPoint (Pose2d targetPoseInFieldSpace, Pose2d lineUpPointRobotSpace){ 
+        Transform2d transform = new Transform2d(new Translation2d(-lineUpPointRobotSpace.getX(), -lineUpPointRobotSpace.getY()), lineUpPointRobotSpace.getRotation()); //we flip x and y because logically we want to move the center of the robot back by the offset in order to align the point with the apriltag (because we can only drive to a pose by giving it a target pose for the center)
         Pose2d result = targetPoseInFieldSpace.transformBy(transform);
         return result; 
     }
