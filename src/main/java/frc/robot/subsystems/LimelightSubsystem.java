@@ -125,8 +125,7 @@ public class LimelightSubsystem extends SubsystemBase {
         // Create the 3D pose of camera relative to robot center
         //we redo the pose because we need to flip the Y. if anyone knows a better way of just flipping the y, feel free to change this because it's otherwise the exact same pose :/
         Pose3d cameraPoseFromRobotCenter =  new Pose3d (limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), 
-        new Rotation3d(Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
-        Math.toDegrees(limelightOffsets.getRotation().getZ())));
+        limelightOffsets.getRotation());
         
         // Transform the camera pose by the input pose
         Transform3d transform = new Transform3d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());
