@@ -56,10 +56,10 @@ public class Constants {
     // public static final double LIMELIGHT_ROLL_OFFSET = 0.0;
     // public static final double CENTER_TO_BUMPER_OFFSET = 0.4572; 
 
-    //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
-    //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
-    public static final Pose2d LEFT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET,0, new Rotation2d(0)); //TODO: measure y value
-    public static final Pose2d RIGHT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET, LEFT_POST_LINE_UP_OFFSET.getY() - 0.3302 , new Rotation2d(0)); //0.3302 is the distance between posts!
+    // //the line up offsets are the point (in robot relative coordinates) that needs to align with the apriltag in order for us to score left/right post 
+    // //(we flip the values in our offset method so that we can find the pose the center of the robot needs to be at, but they should not be flipped here!)
+    // public static final Pose2d LEFT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET,0, new Rotation2d(0)); //TODO: measure y value
+    // public static final Pose2d RIGHT_POST_LINE_UP_OFFSET = new Pose2d(Constants.CENTER_TO_BUMPER_OFFSET, LEFT_POST_LINE_UP_OFFSET.getY() - 0.3302 , new Rotation2d(0)); //0.3302 is the distance between posts!
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; 
