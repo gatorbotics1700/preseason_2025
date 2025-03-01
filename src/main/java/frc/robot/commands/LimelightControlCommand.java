@@ -44,7 +44,6 @@ public class LimelightControlCommand extends Command {
 
         if (desiredPose != null) {
            drivetrainSubsystem.driveToPoseWithInitialAngle(desiredPose, pointingToTagAngle);
-           //drivetrainSubsystem.driveToPose(desiredPose);
 
         }
     }
@@ -69,7 +68,7 @@ public class LimelightControlCommand extends Command {
     private void updateDesiredPose() { 
         desiredPose = limelightSubsystem.aprilTagPoseInFieldSpace(drivetrainSubsystem.getPose(), lineUpOffset);
         //the angle we need to be at to be pointing directly at the apriltag, rather than parallel to it
-        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle() /*- Constants.LIMELIGHT_YAW_OFFSET*/)); // TODO: troubleshoot this
+        pointingToTagAngle = drivetrainSubsystem.getPose().getRotation().minus(Rotation2d.fromDegrees(limelightSubsystem.getHorizontalOffsetAngle())); 
     }
 
     private boolean targetMatchesPipeline() {
