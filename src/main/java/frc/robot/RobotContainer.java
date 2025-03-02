@@ -40,6 +40,7 @@ public class RobotContainer {
     // private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
     // private static final StickSubsystem m_stickSub = new StickSubsystem();
     private static final CoralShooterSubsystem m_coralShooterSub = new CoralShooterSubsystem();
+    private static final ScoreCommands m_scoreCommands = new ScoreCommands();
 
     public RobotContainer() {
         // NamedCommands.registerCommand("Score Trough", ScoreCommands.Level(1, m_elevatorSub, m_stickSub, m_stickPivotSub));
@@ -88,15 +89,22 @@ public class RobotContainer {
 
         // coral shooter intaking
         new Trigger(controller_two::getAButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, 0.3));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
 
         // coral shooter outtaking
         new Trigger(controller_two::getBButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_SHOOTING_SPEED));
 
+        // coral shooter vomit and intake
+        new Trigger(controller_two::getYButtonPressed)
+            .onTrue(VomitAndIntake(m_coralShooterSub));
+
         // coral shooter stop
         new Trigger(controller_two::getXButtonPressed)
             .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
+
+        new Trigger(controller_two::getRightBumperButtonPressed)
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.42));
 
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 16, 0));
@@ -176,6 +184,13 @@ public class RobotContainer {
         }
 
         return value;
+    }
+
+    public static Command VomitAndIntake(CoralShooterSubsystem coralShooterSubsystem){
+        System.out.println("VOMITING CORAL AND INTAKING");
+        return new CoralShooterCommand(coralShooterSubsystem, 0)
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_SPEED))
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_SPEED));
     }
     
 }

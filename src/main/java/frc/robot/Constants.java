@@ -95,9 +95,10 @@ public class Constants {
     // CORAL SHOOTER MECHANISM
     public static final int SHOOTER_MOTOR_CAN_ID = 30;
     public static final int SHOOTER_MOTOR2_CAN_ID = 34;
-    public static final double CORAL_INTAKING_SPEED = 0.25;
-    public static final double CORAL_SHOOTING_SPEED = -0.74; 
-    public static final double CORAL_INTAKING_CURRENT_LIMIT = 20;
+    public static final double CORAL_INTAKING_SPEED = 0.3;
+    public static final double CORAL_SHOOTING_SPEED = -0.7; 
+    public static final double CORAL_VOMIT_SPEED = -0.1; // slow outtake for when coral gets stuck
+    public static final double CORAL_INTAKING_CURRENT_LIMIT = 13;
     public static final double CORAL_SHOOTING_MAX_CURRENT = 3.8;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
 
