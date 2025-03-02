@@ -24,7 +24,7 @@ public class LimelightSubsystem extends SubsystemBase {
         limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
         
         LimelightHelpers.setCameraPose_RobotSpace("limelight", 
-        limelightOffsets.getX() , limelightOffsets.getY(), limelightOffsets.getZ(), 
+        limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), //now flipping Y here instead of in constants.java
         Math.toDegrees(limelightOffsets.getRotation().getX()), Math.toDegrees(limelightOffsets.getRotation().getY()), 
         Math.toDegrees(limelightOffsets.getRotation().getZ()));
     }
@@ -122,10 +122,8 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public Pose2d convertCameraSpaceToRobotSpace(Pose3d poseInCameraSpace){ 
-        // Create the 3D pose of camera relative to robot center
-        //we redo the pose because we need to flip the Y. if anyone knows a better way of just flipping the y, feel free to change this because it's otherwise the exact same pose :/
-        Pose3d cameraPoseFromRobotCenter =  new Pose3d (limelightOffsets.getX() , -limelightOffsets.getY(), limelightOffsets.getZ(), 
-        limelightOffsets.getRotation());
+        // Create the 3D pose of camera relative to robot center (it's just the limelightOffsets but it makes more sense if you name it cameraPose lol)
+        Pose3d cameraPoseFromRobotCenter = limelightOffsets;
         
         // Transform the camera pose by the input pose
         Transform3d transform = new Transform3d(poseInCameraSpace.getTranslation(), poseInCameraSpace.getRotation());

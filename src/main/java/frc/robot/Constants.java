@@ -33,8 +33,8 @@ public class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(204.256);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
-
-    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, -0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
+    //position of robot in regular robot coordinates. NOTE: left used to be negative, but not it isn't since we're following the pigeon axes!
+    public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, 0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
     public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
