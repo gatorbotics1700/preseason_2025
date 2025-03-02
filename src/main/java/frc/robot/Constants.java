@@ -34,12 +34,6 @@ public class Constants {
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "CANivore Bus 1";
     public static final Pose3d LIMELIGHT_OFFSETS = new Pose3d(0.172, -0.325, 0.197, new Rotation3d(Math.toRadians(10.0), Math.toRadians(-23.0), Math.toRadians(-46.0)));
-    // public static final double LIMELIGHT_FORWARD_OFFSET = 0.172; //limelight x offset from center of robot
-    // public static final double LIMELIGHT_SIDE_OFFSET = -0.325;
-    // public static final double LIMELIGHT_UP_OFFSET = 0.197;
-    // public static final double LIMELIGHT_YAW_OFFSET = -40; //make sure you REALLY have this right...
-    // public static final double LIMELIGHT_PITCH_OFFSET = -22.0;
-    // public static final double LIMELIGHT_ROLL_OFFSET = 4.0;
     public static final double CENTER_TO_BUMPER_OFFSET = 0.3937;
 
     public static final Pose2d FRONT_CENTER_ALIGN_OFFSET = new Pose2d(CENTER_TO_BUMPER_OFFSET, 0, new Rotation2d(0)); //offset from center of robot to where we want to line up with the april tag
