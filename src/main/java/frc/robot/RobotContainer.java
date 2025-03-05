@@ -20,6 +20,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,12 +31,16 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
     private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+    
     private final XboxController controller = new XboxController(0);
-
-    private final XboxController controller_two = new XboxController(1);
+    private final XboxController controller_two = new XboxController(1); // TODO eventually delete this
+    
+    private final GenericHID buttonBoard1 = new GenericHID(2);
+    private final GenericHID buttonBoard2 = new GenericHID(3);
+    
     private final SendableChooser<Command> autoChooser;
     private static final LimelightSubsystem m_limelightsub = new LimelightSubsystem();
-    // private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
+    private static final ClimbingSubsystem m_climbingSub = new ClimbingSubsystem();
     // private static final ElevatorSubsystem m_elevatorSub = new ElevatorSubsystem();
     // private static final StickPivotSubsystem m_stickPivotSub = new StickPivotSubsystem();
     // private static final StickSubsystem m_stickSub = new StickSubsystem();
@@ -93,7 +98,7 @@ public class RobotContainer {
 
         // coral shooter outtaking
         new Trigger(controller_two::getBButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_SHOOTING_SPEED));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
 
         // coral shooter vomit and intake
         new Trigger(controller_two::getYButtonPressed)
@@ -104,7 +109,7 @@ public class RobotContainer {
             .onTrue(new CoralShooterCommand(m_coralShooterSub, 0));
 
         new Trigger(controller_two::getRightBumperButtonPressed)
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, -0.42));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new ElevatorCommand(m_elevatorSub, 16, 0));
@@ -125,6 +130,56 @@ public class RobotContainer {
         
         // new Trigger(controller_two::getXButtonPressed)
         //     .onTrue(new ClimbingCommand(m_climbingSub, 0));
+
+
+        /* CO-DRIVER BUTTON BOARD 1 BUTTONS */
+
+        //
+
+
+
+        
+        /* CO-DRIVER BUTTON BOARD 2 BUTTONS */
+
+        // climb
+        new Trigger(()->buttonBoard2.getRawButtonPressed(1))
+            .whileTrue(new ClimbingCommand(m_climbingSub, Constants.CLIMBING_SPEED));
+            
+        // detach
+        new Trigger(()->buttonBoard2.getRawButtonPressed(2))
+            .whileTrue(new ClimbingCommand(m_climbingSub, -Constants.CLIMBING_SPEED));
+
+        // extra
+        new Trigger(()->buttonBoard2.getRawButtonPressed(3));
+
+        // lining up to with reef to score trough
+        new Trigger(()->buttonBoard2.getRawButtonPressed(4))
+            //.onTrue(new LimeLightControlCommand(m_limelightsub, drivetrainSubsystem, , )) 
+            // add xbox controller - should this be changed to button board in command? 
+            ;
+        new Trigger(()->buttonBoard2.getRawButtonPressed(5));
+        new Trigger(()->buttonBoard2.getRawButtonPressed(6));
+        new Trigger(()->buttonBoard2.getRawButtonPressed(7));
+        new Trigger(()->buttonBoard2.getRawButtonPressed(8));
+        new Trigger(()->buttonBoard2.getRawButtonPressed(9));
+
+        // vomit
+        new Trigger(()->buttonBoard2.getRawButtonPressed(10))
+            .onTrue(VomitAndIntake(m_coralShooterSub)); 
+        // note that this is not a NEW command as it is created within this class - could change how variables are saved within the command
+
+        // score trough
+        new Trigger(()->buttonBoard2.getRawButtonPressed(11))
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
+
+        // score L4
+        new Trigger(()->buttonBoard2.getRawButtonPressed(12))
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
+
+        // intake
+        new Trigger(()->buttonBoard2.getRawButtonPressed(13))
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
+        
 
     autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -193,4 +248,9 @@ public class RobotContainer {
         .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_SPEED));
     }
     
+    // public static Command scoreTrough(CoralShooterSubsystem coralShooterSubsystem){
+    //     System.out.println("SCORING TROUGH");
+    //     return new CoralShooterCommand(coralShooterSubsystem, 0.5);
+    // }
+    // ^ DELETE UNLESS ANY OTHER COMMANDS ARE NEEDED
 }
