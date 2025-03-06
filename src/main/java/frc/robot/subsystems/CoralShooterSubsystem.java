@@ -18,8 +18,8 @@ public class CoralShooterSubsystem extends SubsystemBase{
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
-        motor = new TalonFX(Constants.SHOOTER_MOTOR_CAN_ID); //, Constants.CANIVORE_BUS_NAME);
-        motor2 = new TalonFX(Constants.SHOOTER_MOTOR2_CAN_ID); //, Constants.CANIVORE_BUS_NAME);
+        motor = new TalonFX(Constants.SHOOTER_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        motor2 = new TalonFX(Constants.SHOOTER_MOTOR2_CAN_ID, Constants.CANIVORE_BUS_NAME);
     }
 
     @Override
@@ -40,8 +40,4 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public double getMotorStatorCurrent(){
         return motor.getStatorCurrent().getValueAsDouble();
     }
-
-    // public boolean isBeamBroken() {
-    //     return beamBreakSensor.get();
-    // }
 }
