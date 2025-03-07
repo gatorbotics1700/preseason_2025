@@ -59,10 +59,10 @@ public class Constants {
 
 
     //comp bot
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0);
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0);
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0);
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(268.0664);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(231.3281);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(169.3652);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(52.1191);
     public static final MechanicalConfiguration MODULE_CONFIGURATION = SdsModuleConfigurations.MK4I_L2;
     public static final String CANIVORE_BUS_NAME = "TRex";
     public static final double LIMELIGHT_FORWARD_OFFSET = 0.0;
@@ -94,18 +94,18 @@ public class Constants {
     
     // CORAL SHOOTER MECHANISM
     public static final int SHOOTER_MOTOR_CAN_ID = 30;
-    public static final int SHOOTER_MOTOR2_CAN_ID = 34; // TODO change this or climbing motor can id
-    public static final double CORAL_INTAKING_SPEED = 0.3;
-    public static final double CORAL_L4_SHOOTING_SPEED = -0.7; 
+    public static final int SHOOTER_MOTOR2_CAN_ID = 34; 
+    public static final double CORAL_INTAKING_SPEED = 0.5;
+    public static final double CORAL_L4_SHOOTING_SPEED = -0.72; 
     public static final double CORAL_TROUGH_SHOOTING_SPEED = -0.42;
-    public static final double CORAL_VOMIT_SPEED = -0.1; // slow outtake for when coral gets stuck
-    public static final double CORAL_INTAKING_CURRENT_LIMIT = 13;
-    public static final double CORAL_SHOOTING_MAX_CURRENT = 3.8;
+    public static final double CORAL_VOMIT_SPEED = -0.3; // slow outtake for when coral gets stuck
+    public static final double CORAL_INTAKING_CURRENT_LIMIT = 35;
+    public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
 
     // CLIMBING MECHANISM
     public static final double CLIMBING_SPEED = 0.2; 
-    public static final int CLIMBING_MOTOR_CAN_ID = 34; // TODO change this or climbing motor can id
+    public static final int CLIMBING_MOTOR_CAN_ID = 35; 
 
     // ELEVATOR MECHANISM
     public static final int ELEVATOR_CAN_ID = 17;
