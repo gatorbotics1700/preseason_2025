@@ -34,16 +34,16 @@ public class CoralShooterSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("motor two current",  motor.getStatorCurrent().getValueAsDouble());
     }
 
-    // public void setSpeed(double speed){
-    //     motor.setControl(dutyCycleOut.withOutput(speed));
-    //     motor2.setControl(dutyCycleOut.withOutput(speed));
-    //    // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
-    // }
-
-    public void setVoltage(double voltage){
-        motor.setVoltage(voltage);
-        motor2.setVoltage(voltage);
+    public void setSpeed(double speed){
+        motor.setControl(dutyCycleOut.withOutput(speed));
+        motor2.setControl(dutyCycleOut.withOutput(speed));
+       // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
     }
+
+    // public void setVoltage(double voltage){
+    //     motor.setVoltage(voltage);
+    //     motor2.setVoltage(voltage);
+    // }
 
     public double getMotor2StatorCurrent(){
         return motor2.getStatorCurrent().getValueAsDouble();

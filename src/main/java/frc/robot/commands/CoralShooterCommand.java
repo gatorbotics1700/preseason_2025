@@ -6,13 +6,15 @@ import frc.robot.subsystems.CoralShooterSubsystem;
 
 public class CoralShooterCommand extends Command {
     private CoralShooterSubsystem coralShooterSubsystem;
-    private final double voltage;
+    // private final double voltage;
+    private final double speed;
     private double startTime;
     private boolean shootingCurrentPeaked; 
     
-    public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double voltage) {
+    public CoralShooterCommand(CoralShooterSubsystem coralShooterSubsystem, double speed){ //double voltage) {
         this.coralShooterSubsystem = coralShooterSubsystem; 
-        this.voltage = voltage;
+        // this.voltage = voltage;
+        this.speed = speed;
         addRequirements(coralShooterSubsystem);
     }
     
@@ -23,15 +25,15 @@ public class CoralShooterCommand extends Command {
     
     @Override
     public void execute() {
-        //set speed to given value 
-        //coralShooterSubsystem.setSpeed(speed);
-        coralShooterSubsystem.setVoltage(voltage);
-        if (voltage > 0) {
+        coralShooterSubsystem.setSpeed(speed);
+        // coralShooterSubsystem.setVoltage(voltage);
+        if(speed > 0) {
             System.out.println("INTAKING");
-        } else if (voltage < 0) {
-            System.out.println ("OUTTAKING");
+        } else if (speed < 0) {
+            System.out.println ("SHOOTING");
         }
-        System.out.println("MOTOR VOLTAGE: " + voltage); 
+        // System.out.println("MOTOR VOLTAGE: " + voltage); 
+        System.out.println("SPEED: " + speed);
         System.out.println("battery voltage: " + RobotController.getBatteryVoltage());   
     }
     @Override
@@ -41,9 +43,10 @@ public class CoralShooterCommand extends Command {
         
         System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getMotor2StatorCurrent());
         
-        if(voltage > 0){ // if intaking
+        if(speed > 0){ // if intaking
             if(timePassed > 2500){
-                coralShooterSubsystem.setVoltage(0);
+                //coralShooterSubsystem.setVoltage(0);
+                coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
                 return true;
             } 
@@ -52,12 +55,14 @@ public class CoralShooterCommand extends Command {
             //     System.out.println("INTAKING CURRENT PEAKED: " + coralShooterSubsystem.getMotor2StatorCurrent());
             //     return true;
             // }
-        } else if(voltage == 0){ // if stopped, end command
-            System.out.println("MOTOR VOLTAGE: 0, STOPPING");
+        } else if(speed == 0){ // if stopped, end command
+            // System.out.println("MOTOR VOLTAGE: 0, STOPPING");
+            System.out.println("SPEED: 0, STOPPING");
             return true;
-        } else if(voltage < 0){ // if shooting
+        } else if(speed < 0){ // if shooting
             if(timePassed > 1500){
-                coralShooterSubsystem.setVoltage(0);
+                //coralShooterSubsystem.setVoltage(0);
+                coralShooterSubsystem.setSpeed(0);
                 System.out.println("Finished shooting");
                 return true;
             }
