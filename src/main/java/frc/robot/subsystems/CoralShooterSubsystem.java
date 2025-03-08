@@ -40,6 +40,14 @@ public class CoralShooterSubsystem extends SubsystemBase{
        // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
     }
 
+    public void setSpeedMotor1(double speed){
+        motor.setControl(dutyCycleOut.withOutput(speed));
+    }
+
+    public void setSpeedMotor2(double speed){
+        motor2.setControl(dutyCycleOut.withOutput(speed));
+    }
+
     // public void setVoltage(double voltage){
     //     motor.setVoltage(voltage);
     //     motor2.setVoltage(voltage);

@@ -25,8 +25,10 @@ public class CoralShooterCommand extends Command {
     
     @Override
     public void execute() {
-        coralShooterSubsystem.setSpeed(speed);
-        // coralShooterSubsystem.setVoltage(voltage);
+        coralShooterSubsystem.setSpeedMotor1(speed);
+        if ((System.currentTimeMillis()- startTime)>1000){
+            coralShooterSubsystem.setSpeedMotor2(speed);
+        }
         if(speed > 0) {
             System.out.println("INTAKING");
         } else if (speed < 0) {
@@ -44,7 +46,7 @@ public class CoralShooterCommand extends Command {
         System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getMotor2StatorCurrent());
         
         if(speed > 0){ // if intaking
-            if(timePassed > 2500){
+            if(timePassed > 3500){
                 //coralShooterSubsystem.setVoltage(0);
                 coralShooterSubsystem.setSpeed(0);
                 System.out.println ("Finished intaking");
