@@ -102,9 +102,9 @@ public class Constants {
     public static final double CORAL_INTAKING_CURRENT_LIMIT = 35;
     public static final double CORAL_SHOOTING_MAX_CURRENT = 10;
     public static final double CORAL_SHOOTING_MIN_CURRENT = 2.5;
-    public static final double CORAL_INTAKING_VOLTAGE = 5.0;
+    public static final double CORAL_INTAKING_VOLTAGE = 4.0;
     public static final double CORAL_L4_SHOOTING_VOLTAGE = -8.4;
-    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -5.0;
+    public static final double CORAL_TROUGH_SHOOTING_VOLTAGE = -4;
     public static final double CORAL_VOMIT_VOLTAGE = -0.3;
 
     // CLIMBING MECHANISM
