@@ -223,15 +223,15 @@ public class RobotContainer {
 
         // score trough
         new Trigger(()->buttonBoard2B.getRawButtonPressed(8))
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_VOLTAGE));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_TROUGH_SHOOTING_SPEED));
 
         // score L4
         new Trigger(()->buttonBoard2A.getRawButtonPressed(4))
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_VOLTAGE));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_L4_SHOOTING_SPEED));
 
         // intake
         new Trigger(()->buttonBoard2A.getRawButtonPressed(5))
-            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_VOLTAGE));
+            .onTrue(new CoralShooterCommand(m_coralShooterSub, Constants.CORAL_INTAKING_SPEED));
         
 
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -297,8 +297,8 @@ public class RobotContainer {
     public static Command VomitAndIntake(CoralShooterSubsystem coralShooterSubsystem){
         System.out.println("VOMITING CORAL AND INTAKING");
         return new CoralShooterCommand(coralShooterSubsystem, 0)
-        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_VOLTAGE))
-        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_VOLTAGE));
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_VOMIT_SPEED))
+        .andThen(new CoralShooterCommand(coralShooterSubsystem, Constants.CORAL_INTAKING_SPEED));
     }
     
     // public static Command scoreTrough(CoralShooterSubsystem coralShooterSubsystem){
