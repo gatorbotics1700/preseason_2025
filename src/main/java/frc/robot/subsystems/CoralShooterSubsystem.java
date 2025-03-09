@@ -32,6 +32,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     @Override
     public void periodic(){
         SmartDashboard.putNumber("motor two current",  motor.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putData("motor 1", motor);
     }
 
     public void setSpeed(double speed){
@@ -60,4 +61,13 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public double getMotorStatorCurrent(){
         return motor.getStatorCurrent().getValueAsDouble();
     }
+
+    public double getMotor1Speed(){
+        return motor.getVelocity().getValueAsDouble();
+    }
+
+    public double getMotor2Speed(){
+        return motor2.getVelocity().getValueAsDouble();
+    }
+
 }

@@ -1,5 +1,6 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CoralShooterSubsystem;
@@ -25,16 +26,18 @@ public class CoralShooterCommand extends Command {
     
     @Override
     public void execute() {
-        if (speed < 0){
-            coralShooterSubsystem.setSpeedMotor1(speed);   
-            if ((System.currentTimeMillis()- startTime)>1000){
-                coralShooterSubsystem.setSpeedMotor2(speed);
-            }
+        // if (speed < 0){
+        //     coralShooterSubsystem.setSpeedMotor1(speed);   
+        //     if ((System.currentTimeMillis()- startTime)>1000){
+        //         coralShooterSubsystem.setSpeedMotor2(speed);
+        //     }
 
-        } else{
+        // } else{
             coralShooterSubsystem.setSpeed(speed);
+            SmartDashboard.putNumber("shooter speed", coralShooterSubsystem.getMotor1Speed());
+            SmartDashboard.putNumber("velocity delta", speed - coralShooterSubsystem.getMotor2Speed());
 
-        }
+       // }
        
         
         if(speed > 0) {
