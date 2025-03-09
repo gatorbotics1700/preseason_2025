@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Servo;
 public class CoralShooterSubsystem extends SubsystemBase{
     public final TalonFX motor; // top motor
     public final TalonFX motor2; // bottom motor
+    public final TalonFX motor3; // testing motor
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     //private final DigitalInput beamBreakSensor;
@@ -23,6 +24,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public CoralShooterSubsystem(){
         motor = new TalonFX(Constants.SHOOTER_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
         motor2 = new TalonFX(Constants.SHOOTER_MOTOR2_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        motor3 = new TalonFX(36, Constants.CANIVORE_BUS_NAME);
 
         motor2.getConfigurator().apply(new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs()
@@ -38,6 +40,7 @@ public class CoralShooterSubsystem extends SubsystemBase{
     public void setSpeed(double speed){
         motor.setControl(dutyCycleOut.withOutput(speed));
         motor2.setControl(dutyCycleOut.withOutput(speed));
+        motor3.setControl(dutyCycleOut.withOutput(speed));
        // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
     }
 
