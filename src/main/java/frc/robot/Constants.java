@@ -93,8 +93,9 @@ public class Constants {
     public static final double NEO_TICKS_PER_REV = 42;
     
     // CORAL SHOOTER MECHANISM
-    public static final int SHOOTER_MOTOR_CAN_ID = 30;
-    public static final int SHOOTER_MOTOR2_CAN_ID = 34; 
+    public static final int SHOOTER_MOTOR_TOP_LEFT_CAN_ID = 30;
+    public static final int SHOOTER_MOTOR_TOP_RIGHT_CAN_ID = 32; 
+    public static final int SHOOTER_MOTOR_BOTTOM_ID = 34; 
     public static final double CORAL_INTAKING_SPEED = 0.5;
     public static final double CORAL_L4_SHOOTING_SPEED = -0.78; 
     public static final double CORAL_TROUGH_SHOOTING_SPEED = -0.42;

@@ -14,42 +14,46 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class CoralShooterSubsystem extends SubsystemBase{
-    public final TalonFX motor; // top motor
-    public final TalonFX motor2; // bottom motor
-    public final TalonFX motor3; // testing motor
+    public final TalonFX topMotorLeft;
+    public final TalonFX topMotorRight;
+    public final TalonFX bottomMotor;
+    public final TalonFX testMotor;
     private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     //private final DigitalInput beamBreakSensor;
     
     public CoralShooterSubsystem(){
-        motor = new TalonFX(Constants.SHOOTER_MOTOR_CAN_ID, Constants.CANIVORE_BUS_NAME);
-        motor2 = new TalonFX(Constants.SHOOTER_MOTOR2_CAN_ID, Constants.CANIVORE_BUS_NAME);
-        motor3 = new TalonFX(36, Constants.CANIVORE_BUS_NAME);
+        topMotorLeft = new TalonFX(Constants.SHOOTER_MOTOR_TOP_LEFT_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        topMotorRight = new TalonFX(Constants.SHOOTER_MOTOR_TOP_RIGHT_CAN_ID, Constants.CANIVORE_BUS_NAME);
+        bottomMotor = new TalonFX(Constants.SHOOTER_MOTOR_BOTTOM_ID, Constants.CANIVORE_BUS_NAME);
+        testMotor = new TalonFX(36, Constants.CANIVORE_BUS_NAME);
 
-        motor2.getConfigurator().apply(new TalonFXConfiguration()
+        topMotorRight.setInverted(true);
+        bottomMotor.getConfigurator().apply(new TalonFXConfiguration()
             .withMotorOutput(new MotorOutputConfigs()
                 .withInverted(InvertedValue.Clockwise_Positive))); // TODO: test if this works by deleting ELEVATOR_MOTOR_INVERT
     }
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("motor two current",  motor.getStatorCurrent().getValueAsDouble());
-        SmartDashboard.putData("motor 1", motor);
+        SmartDashboard.putNumber("bottom motor current",  getBottomMotorStatorCurrent());
+        SmartDashboard.putNumber("top motor left current", getTopMotorLeftStatorCurrent());
     }
 
     public void setSpeed(double speed){
-        motor.setControl(dutyCycleOut.withOutput(speed));
-        motor2.setControl(dutyCycleOut.withOutput(speed));
-        motor3.setControl(dutyCycleOut.withOutput(speed));
+        topMotorLeft.setControl(dutyCycleOut.withOutput(speed));
+        topMotorRight.setControl(dutyCycleOut.withOutput(speed));
+        bottomMotor.setControl(dutyCycleOut.withOutput(speed));
        // System.out.println("motor stator current: " + motor.getStatorCurrent() + ", motor2 stator current: " + motor2.getStatorCurrent());
     }
 
-    public void setSpeedMotor1(double speed){
-        motor.setControl(dutyCycleOut.withOutput(speed));
+    public void setTopMotorSpeed(double speed){
+        topMotorLeft.setControl(dutyCycleOut.withOutput(speed));
+        topMotorRight.setControl(dutyCycleOut.withOutput(speed));
     }
 
-    public void setSpeedMotor2(double speed){
-        motor2.setControl(dutyCycleOut.withOutput(speed));
+    public void setBottomMotorSpeed(double speed){
+        bottomMotor.setControl(dutyCycleOut.withOutput(speed));
     }
 
     // public void setVoltage(double voltage){
@@ -57,20 +61,20 @@ public class CoralShooterSubsystem extends SubsystemBase{
     //     motor2.setVoltage(voltage);
     // }
 
-    public double getMotor2StatorCurrent(){
-        return motor2.getStatorCurrent().getValueAsDouble();
+    public double getTopMotorLeftStatorCurrent(){
+        return topMotorLeft.getStatorCurrent().getValueAsDouble();
     }
 
-    public double getMotorStatorCurrent(){
-        return motor.getStatorCurrent().getValueAsDouble();
+    public double getBottomMotorStatorCurrent(){
+        return bottomMotor.getStatorCurrent().getValueAsDouble();
     }
 
-    public double getMotor1Speed(){
-        return motor.getVelocity().getValueAsDouble();
+    public double getTopMotorLeftSpeed(){
+        return topMotorLeft.getVelocity().getValueAsDouble();
     }
 
-    public double getMotor2Speed(){
-        return motor2.getVelocity().getValueAsDouble();
+    public double getBottomMotorSpeed(){
+        return bottomMotor.getVelocity().getValueAsDouble();
     }
 
 }

@@ -34,8 +34,8 @@ public class CoralShooterCommand extends Command {
 
         // } else{
             coralShooterSubsystem.setSpeed(speed);
-            SmartDashboard.putNumber("shooter speed", coralShooterSubsystem.getMotor1Speed());
-            SmartDashboard.putNumber("velocity delta", speed - coralShooterSubsystem.getMotor2Speed());
+            SmartDashboard.putNumber("shooter speed", coralShooterSubsystem.getTopMotorLeftSpeed());
+            SmartDashboard.putNumber("velocity delta", speed - coralShooterSubsystem.getBottomMotorSpeed());
 
        // }
        
@@ -54,7 +54,7 @@ public class CoralShooterCommand extends Command {
         double timePassed = System.currentTimeMillis() - startTime;
         System.out.println("Milliseconds passed: " +  timePassed);  
         
-        System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getMotor2StatorCurrent());
+        System.out.println("MOTOR2 CURRENT: " + coralShooterSubsystem.getBottomMotorStatorCurrent());
         
         if(speed > 0){ // if intaking
             if(timePassed > 3500){
