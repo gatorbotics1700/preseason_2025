@@ -14,7 +14,9 @@ public class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
-    //hulk
+
+
+    //hulk k
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
     // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(124.0988159179); //121.640624999
