@@ -14,7 +14,6 @@ public final class Falcon500DriveControllerFactoryBuilder {
     // private static final double TICKS_PER_ROTATION = 2048.0;
 
     private static final double CAN_TIMEOUT_SEC = 0.25;
-    private static final int STATUS_FRAME_GENERAL_PERIOD_MS = 200;
 
     private double nominalVoltage = Double.NaN;
     private double currentLimit = Double.NaN;

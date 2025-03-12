@@ -14,8 +14,6 @@ public class Constants {
 
     public static final int DRIVETRAIN_PIGEON_ID = 6;
 
-
-
     //hulk k
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(118.6253437499); //116.806640625
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(283.7109375); //282.919921875
@@ -30,7 +28,7 @@ public class Constants {
     // public static final double LIMELIGHT_PITCH_OFFSET = -2.0;
     // public static final double LIMELIGHT_ROLL_OFFSET = -1.0;
 
-    //nemo
+    // nemo
     // public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(336.094);
     // public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(225.176);
     // public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(243.369);
@@ -140,3 +138,7 @@ public class Constants {
      * degrees to ticks conversion: ticks per rev * gear ratio / 360
      */
 }   
+
+    public static final double LOOPTIME_SECONDS = 0.02;
+}
+

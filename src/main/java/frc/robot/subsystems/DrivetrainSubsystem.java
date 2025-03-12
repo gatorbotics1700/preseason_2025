@@ -49,7 +49,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final SwerveDriveKinematics kinematics;
 
     private final SwerveDrivePoseEstimator odometry;
-
     private SwerveModuleState[] states;
 
     private ChassisSpeeds chassisSpeeds;
@@ -64,7 +63,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double robotRotation;
 
     private boolean slowDrive;
-   
+
+    private static CANBus CANivore = new CANBus(Constants.CANIVORE_BUS_NAME);
+    public static double busUtil = CANivore.getStatus().BusUtilization*100; //bus utilization percentage
+    public static boolean isFD = CANivore.isNetworkFD(); //checks if we're running CAN FD protocol
+    public static double transmitErrors = CANivore.getStatus().TEC;
+    public static double receiveErrors = CANivore.getStatus().REC;
+
 
     public DrivetrainSubsystem() {
         slowDrive = false;
@@ -145,6 +150,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 55.0, // current limit in Amps
                 1 // number of motors (e.g., 1 for swerve module)
         );
+
         RobotConfig config;
         try {
             config = RobotConfig.fromGUISettings();
@@ -179,9 +185,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 },
                 this);
 
+
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry.getEstimatedPosition().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry.getEstimatedPosition().getY());
+
     }
 
     public void setSlowDrive() {
@@ -241,13 +249,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void setStates(SwerveModuleState[] targetStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(targetStates, MAX_VELOCITY_METERS_PER_SECOND);
 
-        states = targetStates;
-
         // Calculate voltages (using a higher minimum voltage to ensure movement)
-        double fl_voltage = targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double fr_voltage = targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double bl_voltage = targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
-        double br_voltage = targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE;
+        double fl_voltage = (targetStates[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double fr_voltage = (targetStates[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double bl_voltage = (targetStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
+        double br_voltage = (targetStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE;
 
         // Set modules with calculated voltages
         frontLeftModule.set(fl_voltage, targetStates[0].angle.getRadians());
@@ -260,7 +266,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.chassisSpeeds = chassisSpeeds;
 
         // Convert chassis speeds to module states and apply them
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, Constants.LOOPTIME_SECONDS);
         SwerveModuleState[] targetStates = kinematics.toSwerveModuleStates(targetSpeeds);
         setStates(targetStates);
     }
@@ -283,6 +289,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 backRightModule.getPosition() 
             }
         );
+
         
         // boolean doRejectUpdate = false;
 
@@ -298,6 +305,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //     odometry.setVisionMeasurementStdDevs(VecBuilder.fill(.05, .05, 30));
         //     odometry.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
         // }
+
 
         SmartDashboard.putNumber("Gyroscope Angle", getRotation().getDegrees());
         SmartDashboard.putNumber("Pose X", odometry.getEstimatedPosition().getX());
